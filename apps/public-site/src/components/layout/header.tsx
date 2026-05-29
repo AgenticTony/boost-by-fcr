@@ -250,7 +250,7 @@ export function Header() {
             />
             <motion.aside
               initial={prefersReducedMotion ? false : { x: "-100%" }}
-              animate={{ x: 0 }}
+              animate={{ x: "0%" }}
               exit={prefersReducedMotion ? undefined : { x: "-100%" }}
               transition={{
                 type: "spring",
@@ -258,7 +258,17 @@ export function Header() {
                 stiffness: 200,
                 duration: prefersReducedMotion ? 0 : undefined,
               }}
-              className="fixed top-0 left-0 bottom-0 w-[85%] max-w-[360px] bg-white z-50 overflow-y-auto lg:hidden"
+              style={{
+                position: "fixed",
+                top: 0,
+                left: 0,
+                height: "100dvh",
+                width: "85%",
+                maxWidth: 360,
+                zIndex: 50,
+                overflowY: "auto",
+                backgroundColor: "white",
+              }}
               role="dialog"
               aria-label="Navigeringsmeny"
             >
