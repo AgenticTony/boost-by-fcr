@@ -1,20 +1,19 @@
-import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
-import { fetchTimeline, type TimelineEntry } from "@/api/client";
+import { useTimeline } from "@/hooks/use-timeline";
+import { useSeo } from "@/hooks/use-seo";
 
 export default function VarHistoriaPage() {
-  const [timeline, setTimeline] = useState<TimelineEntry[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const { data: timeline = [], isLoading: loading, error } = useTimeline();
+  const errorMsg = error ? "Kunde inte ladda tidslinjen." : null;
 
-  useEffect(() => {
-    fetchTimeline()
-      .then(setTimeline)
-      .catch(() => setError("Kunde inte ladda tidslinjen."))
-      .finally(() => setLoading(false));
-  }, []);
+  useSeo({
+    title: "Vår historia",
+    description:
+      "Över 20 år av att skapa förändring — från en idé i Rosengård till en organisation som hjälper hundratals unga varje år.",
+  });
+
   return (
     <>
       <section className="relative bg-brand-navy text-white overflow-hidden">
@@ -43,9 +42,9 @@ export default function VarHistoriaPage() {
               {loading && (
                 <p className="text-text-muted pl-12">Laddar tidslinje…</p>
               )}
-              {error && <p className="text-destructive pl-12">{error}</p>}
+              {errorMsg && <p className="text-destructive pl-12">{errorMsg}</p>}
               {!loading &&
-                !error &&
+                !errorMsg &&
                 timeline.map((entry) => (
                   <div key={entry.id} className="relative pl-12">
                     <div className="absolute left-0 top-1.5 h-10 w-10 rounded-full bg-brand-gold flex items-center justify-center">

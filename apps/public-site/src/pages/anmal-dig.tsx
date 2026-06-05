@@ -14,6 +14,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { submitRegistration } from "@/api/client";
+import { useSeo } from "@/hooks/use-seo";
 
 const schema = z.object({
   firstName: z.string().min(1, "Förnamn är obligatoriskt"),
@@ -43,6 +44,11 @@ const steps = [
 ];
 
 export default function AnmalDigPage() {
+  useSeo({
+    title: "Anmäl dig",
+    description:
+      "Ta första steget — det tar tre minuter. Vi hör av oss inom en arbetsdag.",
+  });
   const [submitted, setSubmitted] = useState(false);
   const [serverError, setServerError] = useState("");
   const {

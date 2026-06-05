@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import {
   FileText,
@@ -8,9 +7,10 @@ import {
   BookOpen,
   Download,
 } from "lucide-react";
-import { fetchResources } from "@/api/client";
 import { resourceCategoryLabels, formatFileSize } from "@/lib/resource-utils";
-import type { Resource } from "@/api/mock-data";
+import { useResources } from "@/hooks/use-resources";
+import { useSeo } from "@/hooks/use-seo";
+import type { Resource } from "@/types";
 
 const categoryIconMap: Record<string, React.ElementType> = {
   normer: MessageSquare,
@@ -69,24 +69,18 @@ function ResourceCard({ resource }: { resource: Resource }) {
 export default function ResurserPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const category = searchParams.get("kategori") || "alla";
-  const [resources, setResources] = useState<Resource[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const {
+    data: resources = [],
+    isLoading: loading,
+    error,
+  } = useResources(category);
+  const errorMsg = error ? "Kunde inte ladda resurser." : null;
 
-  useEffect(() => {
-    setLoading(true);
-    setError(null);
-    fetchResources()
-      .then((data) => {
-        const filtered =
-          category === "alla"
-            ? data
-            : data.filter((r) => r.category === category);
-        setResources(filtered);
-      })
-      .catch(() => setError("Kunde inte ladda resurser."))
-      .finally(() => setLoading(false));
-  }, [category]);
+  useSeo({
+    title: "Resurser",
+    description:
+      "Verktyg och metodmaterial för ett mer inkluderande arbetsliv — fritt tillgängliga att ladda ner.",
+  });
 
   return (
     <>
@@ -151,9 +145,9 @@ export default function ResurserPage() {
                 />
               ))}
             </div>
-          ) : error ? (
+          ) : errorMsg ? (
             <div className="text-center py-20">
-              <p className="text-text-muted">{error}</p>
+              <p className="text-text-muted">{errorMsg}</p>
             </div>
           ) : resources.length === 0 ? (
             <div className="text-center py-20">

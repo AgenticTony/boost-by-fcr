@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { CheckCircle, Mail, Phone, MapPin, ArrowRight } from "lucide-react";
 import { submitContact } from "@/api/client";
+import { useSeo } from "@/hooks/use-seo";
 
 const schema = z.object({
   name: z.string().min(1, "Namn är obligatoriskt"),
@@ -165,6 +166,12 @@ function KontaktForm() {
 }
 
 export default function KontaktPage() {
+  useSeo({
+    title: "Kontakt",
+    description:
+      "Har du frågor eller vill veta mer? Vi svarar snabbt och gärna. Ring, mejla eller fyll i formuläret.",
+  });
+
   return (
     <>
       <section className="relative bg-brand-navy text-white overflow-hidden">

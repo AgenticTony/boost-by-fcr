@@ -1,4 +1,5 @@
 import { Heart, Flame, Target, Lightbulb, Handshake } from "lucide-react";
+import { useSeo } from "@/hooks/use-seo";
 
 const promises = [
   {
@@ -86,6 +87,12 @@ function getInitials(name: string) {
 }
 
 export default function VemViArPage() {
+  useSeo({
+    title: "Vem vi är",
+    description:
+      "Idéburen organisation i Malmö sedan 2003. Vi tror på varje persons förmåga.",
+  });
+
   return (
     <>
       <section className="relative bg-brand-navy text-white overflow-hidden">

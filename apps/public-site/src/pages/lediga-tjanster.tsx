@@ -1,6 +1,13 @@
 import { Mail } from "lucide-react";
+import { useSeo } from "@/hooks/use-seo";
 
 export default function LedigaTjansterPage() {
+  useSeo({
+    title: "Lediga tjänster",
+    description:
+      "Jobba hos oss — vi söker människor som tror på vad vi tror på.",
+  });
+
   return (
     <>
       <section className="relative bg-brand-navy text-white overflow-hidden">

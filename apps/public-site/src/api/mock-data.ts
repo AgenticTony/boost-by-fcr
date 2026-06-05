@@ -1,15 +1,5 @@
-export interface NewsArticle {
-  id: string;
-  slug: string;
-  title: string;
-  publishedAt: string;
-  category: string;
-  excerpt: string;
-  body: string;
-  imageUrl?: string;
-  imageAlt?: string;
-  author?: string;
-}
+import type { NewsArticle } from "@/types";
+export type { NewsArticle };
 
 export const mockNewsArticles: NewsArticle[] = [
   {
@@ -66,15 +56,8 @@ export const mockNewsArticles: NewsArticle[] = [
   },
 ];
 
-export interface TimelineEntry {
-  id: string;
-  year: number;
-  projectName: string;
-  description: string;
-  funder?: string;
-  imageUrl?: string;
-  imageAlt?: string;
-}
+import type { TimelineEntry } from "@/types";
+export type { TimelineEntry };
 
 export const mockTimeline: TimelineEntry[] = [
   {
@@ -138,18 +121,8 @@ export const mockTimeline: TimelineEntry[] = [
   },
 ];
 
-export interface Resource {
-  id: string;
-  title: string;
-  slug: string;
-  category: string;
-  description: string;
-  fileUrl?: string;
-  fileName?: string;
-  fileSize?: number;
-  fileType?: string;
-  isPublic: boolean;
-}
+import type { Resource } from "@/types";
+export type { Resource };
 
 export const mockResources: Resource[] = [
   {

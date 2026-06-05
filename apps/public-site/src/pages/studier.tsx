@@ -7,6 +7,7 @@ import {
   MapPin,
   MessageSquare,
 } from "lucide-react";
+import { useSeo } from "@/hooks/use-seo";
 
 const features = [
   {
@@ -32,6 +33,12 @@ const features = [
 ];
 
 export default function StudierPage() {
+  useSeo({
+    title: "Studiespåret",
+    description:
+      "Studier i din egen takt med legitimerade lärare och individuell studieplanering. Flexibelt, personligt och utan prestationsångest.",
+  });
+
   return (
     <>
       <section className="relative bg-brand-navy text-white overflow-hidden">

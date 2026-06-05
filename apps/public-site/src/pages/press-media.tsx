@@ -1,6 +1,13 @@
 import { Mail, Phone } from "lucide-react";
+import { useSeo } from "@/hooks/use-seo";
 
 export default function PressMediaPage() {
+  useSeo({
+    title: "Press & media",
+    description:
+      "Pressinformation och kontaktpersoner för Boost by FC Rosengård.",
+  });
+
   return (
     <>
       <section className="relative bg-brand-navy text-white overflow-hidden">

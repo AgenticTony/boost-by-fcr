@@ -2,6 +2,7 @@ import { lazy, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
+import { ErrorBoundary } from "@/components/error-boundary";
 
 /* Eager — always visible or needed for initial shell */
 import NotFoundPage from "@/pages/not-found";
@@ -39,32 +40,34 @@ export default function App() {
     <div className="flex min-h-screen flex-col overflow-x-hidden">
       <Header />
       <main id="main-content" className="flex-1">
-        <Suspense fallback={<PageLoader />}>
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/anmal-dig" element={<AnmalDigPage />} />
-            <Route path="/arbetssokande" element={<ArbetssokandePage />} />
-            <Route path="/bridge" element={<BridgePage />} />
-            <Route
-              path="/dataskyddspolicy"
-              element={<DataskyddspolicyPage />}
-            />
-            <Route path="/foretag" element={<ForetagPage />} />
-            <Route path="/halsosparet" element={<HalsosparetPage />} />
-            <Route path="/kontakt" element={<KontaktPage />} />
-            <Route path="/lediga-tjanster" element={<LedigaTjansterPage />} />
-            <Route path="/nyheter" element={<NyheterPage />} />
-            <Route path="/nyheter/:slug" element={<NyheterSlugPage />} />
-            <Route path="/press-media" element={<PressMediaPage />} />
-            <Route path="/resurser" element={<ResurserPage />} />
-            <Route path="/studier" element={<StudierPage />} />
-            <Route path="/vad-vi-gor" element={<VadViGorPage />} />
-            <Route path="/var-historia" element={<VarHistoriaPage />} />
-            <Route path="/vanliga-fragor" element={<VanligaFragorPage />} />
-            <Route path="/vem-vi-ar" element={<VemViArPage />} />
-            <Route path="*" element={<NotFoundPage />} />
-          </Routes>
-        </Suspense>
+        <ErrorBoundary>
+          <Suspense fallback={<PageLoader />}>
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/anmal-dig" element={<AnmalDigPage />} />
+              <Route path="/arbetssokande" element={<ArbetssokandePage />} />
+              <Route path="/bridge" element={<BridgePage />} />
+              <Route
+                path="/dataskyddspolicy"
+                element={<DataskyddspolicyPage />}
+              />
+              <Route path="/foretag" element={<ForetagPage />} />
+              <Route path="/halsosparet" element={<HalsosparetPage />} />
+              <Route path="/kontakt" element={<KontaktPage />} />
+              <Route path="/lediga-tjanster" element={<LedigaTjansterPage />} />
+              <Route path="/nyheter" element={<NyheterPage />} />
+              <Route path="/nyheter/:slug" element={<NyheterSlugPage />} />
+              <Route path="/press-media" element={<PressMediaPage />} />
+              <Route path="/resurser" element={<ResurserPage />} />
+              <Route path="/studier" element={<StudierPage />} />
+              <Route path="/vad-vi-gor" element={<VadViGorPage />} />
+              <Route path="/var-historia" element={<VarHistoriaPage />} />
+              <Route path="/vanliga-fragor" element={<VanligaFragorPage />} />
+              <Route path="/vem-vi-ar" element={<VemViArPage />} />
+              <Route path="*" element={<NotFoundPage />} />
+            </Routes>
+          </Suspense>
+        </ErrorBoundary>
       </main>
       <Footer />
     </div>

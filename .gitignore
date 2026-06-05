@@ -46,3 +46,7 @@ coverage/
 # Vite
 apps/public-site/dist/
 apps/locked-area/dist/
+
+# Never commit binary docs or debug screenshots to public assets
+*.docx
+screencapture-*

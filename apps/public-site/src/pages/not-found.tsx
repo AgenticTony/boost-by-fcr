@@ -1,8 +1,11 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import { useSeo } from "@/hooks/use-seo";
 
 export default function NotFoundPage() {
+  useSeo({ title: "Sidan hittades inte", description: "" });
+
   return (
     <section className="py-32 md:py-40">
       <div className="container-page text-center max-w-lg">
