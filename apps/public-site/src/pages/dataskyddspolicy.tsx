@@ -1,4 +1,12 @@
+import { useSeo } from "@/hooks/use-seo";
+
 export default function DataskyddspolicyPage() {
+  useSeo({
+    title: "Dataskyddspolicy",
+    description:
+      "Hur vi hanterar och skyddar din personliga information i enlighet med GDPR.",
+  });
+
   return (
     <>
       <section className="bg-brand-navy text-white">

@@ -1,4 +1,5 @@
 import { Factory, GraduationCap, FlaskConical } from "lucide-react";
+import { useSeo } from "@/hooks/use-seo";
 
 const branches = [
   {
@@ -19,6 +20,12 @@ const branches = [
 ];
 
 export default function VadViGorPage() {
+  useSeo({
+    title: "Vad vi gör",
+    description:
+      "En organisation — tre sätt att skapa förändring. Fabriken, Akademin och Labbet.",
+  });
+
   return (
     <>
       <section className="relative bg-brand-navy text-white overflow-hidden">

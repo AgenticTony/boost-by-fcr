@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Dumbbell, Apple, Moon, Brain } from "lucide-react";
+import { useSeo } from "@/hooks/use-seo";
 
 const features = [
   {
@@ -26,6 +27,12 @@ const features = [
 ];
 
 export default function HalsosparetPage() {
+  useSeo({
+    title: "Hälsospåret",
+    description:
+      "Fysisk träning, kostworkshops, sömnstöd och samtal om välmående. För att orka ta nästa steg måste du må bra.",
+  });
+
   return (
     <>
       <section className="relative bg-brand-navy text-white overflow-hidden">

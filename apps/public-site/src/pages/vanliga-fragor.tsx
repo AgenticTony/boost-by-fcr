@@ -7,6 +7,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { useSeo } from "@/hooks/use-seo";
 
 const faqSections = [
   {
@@ -79,6 +80,12 @@ const faqSections = [
 ];
 
 export default function VanligaFragorPage() {
+  useSeo({
+    title: "Vanliga frågor",
+    description:
+      "Svaren på det du undrar — och några du kanske inte visste att du hade.",
+  });
+
   return (
     <>
       <section className="relative bg-brand-navy text-white overflow-hidden">

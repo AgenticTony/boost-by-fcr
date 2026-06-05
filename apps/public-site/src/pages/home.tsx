@@ -10,6 +10,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { useSeo } from "@/hooks/use-seo";
 
 const colorMap = {
   teal: { bg: "bg-brand-teal", hover: "group-hover:border-brand-teal/30" },
@@ -110,6 +111,12 @@ function FunderLogoBar() {
 }
 
 export default function HomePage() {
+  useSeo({
+    title: "Hem",
+    description:
+      "Sedan 2003 har vi hjälpt tusentals unga i Malmö att hitta sin plats på arbetsmarknaden — genom stöd, engagemang och tron på varje persons förmåga.",
+  });
+
   return (
     <>
       {/* Hero */}

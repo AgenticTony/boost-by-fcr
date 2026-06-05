@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import { useSeo } from "@/hooks/use-seo";
 
 const faqItems = [
   {
@@ -30,6 +31,12 @@ const faqItems = [
 ];
 
 export default function ArbetssokandePage() {
+  useSeo({
+    title: "Arbetsspåret",
+    description:
+      "CV-genomgång, intervjuträning och ett brett nätverk av arbetsgivare som aktivt söker våra deltagare.",
+  });
+
   return (
     <>
       <section className="relative bg-brand-navy text-white overflow-hidden">

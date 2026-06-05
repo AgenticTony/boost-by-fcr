@@ -8,6 +8,7 @@ import {
   Target,
   Building,
 } from "lucide-react";
+import { useSeo } from "@/hooks/use-seo";
 
 const eligibility = [
   "18–29 år",
@@ -39,6 +40,12 @@ const methods = [
 ];
 
 export default function BridgePage() {
+  useSeo({
+    title: "Bridge by FCR",
+    description:
+      "ESF-finansierat projekt för dig som är 18–29 år och inskriven på Arbetsförmedlingen. Intensivt stöd mot arbete eller studier.",
+  });
+
   return (
     <>
       <section className="relative bg-brand-navy text-white overflow-hidden">
