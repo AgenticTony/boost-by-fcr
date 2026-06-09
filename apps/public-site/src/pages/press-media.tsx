@@ -6,6 +6,7 @@ export default function PressMediaPage() {
     title: "Press & media",
     description:
       "Pressinformation och kontaktpersoner för Boost by FC Rosengård.",
+    canonical: "/press-media",
   });
 
   return (

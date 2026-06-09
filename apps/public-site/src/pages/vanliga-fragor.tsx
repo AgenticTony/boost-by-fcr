@@ -84,6 +84,7 @@ export default function VanligaFragorPage() {
     title: "Vanliga frågor",
     description:
       "Svaren på det du undrar — och några du kanske inte visste att du hade.",
+    canonical: "/vanliga-fragor",
   });
 
   return (

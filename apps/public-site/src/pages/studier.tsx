@@ -37,6 +37,7 @@ export default function StudierPage() {
     title: "Studiespåret",
     description:
       "Studier i din egen takt med legitimerade lärare och individuell studieplanering. Flexibelt, personligt och utan prestationsångest.",
+    canonical: "/studier",
   });
 
   return (
