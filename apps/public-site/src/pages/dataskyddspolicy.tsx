@@ -5,6 +5,7 @@ export default function DataskyddspolicyPage() {
     title: "Dataskyddspolicy",
     description:
       "Hur vi hanterar och skyddar din personliga information i enlighet med GDPR.",
+    canonical: "/dataskyddspolicy",
   });
 
   return (

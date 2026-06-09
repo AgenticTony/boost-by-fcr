@@ -15,6 +15,8 @@ export default function NyheterSlugPage() {
       ? {
           title: article.title,
           description: article.excerpt || article.title,
+          canonical: `/nyheter/${slug}`,
+          image: article.imageUrl || undefined,
           jsonLd: {
             "@context": "https://schema.org",
             "@type": "Article",
@@ -30,12 +32,15 @@ export default function NyheterSlugPage() {
               name: "Boost by FC Rosengård",
               logo: {
                 "@type": "ImageObject",
-                url: "https://boostfcrosengard.se/images/boost-logo.svg",
+                url: "https://boostbyfcr.se/images/boost-logo.svg",
               },
             },
           },
         }
-      : { title: "Laddar...", description: "" },
+      : {
+          title: "Nyheter",
+          description: "Senaste nytt från Boost by FC Rosengård",
+        },
   );
 
   if (errorMsg) {
@@ -64,7 +69,7 @@ export default function NyheterSlugPage() {
     );
   }
 
-  if (notFound) {
+  if (notFound || !article) {
     return (
       <div className="container-page py-20 text-center">
         <h1 className="text-3xl font-display font-extrabold text-text mb-4">
@@ -80,13 +85,14 @@ export default function NyheterSlugPage() {
     );
   }
 
+  // After guards, article is narrowed to defined
   return (
     <article>
-      {article!.imageUrl && (
+      {article.imageUrl && (
         <div className="relative h-64 md:h-96 overflow-hidden">
           <img
-            src={article!.imageUrl}
-            alt={article!.imageAlt || article!.title}
+            src={article.imageUrl}
+            alt={article.imageAlt || article.title}
             className="absolute inset-0 w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
@@ -102,23 +108,23 @@ export default function NyheterSlugPage() {
           </Link>
           <div className="flex items-center gap-3 mb-4">
             <span className="px-2.5 py-0.5 rounded-full text-xs font-medium bg-brand-navy text-white">
-              {categoryLabels[article!.category] || article!.category}
+              {categoryLabels[article.category] || article.category}
             </span>
             <span className="text-sm text-text-muted">
-              {formatDate(article!.publishedAt)}
+              {formatDate(article.publishedAt)}
             </span>
-            {article!.author && (
+            {article.author && (
               <span className="text-sm text-text-muted">
-                &middot; {article!.author}
+                &middot; {article.author}
               </span>
             )}
           </div>
           <h1 className="text-3xl md:text-4xl font-display font-extrabold text-text leading-tight mb-8">
-            {article!.title}
+            {article.title}
           </h1>
-          {article!.body && (
+          {article.body && (
             <div className="prose prose-sm max-w-none text-text-muted leading-relaxed">
-              {article!.body.split("\n\n").map((paragraph, i) => (
+              {article.body.split("\n\n").map((paragraph, i) => (
                 <p key={i}>{paragraph}</p>
               ))}
             </div>

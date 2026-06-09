@@ -12,7 +12,7 @@
 |---|---|---|---|
 | **P1 (Marcus)** | Document types + Delivery API aktiverat | Vecka 1: första doc type (Project). Vecka 2: alla klara | Jobba med mock-data vecka 1-2 |
 | **P1 (Marcus)** | `/api/contact` endpoint | Vecka 3-4 | Bygg formulär-UI först, koppla ihop sen |
-| **P1 (Marcus)** | Umbraco schema (för TypeScript-typer) | Vecka 2 | Använd egna typer initialt, generera om sen |
+| **P1 (Marcus)** | Hygraph schema (för TypeScript-typer) | Vecka 2 | Använd egna typer initialt, generera om sen |
 | **P4 (Mohand)** | CI/CD pipeline + staging-miljö | Vecka 1 | Sätt upp lokalt med Vite dev server |
 | **P4 (Mohand)** | Domän + SSL i prod | Vecka 9 | Ingen blocker — jag deployar till staging |
 
@@ -127,7 +127,7 @@
 - [ ] DNS-cutover-stöd (P4 leder, jag stöttar)
 - [ ] Smoke test i produktion
 - [ ] Dokumentation: komponent-översikt för framtida utvecklare
-- [ ] Handover: kort guide för hur frontend relaterar till Umbraco-innehåll
+- [ ] Handover: kort guide för hur frontend relaterar till Hygraph-innehåll
 
 **Leverans:** Produktionssatt, dokumenterat, överlämnat.
 

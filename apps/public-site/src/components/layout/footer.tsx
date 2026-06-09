@@ -80,11 +80,21 @@ export function Footer() {
               </div>
               <div className="flex items-center gap-2 text-sm text-white/70">
                 <Phone className="h-4 w-4 text-brand-red" />
-                070-992 17 66
+                <a
+                  href="tel:+46709921766"
+                  className="hover:text-white transition-colors"
+                >
+                  070-992 17 66
+                </a>
               </div>
               <div className="flex items-center gap-2 text-sm text-white/70">
                 <Mail className="h-4 w-4 text-brand-red" />
-                info@boostbyfcr.se
+                <a
+                  href="mailto:info@boostbyfcr.se"
+                  className="hover:text-white transition-colors"
+                >
+                  info@boostbyfcr.se
+                </a>
               </div>
             </div>
           </div>

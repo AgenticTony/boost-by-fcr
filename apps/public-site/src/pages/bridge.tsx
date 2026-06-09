@@ -44,6 +44,7 @@ export default function BridgePage() {
     title: "Bridge by FCR",
     description:
       "ESF-finansierat projekt för dig som är 18–29 år och inskriven på Arbetsförmedlingen. Intensivt stöd mot arbete eller studier.",
+    canonical: "/bridge",
   });
 
   return (
