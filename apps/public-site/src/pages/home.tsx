@@ -95,9 +95,9 @@ const funders = [
 
 function FunderLogoBar() {
   return (
-    <section className="bg-brand-navy">
-      <div className="container-page py-12 md:py-16">
-        <p className="text-center text-sm font-body font-medium text-white/60 mb-10">
+    <section className="bg-surface border-t border-brand-navy/10">
+      <div className="container-page py-14 md:py-20">
+        <p className="text-center text-xs font-display font-semibold uppercase tracking-widest text-brand-red mb-10">
           Finansieras och stöds av
         </p>
         <div className="flex flex-wrap items-center justify-center gap-10 md:gap-16">
@@ -106,7 +106,7 @@ function FunderLogoBar() {
               key={funder.alt}
               src={funder.src}
               alt={funder.alt}
-              className="h-14 md:h-16 max-w-[120px] w-auto object-contain opacity-60 grayscale hover:opacity-100 hover:grayscale-0 transition-all duration-300 cursor-pointer"
+              className="h-16 md:h-20 max-w-[140px] w-auto object-contain hover:scale-105 transition-transform duration-300"
             />
           ))}
         </div>
@@ -637,35 +637,41 @@ export default function HomePage() {
                   </p>
                 </div>
 
-                {/* Funder logos — full-width cream plate */}
-                <div className="rounded-2xl bg-[#FAF8F5] p-5">
-                  <p className="text-xs font-body font-medium text-text-muted text-center mb-4">
-                    Finansieras och stöds av
-                  </p>
-                  <div className="flex items-center justify-center gap-8 md:gap-12">
-                    {[
-                      {
-                        alt: "EU Socialfonden",
-                        src: "/images/eu-logo-jordbruksfonden.png",
-                      },
-                      {
-                        alt: "Arbetsförmedlingen",
-                        src: "/images/af-logo.png",
-                      },
-                      {
-                        alt: "FC Rosengård",
-                        src: "/images/FCR_logo_2014_CMYK.png",
-                      },
-                    ].map((logo) => (
-                      <img
-                        key={logo.alt}
-                        src={logo.src}
-                        alt={logo.alt}
-                        loading="lazy"
-                        decoding="async"
-                        className="h-16 md:h-20 max-w-[120px] w-auto object-contain opacity-80 hover:opacity-100 transition-opacity"
-                      />
-                    ))}
+                {/* Funder logos — credentials row */}
+                <div className="rounded-2xl bg-white/8 backdrop-blur-sm border border-white/10 overflow-hidden">
+                  <div className="h-1 bg-linear-to-r from-brand-red via-brand-red/60 to-transparent" />
+                  <div className="p-5">
+                    <p className="text-xs font-body font-medium text-white/50 text-center mb-4">
+                      Finansieras och stöds av
+                    </p>
+                    <div className="flex items-center justify-center gap-8 md:gap-12">
+                      {[
+                        {
+                          alt: "EU Socialfonden",
+                          src: "/images/eu-logo-jordbruksfonden.png",
+                          className: "h-16 md:h-20 max-w-[130px]",
+                        },
+                        {
+                          alt: "Arbetsförmedlingen",
+                          src: "/images/af-logo.png",
+                          className: "h-22 md:h-[6.5rem] max-w-[180px]",
+                        },
+                        {
+                          alt: "FC Rosengård",
+                          src: "/images/FCR_logo_2014_CMYK.png",
+                          className: "h-16 md:h-20 max-w-[130px]",
+                        },
+                      ].map((logo) => (
+                        <img
+                          key={logo.alt}
+                          src={logo.src}
+                          alt={logo.alt}
+                          loading="lazy"
+                          decoding="async"
+                          className={`w-auto object-contain hover:scale-105 transition-transform duration-300 ${logo.className}`}
+                        />
+                      ))}
+                    </div>
                   </div>
                 </div>
               </motion.div>
