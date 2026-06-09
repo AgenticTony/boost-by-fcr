@@ -25,10 +25,10 @@ export default function NyheterPage() {
     <>
       <section className="bg-brand-navy text-white">
         <div className="container-page py-20 md:py-28">
-          <p className="text-sm font-body font-medium text-brand-gold tracking-widest uppercase mb-4">
+          <p className="text-sm font-body font-medium text-brand-red tracking-widest uppercase mb-4">
             Aktuellt
           </p>
-          <h1 className="text-4xl md:text-5xl font-display font-extrabold leading-tight">
+          <h1 className="text-4xl md:text-5xl lg:text-[3.5rem] font-display font-extrabold leading-tight">
             Nyheter och uppdateringar
           </h1>
         </div>
@@ -118,7 +118,7 @@ export default function NyheterPage() {
                         {article.excerpt}
                       </p>
                     )}
-                    <span className="inline-flex items-center gap-1.5 text-sm font-medium text-brand-teal group-hover:gap-2.5 transition-all">
+                    <span className="inline-flex items-center gap-1.5 text-sm font-medium text-brand-navy group-hover:gap-2.5 transition-all">
                       Läs mer <ArrowRight className="h-4 w-4" />
                     </span>
                   </div>
