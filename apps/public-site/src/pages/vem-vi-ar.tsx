@@ -158,7 +158,7 @@ export default function VemViArPage() {
               return (
                 <div
                   key={p.title}
-                  className={`${bgColors[i]} rounded-3xl p-8 md:p-10`}
+                  className={`${bgColors[i % bgColors.length]} rounded-3xl p-8 md:p-10`}
                 >
                   {/* Large custom icon — Anna's "stora symboler" from Therapist reference */}
                   <img
