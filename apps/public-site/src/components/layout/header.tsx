@@ -8,73 +8,91 @@ import {
   BookOpen,
   Briefcase,
   Heart,
-  Users,
   UsersRound,
   Layers,
   Newspaper,
   BriefcaseMedical,
   Clock,
   FileText,
+  PenLine,
+  Phone,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-const forYouLinks = [
+/* Anna's requested nav order: Arbetssökande, Arbetsgivare, Skolor, Om oss, Mer */
+const jobSeekerLinks = [
   {
     href: "/arbetssokande",
     label: "Arbetsspåret",
     icon: Briefcase,
-    iconColor: "text-brand-gold",
+    iconColor: "text-brand-navy",
   },
   {
     href: "/studier",
     label: "Studiespåret",
     icon: BookOpen,
-    iconColor: "text-brand-teal",
+    iconColor: "text-brand-red",
   },
   {
     href: "/halsosparet",
     label: "Hälsospåret",
     icon: Heart,
-    iconColor: "text-success",
+    iconColor: "text-brand-navy",
   },
   {
     href: "/bridge",
     label: "Bridge by FCR",
-    icon: Users,
-    iconColor: "text-brand-gold",
+    icon: PenLine,
+    iconColor: "text-brand-red",
   },
 ];
 
 const aboutLinks = [
   {
     href: "/vem-vi-ar",
-    label: "Vem vi är",
+    label: "Om oss",
     icon: UsersRound,
-    iconColor: "text-brand-teal",
-  },
-  {
-    href: "/vad-vi-gor",
-    label: "Vad vi gör",
-    icon: Layers,
     iconColor: "text-brand-navy",
   },
   {
     href: "/var-historia",
     label: "Vår historia",
     icon: Clock,
-    iconColor: "text-brand-gold",
+    iconColor: "text-brand-navy",
   },
   {
     href: "/press-media",
     label: "Press & media",
     icon: Newspaper,
-    iconColor: "text-brand-gold",
+    iconColor: "text-brand-red",
   },
   {
     href: "/lediga-tjanster",
     label: "Lediga tjänster",
     icon: BriefcaseMedical,
-    iconColor: "text-brand-teal",
+    iconColor: "text-brand-navy",
+  },
+];
+
+/* "Mer" dropdown — Nyheter, Kontakt, Resurser */
+const moreLinks = [
+  {
+    href: "/nyheter",
+    label: "Nyheter",
+    icon: Newspaper,
+    iconColor: "text-brand-red",
+  },
+  {
+    href: "/kontakt",
+    label: "Kontakt",
+    icon: Phone,
+    iconColor: "text-brand-navy",
+  },
+  {
+    href: "/resurser",
+    label: "Resurser",
+    icon: FileText,
+    iconColor: "text-brand-red",
   },
 ];
 
@@ -95,6 +113,9 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-border shadow-sm">
+      <a href="#main-content" className="skip-to-content">
+        Hoppa till huvudinnehåll
+      </a>
       <nav className="container-page flex items-center justify-between h-16 md:h-20">
         <Link to="/" className="flex items-center gap-2">
           <img
@@ -104,25 +125,33 @@ export function Header() {
           />
         </Link>
 
-        {/* Desktop nav */}
+        {/* Desktop nav — Anna's requested order */}
         <div className="hidden lg:flex items-center gap-1">
-          {/* För dig — mega-menu trigger */}
+          {/* Arbetssökande — link + dropdown on hover */}
           <div
             className="relative"
-            onMouseEnter={() => setActiveDropdown("for-you")}
+            onMouseEnter={() => setActiveDropdown("job-seeker")}
             onMouseLeave={() => setActiveDropdown(null)}
           >
-            <button
-              className="flex items-center gap-1 px-3 py-2 text-sm font-medium text-text hover:text-brand-navy transition-colors rounded-md hover:bg-muted"
-              aria-expanded={activeDropdown === "for-you"}
-              aria-haspopup="true"
-              onKeyDown={(e) => handleDropdownKey(e, "for-you")}
-            >
-              För dig
-              <ChevronDown className="h-4 w-4" />
-            </button>
+            <div className="flex items-center">
+              <Link
+                to="/arbetssokande"
+                className="px-1.5 py-2 text-sm font-medium text-text hover:text-brand-navy transition-colors rounded-md hover:bg-muted"
+              >
+                Arbetssökande
+              </Link>
+              <button
+                className="px-1.5 py-2 text-text hover:text-brand-navy transition-colors"
+                aria-expanded={activeDropdown === "job-seeker"}
+                aria-haspopup="true"
+                aria-label="Arbetssökande undermeny"
+                onKeyDown={(e) => handleDropdownKey(e, "job-seeker")}
+              >
+                <ChevronDown className="h-4 w-4" />
+              </button>
+            </div>
             <AnimatePresence>
-              {activeDropdown === "for-you" && (
+              {activeDropdown === "job-seeker" && (
                 <motion.div
                   initial={prefersReducedMotion ? false : { opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -130,7 +159,7 @@ export function Header() {
                   transition={{ duration: prefersReducedMotion ? 0 : 0.15 }}
                   className="absolute top-full left-0 mt-1 w-64 bg-white rounded-card shadow-lg border border-border p-2"
                 >
-                  {forYouLinks.map((link) => (
+                  {jobSeekerLinks.map((link) => (
                     <Link
                       key={link.href}
                       to={link.href}
@@ -149,24 +178,48 @@ export function Header() {
             to="/foretag"
             className="px-3 py-2 text-sm font-medium text-text hover:text-brand-navy transition-colors rounded-md hover:bg-muted"
           >
-            För företag
+            Arbetsgivare
           </Link>
 
-          {/* Om Boost — dropdown */}
+          {/* Skolor och utbildningsanordnare — Anna's exact label */}
+          <Link
+            to="/studier"
+            className="px-3 py-2 text-sm font-medium text-text hover:text-brand-navy transition-colors rounded-md hover:bg-muted"
+          >
+            Skolor och utbildningsanordnare
+          </Link>
+
+          {/* Vårt arbetssätt — Anna's requested top-level item */}
+          <Link
+            to="/vad-vi-gor"
+            className="px-3 py-2 text-sm font-medium text-text hover:text-brand-navy transition-colors rounded-md hover:bg-muted"
+          >
+            Vårt arbetssätt
+          </Link>
+
+          {/* Om oss — link + dropdown on hover */}
           <div
             className="relative"
             onMouseEnter={() => setActiveDropdown("about")}
             onMouseLeave={() => setActiveDropdown(null)}
           >
-            <button
-              className="flex items-center gap-1 px-3 py-2 text-sm font-medium text-text hover:text-brand-navy transition-colors rounded-md hover:bg-muted"
-              aria-expanded={activeDropdown === "about"}
-              aria-haspopup="true"
-              onKeyDown={(e) => handleDropdownKey(e, "about")}
-            >
-              Om Boost
-              <ChevronDown className="h-4 w-4" />
-            </button>
+            <div className="flex items-center">
+              <Link
+                to="/vem-vi-ar"
+                className="px-1.5 py-2 text-sm font-medium text-text hover:text-brand-navy transition-colors rounded-md hover:bg-muted"
+              >
+                Om oss
+              </Link>
+              <button
+                className="px-1.5 py-2 text-text hover:text-brand-navy transition-colors"
+                aria-expanded={activeDropdown === "about"}
+                aria-haspopup="true"
+                aria-label="Om oss undermeny"
+                onKeyDown={(e) => handleDropdownKey(e, "about")}
+              >
+                <ChevronDown className="h-4 w-4" />
+              </button>
+            </div>
             <AnimatePresence>
               {activeDropdown === "about" && (
                 <motion.div
@@ -191,34 +244,53 @@ export function Header() {
             </AnimatePresence>
           </div>
 
-          <Link
-            to="/nyheter"
-            className="px-3 py-2 text-sm font-medium text-text hover:text-brand-navy transition-colors rounded-md hover:bg-muted"
+          {/* Mer — dropdown with Nyheter, Kontakt, Resurser */}
+          <div
+            className="relative"
+            onMouseEnter={() => setActiveDropdown("more")}
+            onMouseLeave={() => setActiveDropdown(null)}
           >
-            Nyheter
-          </Link>
-
-          <Link
-            to="/resurser"
-            className="px-3 py-2 text-sm font-medium text-text hover:text-brand-navy transition-colors rounded-md hover:bg-muted"
-          >
-            Resurser
-          </Link>
-
-          <Link
-            to="/kontakt"
-            className="px-3 py-2 text-sm font-medium text-text hover:text-brand-navy transition-colors rounded-md hover:bg-muted"
-          >
-            Kontakt
-          </Link>
+            <button
+              className="flex items-center gap-1 px-3 py-2 text-sm font-medium text-text hover:text-brand-navy transition-colors rounded-md hover:bg-muted"
+              aria-expanded={activeDropdown === "more"}
+              aria-haspopup="true"
+              onKeyDown={(e) => handleDropdownKey(e, "more")}
+            >
+              Mer
+              <ChevronDown className="h-4 w-4" />
+            </button>
+            <AnimatePresence>
+              {activeDropdown === "more" && (
+                <motion.div
+                  initial={prefersReducedMotion ? false : { opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={prefersReducedMotion ? undefined : { opacity: 0, y: 8 }}
+                  transition={{ duration: prefersReducedMotion ? 0 : 0.15 }}
+                  className="absolute top-full right-0 mt-1 w-52 bg-white rounded-card shadow-lg border border-border p-2"
+                >
+                  {moreLinks.map((link) => (
+                    <Link
+                      key={link.href}
+                      to={link.href}
+                      className="flex items-center gap-3 px-3 py-2.5 rounded-md text-sm hover:bg-muted transition-colors"
+                    >
+                      <link.icon className={`h-5 w-5 ${link.iconColor}`} />
+                      {link.label}
+                    </Link>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         </div>
 
         <div className="flex items-center gap-3">
+          {/* Anmälan — top-level CTA as Anna requested */}
           <Button
             asChild
-            className="hidden lg:inline-flex bg-brand-gold text-brand-navy hover:bg-brand-gold/90 font-display font-semibold rounded-cta px-6"
+            className="hidden lg:inline-flex bg-brand-red text-white hover:bg-brand-red/90 font-display font-semibold rounded-cta px-6"
           >
-            <Link to="/anmal-dig">Anmäl dig</Link>
+            <Link to="/anmal-dig">Anmälan</Link>
           </Button>
 
           {/* Mobile menu toggle */}
@@ -288,12 +360,24 @@ export function Header() {
                 </div>
 
                 <div className="space-y-6">
+                  {/* Anmälan — top link in mobile */}
+                  <div>
+                    <Link
+                      to="/anmal-dig"
+                      onClick={() => setMobileOpen(false)}
+                      className="flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-semibold text-brand-red hover:bg-brand-red-light transition-colors"
+                    >
+                      <PenLine className="h-5 w-5 text-brand-red" />
+                      Anmälan
+                    </Link>
+                  </div>
+
                   <div>
                     <p className="text-xs font-medium text-text-muted uppercase tracking-wider mb-3">
-                      För dig
+                      Arbetssökande
                     </p>
                     <div className="space-y-1">
-                      {forYouLinks.map((link) => (
+                      {jobSeekerLinks.map((link) => (
                         <Link
                           key={link.href}
                           to={link.href}
@@ -313,13 +397,33 @@ export function Header() {
                       onClick={() => setMobileOpen(false)}
                       className="block px-3 py-2.5 text-sm font-medium hover:bg-muted rounded-md"
                     >
-                      För företag
+                      Arbetsgivare
+                    </Link>
+                  </div>
+
+                  <div>
+                    <Link
+                      to="/studier"
+                      onClick={() => setMobileOpen(false)}
+                      className="block px-3 py-2.5 text-sm font-medium hover:bg-muted rounded-md"
+                    >
+                      Skolor och utbildningsanordnare
+                    </Link>
+                  </div>
+
+                  <div>
+                    <Link
+                      to="/vad-vi-gor"
+                      onClick={() => setMobileOpen(false)}
+                      className="block px-3 py-2.5 text-sm font-medium hover:bg-muted rounded-md"
+                    >
+                      Vårt arbetssätt
                     </Link>
                   </div>
 
                   <div>
                     <p className="text-xs font-medium text-text-muted uppercase tracking-wider mb-3">
-                      Om Boost
+                      Om oss
                     </p>
                     <div className="space-y-1">
                       {aboutLinks.map((link) => (
@@ -336,46 +440,33 @@ export function Header() {
                     </div>
                   </div>
 
-                  <div className="space-y-1">
-                    <Link
-                      to="/nyheter"
-                      onClick={() => setMobileOpen(false)}
-                      className="flex items-center gap-3 px-3 py-2.5 rounded-md text-sm hover:bg-muted transition-colors"
-                    >
-                      <Newspaper className="h-5 w-5 text-brand-gold" />
-                      Nyheter
-                    </Link>
-                  </div>
-
-                  <div className="space-y-1">
-                    <Link
-                      to="/resurser"
-                      onClick={() => setMobileOpen(false)}
-                      className="flex items-center gap-3 px-3 py-2.5 rounded-md text-sm hover:bg-muted transition-colors"
-                    >
-                      <FileText className="h-5 w-5 text-brand-teal" />
-                      Resurser
-                    </Link>
-                  </div>
-
                   <div>
-                    <Link
-                      to="/kontakt"
-                      onClick={() => setMobileOpen(false)}
-                      className="block px-3 py-2.5 text-sm font-medium hover:bg-muted rounded-md"
-                    >
-                      Kontakt
-                    </Link>
+                    <p className="text-xs font-medium text-text-muted uppercase tracking-wider mb-3">
+                      Mer
+                    </p>
+                    <div className="space-y-1">
+                      {moreLinks.map((link) => (
+                        <Link
+                          key={link.href}
+                          to={link.href}
+                          onClick={() => setMobileOpen(false)}
+                          className="flex items-center gap-3 px-3 py-2.5 rounded-md text-sm hover:bg-muted transition-colors"
+                        >
+                          <link.icon className={`h-5 w-5 ${link.iconColor}`} />
+                          {link.label}
+                        </Link>
+                      ))}
+                    </div>
                   </div>
                 </div>
 
                 <div className="mt-8 pt-6 border-t border-border">
                   <Button
                     asChild
-                    className="w-full bg-brand-gold text-brand-navy hover:bg-brand-gold/90 font-display font-semibold rounded-cta"
+                    className="w-full bg-brand-red text-white hover:bg-brand-red/90 font-display font-semibold rounded-cta"
                   >
                     <Link to="/anmal-dig" onClick={() => setMobileOpen(false)}>
-                      Anmäl dig
+                      Anmälan
                     </Link>
                   </Button>
                 </div>

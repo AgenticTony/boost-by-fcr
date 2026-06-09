@@ -29,7 +29,7 @@ export default function VadViGorPage() {
   return (
     <>
       <section className="relative bg-brand-navy text-white overflow-hidden">
-        <div className="pointer-events-none absolute -top-32 -right-32 h-96 w-96 rounded-full bg-brand-gold/10 blur-3xl" />
+        <div className="pointer-events-none absolute -top-32 -right-32 h-96 w-96 rounded-full bg-brand-red/10 blur-3xl" />
         <div className="container-page relative py-20 md:py-28">
           <h1 className="text-4xl md:text-5xl lg:text-[3.5rem] font-display font-extrabold leading-tight mb-4">
             En organisation — tre sätt att skapa förändring
@@ -46,9 +46,9 @@ export default function VadViGorPage() {
             {branches.map((branch) => (
               <div
                 key={branch.title}
-                className="bg-white rounded-2xl p-6 md:p-8 border border-border/60"
+                className="bg-[#072D59]/5 rounded-3xl p-8 md:p-10"
               >
-                <div className="inline-flex items-center justify-center h-12 w-12 rounded-xl bg-brand-gold text-brand-navy mb-6">
+                <div className="inline-flex items-center justify-center h-12 w-12 rounded-xl bg-brand-red text-brand-navy mb-6">
                   <branch.icon className="h-6 w-6" />
                 </div>
                 <h2 className="font-display font-bold text-2xl text-text mb-3">

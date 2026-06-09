@@ -29,8 +29,36 @@ const VemViArPage = lazy(() => import("@/pages/vem-vi-ar"));
 
 function PageLoader() {
   return (
-    <div className="flex min-h-[40vh] items-center justify-center">
-      <div className="h-8 w-8 animate-spin rounded-full border-4 border-muted border-t-brand-gold" />
+    <div className="container-page py-16 md:py-24">
+      <div className="max-w-3xl mx-auto space-y-8">
+        {/* Skeleton hero */}
+        <div className="space-y-4">
+          <div className="h-3 w-24 rounded-full bg-muted animate-pulse" />
+          <div className="h-10 w-3/4 rounded-lg bg-muted animate-pulse" />
+          <div className="h-5 w-full rounded-lg bg-muted animate-pulse" />
+          <div className="h-5 w-2/3 rounded-lg bg-muted animate-pulse" />
+        </div>
+        {/* Skeleton content */}
+        <div className="space-y-4">
+          <div className="h-4 w-full rounded-lg bg-muted animate-pulse" />
+          <div className="h-4 w-5/6 rounded-lg bg-muted animate-pulse" />
+          <div className="h-4 w-4/6 rounded-lg bg-muted animate-pulse" />
+        </div>
+        {/* Skeleton cards */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {[1, 2, 3].map((n) => (
+            <div
+              key={n}
+              className="rounded-2xl bg-muted/50 p-6 space-y-4 animate-pulse"
+            >
+              <div className="h-12 w-12 rounded-xl bg-muted" />
+              <div className="h-5 w-2/3 rounded-lg bg-muted" />
+              <div className="h-4 w-full rounded-lg bg-muted" />
+              <div className="h-4 w-4/5 rounded-lg bg-muted" />
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

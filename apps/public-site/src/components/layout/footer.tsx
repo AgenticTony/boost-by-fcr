@@ -4,7 +4,7 @@ import { Separator } from "@/components/ui/separator";
 
 const footerSections = [
   {
-    heading: "För dig",
+    heading: "Arbetssökande",
     links: [
       { href: "/arbetssokande", label: "Arbetsspåret" },
       { href: "/studier", label: "Studiespåret" },
@@ -13,14 +13,17 @@ const footerSections = [
     ],
   },
   {
-    heading: "För företag",
-    links: [{ href: "/foretag", label: "Rekryteringsstöd" }],
+    heading: "Arbetsgivare",
+    links: [
+      { href: "/foretag", label: "Samarbeta med oss" },
+      { href: "/anmal-dig", label: "Anmälan" },
+    ],
   },
   {
-    heading: "Om Boost",
+    heading: "Om oss",
     links: [
       { href: "/vem-vi-ar", label: "Vem vi är" },
-      { href: "/vad-vi-gor", label: "Vad vi gör" },
+      { href: "/vad-vi-gor", label: "Vårt arbetssätt" },
       { href: "/var-historia", label: "Vår historia" },
       { href: "/press-media", label: "Press & media" },
       { href: "/lediga-tjanster", label: "Lediga tjänster" },
@@ -30,7 +33,6 @@ const footerSections = [
     heading: "Övrigt",
     links: [
       { href: "/kontakt", label: "Kontakt" },
-      { href: "/vanliga-fragor", label: "Vanliga frågor" },
       { href: "/resurser", label: "Resurser" },
       { href: "/dataskyddspolicy", label: "Dataskyddspolicy" },
     ],
@@ -45,7 +47,7 @@ export function Footer() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
           {footerSections.map((section) => (
             <div key={section.heading}>
-              <h3 className="font-display font-semibold text-sm uppercase tracking-wider text-brand-gold mb-4">
+              <h3 className="font-display font-semibold text-sm uppercase tracking-wider text-brand-red mb-4">
                 {section.heading}
               </h3>
               <ul className="space-y-2">
@@ -73,15 +75,15 @@ export function Footer() {
             </p>
             <div className="space-y-2">
               <div className="flex items-center gap-2 text-sm text-white/70">
-                <MapPin className="h-4 w-4 text-brand-gold" />
+                <MapPin className="h-4 w-4 text-brand-red" />
                 Norra Grängesbergsgatan 15, 214 50 Malmö
               </div>
               <div className="flex items-center gap-2 text-sm text-white/70">
-                <Phone className="h-4 w-4 text-brand-gold" />
+                <Phone className="h-4 w-4 text-brand-red" />
                 070-992 17 66
               </div>
               <div className="flex items-center gap-2 text-sm text-white/70">
-                <Mail className="h-4 w-4 text-brand-gold" />
+                <Mail className="h-4 w-4 text-brand-red" />
                 info@boostbyfcr.se
               </div>
             </div>

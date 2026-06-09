@@ -25,7 +25,7 @@ export default function NyheterSlugPage() {
         <p className="text-text-muted mb-4">{errorMsg}</p>
         <Link
           to="/nyheter"
-          className="inline-flex items-center gap-1.5 text-sm font-medium text-brand-teal hover:underline"
+          className="inline-flex items-center gap-1.5 text-sm font-medium text-brand-navy hover:underline"
         >
           <ArrowLeft className="h-4 w-4" /> Tillbaka till nyheter
         </Link>
@@ -53,7 +53,7 @@ export default function NyheterSlugPage() {
         </h1>
         <Link
           to="/nyheter"
-          className="inline-flex items-center gap-1.5 text-sm font-medium text-brand-teal hover:underline"
+          className="inline-flex items-center gap-1.5 text-sm font-medium text-brand-navy hover:underline"
         >
           <ArrowLeft className="h-4 w-4" /> Tillbaka till nyheter
         </Link>
@@ -77,12 +77,12 @@ export default function NyheterSlugPage() {
         <div className="max-w-3xl mx-auto">
           <Link
             to="/nyheter"
-            className="inline-flex items-center gap-1.5 text-sm font-medium text-brand-teal hover:underline mb-8"
+            className="inline-flex items-center gap-1.5 text-sm font-medium text-brand-navy hover:underline mb-8"
           >
             <ArrowLeft className="h-4 w-4" /> Alla nyheter
           </Link>
           <div className="flex items-center gap-3 mb-4">
-            <span className="px-2.5 py-0.5 rounded-full text-xs font-medium bg-brand-teal text-white">
+            <span className="px-2.5 py-0.5 rounded-full text-xs font-medium bg-brand-navy text-white">
               {categoryLabels[article!.category] || article!.category}
             </span>
             <span className="text-sm text-text-muted">
