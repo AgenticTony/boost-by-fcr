@@ -5,64 +5,59 @@ import { useSeo } from "@/hooks/use-seo";
 
 const faqItems = [
   {
-    q: "Jag vet inte vad jag vill göra. Kan ni hjälpa mig att komma på det?",
-    a: "Absolut — och du är långt ifrån ensam om det. Att komma till oss utan en klar riktning är helt okej. Din vägledare hjälper dig att utforska vad du är bra på, vad som motiverar dig och vilka vägar som finns framåt. Vi har också workshops som är just för det här.",
-  },
-  {
-    q: "Hur stor är chansen att jag får jobb om jag kommer till er?",
-    a: "Stor. Vi har ett brett nätverk av arbetsgivare som aktivt kontaktar oss när de söker kandidater, och vi gör allt vi kan för att matcha rätt person med rätt tjänst. Varje år går 200 till 300 av våra deltagare vidare till anställning.",
-  },
-  {
-    q: "Vad händer om jag hellre vill börja studera?",
-    a: "Då hjälper vi dig med det. Hos oss finns legitimerade lärare och studie-/yrkesvägledare som stöttar dig med allt från enskilda ämnen som matte och svenska, till förberedelse inför högskoleprovet eller ansökan till Komvux och folkhögskola. Varje år lämnar 100 till 150 deltagare Boost för att börja studera.",
-  },
-  {
-    q: "Hur hjälper ni mig mot mitt drömyrke?",
-    a: "Vilken typ av hjälp du behöver beror på vad ditt mål är — men vi börjar alltid med att lyssna. Sedan hjälper vi dig lägga en konkret plan: vilken utbildning som passar, hur du bygger nätverk i rätt bransch och hur du hittar en praktikplats som öppnar dörrar.",
-  },
-  {
-    q: "Samarbetar ni med Arbetsförmedlingen och kommunen?",
-    a: "Ja. Vi jobbar nära både Arbetsförmedlingen och Malmö stad. De anvisar deltagare till oss och vi rapporterar regelbundet om hur det går — så att du alltid har rätt stöd runt dig.",
+    q: "Om jag vill plugga?",
+    a: "På Boost har vi både pedagoger och studie- och yrkesvägledare som du kan träffa hos oss. Du kan få både hjälp med att studera enskilda ämnen som matte eller svenska, förbereda dig inför högskoleprovet eller söka till utbildningar. Visste du att vi också har körkortsteori på Boost?",
   },
   {
     q: "Är era deltagare nöjda?",
-    a: "Det verkar så. I en oberoende utvärdering fick vi 8 av 10 på nöjdhetsskalan. Vi är stolta över det — och vi vill bli bättre. Vi lyssnar kontinuerligt på våra deltagare för att förstå vad vi kan göra annorlunda.",
+    a: "Vi hoppas det! I en enkät som en extern utvärderare gjorde fick vi 8 av 10 på en nöjdhetsskala. Vi lyssnar hela tiden på våra deltagare och försöker att anpassa vad vi gör och erbjuder för att det ska passa våra deltagare.",
+  },
+  {
+    q: "Om jag inte vet vad jag vill göra i framtiden, kan ni hjälpa mig?",
+    a: "Absolut! Det är vanligt att deltagare som kommer till oss är osäkra på vad de vill jobba med. När du träffar din vägledare eller någon här på Boost kan du diskutera olika möjligheter och vägar. Vi har också workshops som handlar om just att få dig att komma på vad du vill.",
+  },
+  {
+    q: "Samarbetar ni med Arbetsförmedlingen?",
+    a: "Vi samarbetar nära med arbetsförmedlingen. De anvisar dig som arbetssökande till oss så att vi kan ge dig stöd. Våra vägledare ger sedan återkoppling till dem om hur det går för dig. Om du behöver stöd i kontakten med exempelvis kommunen så finns vi med dig.",
   },
 ];
 
 export default function ArbetssokandePage() {
   useSeo({
-    title: "Arbetsspåret",
+    title: "Arbetssökande",
     description:
-      "CV-genomgång, intervjuträning och ett brett nätverk av arbetsgivare som aktivt söker våra deltagare.",
+      "På Boost hjälper vi dig att stärka dig själv och din kompetens så att du lättare kommer in på arbetsmarknaden.",
   });
 
   return (
     <>
+      {/* Hero */}
       <section className="relative bg-brand-navy text-white overflow-hidden">
         <div className="pointer-events-none absolute inset-0">
           <img
             src="/images/Arbetssoekande1.jpg"
-            alt=""
+            alt="Person som tar steget in i arbetslivet med stöd från Boost"
             className="absolute inset-0 w-full h-full object-cover opacity-20"
           />
         </div>
-        <div className="pointer-events-none absolute -top-32 -right-32 h-96 w-96 rounded-full bg-brand-gold/10 blur-3xl" />
+        <div className="pointer-events-none absolute -top-32 -right-32 h-96 w-96 rounded-full bg-brand-red/10 blur-3xl" />
         <div className="container-page relative py-20 md:py-28">
-          <p className="text-xs font-body font-medium text-brand-gold tracking-widest uppercase mb-4">
-            Arbetsspåret
+          <p className="text-xs font-body font-medium text-brand-red tracking-widest uppercase mb-4">
+            För arbetssökande
           </p>
           <h1 className="text-4xl md:text-5xl lg:text-[3.5rem] font-display font-extrabold leading-tight mb-4">
             Väx på ditt sätt hos oss
           </h1>
           <p className="text-lg text-white/75 max-w-lg leading-relaxed mb-8">
-            Du behöver inte ha allt klart för dig. Du behöver bara ta första
-            steget.
+            På Boost hjälper vi dig att stärka dig själv och din kompetens så
+            att du lättare kommer in på arbetsmarknaden. Oavsett om du vill
+            jobba eller studera anpassar vi våra insatser efter dina mål och
+            behov.
           </p>
           <Button
             asChild
             size="lg"
-            className="bg-brand-gold text-brand-navy hover:bg-brand-gold/90 font-display font-semibold rounded-cta px-8 h-12 shadow-lg shadow-brand-gold/20"
+            className="bg-brand-red text-white hover:bg-brand-red/90 font-display font-semibold rounded-cta px-8 h-12 shadow-lg shadow-brand-red/20"
           >
             <Link to="/anmal-dig">
               Anmäl dig här <ArrowRight className="ml-2 h-4 w-4" />
@@ -71,69 +66,42 @@ export default function ArbetssokandePage() {
         </div>
       </section>
 
+      {/* Vårt arbetssätt — Anna's new copy */}
       <section className="py-12 md:py-16">
         <div className="container-page max-w-3xl">
           <h2 className="text-3xl md:text-[2.5rem] font-display font-extrabold text-text leading-tight mb-6">
-            Stöd som passar dig — inte tvärtom
+            Vårt arbetssätt
           </h2>
           <div className="space-y-5 text-text-muted leading-relaxed">
             <p>
-              På Boost möter vi dig där du är. Oavsett om du är nära ett jobb
-              eller studier, eller om du fortfarande letar efter riktningen —
-              hos oss finns utrymme för dig. Du väljer tempo, du väljer insatser
-              och du sätter dina egna mål. Vi är här för att göra den resan
-              möjlig.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-brand-navy text-white">
-        <div className="container-page py-10 md:py-12">
-          <div className="grid grid-cols-3 gap-6 md:gap-8 text-center">
-            {[
-              { number: "200–300", label: "Till anställning varje år" },
-              { number: "Brett", label: "Nätverk av arbetsgivare" },
-              { number: "8 av 10", label: "Nöjda deltagare" },
-            ].map((stat) => (
-              <div key={stat.label}>
-                <p className="text-2xl md:text-3xl font-display font-extrabold text-brand-gold tracking-tight">
-                  {stat.number}
-                </p>
-                <p className="mt-1 text-white/60 text-xs md:text-sm">
-                  {stat.label}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="py-12 md:py-16 bg-muted/60">
-        <div className="container-page max-w-3xl">
-          <h2 className="text-3xl font-display font-extrabold text-text mb-6">
-            Personligt stöd från dag ett
-          </h2>
-          <div className="space-y-5 text-text-muted leading-relaxed">
-            <p>
-              När du börjar hos oss börjar vi med att lyssna. Du matchas med en
-              personlig vägledare som hjälper dig att ta reda på var du befinner
-              dig, vart du vill och hur vi bäst kan stötta dig på vägen dit.
+              Alla är bra på olika saker och har olika mål i livet. Därför går
+              det inte heller att behandla alla samma på samma sätt. Det är vi
+              medvetna om på Boost. När du kommer till oss väljer du vilket stöd
+              du vill ha så att de aktiviteter du deltar i anpassade för just
+              dig. Du får en personlig vägledare som hjälper dig att göra en
+              plan för din tid hos oss, och att sätta upp mål för framtiden.
             </p>
             <p>
-              Du deltar i de aktiviteter som är relevanta för just dig — inget
-              standardupplägg, inga onödiga moment. Som deltagare på Boost
-              förväntas du ta ansvar och engagera dig, och vi förväntas ge dig
-              det bästa vi har att erbjuda. Det är så vi jobbar.
+              Som deltagare i Boost får du själv vara med och ta ett stort
+              ansvar för vad du gör när du är här. Du får också utveckla din
+              förmåga att se möjligheter, ta initiativ, lösa problem och göra
+              handling av dina idéer. Till din hjälp har du våra vägledare,
+              pedagoger och all annan personal hos oss som peppar och pushar dig
+              mot dina mål.
+            </p>
+            <p>
+              Våra insatser finns inom tre spår: <strong>arbete</strong>,{" "}
+              <strong>studier</strong> och <strong>hälsa</strong>.
             </p>
           </div>
         </div>
       </section>
 
-      <section id="faq" className="py-12 md:py-16">
+      {/* FAQ — Anna's specific questions */}
+      <section id="faq" className="py-12 md:py-16 bg-muted/60">
         <div className="container-page max-w-2xl">
           <h2 className="text-3xl md:text-[2.5rem] font-display font-extrabold text-text leading-tight mb-10">
-            Det du undrar över — svarat
+            Vanliga frågor
           </h2>
           <div className="space-y-0">
             {faqItems.map((item, i) => (

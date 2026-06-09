@@ -45,13 +45,13 @@ export default function StudierPage() {
         <div className="pointer-events-none absolute inset-0">
           <img
             src="/images/Studiespaaret.jpg"
-            alt=""
+            alt="Studiedeltagare i fokus vid Boosts studieverksamhet"
             className="absolute inset-0 w-full h-full object-cover opacity-20"
           />
         </div>
-        <div className="pointer-events-none absolute -bottom-48 -left-48 h-[500px] w-[500px] rounded-full bg-brand-teal/8 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-48 -left-48 h-[500px] w-[500px] rounded-full bg-brand-navy/8 blur-3xl" />
         <div className="container-page relative py-20 md:py-28">
-          <p className="text-xs font-body font-medium text-brand-teal tracking-widest uppercase mb-4">
+          <p className="text-xs font-body font-medium text-brand-navy tracking-widest uppercase mb-4">
             Studiespåret
           </p>
           <h1 className="text-4xl md:text-5xl lg:text-[3.5rem] font-display font-extrabold leading-tight mb-4">
@@ -89,7 +89,7 @@ export default function StudierPage() {
               { number: "Individuell", label: "Studieplan" },
             ].map((stat) => (
               <div key={stat.label}>
-                <p className="text-2xl md:text-3xl font-display font-extrabold text-brand-gold tracking-tight">
+                <p className="text-2xl md:text-3xl font-display font-extrabold text-brand-red tracking-tight">
                   {stat.number}
                 </p>
                 <p className="mt-1 text-white/60 text-xs md:text-sm">
@@ -110,9 +110,9 @@ export default function StudierPage() {
             {features.map((f) => (
               <div
                 key={f.title}
-                className="bg-white rounded-2xl p-6 md:p-8 border border-border/60"
+                className="bg-[#072D59]/5 rounded-3xl p-8 md:p-10"
               >
-                <div className="inline-flex items-center justify-center h-11 w-11 rounded-xl bg-brand-teal text-white mb-5">
+                <div className="inline-flex items-center justify-center h-16 w-16 rounded-2xl bg-brand-navy text-white mb-5">
                   <f.icon className="h-5 w-5" />
                 </div>
                 <h3 className="font-display font-semibold text-lg text-text mb-2">
@@ -140,7 +140,7 @@ export default function StudierPage() {
           <Button
             asChild
             size="lg"
-            className="bg-brand-gold text-brand-navy hover:bg-brand-gold/90 font-display font-semibold rounded-cta px-8 h-12 shadow-lg shadow-brand-gold/20"
+            className="bg-brand-red text-brand-navy hover:bg-brand-red/90 font-display font-semibold rounded-cta px-8 h-12 shadow-lg shadow-brand-red/20"
           >
             <Link to="/anmal-dig">
               Börja din studieresa <ArrowRight className="ml-2 h-4 w-4" />

@@ -11,7 +11,7 @@ export default function DataskyddspolicyPage() {
     <>
       <section className="bg-brand-navy text-white">
         <div className="container-page py-20 md:py-28">
-          <h1 className="text-4xl md:text-5xl font-display font-extrabold leading-tight mb-4">
+          <h1 className="text-4xl md:text-5xl lg:text-[3.5rem] font-display font-extrabold leading-tight mb-4">
             Dataskyddspolicy
           </h1>
           <p className="text-lg text-white/75 max-w-lg leading-relaxed">

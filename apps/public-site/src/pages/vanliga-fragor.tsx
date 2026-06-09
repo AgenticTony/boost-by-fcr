@@ -89,9 +89,9 @@ export default function VanligaFragorPage() {
   return (
     <>
       <section className="relative bg-brand-navy text-white overflow-hidden">
-        <div className="pointer-events-none absolute -top-32 -right-32 h-96 w-96 rounded-full bg-brand-gold/10 blur-3xl" />
+        <div className="pointer-events-none absolute -top-32 -right-32 h-96 w-96 rounded-full bg-brand-red/10 blur-3xl" />
         <div className="container-page relative py-20 md:py-28">
-          <h1 className="text-4xl md:text-5xl font-display font-extrabold leading-tight mb-4">
+          <h1 className="text-4xl md:text-5xl lg:text-[3.5rem] font-display font-extrabold leading-tight mb-4">
             Vanliga frågor
           </h1>
           <p className="text-lg text-white/75 max-w-lg leading-relaxed">
@@ -133,7 +133,7 @@ export default function VanligaFragorPage() {
             <div className="flex flex-wrap gap-4 justify-center">
               <Button
                 asChild
-                className="bg-brand-gold text-brand-navy hover:bg-brand-gold/90 font-display font-semibold rounded-cta"
+                className="bg-brand-red text-brand-navy hover:bg-brand-red/90 font-display font-semibold rounded-cta"
               >
                 <Link to="/kontakt">
                   Kontakta oss <ArrowRight className="ml-2 h-4 w-4" />
@@ -141,7 +141,7 @@ export default function VanligaFragorPage() {
               </Button>
               <Button
                 asChild
-                className="bg-brand-gold text-brand-navy hover:bg-brand-gold/90 font-display font-semibold rounded-cta"
+                className="bg-brand-red text-brand-navy hover:bg-brand-red/90 font-display font-semibold rounded-cta"
               >
                 <Link to="/anmal-dig">
                   Anmäl dig <ArrowRight className="ml-2 h-4 w-4" />
