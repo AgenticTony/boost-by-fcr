@@ -1,23 +1,26 @@
 @import "tailwindcss";
 
 @theme {
-  --color-brand-navy: #1A2E5A;
-  --color-brand-gold: #F0A500;
-  --color-brand-teal: #0D9488;
-  --color-surface: #F8F7F4;
-  --color-surface-dark: #1E293B;
-  --color-text: #111827;
-  --color-text-muted: #6B7280;
-  --color-success: #10B981;
-  --color-error: #F43F5E;
+  /* Logo palette from Anna: #072D59 (navy), #C0C7DA (light blue), #E04832 (warm red) */
+  --color-brand-navy: #072D59;
+  --color-brand-red: #C93320;
+  --color-brand-red-bright: #F04D38;
+  --color-brand-red-light: #FEF0ED;
+  --color-brand-blue-light: #C0C7DA;
+  --color-surface: #FAF8F5;
+  --color-surface-dark: #072D59;
+  --color-text: #333333;
+  --color-text-muted: #555B66;
+  --color-success: #4CAF50;
+  --color-error: #B91C1C;
   --color-border: #E5E7EB;
 
-  --font-display: "Plus Jakarta Sans", sans-serif;
-  --font-body: "Inter", sans-serif;
+  --font-display: "Montserrat", sans-serif;
+  --font-body: "Montserrat", sans-serif;
 
   --breakpoint-xs: 375px;
 
-  --radius-card: 0.5rem;
+  --radius-card: 0.75rem;
   --radius-input: 0.75rem;
   --radius-pill: 1.5rem;
   --radius-cta: 9999px;
@@ -30,12 +33,44 @@
 
   --animate-fade-up: fade-up 0.3s ease-out forwards;
 
+  --animate-float-subtle: float-subtle 6s ease-in-out infinite;
+  --animate-drift: drift 12s ease-in-out infinite;
+  --animate-pulse-glow: pulse-glow 4s ease-in-out infinite;
+  --animate-hero-gradient: hero-gradient 8s ease-in-out infinite;
+  --animate-ken-burns: ken-burns 8s linear forwards;
+
   --animate-accordion-down: accordion-down 0.2s ease-out;
   --animate-accordion-up: accordion-up 0.2s ease-out;
 
   @keyframes fade-up {
     0% { opacity: 0; transform: translateY(16px); }
     100% { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes float-subtle {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+
+  @keyframes drift {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(15px, -8px) scale(1.02); }
+    66% { transform: translate(-10px, 5px) scale(0.98); }
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% { opacity: 0.4; transform: scale(1); }
+    50% { opacity: 0.7; transform: scale(1.08); }
+  }
+
+  @keyframes hero-gradient {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+  }
+
+  @keyframes ken-burns {
+    from { transform: scale(1); }
+    to { transform: scale(1.05); }
   }
 
   @keyframes accordion-down {
@@ -65,7 +100,7 @@
   }
 
   *:focus-visible {
-    @apply outline-2 outline-offset-2 outline-brand-gold;
+    @apply outline-2 outline-offset-2 outline-brand-navy;
   }
 }
 

@@ -1,7 +1,7 @@
 import { Component, type ErrorInfo, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { AlertTriangle } from "lucide-react";
+import { AlertTriangle, RotateCcw } from "lucide-react";
 
 interface Props {
   children: ReactNode;
@@ -34,7 +34,7 @@ export class ErrorBoundary extends Component<Props, State> {
       return (
         <section className="flex min-h-[60vh] items-center justify-center px-6">
           <div className="text-center max-w-md">
-            <div className="inline-flex items-center justify-center h-16 w-16 rounded-2xl bg-brand-gold/10 text-brand-gold mb-6">
+            <div className="inline-flex items-center justify-center h-16 w-16 rounded-2xl bg-brand-red/10 text-brand-red mb-6">
               <AlertTriangle className="h-8 w-8" />
             </div>
             <h1 className="text-3xl font-display font-extrabold text-text mb-3">
@@ -44,13 +44,21 @@ export class ErrorBoundary extends Component<Props, State> {
               Ett oväntat fel uppstod. Försök igen eller gå tillbaka till
               startsidan.
             </p>
-            <Button
-              asChild
-              className="bg-brand-gold text-brand-navy hover:bg-brand-gold/90 font-display font-semibold rounded-cta"
-              onClick={() => this.setState({ hasError: false })}
-            >
-              <Link to="/">Tillbaka till startsidan</Link>
-            </Button>
+            <div className="flex flex-wrap gap-4 justify-center">
+              <Button
+                className="bg-white text-text hover:bg-muted font-display font-semibold rounded-cta border border-border"
+                onClick={() => this.setState({ hasError: false })}
+              >
+                <RotateCcw className="mr-2 h-4 w-4" />
+                Försök igen
+              </Button>
+              <Button
+                asChild
+                className="bg-brand-red text-white hover:bg-brand-red/90 font-display font-semibold rounded-cta"
+              >
+                <Link to="/">Till startsidan</Link>
+              </Button>
+            </div>
           </div>
         </section>
       );

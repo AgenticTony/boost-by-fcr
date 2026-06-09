@@ -49,11 +49,11 @@ export default function BridgePage() {
   return (
     <>
       <section className="relative bg-brand-navy text-white overflow-hidden">
-        <div className="pointer-events-none absolute -top-32 -right-32 h-96 w-96 rounded-full bg-brand-gold/10 blur-3xl" />
+        <div className="pointer-events-none absolute -top-32 -right-32 h-96 w-96 rounded-full bg-brand-red/10 blur-3xl" />
         <div className="container-page relative py-20 md:py-28">
           <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
             <div>
-              <div className="inline-flex items-center gap-2 bg-white/10 rounded-pill px-4 py-1.5 text-xs font-body font-medium text-brand-gold mb-6">
+              <div className="inline-flex items-center gap-2 bg-white/10 rounded-pill px-4 py-1.5 text-xs font-body font-medium text-brand-red mb-6">
                 <Users className="h-3.5 w-3.5" />
                 ESF-projekt
               </div>
@@ -77,7 +77,7 @@ export default function BridgePage() {
                     key={chip.label}
                     className="flex-1 flex flex-col items-center justify-center py-4 rounded-xl bg-white/[0.07] border border-white/10"
                   >
-                    <span className="text-2xl font-display font-extrabold text-brand-gold">
+                    <span className="text-2xl font-display font-extrabold text-brand-red">
                       {chip.label}
                     </span>
                     <span className="text-xs text-white/50 mt-1">
@@ -151,20 +151,20 @@ export default function BridgePage() {
                 <ul className="space-y-3">
                   {eligibility.map((item) => (
                     <li key={item} className="flex items-center gap-3">
-                      <CheckCircle className="h-5 w-5 text-brand-teal shrink-0" />
+                      <CheckCircle className="h-5 w-5 text-brand-navy shrink-0" />
                       <span className="text-white/90">{item}</span>
                     </li>
                   ))}
                 </ul>
               </div>
-              <div className="bg-white rounded-2xl p-6 md:p-8 border border-border/60">
+              <div className="bg-[#072D59]/5 rounded-3xl p-8 md:p-10">
                 <h3 className="font-display font-semibold text-lg text-text mb-5">
                   Det här ingår
                 </h3>
                 <ul className="space-y-3">
                   {includes.map((item) => (
                     <li key={item} className="flex items-center gap-3">
-                      <CheckCircle className="h-5 w-5 text-brand-teal shrink-0" />
+                      <CheckCircle className="h-5 w-5 text-brand-navy shrink-0" />
                       <span className="text-text-muted">{item}</span>
                     </li>
                   ))}
@@ -181,9 +181,9 @@ export default function BridgePage() {
             {methods.map((item) => (
               <div
                 key={item.title}
-                className="bg-white rounded-2xl p-6 md:p-8 border border-border/60"
+                className="bg-[#072D59]/5 rounded-3xl p-8 md:p-10"
               >
-                <div className="inline-flex items-center justify-center h-11 w-11 rounded-xl bg-brand-teal text-white mb-5">
+                <div className="inline-flex items-center justify-center h-16 w-16 rounded-2xl bg-brand-navy text-white mb-5">
                   <item.icon className="h-5 w-5" />
                 </div>
                 <h3 className="font-display font-semibold text-lg text-text mb-2">
@@ -235,7 +235,7 @@ export default function BridgePage() {
           <Button
             asChild
             size="lg"
-            className="bg-brand-gold text-brand-navy hover:bg-brand-gold/90 font-display font-semibold rounded-cta px-8 h-12 shadow-lg shadow-brand-gold/20"
+            className="bg-brand-red text-brand-navy hover:bg-brand-red/90 font-display font-semibold rounded-cta px-8 h-12 shadow-lg shadow-brand-red/20"
           >
             <Link to="/anmal-dig">
               Anmäl dig till Bridge <ArrowRight className="ml-2 h-4 w-4" />
