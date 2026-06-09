@@ -42,6 +42,7 @@ npm-debug.log*
 
 # Testing
 coverage/
+.playwright-mcp/
 
 # Vite
 apps/public-site/dist/
