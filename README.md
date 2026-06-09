@@ -22,12 +22,12 @@ packages/
 
 ## Team
 
-| Role | Person | Responsibility |
-|------|--------|----------------|
-| P2 | Anthony Foran | Public React frontend, all pages, SEO, accessibility |
-| P3 | Robert Czuchra (TL) | Backoffice customization, Anna's UX, training |
-| P4 | Mohand | Locked area, Metodmaterial, CI/CD, deployment |
-| TL | Alan ([@al-swe](https://github.com/al-swe)) | Project oversight, development review |
+| Role | Person              | Responsibility                                       |
+| ---- | ------------------- | ---------------------------------------------------- |
+| P2   | Anthony Foran       | Public React frontend, all pages, SEO, accessibility |
+| P3   | Robert Czuchra (TL) | Backoffice customization, Anna's UX, training        |
+| P4   | Mohand              | Locked area, Metodmaterial, CI/CD, deployment        |
+| TL   | Alan                | Project oversight, development review                |
 
 ## Branch Strategy
 
@@ -44,12 +44,15 @@ packages/
 ## Tech Stack
 
 ### Frontend (apps/public-site, apps/locked-area)
+
 - React 19, TypeScript 6 (strict), Vite, Tailwind CSS v4, shadcn/ui
 - TanStack Query, React Router v7, React Hook Form + Zod
 - react-helmet-async (per-page SEO), Framer Motion
 
 ### CMS
+
 - Hygraph (headless CMS, GraphQL API)
 
 ### Infrastructure
+
 - GitHub Actions CI/CD, Cloudflare DNS

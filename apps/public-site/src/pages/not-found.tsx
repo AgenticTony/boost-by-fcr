@@ -9,7 +9,7 @@ export default function NotFoundPage() {
   return (
     <section className="py-32 md:py-40">
       <div className="container-page text-center max-w-lg">
-        <p className="text-6xl font-display font-extrabold text-brand-gold mb-4">
+        <p className="text-6xl font-display font-extrabold text-brand-red mb-4">
           404
         </p>
         <h1 className="text-3xl font-display font-extrabold text-text mb-4">
@@ -21,7 +21,7 @@ export default function NotFoundPage() {
         </p>
         <Button
           asChild
-          className="bg-brand-gold text-brand-navy hover:bg-brand-gold/90 font-display font-semibold rounded-cta"
+          className="bg-brand-red text-brand-navy hover:bg-brand-red/90 font-display font-semibold rounded-cta"
         >
           <Link to="/">
             Tillbaka till startsidan
