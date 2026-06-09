@@ -25,7 +25,7 @@ function ResourceCard({ resource }: { resource: Resource }) {
     <div className="bg-white rounded-2xl border border-border/60 overflow-hidden hover:shadow-md transition-shadow">
       <div className="p-6 md:p-8">
         <div className="flex items-start gap-4 mb-4">
-          <div className="inline-flex items-center justify-center h-11 w-11 rounded-xl bg-brand-gold text-brand-navy shrink-0">
+          <div className="inline-flex items-center justify-center h-11 w-11 rounded-xl bg-brand-red text-brand-navy shrink-0">
             <Icon className="h-5 w-5" />
           </div>
           <div className="min-w-0">
@@ -55,7 +55,7 @@ function ResourceCard({ resource }: { resource: Resource }) {
               href={resource.fileUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand-navy hover:text-brand-navy/80 bg-brand-gold hover:bg-brand-gold/90 px-4 py-2 rounded-cta font-display transition-colors"
+              className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand-navy hover:text-brand-navy/80 bg-brand-red hover:bg-brand-red/90 px-4 py-2 rounded-cta font-display transition-colors"
             >
               <Download className="h-4 w-4" /> Ladda ner
             </a>
@@ -86,10 +86,10 @@ export default function ResurserPage() {
     <>
       <section className="bg-brand-navy text-white">
         <div className="container-page py-20 md:py-28">
-          <p className="text-sm font-body font-medium text-brand-gold tracking-widest uppercase mb-4">
+          <p className="text-sm font-body font-medium text-brand-red tracking-widest uppercase mb-4">
             Metodmaterial
           </p>
-          <h1 className="text-4xl md:text-5xl font-display font-extrabold leading-tight max-w-2xl">
+          <h1 className="text-4xl md:text-5xl lg:text-[3.5rem] font-display font-extrabold leading-tight max-w-2xl">
             Verktyg för ett mer inkluderande arbetsliv
           </h1>
           <p className="mt-4 text-lg text-white/80 max-w-xl leading-relaxed">

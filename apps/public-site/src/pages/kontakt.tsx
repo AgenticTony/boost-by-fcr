@@ -64,7 +64,7 @@ function KontaktForm() {
     <div className="bg-white rounded-2xl p-6 md:p-8 border border-border/60">
       {submitted ? (
         <div className="text-center py-12">
-          <CheckCircle className="h-16 w-16 text-brand-teal mx-auto mb-4" />
+          <CheckCircle className="h-16 w-16 text-brand-navy mx-auto mb-4" />
           <h3 className="text-2xl font-display font-extrabold text-text mb-2">
             Tack för ditt meddelande!
           </h3>
@@ -76,7 +76,7 @@ function KontaktForm() {
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
           <div className="space-y-2">
             <Label htmlFor="name">
-              Namn <span className="text-brand-gold">*</span>
+              Namn <span className="text-brand-red">*</span>
             </Label>
             <Input
               id="name"
@@ -92,7 +92,7 @@ function KontaktForm() {
           </div>
           <div className="space-y-2">
             <Label htmlFor="email">
-              E-post <span className="text-brand-gold">*</span>
+              E-post <span className="text-brand-red">*</span>
             </Label>
             <Input
               id="email"
@@ -109,13 +109,13 @@ function KontaktForm() {
           </div>
           <div className="space-y-2">
             <Label htmlFor="subject">
-              Ämne <span className="text-brand-gold">*</span>
+              Ämne <span className="text-brand-red">*</span>
             </Label>
             <select
               id="subject"
               aria-describedby={errors.subject ? "subject-error" : undefined}
               aria-invalid={!!errors.subject}
-              className={`flex h-11 w-full rounded-input border bg-white px-3 py-2 text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-gold ${errors.subject ? "border-error" : "border-input"}`}
+              className={`flex h-11 w-full rounded-input border bg-white px-3 py-2 text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red ${errors.subject ? "border-error" : "border-input"}`}
               {...register("subject")}
             >
               <option value="">Vad gäller det?</option>
@@ -133,7 +133,7 @@ function KontaktForm() {
           </div>
           <div className="space-y-2">
             <Label htmlFor="message">
-              Meddelande <span className="text-brand-gold">*</span>
+              Meddelande <span className="text-brand-red">*</span>
             </Label>
             <Textarea
               id="message"
@@ -155,7 +155,7 @@ function KontaktForm() {
           )}
           <Button
             type="submit"
-            className="w-full bg-brand-gold text-brand-navy hover:bg-brand-gold/90 font-display font-semibold rounded-cta h-12"
+            className="w-full bg-brand-red text-brand-navy hover:bg-brand-red/90 font-display font-semibold rounded-cta h-12"
           >
             Skicka meddelande <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
@@ -185,9 +185,9 @@ export default function KontaktPage() {
           />
           <div className="absolute inset-0 bg-brand-navy/70" />
         </div>
-        <div className="pointer-events-none absolute -bottom-32 -left-32 h-80 w-80 rounded-full bg-brand-teal/8 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-32 -left-32 h-80 w-80 rounded-full bg-brand-navy/8 blur-3xl" />
         <div className="container-page relative py-20 md:py-28">
-          <h1 className="text-4xl md:text-5xl font-display font-extrabold leading-tight mb-4">
+          <h1 className="text-4xl md:text-5xl lg:text-[3.5rem] font-display font-extrabold leading-tight mb-4">
             Hör av dig
           </h1>
           <p className="text-lg text-white/75 max-w-lg leading-relaxed">
@@ -211,7 +211,7 @@ export default function KontaktPage() {
               </p>
               <div className="space-y-5">
                 <div className="flex items-start gap-3">
-                  <div className="flex items-center justify-center h-10 w-10 rounded-xl bg-brand-gold/10 text-brand-gold shrink-0">
+                  <div className="flex items-center justify-center h-10 w-10 rounded-xl bg-brand-red/10 text-brand-red shrink-0">
                     <MapPin className="h-5 w-5" />
                   </div>
                   <div>
@@ -224,7 +224,7 @@ export default function KontaktPage() {
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
-                  <div className="flex items-center justify-center h-10 w-10 rounded-xl bg-brand-gold/10 text-brand-gold shrink-0">
+                  <div className="flex items-center justify-center h-10 w-10 rounded-xl bg-brand-red/10 text-brand-red shrink-0">
                     <Phone className="h-5 w-5" />
                   </div>
                   <div>
@@ -235,7 +235,7 @@ export default function KontaktPage() {
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
-                  <div className="flex items-center justify-center h-10 w-10 rounded-xl bg-brand-gold/10 text-brand-gold shrink-0">
+                  <div className="flex items-center justify-center h-10 w-10 rounded-xl bg-brand-red/10 text-brand-red shrink-0">
                     <Mail className="h-5 w-5" />
                   </div>
                   <div>
