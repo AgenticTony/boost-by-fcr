@@ -47,6 +47,9 @@ coverage/
 apps/public-site/dist/
 apps/locked-area/dist/
 
+# Client docs (private)
+Anna_client_docs/
+
 # Never commit binary docs or debug screenshots to public assets
 *.docx
 screencapture-*
