@@ -15,6 +15,25 @@ export default function NyheterSlugPage() {
       ? {
           title: article.title,
           description: article.excerpt || article.title,
+          jsonLd: {
+            "@context": "https://schema.org",
+            "@type": "Article",
+            headline: article.title,
+            description: article.excerpt || article.title,
+            image: article.imageUrl,
+            datePublished: article.publishedAt,
+            author: article.author
+              ? { "@type": "Person", name: article.author }
+              : { "@type": "Organization", name: "Boost by FC Rosengård" },
+            publisher: {
+              "@type": "Organization",
+              name: "Boost by FC Rosengård",
+              logo: {
+                "@type": "ImageObject",
+                url: "https://boostfcrosengard.se/images/boost-logo.svg",
+              },
+            },
+          },
         }
       : { title: "Laddar...", description: "" },
   );

@@ -36,7 +36,13 @@ export function ParallaxImage({ src, alt, speed = 0.3, className }: Props) {
   if (prefersReducedMotion) {
     return (
       <div ref={ref} className={className}>
-        <img src={src} alt={alt} className="w-full h-full object-cover" />
+        <img
+          src={src}
+          alt={alt}
+          loading="lazy"
+          decoding="async"
+          className="w-full h-full object-cover"
+        />
       </div>
     );
   }
