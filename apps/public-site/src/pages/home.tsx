@@ -85,19 +85,35 @@ function StaggeredLine({
   );
 }
 
-/* ─── Funder logo data ─── */
+/* ─── Funder logo data — sized by optical weight ─── */
 const funders = [
-  { alt: "EU Socialfonden", src: "/images/eu-logo-jordbruksfonden.png" },
-  { alt: "Allmänna Arvsfonden", src: "/images/af-logo.png" },
-  { alt: "Malmö Stad", src: "/images/malmostad-logo2013-inv.png" },
-  { alt: "FC Rosengård", src: "/images/FCR_logo_2014_CMYK.png" },
+  {
+    alt: "EU Socialfonden",
+    src: "/images/eu-logo-jordbruksfonden.png",
+    className: "h-20 md:h-24 max-w-[140px]",
+  },
+  {
+    alt: "Allmänna Arvsfonden",
+    src: "/images/af-logo.png",
+    className: "h-24 md:h-28 max-w-[210px]",
+  },
+  {
+    alt: "Malmö Stad",
+    src: "/images/malmostad-logo2013-inv.png",
+    className: "h-20 md:h-24 max-w-[180px]",
+  },
+  {
+    alt: "FC Rosengård",
+    src: "/images/FCR_logo_2014_CMYK.png",
+    className: "h-20 md:h-24 max-w-[140px]",
+  },
 ];
 
 function FunderLogoBar() {
   return (
-    <section className="bg-surface border-t border-brand-navy/10">
+    <section className="bg-brand-navy/80 border-b-4 border-b-brand-red">
       <div className="container-page py-14 md:py-20">
-        <p className="text-center text-xs font-display font-semibold uppercase tracking-widest text-brand-red mb-10">
+        <p className="text-center text-sm md:text-base font-display font-semibold uppercase tracking-widest text-brand-red-bright mb-10">
           Finansieras och stöds av
         </p>
         <div className="flex flex-wrap items-center justify-center gap-10 md:gap-16">
@@ -106,7 +122,7 @@ function FunderLogoBar() {
               key={funder.alt}
               src={funder.src}
               alt={funder.alt}
-              className="h-16 md:h-20 max-w-[140px] w-auto object-contain hover:scale-105 transition-transform duration-300"
+              className={`w-auto object-contain hover:scale-105 transition-transform duration-300 ${funder.className}`}
             />
           ))}
         </div>
@@ -408,25 +424,25 @@ export default function HomePage() {
       </section>
 
       {/* ─── BEAT 2: Impact Stats — Count-up numbers ─── */}
-      <section className="relative bg-brand-navy text-white py-10 md:py-14">
+      <section className="relative bg-brand-navy text-white py-6 md:py-10">
         <div className="container-page relative">
-          <p className="text-center text-white/75 text-sm md:text-base font-body tracking-wide mb-10 md:mb-14">
+          <p className="text-center text-white/75 text-sm md:text-base font-body tracking-wide mb-6 md:mb-10">
             Bakom varje siffra finns en människa som tagit ett steg framåt
           </p>
 
-          <div className="grid md:grid-cols-2 gap-12 md:gap-20 max-w-4xl mx-auto mb-10">
+          <div className="grid md:grid-cols-2 gap-8 md:gap-16 max-w-4xl mx-auto mb-8">
             {/* 7 500 */}
             <div className="text-center relative">
               {/* Bullseye circle behind number */}
               <div
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-56 h-56 md:w-72 md:h-72 rounded-full border-2 border-brand-red/20 pointer-events-none"
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 md:w-52 md:h-52 rounded-full border-2 border-brand-red/20 pointer-events-none"
                 aria-hidden="true"
               />
-              <p className="relative text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-display font-extrabold tracking-tighter leading-none">
+              <p className="relative text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-display font-extrabold tracking-tighter leading-none">
                 <CountUp target={7500} duration={2} className="text-white" />
               </p>
-              <div className="relative mt-4 h-px w-12 bg-brand-red/60 mx-auto mb-4" />
-              <p className="relative text-white/70 text-base md:text-lg leading-relaxed max-w-xs mx-auto">
+              <div className="relative mt-3 h-px w-10 bg-brand-red/60 mx-auto mb-3" />
+              <p className="relative text-white/70 text-sm md:text-base leading-relaxed max-w-xs mx-auto">
                 unga har varit hos oss sedan starten 2003
               </p>
             </div>
@@ -434,18 +450,18 @@ export default function HomePage() {
             {/* 3 800 */}
             <div className="text-center relative">
               <div
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-56 h-56 md:w-72 md:h-72 rounded-full border-2 border-white/10 pointer-events-none"
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 md:w-52 md:h-52 rounded-full border-2 border-white/10 pointer-events-none"
                 aria-hidden="true"
               />
-              <p className="relative text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-display font-extrabold tracking-tighter leading-none">
+              <p className="relative text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-display font-extrabold tracking-tighter leading-none">
                 <CountUp
                   target={3800}
                   duration={2}
                   className="text-brand-red-bright"
                 />
               </p>
-              <div className="relative mt-4 h-px w-12 bg-white/30 mx-auto mb-4" />
-              <p className="relative text-white/70 text-base md:text-lg leading-relaxed max-w-xs mx-auto">
+              <div className="relative mt-3 h-px w-10 bg-white/30 mx-auto mb-3" />
+              <p className="relative text-white/70 text-sm md:text-base leading-relaxed max-w-xs mx-auto">
                 har gått vidare till arbete eller studier
               </p>
             </div>
