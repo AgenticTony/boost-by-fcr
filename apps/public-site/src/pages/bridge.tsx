@@ -86,7 +86,7 @@ export default function BridgePage() {
                   </div>
                 ))}
               </div>
-              <p className="text-xs text-white/40 text-center">
+              <p className="text-xs text-white/70 text-center">
                 Finansieras och stöds av
               </p>
               <div className="flex gap-4">

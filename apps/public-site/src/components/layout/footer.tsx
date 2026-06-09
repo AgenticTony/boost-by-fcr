@@ -99,7 +99,7 @@ export function Footer() {
         <Separator className="bg-white/10 mb-8" />
 
         {/* Copyright */}
-        <p className="text-center text-xs text-white/40">
+        <p className="text-center text-xs text-white/70">
           &copy; {`${new Date().getFullYear()}`} Boost by FC Rosengård. Alla
           rättigheter förbehållna.
         </p>
