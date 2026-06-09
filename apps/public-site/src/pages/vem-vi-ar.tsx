@@ -131,6 +131,7 @@ export default function VemViArPage() {
                   alt="Hjärtträd med rötter — symbol för tillväxt, hälsa och gemenskap"
                   className="w-full h-auto rounded-xl object-contain max-h-56 mx-auto"
                   loading="lazy"
+                  decoding="async"
                 />
               </div>
             </div>
@@ -164,6 +165,7 @@ export default function VemViArPage() {
                     alt={p.iconAlt}
                     className="h-20 w-20 md:h-24 md:w-24 object-contain mb-6"
                     loading="lazy"
+                  decoding="async"
                   />
                   <h3 className="font-display font-bold text-lg text-text mb-3">
                     {p.title}
