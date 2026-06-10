@@ -37,8 +37,9 @@ gh pr create --title "<title>" --body "<description>"
 | | |
 |---|---|
 | **Branch** | `fix/p2-mobile-nav` |
+| **PR** | #3 — https://github.com/AgenticTony/boost-by-fcr/pull/3 |
 | **Commits** | `dd7c942` |
-| **Status** | 🔲 Not started |
+| **Status** | ✅ Merged |
 
 **Scope:**
 - Fix mobile nav drawer not rendering with Tailwind v4 + framer-motion
@@ -69,7 +70,7 @@ Fixes the mobile navigation drawer that broke with Tailwind v4 class detection a
 | **Branch** | `feature/p2-production-hardening` |
 | **PR** | #4 — https://github.com/AgenticTony/boost-by-fcr/pull/4 |
 | **Commits** | `52aa3f6`, `e287703` |
-| **Status** | ✅ Pushed, awaiting review |
+| **Status** | ✅ Merged |
 
 **Scope:**
 - Typad API-klient-arkitektur (CMS-agnostic adapter)
