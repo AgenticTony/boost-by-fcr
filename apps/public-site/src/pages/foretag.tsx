@@ -11,6 +11,7 @@ import {
   Network,
   ArrowRight,
 } from "lucide-react";
+import { useSeo } from "@/hooks/use-seo";
 
 const offerings = [
   {
@@ -64,6 +65,12 @@ const steps = [
 ];
 
 export default function ForetagPage() {
+  useSeo({
+    title: "För företag",
+    description:
+      "Samarbeta med Boost — föreläsningar, workshops och inkluderande rekrytering för arbetsgivare som vill göra skillnad.",
+  });
+
   return (
     <>
       <section className="relative bg-brand-navy text-white overflow-hidden">

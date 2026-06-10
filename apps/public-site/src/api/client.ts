@@ -1,86 +1,29 @@
-import {
-  mockNewsArticles,
-  mockTimeline,
-  mockResources,
-  type NewsArticle,
-  type TimelineEntry,
-  type Resource,
-} from "./mock-data";
+/**
+ * API client — barrel re-export.
+ *
+ * All functions delegate to the active adapter (mock now, Umbraco in Sprint 3).
+ * Pages import from here and never touch the adapter directly.
+ */
 
-export type { NewsArticle, TimelineEntry, Resource };
-import { resourceCategoryLabels, formatFileSize } from "@/lib/resource-utils";
+// ─── Adapter singleton (swap here for Sprint 3) ───
+import { createMockAdapter } from "./mock-adapter";
+const adapter = createMockAdapter();
 
-// Simulated API delay
-const delay = (ms: number) => new Promise((r) => setTimeout(r, ms));
+// ─── Types ───
+export type { NewsArticle, TimelineEntry, Resource } from "@/types";
+export type { RegistrationFormData, ContactFormData } from "@/types/forms";
 
-// ─── News ───
+// ─── Data functions ───
 
-export async function fetchNews(): Promise<NewsArticle[]> {
-  await delay(100);
-  return mockNewsArticles;
-}
-
-export async function fetchNewsBySlug(
-  slug: string,
-): Promise<NewsArticle | null> {
-  await delay(100);
-  return mockNewsArticles.find((a) => a.slug === slug) ?? null;
-}
-
-// ─── Timeline ───
-
-export async function fetchTimeline(): Promise<TimelineEntry[]> {
-  await delay(100);
-  return mockTimeline;
-}
-
-// ─── Resources ───
-
-export async function fetchResources(): Promise<Resource[]> {
-  await delay(100);
-  return mockResources;
-}
-
-export async function fetchResourcesByCategory(
-  category: string,
-): Promise<Resource[]> {
-  await delay(100);
-  if (category === "alla") return mockResources;
-  return mockResources.filter((r) => r.category === category);
-}
-
-// ─── Forms ───
-
-export interface RegistrationFormData {
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone: string;
-  track: string;
-  about?: string;
-}
-
-export interface ContactFormData {
-  name: string;
-  email: string;
-  subject: string;
-  message: string;
-}
-
-export async function submitRegistration(
-  _data: RegistrationFormData,
-): Promise<{ success: boolean }> {
-  await delay(800);
-  return { success: true };
-}
-
-export async function submitContact(
-  _data: ContactFormData,
-): Promise<{ success: boolean }> {
-  await delay(800);
-  return { success: true };
-}
+export const fetchNews = () => adapter.fetchNews();
+export const fetchNewsBySlug = (slug: string) => adapter.fetchNewsBySlug(slug);
+export const fetchTimeline = () => adapter.fetchTimeline();
+export const fetchResources = () => adapter.fetchResources();
+export const fetchResourcesByCategory = (category: string) =>
+  adapter.fetchResourcesByCategory(category);
+export const submitRegistration = adapter.submitRegistration.bind(adapter);
+export const submitContact = adapter.submitContact.bind(adapter);
 
 // ─── Category helpers (re-exported for convenience) ───
 
-export { resourceCategoryLabels, formatFileSize };
+export { resourceCategoryLabels, formatFileSize } from "@/lib/resource-utils";

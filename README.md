@@ -1,22 +1,21 @@
 # Boost by FCR — boostbyfcr.se
 
-Website rebuild for Boost by FC Rosengård. Umbraco 13 headless CMS + React frontends.
+Website rebuild for Boost by FC Rosengård. Hygraph headless CMS + React frontends.
 
 ## Architecture
 
 ```
-Umbraco 13 (headless)  →  Delivery API (JSON)  →  React frontends
+Hygraph (headless CMS)  →  GraphQL API  →  React frontends
 ```
 
 ## Monorepo Structure
 
 ```
 apps/
-  cms/            — Umbraco 13 CMS (P1: Marcus, P3: Robert)
   public-site/    — Public React SPA (P2: Anthony)
   locked-area/    — Locked Metodmaterial React SPA (P4: Mohand)
 packages/
-  shared-types/   — Shared TypeScript types (auto-generated from Umbraco)
+  shared-types/   — Shared TypeScript types (auto-generated from Hygraph)
 .github/
   workflows/      — CI/CD pipelines
 ```
@@ -25,10 +24,10 @@ packages/
 
 | Role | Person | Responsibility |
 |------|--------|----------------|
-| P1 | Marcus Karlsson | Umbraco 13 setup, document types, Delivery API, custom endpoints |
 | P2 | Anthony Foran | Public React frontend, all pages, SEO, accessibility |
-| P3 | Robert Czuchra (TL) | Umbraco backoffice customization, Anna's UX, training |
+| P3 | Robert Czuchra (TL) | Backoffice customization, Anna's UX, training |
 | P4 | Mohand | Locked area, Metodmaterial, CI/CD, deployment |
+| TL | Alan ([@al-swe](https://github.com/al-swe)) | Project oversight, development review |
 
 ## Branch Strategy
 
@@ -44,11 +43,13 @@ packages/
 
 ## Tech Stack
 
-### Backend (apps/cms)
-- .NET 8, Umbraco 13 (LTS), SQLite (dev), Azure SQL/Hetzner (prod)
-
 ### Frontend (apps/public-site, apps/locked-area)
-- React 18, TypeScript 5, Vite, Tailwind CSS, shadcn/ui, TanStack Query
+- React 19, TypeScript 6 (strict), Vite, Tailwind CSS v4, shadcn/ui
+- TanStack Query, React Router v7, React Hook Form + Zod
+- react-helmet-async (per-page SEO), Framer Motion
+
+### CMS
+- Hygraph (headless CMS, GraphQL API)
 
 ### Infrastructure
-- GitHub Actions CI/CD, Azure or Hetzner hosting, Cloudflare DNS
+- GitHub Actions CI/CD, Cloudflare DNS

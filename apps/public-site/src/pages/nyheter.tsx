@@ -1,32 +1,25 @@
-import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { Newspaper, ArrowRight } from "lucide-react";
-import { fetchNews } from "@/api/client";
 import { formatDate, categoryLabels, categoryColors } from "@/lib/news-utils";
 import { ResilientImage } from "@/components/ui/resilient-image";
-import type { NewsArticle } from "@/api/mock-data";
+import { useNews } from "@/hooks/use-news";
+import { useSeo } from "@/hooks/use-seo";
 
 export default function NyheterPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const category = searchParams.get("kategori") || "alla";
-  const [articles, setArticles] = useState<NewsArticle[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const { data: allArticles = [], isLoading: loading, error } = useNews();
+  const errorMsg = error ? "Kunde inte ladda nyheter." : null;
 
-  useEffect(() => {
-    setLoading(true);
-    setError(null);
-    fetchNews()
-      .then((data) => {
-        const filtered =
-          category === "alla"
-            ? data
-            : data.filter((a) => a.category === category);
-        setArticles(filtered);
-      })
-      .catch(() => setError("Kunde inte ladda nyheter."))
-      .finally(() => setLoading(false));
-  }, [category]);
+  const articles =
+    category === "alla"
+      ? allArticles
+      : allArticles.filter((a) => a.category === category);
+
+  useSeo({
+    title: "Nyheter",
+    description: "Nyheter och uppdateringar från Boost by FC Rosengård.",
+  });
 
   return (
     <>
@@ -76,9 +69,9 @@ export default function NyheterPage() {
                 />
               ))}
             </div>
-          ) : error ? (
+          ) : errorMsg ? (
             <div className="text-center py-20">
-              <p className="text-text-muted">{error}</p>
+              <p className="text-text-muted">{errorMsg}</p>
             </div>
           ) : articles.length === 0 ? (
             <div className="text-center py-20">

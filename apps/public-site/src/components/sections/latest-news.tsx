@@ -1,27 +1,17 @@
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
-import { fetchNews } from "@/api/client";
 import { categoryLabels, categoryColors } from "@/lib/news-utils";
-import { useEffect, useState } from "react";
-import type { NewsArticle } from "@/api/mock-data";
+import { useNews } from "@/hooks/use-news";
 
 export function LatestNews() {
-  const [articles, setArticles] = useState<NewsArticle[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const { data: articles = [], isLoading: loading, error } = useNews();
+  const errorMsg = error ? "Kunde inte ladda nyheter." : null;
 
-  useEffect(() => {
-    fetchNews()
-      .then((data) => setArticles(data.slice(0, 3)))
-      .catch(() => setError("Kunde inte ladda nyheter."))
-      .finally(() => setLoading(false));
-  }, []);
-
-  if (error) {
+  if (errorMsg) {
     return (
       <section className="py-12 md:py-16">
         <div className="container-page text-center">
-          <p className="text-text-muted">{error}</p>
+          <p className="text-text-muted">{errorMsg}</p>
         </div>
       </section>
     );
@@ -38,6 +28,8 @@ export function LatestNews() {
   }
 
   if (articles.length === 0) return null;
+
+  const displayed = articles.slice(0, 3);
 
   return (
     <section className="py-16 md:py-20 bg-white">
@@ -63,7 +55,7 @@ export function LatestNews() {
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-          {articles.map((article) => (
+          {displayed.map((article) => (
             <Link
               key={article.id}
               to={`/nyheter/${article.slug}`}
