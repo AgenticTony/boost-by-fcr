@@ -19,7 +19,7 @@ export function WaveDivider({
       aria-hidden="true"
     >
       <svg
-        viewBox="0 0 1440 80"
+        viewBox="0 0 1440 50"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         className="w-full h-auto"
@@ -27,13 +27,13 @@ export function WaveDivider({
       >
         {layered && (
           <path
-            d="M0 35C200 70 400 10 720 35C1040 60 1240 5 1440 35V80H0V35Z"
+            d="M0 22C200 44 400 6 720 22C1040 38 1240 3 1440 22V50H0V22Z"
             fill={fill}
             opacity="0.3"
           />
         )}
         <path
-          d="M0 40C240 80 480 0 720 40C960 80 1200 0 1440 40V80H0V40Z"
+          d="M0 25C240 50 480 0 720 25C960 50 1200 0 1440 25V50H0V25Z"
           fill={fill}
         />
       </svg>

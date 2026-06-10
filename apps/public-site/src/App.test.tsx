@@ -25,9 +25,11 @@ describe("App routing", () => {
   it("renders home page at /", async () => {
     renderApp("/");
 
-    // Wait for lazy-loaded page to mount
+    // Wait for lazy-loaded page to mount — check for home page content
     await waitFor(() => {
-      expect(screen.getByText("Till startsidan")).toBeInTheDocument();
+      expect(
+        screen.getAllByText(/Boost by FC Rosengård/).length,
+      ).toBeGreaterThan(0);
     });
   });
 

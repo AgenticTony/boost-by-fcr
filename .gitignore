@@ -54,3 +54,9 @@ Anna_client_docs/
 # Never commit binary docs or debug screenshots to public assets
 *.docx
 screencapture-*
+
+# Vite cache
+.vite/
+
+# Test results
+test-results/

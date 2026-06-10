@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { motion, useReducedMotion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { Sparkles } from "lucide-react";
 import { ParallaxImage } from "@/components/ui/parallax-image";
 import { WaveDivider } from "@/components/ui/wave-divider";
 
