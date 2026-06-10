@@ -375,6 +375,57 @@ Breaks the monolithic 896-line home.tsx into focused, single-responsibility sect
 
 ---
 
+## Day 10 — UI Polish & Page Redesigns
+
+| | |
+|---|---|
+| **Branch** | `feature/p2-ui-polish` |
+| **Commits** | `363a3f2` |
+| **Status** | 🔲 Not started |
+
+**Note:** Must come **after Day 9** — modifies many of the same page files (bridge, foretag, studier, halsosparet, etc.) that were built up across Days 3–9. Cherry-picking earlier will cause merge conflicts.
+
+**Scope:**
+- Red border-bottom separators on all CTA sections (matches homepage FunderLogoBar pattern)
+- Bridge hero: unified card with dividers replaces 3 separate boxes
+- Bridge funders: text labels → navy-boxed logos (EU, Arbetsförmedlingen, Malmö Stad)
+- Vad-vi-gor: add process steps section, card bullet points, bottom CTA
+- Vem-vi-ar: extract into 9 section components, remove redundant IntroSection
+- PromisesSection: 5-in-a-row grid with smaller cards
+- Page improvements: anmal-dig, kontakt, lediga-tjanster, nyheter, press-media, resurser, not-found
+- WaveDivider visibility fix in navy sections
+- Test setup and tsconfig updates
+- Gitignore: add .vite/ and test-results/
+
+**PR title:** `feat(p2): UI polish — CTA separators, page redesigns, component extractions`
+
+**PR body:**
+```
+## What
+UI polish across all pages — visual separators, page redesigns, component extractions.
+
+## Includes
+- Red border-bottom on all bottom CTA sections (consistent with homepage)
+- Bridge hero: unified card pattern with dividers
+- Bridge funders: actual logos in navy boxes
+- Vad-vi-gor: expanded with process steps and bottom CTA
+- Vem-vi-ar: extracted into 9 section components, removed thin intro
+- PromisesSection: 5-column grid layout
+- Page improvements across 7 additional pages
+- WaveDivider visibility fix
+- Gitignore: .vite/ and test-results/
+
+## How to verify
+- `npm run dev` — all pages render correctly
+- Scroll to bottom of any CTA page — red line visible above footer
+- `/bridge` — hero right panel shows unified card with logos
+- `/vad-vi-gor` — 4 sections (hero, cards with bullets, process steps, CTA)
+- `/vem-vi-ar` — hero flows straight into promises grid
+- `npx vitest run` — 120/120 pass
+```
+
+---
+
 ## Side PRs
 
 | Branch | Commits | Title | Status |
@@ -405,4 +456,5 @@ ad73e71  test: add 120 tests across 17 files — unit, hook, component, integrat
 01905b9  refactor: extract home.tsx into 8 section components and shared WaveDivider
 f1382c8  chore: gitignore Anna_client_docs/
 6c1ebeb  docs: add project briefs, brand guide, copy docs, and roadmap prerequisites
+363a3f2  feat: UI polish across all pages — CTA separators, page redesigns, component extractions
 ```
