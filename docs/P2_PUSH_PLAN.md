@@ -67,8 +67,9 @@ Fixes the mobile navigation drawer that broke with Tailwind v4 class detection a
 | | |
 |---|---|
 | **Branch** | `feature/p2-production-hardening` |
+| **PR** | #4 — https://github.com/AgenticTony/boost-by-fcr/pull/4 |
 | **Commits** | `52aa3f6`, `e287703` |
-| **Status** | 🔲 Not started |
+| **Status** | ✅ Pushed, awaiting review |
 
 **Scope:**
 - Typad API-klient-arkitektur (CMS-agnostic adapter)
