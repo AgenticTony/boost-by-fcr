@@ -21,7 +21,12 @@ type Props = {
  * creating a parallax depth effect. Disabled on mobile and when the user
  * prefers reduced motion.
  */
-export function ParallaxImage({ src, alt, speed = 0.3, className }: Props) {
+export function ParallaxImage({
+  src,
+  alt,
+  speed: _speed = 0.3,
+  className,
+}: Props) {
   const prefersReducedMotion = useReducedMotion();
   const ref = useRef<HTMLDivElement>(null);
 
