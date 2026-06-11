@@ -108,8 +108,9 @@ Architecture hardening — API layer, data fetching, error handling, per-page SE
 | | |
 |---|---|
 | **Branch** | `feature/p2-creative-redesign` |
+| **PR** | #5 — https://github.com/AgenticTony/boost-by-fcr/pull/5 |
 | **Commits** | `1fdd8a7` |
-| **Status** | 🔲 Not started |
+| **Status** | ✅ Pushed, awaiting review |
 
 **Scope:**
 - Homepage: animated hero with decorative rings, gradient orbs, pull quote
