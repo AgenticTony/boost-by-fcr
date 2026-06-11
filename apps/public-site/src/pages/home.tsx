@@ -1,80 +1,88 @@
+import { useRef } from "react";
 import { Link } from "react-router-dom";
+import { motion, useReducedMotion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, BookOpen, Briefcase, Heart } from "lucide-react";
-import { LatestNews } from "@/components/sections/latest-news";
-import { ResilientImage } from "@/components/ui/resilient-image";
-import { ScrollReveal } from "@/components/ui/scroll-reveal";
 import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+  ArrowRight,
+  BookOpen,
+  Briefcase,
+  Heart,
+  Sparkles,
+  Quote,
+} from "lucide-react";
+import { CountUp } from "@/components/ui/count-up";
+import { ParallaxImage } from "@/components/ui/parallax-image";
+import { PromiseIcons } from "@/components/sections/promise-icons";
+import { TreeRootsConnector } from "@/components/ui/tree-roots-connector";
+import { LatestNews } from "@/components/sections/latest-news";
+import { ScrollReveal } from "@/components/ui/scroll-reveal";
 import { useSeo } from "@/hooks/use-seo";
 
-const colorMap = {
-  teal: { bg: "bg-brand-teal", hover: "group-hover:border-brand-teal/30" },
-  gold: { bg: "bg-brand-gold", hover: "group-hover:border-brand-gold/30" },
-  emerald: { bg: "bg-success", hover: "group-hover:border-success/30" },
-} as const;
-
-function TrackCard({
-  href,
-  icon: Icon,
-  label,
-  headline,
-  teaser,
-  color,
-  image,
-  imageAlt,
+/* ─── Wave divider (retained from previous version) ─── */
+function WaveDivider({
+  flip = false,
+  color = "white",
+  layered = false,
 }: {
-  href: string;
-  icon: React.ElementType;
-  label: string;
-  headline: string;
-  teaser: string;
-  color: keyof typeof colorMap;
-  image: string;
-  imageAlt: string;
+  flip?: boolean;
+  color?: "white" | "navy" | string;
+  layered?: boolean;
 }) {
-  const c = colorMap[color];
+  const fill =
+    color === "navy" ? "#072D59" : color === "white" ? "#FFFFFF" : color;
   return (
-    <Link
-      to={href}
-      className={`group relative bg-white rounded-2xl overflow-hidden border border-border/60 ${c.hover} hover:shadow-lg transition-all duration-200 hover:-translate-y-1`}
+    <div
+      className={`w-full leading-[0] ${flip ? "rotate-180" : ""}`}
+      aria-hidden="true"
     >
-      <div className="relative h-48 overflow-hidden">
-        <ResilientImage
-          src={image}
-          alt={imageAlt}
-          className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-          fallbackClassName="absolute inset-0 w-full h-full flex items-center justify-center bg-muted/40 text-text-muted/30"
+      <svg
+        viewBox="0 0 1440 80"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        className="w-full h-auto"
+        preserveAspectRatio="none"
+      >
+        {layered && (
+          <path
+            d="M0 35C200 70 400 10 720 35C1040 60 1240 5 1440 35V80H0V35Z"
+            fill={fill}
+            opacity="0.3"
+          />
+        )}
+        <path
+          d="M0 40C240 80 480 0 720 40C960 80 1200 0 1440 40V80H0V40Z"
+          fill={fill}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
-        <div className="absolute bottom-3 left-4">
-          <div
-            className={`inline-flex items-center justify-center h-9 w-9 rounded-lg ${c.bg} text-white`}
-          >
-            <Icon className="h-4 w-4" />
-          </div>
-        </div>
-      </div>
-      <div className="p-6">
-        <p className="text-xs font-body font-medium text-text-muted tracking-wider uppercase mb-2">
-          {label}
-        </p>
-        <h3 className="font-display font-semibold text-xl text-text mb-3 leading-snug">
-          {headline}
-        </h3>
-        <p className="text-sm text-text-muted leading-relaxed">{teaser}</p>
-        <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-brand-navy group-hover:gap-2.5 transition-all">
-          Läs mer <ArrowRight className="h-4 w-4" />
-        </span>
-      </div>
-    </Link>
+      </svg>
+    </div>
   );
 }
 
+/* ─── Staggered word entrance for hero headline ─── */
+function StaggeredLine({
+  children,
+  delay = 0,
+}: {
+  children: React.ReactNode;
+  delay?: number;
+}) {
+  const prefersReducedMotion = useReducedMotion();
+  if (prefersReducedMotion) {
+    return <>{children}</>;
+  }
+  return (
+    <motion.span
+      className="block"
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay, ease: "easeOut" }}
+    >
+      {children}
+    </motion.span>
+  );
+}
+
+/* ─── Funder logo data ─── */
 const funders = [
   { alt: "EU Socialfonden", src: "/images/eu-logo-jordbruksfonden.png" },
   { alt: "Allmänna Arvsfonden", src: "/images/af-logo.png" },
@@ -85,24 +93,18 @@ const funders = [
 function FunderLogoBar() {
   return (
     <section className="bg-brand-navy">
-      <div className="container-page py-12">
-        <p className="text-center text-sm font-body font-medium text-white/60 mb-8">
+      <div className="container-page py-12 md:py-16">
+        <p className="text-center text-sm font-body font-medium text-white/60 mb-10">
           Finansieras och stöds av
         </p>
-        <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12">
+        <div className="flex flex-wrap items-center justify-center gap-10 md:gap-16">
           {funders.map((funder) => (
-            <div
+            <img
               key={funder.alt}
-              className="flex items-center justify-center px-8 py-4 rounded-xl bg-white/5 border border-white/10 opacity-80 grayscale hover:opacity-100 hover:grayscale-0 hover:bg-white/10 transition-all duration-200"
-              role="img"
-              aria-label={funder.alt}
-            >
-              <img
-                src={funder.src}
-                alt={funder.alt}
-                className="h-20 max-w-[160px] w-auto object-contain"
-              />
-            </div>
+              src={funder.src}
+              alt={funder.alt}
+              className="h-14 md:h-16 max-w-[120px] w-auto object-contain opacity-60 grayscale hover:opacity-100 hover:grayscale-0 transition-all duration-300 cursor-pointer"
+            />
           ))}
         </div>
       </div>
@@ -110,353 +112,725 @@ function FunderLogoBar() {
   );
 }
 
+/* ─── Track card variants (each unique) ─── */
+
+function TrackCardWork() {
+  return (
+    <ScrollReveal delay={0}>
+      <Link
+        to="/arbetssokande"
+        className="group block relative bg-brand-navy/[0.03] hover:bg-brand-navy/[0.06] rounded-[2rem] border-l-4 border-brand-navy overflow-hidden transition-all duration-300 cursor-pointer"
+      >
+        <span
+          className="absolute top-4 right-8 md:right-12 font-display font-extrabold text-[6rem] md:text-[9rem] leading-none select-none pointer-events-none text-brand-navy/[0.07]"
+          aria-hidden="true"
+        >
+          01
+        </span>
+        <div className="flex flex-col md:flex-row">
+          {/* Photo */}
+          <div className="relative w-full md:w-64 lg:w-72 flex-shrink-0">
+            <img
+              src="/images/Arbetsspaaret.jpg"
+              alt="Två personer samarbetar vid en dator — arbetsspåret"
+              className="w-full h-48 md:h-full object-cover"
+              loading="lazy"
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent to-brand-navy/[0.03] md:block hidden" />
+          </div>
+          {/* Content */}
+          <div className="px-8 py-10 md:px-12 md:py-14 flex-1">
+            <div className="relative flex flex-col gap-6">
+              <div className="flex-shrink-0">
+                <div className="inline-flex items-center justify-center h-14 w-14 md:h-16 md:w-16 rounded-2xl bg-brand-navy/10 text-brand-navy mb-4 group-hover:scale-110 transition-transform duration-300">
+                  <Briefcase className="h-7 w-7 md:h-8 md:w-8" />
+                </div>
+                <p className="text-xs font-display font-semibold uppercase tracking-widest text-brand-navy/50">
+                  Karriär & arbetsmarknad
+                </p>
+              </div>
+              <div className="flex-1 max-w-xl">
+                <h3 className="text-2xl md:text-3xl lg:text-[2rem] font-display font-extrabold text-text leading-tight mb-4">
+                  Arbetsspåret
+                </h3>
+                <p className="text-text-muted leading-relaxed mb-6 text-base">
+                  Våra aktiviteter i arbetsspåret ger dig verktyg och kunskap
+                  för att navigera på arbetsmarknaden. Finslipa ditt CV,
+                  behärska intervjuer och lär dig att söka arbete på ett
+                  kvalitativt sätt. Vi har också regelbundna träffar med
+                  arbetsgivare.
+                </p>
+                <span className="inline-flex items-center gap-2 text-sm font-semibold text-brand-navy group-hover:gap-3 transition-all duration-300">
+                  Läs mer om arbetsspåret
+                  <ArrowRight className="h-4 w-4" />
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Link>
+    </ScrollReveal>
+  );
+}
+
+function TrackCardStudy() {
+  return (
+    <ScrollReveal delay={0.1}>
+      <Link
+        to="/studier"
+        className="group block relative bg-brand-blue-light/20 hover:bg-brand-blue-light/30 rounded-4xl border-l-4 border-brand-blue-light overflow-hidden lg:ml-6 transition-all duration-300 cursor-pointer"
+      >
+        <span
+          className="absolute top-4 left-8 md:left-12 font-display font-extrabold text-[6rem] md:text-[9rem] leading-none select-none pointer-events-none text-brand-blue-light/40"
+          aria-hidden="true"
+        >
+          02
+        </span>
+        <div className="flex flex-col md:flex-row-reverse">
+          {/* Photo */}
+          <div className="relative w-full md:w-64 lg:w-72 shrink-0">
+            <img
+              src="/images/Studiespaaret.jpg"
+              alt="Grupp i samarbetsmöte — studiespåret"
+              className="w-full h-48 md:h-full object-cover"
+              loading="lazy"
+            />
+            <div className="absolute inset-0 bg-gradient-to-l from-transparent to-brand-blue-light/10 md:block hidden" />
+          </div>
+          {/* Content */}
+          <div className="px-8 py-10 md:pl-80 md:pr-12 md:py-14 flex-1">
+            <div className="relative flex flex-col gap-6">
+              <div className="shrink-0 pl-16 md:pl-0">
+                <div className="inline-flex items-center justify-center h-14 w-14 md:h-16 md:w-16 rounded-2xl bg-brand-blue-light/30 text-brand-navy mb-4 group-hover:scale-110 transition-transform duration-300">
+                  <BookOpen className="h-7 w-7 md:h-8 md:w-8" />
+                </div>
+                <p className="text-xs font-display font-semibold uppercase tracking-widest text-brand-navy/40">
+                  Lärande & vägledning
+                </p>
+              </div>
+              <div className="flex-1 max-w-xl">
+                <h3 className="text-2xl md:text-3xl lg:text-[2rem] font-display font-extrabold text-text leading-tight mb-4">
+                  Studiespåret
+                </h3>
+                <p className="text-text-muted leading-relaxed mb-6 text-base">
+                  Flexibel studiemiljö med enskilda möten med pedagoger. Gå
+                  igenom betyg, studieplanering och vägledning. Två dagar i
+                  veckan har vi studieverkstaden.
+                </p>
+                <span className="inline-flex items-center gap-2 text-sm font-semibold text-brand-navy group-hover:gap-3 transition-all duration-300">
+                  Läs mer om studiespåret
+                  <ArrowRight className="h-4 w-4" />
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Link>
+    </ScrollReveal>
+  );
+}
+
+function TrackCardHealth() {
+  return (
+    <ScrollReveal delay={0.2}>
+      <Link
+        to="/halsosparet"
+        className="group block relative overflow-hidden rounded-4xl border-l-4 border-brand-red cursor-pointer"
+      >
+        <span
+          className="absolute top-4 right-8 md:right-12 z-10 font-display font-extrabold text-[6rem] md:text-[9rem] leading-none select-none pointer-events-none text-brand-red/10"
+          aria-hidden="true"
+        >
+          03
+        </span>
+        <div className="flex flex-col md:flex-row">
+          {/* Photo — left side */}
+          <div className="relative w-full md:w-64 lg:w-72 shrink-0">
+            <img
+              src="/images/fcr-sport.jpg"
+              alt="Grupp spelar innebandy — hälsospåret"
+              className="w-full h-48 md:h-full object-cover"
+              loading="lazy"
+            />
+          </div>
+          {/* Content */}
+          <div className="relative bg-brand-red/3 hover:bg-brand-red/6 px-8 py-10 md:px-12 md:py-14 flex-1 transition-colors duration-300">
+            <div className="flex flex-col gap-6">
+              <div className="shrink-0">
+                <div className="inline-flex items-center justify-center h-14 w-14 md:h-16 md:w-16 rounded-2xl bg-brand-red/10 text-brand-red mb-4 group-hover:scale-110 transition-transform duration-300">
+                  <Heart className="h-7 w-7 md:h-8 md:w-8" />
+                </div>
+                <p className="text-xs font-display font-semibold uppercase tracking-widest text-brand-red/50">
+                  Välmående & självförtroende
+                </p>
+              </div>
+              <div className="flex-1 max-w-xl">
+                <h3 className="text-2xl md:text-3xl lg:text-[2rem] font-display font-extrabold text-text leading-tight mb-4">
+                  Hälsospåret
+                </h3>
+                <p className="text-text-muted leading-relaxed mb-6 text-base">
+                  Främja din hälsa och välmående. Skapa goda rutiner, sätta mål
+                  och Boosta ditt självförtroende — fysisk aktivitet, psykisk
+                  hälsa och kultur.
+                </p>
+                <span className="inline-flex items-center gap-2 text-sm font-semibold text-brand-red group-hover:gap-3 transition-all duration-300">
+                  Läs mer om hälsospåret
+                  <ArrowRight className="h-4 w-4" />
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Link>
+    </ScrollReveal>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════
+   HOMEPAGE — 7 beats, each section unique
+   ═══════════════════════════════════════════════════════════ */
+
 export default function HomePage() {
   useSeo({
     title: "Hem",
     description:
-      "Sedan 2003 har vi hjälpt tusentals unga i Malmö att hitta sin plats på arbetsmarknaden — genom stöd, engagemang och tron på varje persons förmåga.",
+      "Tillsammans bygger vi förutsättningar som ger unga möjlighet att utvecklas, hitta riktning och forma sin framtid.",
   });
+
+  const heroRef = useRef<HTMLDivElement>(null);
+  const prefersReducedMotion = useReducedMotion();
 
   return (
     <>
-      {/* Hero */}
-      <section className="relative bg-brand-navy text-white overflow-hidden">
+      {/* ─── BEAT 1: Hero — Asymmetric split + parallax ─── */}
+      <section
+        ref={heroRef}
+        className="relative bg-brand-navy text-white overflow-hidden"
+      >
+        {/* Visible decorative blob (opacity 0.12, not invisible) */}
         <div
-          className="pointer-events-none absolute inset-0 opacity-[0.03]"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
-          }}
+          className="pointer-events-none absolute -top-20 right-0 w-[600px] h-[600px] rounded-full bg-brand-red/12 blur-[120px]"
+          aria-hidden="true"
         />
-        <div className="pointer-events-none absolute -top-32 -right-32 h-96 w-96 rounded-full bg-brand-gold/10 blur-3xl" />
-        <div className="pointer-events-none absolute -bottom-48 -left-48 h-[500px] w-[500px] rounded-full bg-brand-teal/8 blur-3xl" />
 
-        <div className="container-page relative py-16 md:py-20 lg:py-24">
-          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-            <div className="space-y-7">
-              <div className="flex items-center gap-3">
-                <span className="h-1 w-8 rounded-full bg-brand-gold" />
-                <p className="text-sm font-body font-medium text-brand-gold tracking-widest uppercase">
-                  Sedan 2003
-                </p>
-              </div>
-              <h1 className="text-[2.75rem] sm:text-5xl md:text-[3.5rem] lg:text-[4rem] font-display font-extrabold leading-[1.08] tracking-tight">
-                Din väg.
-                <br />
-                Ditt tempo.
-                <br />
-                <span className="text-brand-gold">Din framtid.</span>
+        <div className="container-page relative py-12 md:py-16 lg:py-20">
+          <div className="grid lg:grid-cols-[1.2fr_1fr] gap-10 lg:gap-12 items-center">
+            {/* Left: Text */}
+            <div>
+              <StaggeredLine delay={0}>
+                <div className="flex items-center gap-3 mb-6">
+                  <Sparkles className="h-4 w-4 text-brand-red-bright" />
+                  <p className="text-sm font-body font-medium text-brand-red-bright tracking-widest uppercase">
+                    Sedan 2003
+                  </p>
+                </div>
+              </StaggeredLine>
+
+              <h1 className="text-[2.75rem] sm:text-[3.5rem] md:text-[4rem] lg:text-[5rem] font-display font-extrabold leading-[0.95] tracking-tight mb-8">
+                <StaggeredLine delay={0.15}>Tillsammans</StaggeredLine>
+                <StaggeredLine delay={0.3}>
+                  <span className="text-brand-red-bright">öppnar vi</span>
+                </StaggeredLine>
+                <StaggeredLine delay={0.45}>vägar framåt</StaggeredLine>
               </h1>
-              <p className="text-lg leading-relaxed text-white/75 max-w-md">
-                Sedan 2003 har vi hjälpt tusentals unga i Malmö att hitta sin
-                plats på arbetsmarknaden — genom stöd, engagemang och tron på
-                varje persons förmåga.
-              </p>
-              <div className="flex flex-wrap gap-4 pt-2">
-                <Button
-                  asChild
-                  size="lg"
-                  className="bg-brand-gold text-brand-navy hover:bg-brand-gold/90 font-display font-semibold rounded-cta px-8 h-12 text-base shadow-lg shadow-brand-gold/20"
-                >
-                  <Link to="/anmal-dig">Anmäl dig</Link>
-                </Button>
-                <Button
-                  asChild
-                  size="lg"
-                  className="border-2 border-white/50 text-white hover:bg-white/10 hover:border-white/70 rounded-cta px-8 h-12 text-base font-display bg-transparent"
-                >
-                  <Link to="#program">Se vad vi erbjuder</Link>
-                </Button>
-              </div>
-            </div>
-            <div className="hidden lg:block">
-              <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl">
-                <img
-                  src="/images/hero1.jpg"
-                  alt="Unga deltagare utomhus på Boost"
-                  className="absolute inset-0 w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-l from-transparent via-transparent to-brand-navy/20" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
-      {/* Impact counter strip */}
-      <section className="relative bg-brand-navy text-white border-t-2 border-brand-gold/30">
-        <div className="container-page py-14 md:py-16">
-          <div className="flex flex-wrap justify-around gap-8 md:gap-4 text-center">
-            {[
-              { number: "200–300", label: "Deltagare får jobb varje år" },
-              { number: "100–150", label: "Börjar studera varje år" },
-              { number: "8 av 10", label: "Deltagare är nöjda med oss" },
-              { number: "2003", label: "Sedan starten" },
-            ].map((stat) => (
-              <div key={stat.label}>
-                <p className="text-4xl md:text-5xl font-display font-extrabold text-brand-gold tracking-tight whitespace-nowrap">
-                  {stat.number}
+              <StaggeredLine delay={0.6}>
+                <p className="text-lg md:text-xl leading-relaxed text-white/70 max-w-lg mb-10">
+                  Vi bygger förutsättningar som ger unga möjlighet att
+                  utvecklas, hitta riktning och forma sin framtid.
                 </p>
-                <p className="mt-2 text-white/60 text-sm md:text-base">
-                  {stat.label}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+              </StaggeredLine>
 
-      {/* Så här jobbar vi — white */}
-      <ScrollReveal>
-        <section className="py-16 md:py-20 bg-white">
-          <div className="container-page">
-            <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-              <div>
-                <p className="text-sm font-body font-medium text-brand-teal tracking-widest uppercase mb-4">
-                  Vårt arbetssätt
-                </p>
-                <h2 className="text-3xl md:text-[2.5rem] font-display font-extrabold text-text leading-tight mb-6">
-                  Ingen behandlas likadant.
-                  <br />
-                  Det är poängen.
-                </h2>
-                <div className="space-y-4 text-text-muted leading-relaxed border-l-2 border-brand-gold/40 pl-5">
-                  <p>
-                    Alla kommer till oss med olika bakgrund, olika drömmar och
-                    olika utmaningar. Därför bygger vi inte ett program och
-                    hoppas att det passar alla — vi lyssnar på dig och anpassar
-                    stödet efter vad just du behöver.
-                  </p>
-                  <p>
-                    När du börjar på Boost får du en personlig vägledare som
-                    hjälper dig att sätta upp mål och lägga en plan. Du väljer
-                    själv vilka insatser du vill ta del av. Vi pushar dig
-                    framåt, men det är du som sitter i förarsätet.
-                  </p>
+              <StaggeredLine delay={0.8}>
+                <div className="flex flex-wrap gap-4">
+                  <Button
+                    asChild
+                    size="lg"
+                    className="bg-brand-red-bright text-white hover:bg-brand-red-bright/90 font-display font-semibold rounded-full px-10 h-14 text-base shadow-lg shadow-brand-red-bright/25 hover:shadow-brand-red-bright/40 hover:scale-[1.02] transition-all duration-300"
+                  >
+                    <Link to="/anmal-dig">Anmälan</Link>
+                  </Button>
+                  <Button
+                    asChild
+                    size="lg"
+                    className="text-white/80 hover:text-white hover:bg-white/10 rounded-full px-8 h-14 text-base font-display bg-transparent border border-white/20 hover:border-white/40 transition-all duration-300"
+                  >
+                    <a href="#program">Se vad vi erbjuder</a>
+                  </Button>
                 </div>
-              </div>
-              <div className="relative">
-                <div className="rounded-2xl overflow-hidden aspect-[4/3] shadow-lg">
+              </StaggeredLine>
+            </div>
+
+            {/* Right: Photo with parallax, bleeds to edge on desktop */}
+            <div className="hidden lg:block relative">
+              {prefersReducedMotion ? (
+                <div className="relative aspect-[3/4] rounded-l-[2rem] overflow-hidden shadow-2xl ring-1 ring-white/10 max-w-[420px] ml-auto">
                   <img
-                    src="/images/Vaar_ide.jpg"
-                    alt="Vägledare och deltagare i samtal"
-                    className="absolute inset-0 w-full h-full object-cover"
+                    src="/images/deltagare_boostbyfcr_pa_trappa-scaled.jpg"
+                    alt="Unga deltagare utomhus på Boost"
+                    className="w-full h-full object-cover"
                   />
+                  <div className="absolute inset-0 bg-gradient-to-t from-brand-navy/20 via-transparent to-transparent" />
+                  <div className="absolute bottom-5 left-1/2 -translate-x-1/2 bg-brand-navy/80 backdrop-blur-sm text-white px-4 py-2 rounded-lg font-display font-bold text-sm shadow-lg">
+                    Bli en del av Boost
+                  </div>
                 </div>
-              </div>
+              ) : (
+                <motion.div
+                  initial={{ opacity: 0, x: 80 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.7, delay: 0.4, ease: "easeOut" }}
+                  className="relative max-w-[420px] ml-auto"
+                >
+                  <ParallaxImage
+                    src="/images/deltagare_boostbyfcr_pa_trappa-scaled.jpg"
+                    alt="Unga deltagare utomhus på Boost"
+                    speed={0.3}
+                    className="aspect-[3/4] rounded-l-[2rem] shadow-2xl ring-1 ring-white/10"
+                  />
+                  <div className="absolute inset-0 rounded-l-[2rem] bg-gradient-to-t from-brand-navy/20 via-transparent to-transparent pointer-events-none" />
+                  <div className="absolute bottom-5 left-1/2 -translate-x-1/2 bg-brand-navy/80 backdrop-blur-sm text-white px-4 py-2 rounded-lg font-display font-bold text-sm shadow-lg">
+                    Bli en del av Boost
+                  </div>
+                </motion.div>
+              )}
             </div>
           </div>
-        </section>
-      </ScrollReveal>
+        </div>
 
-      {/* Tre spår — tint */}
+        <WaveDivider color="navy" layered />
+      </section>
+
+      {/* ─── BEAT 2: Impact Stats — Count-up numbers ─── */}
+      <section className="relative bg-brand-navy text-white py-10 md:py-14">
+        <div className="container-page relative">
+          <p className="text-center text-white/75 text-sm md:text-base font-body tracking-wide mb-10 md:mb-14">
+            Bakom varje siffra finns en människa som tagit ett steg framåt
+          </p>
+
+          <div className="grid md:grid-cols-2 gap-12 md:gap-20 max-w-4xl mx-auto mb-10">
+            {/* 7 500 */}
+            <div className="text-center relative">
+              {/* Bullseye circle behind number */}
+              <div
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-56 h-56 md:w-72 md:h-72 rounded-full border-2 border-brand-red/20 pointer-events-none"
+                aria-hidden="true"
+              />
+              <p className="relative text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-display font-extrabold tracking-tighter leading-none">
+                <CountUp target={7500} duration={2} className="text-white" />
+              </p>
+              <div className="relative mt-4 h-px w-12 bg-brand-red/60 mx-auto mb-4" />
+              <p className="relative text-white/70 text-base md:text-lg leading-relaxed max-w-xs mx-auto">
+                unga har varit hos oss sedan starten 2003
+              </p>
+            </div>
+
+            {/* 3 800 */}
+            <div className="text-center relative">
+              <div
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-56 h-56 md:w-72 md:h-72 rounded-full border-2 border-white/10 pointer-events-none"
+                aria-hidden="true"
+              />
+              <p className="relative text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-display font-extrabold tracking-tighter leading-none">
+                <CountUp
+                  target={3800}
+                  duration={2}
+                  className="text-brand-red-bright"
+                />
+              </p>
+              <div className="relative mt-4 h-px w-12 bg-white/30 mx-auto mb-4" />
+              <p className="relative text-white/70 text-base md:text-lg leading-relaxed max-w-xs mx-auto">
+                har gått vidare till arbete eller studier
+              </p>
+            </div>
+          </div>
+
+          {/* Supporting stats */}
+          <div className="flex flex-wrap justify-center gap-x-12 gap-y-4 text-white/75 text-sm">
+            <span className="flex items-center gap-2">
+              <span className="h-1.5 w-1.5 rounded-full bg-brand-red/60" />8 av
+              10 nöjda deltagare
+            </span>
+            <span className="flex items-center gap-2">
+              <span className="h-1.5 w-1.5 rounded-full bg-white/30" />
+              Verksamma sedan 2003
+            </span>
+          </div>
+        </div>
+      </section>
+
+      <WaveDivider color="#072d59" flip layered />
+
+      {/* ─── BEAT 3: Promise / Quote — Calm breather ─── */}
       <ScrollReveal>
-        <section id="program" className="py-16 md:py-20 bg-muted/60">
+        <section className="py-16 md:py-24 bg-surface">
           <div className="container-page">
-            <h2 className="text-3xl md:text-[2.5rem] font-display font-extrabold text-text leading-tight mb-4">
-              Välj ditt spår
-            </h2>
-            <p className="text-text-muted mb-14 max-w-xl leading-relaxed">
-              Oavsett om du vill komma ut i jobb, slutföra dina studier eller
-              stärka din hälsa — vi har ett spår för dig. Och du behöver inte
-              välja bara ett.
-            </p>
-            <div className="grid md:grid-cols-3 gap-6 md:gap-8">
-              <TrackCard
-                href="/studier"
-                icon={BookOpen}
-                label="Studier"
-                headline="Lär dig i din egen takt"
-                teaser="Legitimerade lärare, individuell studieplanering och vägledning hela vägen från betygsöversyn till skolstart."
-                color="teal"
-                image="/images/Studiespaaret.jpg"
-                imageAlt="Deltagare i klassrum på Boost"
-              />
-              <TrackCard
-                href="/arbetssokande"
-                icon={Briefcase}
-                label="Arbete"
-                headline="Ta kontrollen över din karriär"
-                teaser="CV-genomgång, intervjuträning, arbetsmarknadskunskap och ett brett nätverk av arbetsgivare som aktivt söker våra deltagare."
-                color="gold"
-                image="/images/Arbetsspaaret.jpg"
-                imageAlt="Deltagare jobbar tillsammans vid dator"
-              />
-              <TrackCard
-                href="/halsosparet"
-                icon={Heart}
-                label="Hälsa"
-                headline="Kropp och knopp i balans"
-                teaser="Fysisk träning, kostworkshops, sömnstöd och samtal om välmående. För att orka ta nästa steg behöver du må bra."
-                color="emerald"
-                image="/images/Haelsospaaret.jpeg"
-                imageAlt="Deltagare tränar tillsammans"
-              />
+            <div className="max-w-3xl mx-auto text-center">
+              <Quote className="h-10 w-10 text-brand-red/20 mx-auto mb-6" />
+              <blockquote className="text-2xl md:text-4xl lg:text-[2.75rem] font-display font-extrabold text-text leading-snug mb-8">
+                Varje ung människa bär på en{" "}
+                <span className="text-brand-red">unik potential</span> — det är
+                vår uppgift att hjälpa dem att hitta den
+              </blockquote>
+              <div className="flex items-center justify-center gap-3 mb-12">
+                <div className="h-px w-12 bg-brand-navy/20" />
+                <p className="text-sm font-body font-medium text-text-muted">
+                  Våra löften
+                </p>
+                <div className="h-px w-12 bg-brand-navy/20" />
+              </div>
+              <PromiseIcons />
             </div>
           </div>
         </section>
       </ScrollReveal>
 
-      {/* Bridge by FCR — two-column navy band */}
-      <ScrollReveal>
-        <section className="bg-brand-navy text-white overflow-hidden">
-          <div className="pointer-events-none absolute top-0 right-0 h-64 w-64 bg-brand-gold/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3" />
-          <div className="container-page py-16 md:py-20">
-            <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-              <div className="relative">
-                <p className="text-xs font-body font-medium text-brand-gold tracking-widest uppercase mb-4">
+      {/* ─── BEAT 4: Three Tracks — Each card unique ─── */}
+      <section
+        id="program"
+        className="py-20 md:py-28 bg-white relative overflow-hidden"
+      >
+        <TreeRootsConnector />
+
+        <div className="container-page relative">
+          <div className="max-w-2xl mb-16 md:mb-20">
+            <p className="text-sm font-body font-medium text-brand-red tracking-widest uppercase mb-4">
+              Tre vägar framåt
+            </p>
+            <h2 className="text-3xl md:text-[2.75rem] font-display font-extrabold text-text leading-tight mb-5">
+              Våra tre spår
+            </h2>
+            <p className="text-text-muted leading-relaxed text-lg">
+              Som ett träd växer från en gemensam rot men sträcker sig åt olika
+              håll, erbjuder vi tre spår som alla utgår från samma värdegrund —
+              varje individs unika potential.
+            </p>
+          </div>
+
+          <div className="space-y-6 md:space-y-8">
+            <TrackCardWork />
+            <TrackCardStudy />
+            <TrackCardHealth />
+          </div>
+        </div>
+      </section>
+
+      {/* ─── BEAT 5: Bridge by FCR — Floating glass card ─── */}
+      <ScrollReveal direction="left">
+        <section className="relative bg-brand-navy text-white overflow-hidden">
+          {/* Visible red organic shape */}
+          <div
+            className="pointer-events-none absolute -top-20 -right-20 w-72 h-72 rounded-full bg-brand-red/15 blur-[80px]"
+            aria-hidden="true"
+          />
+
+          <div className="container-page relative py-16 md:py-24">
+            <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-start">
+              {/* Left: Text content */}
+              <div>
+                <p className="text-xs font-body font-medium text-brand-red tracking-widest uppercase mb-5">
                   ESF-projekt
                 </p>
-                <h2 className="text-2xl md:text-3xl font-display font-extrabold mb-5 leading-tight">
-                  Är du 18–29 och inskriven på Arbetsförmedlingen?
+                <h2 className="text-2xl md:text-4xl font-display font-extrabold mb-3 leading-tight">
+                  Är du mellan 18–29 år och inskriven på Arbetsförmedlingen?
                 </h2>
-                <p className="text-white/75 leading-relaxed mb-8">
-                  Då kan du delta i Bridge by FCR — vårt ESF-finansierade
-                  projekt som ger dig intensivt stöd mot arbete eller studier.
-                  Vi samarbetar nära med Arbetsförmedlingen och Malmö stad, och
-                  finns här för att fylla det glapp som annars är svårt att
-                  navigera på egen hand.
+                <p className="text-xl font-display font-semibold text-brand-blue-light mb-6">
+                  Anmäl dig till Bridge by FC Rosengård
                 </p>
-                <Button
-                  asChild
-                  className="bg-brand-gold text-brand-navy hover:bg-brand-gold/90 font-display font-semibold rounded-cta h-11"
-                >
-                  <Link to="/anmal-dig">
-                    Anmäl dig till Bridge
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </Link>
-                </Button>
+                <div className="space-y-4 text-white/70 leading-relaxed">
+                  <p>
+                    Bridge by FC Rosengård är ett ESF‑finansierat projekt för
+                    unga vuxna som vill hitta vägar vidare mot arbete eller
+                    studier. Vi vet att det kan vara svårt att navigera bland
+                    alla möjligheter, och därför erbjuder vi stöd som utgår från
+                    dina mål och förutsättningar.
+                  </p>
+                  <p>
+                    Med Boostmodellen som grund kombinerar vi vägledning, stöd i
+                    studier, studiebesök, motivationshöjande insatser och
+                    hälsofrämjande aktiviteter. Du får hjälp med allt som rör
+                    arbetssökande — från CV och intervjuträning till att förstå
+                    arbetsmarknaden.
+                  </p>
+                </div>
+                <div className="mt-8">
+                  <Button
+                    asChild
+                    className="bg-brand-red text-white hover:bg-brand-red/90 font-display font-semibold rounded-full h-12 px-8 shadow-lg shadow-brand-red/20 hover:shadow-brand-red/40 hover:scale-[1.02] transition-all duration-300"
+                  >
+                    <Link to="/anmal-dig">
+                      Anmäl dig till Bridge
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Link>
+                  </Button>
+                </div>
               </div>
-              <div className="hidden lg:flex flex-col justify-center gap-6">
-                <div className="flex gap-3">
+
+              {/* Right: Floating glass card */}
+              <motion.div
+                initial={
+                  prefersReducedMotion ? false : { opacity: 0, scale: 0.95 }
+                }
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
+                className="space-y-6"
+              >
+                {/* Fact chips */}
+                <div className="grid grid-cols-3 gap-3">
                   {[
                     { label: "18–29", sub: "år" },
                     { label: "ESF", sub: "finansierat" },
                     { label: "AF", sub: "samarbete" },
-                  ].map((chip) => (
-                    <div
+                  ].map((chip, i) => (
+                    <motion.div
                       key={chip.label}
-                      className="flex-1 flex flex-col items-center justify-center py-4 rounded-xl bg-white/[0.07] border border-white/10"
+                      initial={
+                        prefersReducedMotion ? false : { opacity: 0, y: 10 }
+                      }
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.3, delay: i * 0.1 }}
+                      className="flex flex-col items-center justify-center py-5 rounded-full bg-white/10"
                     >
-                      <span className="text-2xl font-display font-extrabold text-brand-gold">
+                      <span className="text-2xl font-display font-extrabold text-white">
                         {chip.label}
                       </span>
-                      <span className="text-xs text-white/50 mt-1">
+                      <span className="text-xs text-white/60 mt-1">
                         {chip.sub}
                       </span>
-                    </div>
+                    </motion.div>
                   ))}
                 </div>
-                <p className="text-xs text-white/40 text-center">
-                  Finansieras och stöds av
-                </p>
-                <div className="flex gap-4">
+
+                {/* Vision quote */}
+                <div className="rounded-2xl bg-white/[0.06] backdrop-blur-sm p-6 border border-white/10 border-l-4 border-l-brand-red">
+                  <p className="text-xs font-medium text-white/50 uppercase tracking-wider mb-2">
+                    Vår vision
+                  </p>
+                  <p className="text-white/75 leading-relaxed italic text-lg">
+                    "En inkluderande arbetsmarknad som tar tillvara på alla
+                    individers drömmar, kompetenser och vilja att bidra."
+                  </p>
+                </div>
+
+                {/* Logos */}
+                <div className="flex items-center gap-6 pt-2">
                   {[
                     {
                       alt: "EU Socialfonden",
                       src: "/images/eu-logo-jordbruksfonden.png",
                     },
                     {
-                      alt: "Malmö Stad",
-                      src: "/images/malmostad-logo2013-inv.png",
+                      alt: "Arbetsförmedlingen",
+                      src: "/images/af-logo.png",
                     },
                     {
                       alt: "FC Rosengård",
                       src: "/images/FCR_logo_2014_CMYK.png",
                     },
                   ].map((logo) => (
-                    <div
+                    <img
                       key={logo.alt}
-                      className="flex-1 flex items-center justify-center py-5 px-4 rounded-xl bg-white/[0.07] border border-white/10"
-                    >
-                      <img
-                        src={logo.src}
-                        alt={logo.alt}
-                        className="h-14 max-w-[110px] w-auto object-contain"
-                      />
-                    </div>
+                      src={logo.src}
+                      alt={logo.alt}
+                      className="h-12 max-w-[90px] w-auto object-contain opacity-50 hover:opacity-100 transition-opacity cursor-pointer"
+                    />
                   ))}
                 </div>
-              </div>
+              </motion.div>
             </div>
           </div>
         </section>
       </ScrollReveal>
 
-      {/* Senaste från Boost — white */}
+      <WaveDivider color="#072d59" flip layered />
+
+      {/* ─── BEAT 6: Om Boost + Inclusion ─── */}
+      <section className="relative overflow-hidden bg-white">
+        <div className="grid lg:grid-cols-2 min-h-[50vh] lg:min-h-[60vh]">
+          {/* Full-bleed video */}
+          <div className="relative order-2 lg:order-1 overflow-hidden">
+            <video
+              autoPlay
+              muted
+              loop
+              playsInline
+              className="absolute inset-0 w-full h-full object-cover"
+              poster="/images/illustration-hands-heart.jpg"
+            >
+              <source src="/images/hand-heart.mp4" type="video/mp4" />
+            </video>
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent to-white/60 lg:block hidden pointer-events-none" />
+          </div>
+
+          {/* Text card */}
+          <ScrollReveal direction="right">
+            <div className="order-1 lg:order-2 flex items-center py-16 md:py-24 px-8 md:px-16 lg:px-40">
+              <div className="max-w-md">
+                <p className="text-sm font-body font-medium text-brand-navy tracking-widest uppercase mb-4">
+                  Om Boost by FC Rosengård
+                </p>
+                <h2 className="text-3xl md:text-4xl font-display font-extrabold text-text leading-tight mb-6">
+                  Vi skapar relationer som öppnar dörrar vidare
+                </h2>
+                <p className="text-text-muted leading-relaxed text-lg mb-8">
+                  Boost by FC Rosengård är en ideell förening som stöttar unga
+                  att hitta vägar vidare mot arbete, studier och en hållbar
+                  framtid. Vi kombinerar vägledning, aktiviteter och ett starkt
+                  nätverk för att skapa konkreta möjligheter. Vårt arbetssätt
+                  bygger på en helhetssyn där varje individ får stöd utifrån
+                  sina egna mål och förutsättningar.
+                </p>
+
+                <div className="h-px bg-border mb-8" />
+
+                <div className="flex items-center gap-3 mb-4">
+                  <Heart className="h-5 w-5 text-brand-red" />
+                  <p className="text-sm font-body font-medium text-brand-red tracking-widest uppercase">
+                    Inkludering
+                  </p>
+                </div>
+                <h3 className="text-2xl md:text-3xl font-display font-extrabold text-text leading-tight mb-4">
+                  Ingen ska behöva stå utanför
+                </h3>
+                <p className="text-text-muted leading-relaxed text-lg">
+                  Vi sätter individen i centrum och tror på varje människas inre
+                  kapacitet och vilja. Hos oss ska det vara enkelt att kliva in
+                  — oavsett bakgrund, erfarenheter eller var man befinner sig i
+                  livet.
+                </p>
+              </div>
+            </div>
+          </ScrollReveal>
+        </div>
+      </section>
+
+      {/* ─── BEAT 7: Progress / Selfmade & Strong ─── */}
+      <section className="relative bg-gradient-to-b from-white via-white to-brand-blue-light/10 overflow-hidden">
+        <div className="container-page py-16 md:py-24">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            {/* Image */}
+            <ScrollReveal>
+              <div className="relative">
+                <motion.div
+                  className="relative"
+                  initial={
+                    prefersReducedMotion ? false : { scale: 0.95, opacity: 0 }
+                  }
+                  whileInView={{ scale: 1, opacity: 1 }}
+                  viewport={{ once: true }}
+                  transition={{
+                    duration: 0.6,
+                    type: "spring",
+                    stiffness: 100,
+                  }}
+                >
+                  <div className="absolute -inset-4 rounded-3xl bg-brand-red/10 -rotate-1" />
+                  <div className="absolute -bottom-4 -right-4 w-20 h-20 rounded-full bg-brand-blue-light/20" />
+                  <img
+                    src="/images/tree_selfmade.png"
+                    alt="Selfmade & Strong — gruppvägledning för personlig utveckling"
+                    className="relative w-full h-auto rounded-3xl shadow-lg"
+                    loading="lazy"
+                  />
+                </motion.div>
+              </div>
+            </ScrollReveal>
+
+            <div className="lg:pl-24">
+              <div className="mb-8">
+                <p className="text-sm font-body font-medium text-brand-navy tracking-widest uppercase mb-3">
+                  Allmänna Arvsfonden
+                </p>
+                <h2 className="text-3xl md:text-[2.5rem] font-display font-extrabold text-text leading-tight mb-4">
+                  Selfmade & Strong
+                </h2>
+                <p className="text-brand-red font-display font-semibold text-lg mb-4">
+                  Progress by FCR
+                </p>
+                <div className="space-y-4 text-text-muted leading-relaxed">
+                  <p>
+                    Med stöd från <strong>Allmänna Arvsfonden</strong> driver vi
+                    Progress by FCR, där vi tar fram en handbok i programmet{" "}
+                    <strong>Selfmade & Strong</strong>. Programmet syftar till
+                    att öka ungas motivation och förbättra deras hälsa.
+                  </p>
+                  <p>
+                    Selfmade & Strong sker genom gruppvägledning och är anpassad
+                    för unga med olika bakgrunder och utmaningar. Fokus ligger
+                    på att stärka varje individ så att de kan växa utifrån sina
+                    egna förutsättningar.
+                  </p>
+                </div>
+              </div>
+
+              {/* Results */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+                {[
+                  {
+                    label: "Ökad motivation till arbete",
+                  },
+                  {
+                    label: "Stärkt hälsomedvetenhet",
+                  },
+                  {
+                    label: "Fler med tydliga framtidsmål",
+                  },
+                ].map((result) => (
+                  <div
+                    key={result.label}
+                    className="flex items-start gap-2 text-sm text-text-muted"
+                  >
+                    <span className="mt-1 h-1.5 w-1.5 rounded-full bg-brand-red shrink-0" />
+                    {result.label}
+                  </div>
+                ))}
+              </div>
+
+              {/* Themes card */}
+              <div className="rounded-4xl bg-brand-navy/3 p-8 border border-brand-navy/4">
+                <h3 className="font-display font-semibold text-lg text-text mb-6">
+                  Teman i programmet
+                </h3>
+                <div className="grid grid-cols-2 gap-4">
+                  {[
+                    "Förhållningssätt",
+                    "Självkänsla & självförtroende",
+                    "Motivation",
+                    "Målsättning",
+                    "Personligt ledarskap",
+                  ].map((theme) => (
+                    <div
+                      key={theme}
+                      className="flex items-center gap-2 text-sm text-text-muted"
+                    >
+                      <span className="h-1.5 w-1.5 rounded-full bg-brand-navy/40 shrink-0" />
+                      {theme}
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Participant quote */}
+              <div className="mt-8 pl-4 border-l-4 border-brand-red/40">
+                <p className="text-text-muted italic leading-relaxed text-base">
+                  "Jag tar med mig bättre självförtroende och en känsla av att
+                  jag faktiskt kan påverka min egen framtid."
+                </p>
+                <p className="text-sm text-text-muted/60 mt-2 font-medium">
+                  — Albin, deltagare
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── Senaste från Boost ─── */}
       <LatestNews />
 
-      {/* FAQ — tint */}
-      <ScrollReveal>
-        <section className="py-16 md:py-20 bg-muted/60">
-          <div className="container-page max-w-2xl">
-            <h2 className="text-3xl md:text-[2.5rem] font-display font-extrabold text-text leading-tight mb-10">
-              Vanliga frågor
-            </h2>
-            <Accordion type="single" collapsible className="mb-10">
-              <AccordionItem value="job-chance">
-                <AccordionTrigger>
-                  Hur stor är chansen att jag får jobb?
-                </AccordionTrigger>
-                <AccordionContent>
-                  <p className="text-text-muted leading-relaxed">
-                    Stor. Vi har ett brett nätverk av arbetsgivare som aktivt
-                    kontaktar oss när de ska rekrytera — och vi gör allt vi kan
-                    för att lyfta fram de deltagare som är redo. Varje år går
-                    200 till 300 av våra deltagare vidare till anställning.
-                  </p>
-                </AccordionContent>
-              </AccordionItem>
-              <AccordionItem value="dont-know">
-                <AccordionTrigger>
-                  Vad händer om jag inte vet vad jag vill göra?
-                </AccordionTrigger>
-                <AccordionContent>
-                  <p className="text-text-muted leading-relaxed">
-                    Det är vanligare än du tror — och precis det vi är bra på.
-                    Tillsammans med din vägledare utforskar du olika vägar,
-                    testar vad som känns rätt och bygger en plan utifrån det. Du
-                    behöver inte ha svaren redan när du kliver in genom dörren.
-                  </p>
-                </AccordionContent>
-              </AccordionItem>
-              <AccordionItem value="cost">
-                <AccordionTrigger>Kostar det något?</AccordionTrigger>
-                <AccordionContent>
-                  <p className="text-text-muted leading-relaxed">
-                    Ingenting. Alla våra program är gratis för deltagare. Vi
-                    finansieras av EU:s Socialfond, Allmänna Arvsfonden, Malmö
-                    stad och andra partners.
-                  </p>
-                </AccordionContent>
-              </AccordionItem>
-              <AccordionItem value="choose-track">
-                <AccordionTrigger>
-                  Måste jag välja ett spår direkt?
-                </AccordionTrigger>
-                <AccordionContent>
-                  <p className="text-text-muted leading-relaxed">
-                    Nej. Många deltagare börjar utan att veta exakt vad de vill
-                    göra. Din personliga vägledare hjälper dig att utforska
-                    olika vägar och hitta det som passar dig. Du kan också delta
-                    i insatser från flera spår samtidigt.
-                  </p>
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
-            <p>
-              <Link
-                to="/vanliga-fragor"
-                className="text-brand-teal font-medium hover:underline inline-flex items-center gap-1.5 text-sm"
-              >
-                Fler frågor? Se alla svar
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-            </p>
-          </div>
-        </section>
-      </ScrollReveal>
-
-      {/* Funder logo bar */}
+      {/* ─── Funder logo bar ─── */}
       <FunderLogoBar />
     </>
   );

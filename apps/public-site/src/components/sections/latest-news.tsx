@@ -37,8 +37,8 @@ export function LatestNews() {
         <div className="flex items-end justify-between mb-10">
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <span className="h-1 w-8 rounded-full bg-brand-gold" />
-              <p className="text-sm font-body font-medium text-brand-teal tracking-widest uppercase">
+              <span className="h-1 w-8 rounded-full bg-brand-red" />
+              <p className="text-sm font-body font-medium text-brand-navy tracking-widest uppercase">
                 Aktuellt
               </p>
             </div>
@@ -48,7 +48,7 @@ export function LatestNews() {
           </div>
           <Link
             to="/nyheter"
-            className="hidden md:inline-flex items-center gap-1.5 text-sm font-medium text-brand-teal hover:underline"
+            className="hidden md:inline-flex items-center gap-1.5 text-sm font-medium text-brand-navy hover:underline"
           >
             Se alla nyheter <ArrowRight className="h-4 w-4" />
           </Link>
@@ -103,7 +103,7 @@ export function LatestNews() {
         <div className="md:hidden mt-8 text-center">
           <Link
             to="/nyheter"
-            className="inline-flex items-center gap-1.5 text-sm font-medium text-brand-teal hover:underline"
+            className="inline-flex items-center gap-1.5 text-sm font-medium text-brand-navy hover:underline"
           >
             Se alla nyheter <ArrowRight className="h-4 w-4" />
           </Link>

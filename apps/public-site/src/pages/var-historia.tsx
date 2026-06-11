@@ -17,9 +17,9 @@ export default function VarHistoriaPage() {
   return (
     <>
       <section className="relative bg-brand-navy text-white overflow-hidden">
-        <div className="pointer-events-none absolute -bottom-48 -left-48 h-[500px] w-[500px] rounded-full bg-brand-gold/8 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-48 -left-48 h-[500px] w-[500px] rounded-full bg-brand-red/8 blur-3xl" />
         <div className="container-page relative py-20 md:py-28">
-          <p className="text-xs font-body font-medium text-brand-gold tracking-widest uppercase mb-4">
+          <p className="text-xs font-body font-medium text-brand-red tracking-widest uppercase mb-4">
             Vår historia
           </p>
           <h1 className="text-4xl md:text-5xl lg:text-[3.5rem] font-display font-extrabold leading-tight mb-4">
@@ -47,7 +47,7 @@ export default function VarHistoriaPage() {
                 !errorMsg &&
                 timeline.map((entry) => (
                   <div key={entry.id} className="relative pl-12">
-                    <div className="absolute left-0 top-1.5 h-10 w-10 rounded-full bg-brand-gold flex items-center justify-center">
+                    <div className="absolute left-0 top-1.5 h-10 w-10 rounded-full bg-brand-red flex items-center justify-center">
                       <span className="text-xs font-display font-extrabold text-brand-navy">
                         {entry.year}
                       </span>
@@ -82,7 +82,7 @@ export default function VarHistoriaPage() {
             <Button
               asChild
               size="lg"
-              className="bg-brand-gold text-brand-navy hover:bg-brand-gold/90 font-display font-semibold rounded-cta px-8 h-12 shadow-lg shadow-brand-gold/20"
+              className="bg-brand-red text-brand-navy hover:bg-brand-red/90 font-display font-semibold rounded-cta px-8 h-12 shadow-lg shadow-brand-red/20"
             >
               <Link to="/anmal-dig">
                 Anmäl dig <ArrowRight className="ml-2 h-4 w-4" />
