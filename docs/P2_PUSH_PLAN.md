@@ -205,7 +205,8 @@ Full UX audit fixes — accessibility, SEO structured data, image optimization.
 |---|---|
 | **Branch** | `feature/p2-polish` |
 | **Commits** | `29b33cc`, `377c596` |
-| **Status** | 🔲 Not started |
+| **PR** | #8 — https://github.com/AgenticTony/boost-by-fcr/pull/8 |
+| **Status** | ✅ Pushed, awaiting review |
 
 **Scope:**
 - ESF section: 3-tier layout (icon fact chips → vision quote → glass logo plate)
