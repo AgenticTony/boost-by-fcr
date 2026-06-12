@@ -155,7 +155,9 @@ Visual redesign following Anna's brand direction — Montserrat, navy/red/cream 
 |---|---|
 | **Branch** | `feature/p2-ux-audit` |
 | **Commits** | `828d7d6`, `ee3980a` |
-| **Status** | 🔲 Not started |
+| **PR** | #6 — https://github.com/AgenticTony/boost-by-fcr/pull/6 |
+| **Commits** | `828d7d6`, `ee3980a` |
+| **Status** | ✅ Pushed, awaiting review |
 
 **Scope:**
 - Hero alt text on 4 program pages (descriptive Swedish alt)
