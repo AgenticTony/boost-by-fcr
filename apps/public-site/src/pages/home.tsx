@@ -6,9 +6,12 @@ import {
   ArrowRight,
   BookOpen,
   Briefcase,
+  Handshake,
   Heart,
+  Landmark,
   Sparkles,
   Quote,
+  Users,
 } from "lucide-react";
 import { CountUp } from "@/components/ui/count-up";
 import { ParallaxImage } from "@/components/ui/parallax-image";
@@ -135,6 +138,7 @@ function TrackCardWork() {
               alt="Två personer samarbetar vid en dator — arbetsspåret"
               className="w-full h-48 md:h-full object-cover"
               loading="lazy"
+              decoding="async"
             />
             <div className="absolute inset-0 bg-gradient-to-r from-transparent to-brand-navy/[0.03] md:block hidden" />
           </div>
@@ -194,6 +198,7 @@ function TrackCardStudy() {
               alt="Grupp i samarbetsmöte — studiespåret"
               className="w-full h-48 md:h-full object-cover"
               loading="lazy"
+              decoding="async"
             />
             <div className="absolute inset-0 bg-gradient-to-l from-transparent to-brand-blue-light/10 md:block hidden" />
           </div>
@@ -251,6 +256,7 @@ function TrackCardHealth() {
               alt="Grupp spelar innebandy — hälsospåret"
               className="w-full h-48 md:h-full object-cover"
               loading="lazy"
+              decoding="async"
             />
           </div>
           {/* Content */}
@@ -260,7 +266,7 @@ function TrackCardHealth() {
                 <div className="inline-flex items-center justify-center h-14 w-14 md:h-16 md:w-16 rounded-2xl bg-brand-red/10 text-brand-red mb-4 group-hover:scale-110 transition-transform duration-300">
                   <Heart className="h-7 w-7 md:h-8 md:w-8" />
                 </div>
-                <p className="text-xs font-display font-semibold uppercase tracking-widest text-brand-red/50">
+                <p className="text-xs font-display font-semibold uppercase tracking-widest text-brand-red/80">
                   Välmående & självförtroende
                 </p>
               </div>
@@ -576,31 +582,48 @@ export default function HomePage() {
                 transition={{ duration: 0.5 }}
                 className="space-y-6"
               >
-                {/* Fact chips */}
-                <div className="grid grid-cols-3 gap-3">
-                  {[
-                    { label: "18–29", sub: "år" },
-                    { label: "ESF", sub: "finansierat" },
-                    { label: "AF", sub: "samarbete" },
-                  ].map((chip, i) => (
-                    <motion.div
-                      key={chip.label}
-                      initial={
-                        prefersReducedMotion ? false : { opacity: 0, y: 10 }
-                      }
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.3, delay: i * 0.1 }}
-                      className="flex flex-col items-center justify-center py-5 rounded-full bg-white/10"
-                    >
-                      <span className="text-2xl font-display font-extrabold text-white">
-                        {chip.label}
-                      </span>
-                      <span className="text-xs text-white/60 mt-1">
-                        {chip.sub}
-                      </span>
-                    </motion.div>
-                  ))}
+                {/* Fact chips — defined card panel */}
+                <div className="rounded-2xl bg-white/6 backdrop-blur-sm border border-white/10 overflow-hidden">
+                  {/* Red accent bar */}
+                  <div className="h-1 bg-linear-to-r from-brand-red via-brand-red/60 to-transparent" />
+                  <div className="grid grid-cols-3 gap-0 divide-x divide-white/10">
+                    {[
+                      {
+                        icon: <Users className="h-5 w-5 text-brand-red" />,
+                        value: "18–29",
+                        sub: "år",
+                      },
+                      {
+                        icon: <Landmark className="h-5 w-5 text-brand-red" />,
+                        value: "ESF",
+                        sub: "finansierat",
+                      },
+                      {
+                        icon: <Handshake className="h-5 w-5 text-brand-red" />,
+                        value: "AF",
+                        sub: "samarbete",
+                      },
+                    ].map((chip, i) => (
+                      <motion.div
+                        key={chip.value}
+                        initial={
+                          prefersReducedMotion ? false : { opacity: 0, y: 10 }
+                        }
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.3, delay: i * 0.1 }}
+                        className="flex flex-col items-center justify-center py-6 px-3"
+                      >
+                        <div className="mb-2">{chip.icon}</div>
+                        <span className="text-xl font-display font-extrabold text-white">
+                          {chip.value}
+                        </span>
+                        <span className="text-xs text-white/60 mt-0.5">
+                          {chip.sub}
+                        </span>
+                      </motion.div>
+                    ))}
+                  </div>
                 </div>
 
                 {/* Vision quote */}
@@ -614,29 +637,36 @@ export default function HomePage() {
                   </p>
                 </div>
 
-                {/* Logos */}
-                <div className="flex items-center gap-6 pt-2">
-                  {[
-                    {
-                      alt: "EU Socialfonden",
-                      src: "/images/eu-logo-jordbruksfonden.png",
-                    },
-                    {
-                      alt: "Arbetsförmedlingen",
-                      src: "/images/af-logo.png",
-                    },
-                    {
-                      alt: "FC Rosengård",
-                      src: "/images/FCR_logo_2014_CMYK.png",
-                    },
-                  ].map((logo) => (
-                    <img
-                      key={logo.alt}
-                      src={logo.src}
-                      alt={logo.alt}
-                      className="h-12 max-w-[90px] w-auto object-contain opacity-50 hover:opacity-100 transition-opacity cursor-pointer"
-                    />
-                  ))}
+                {/* Funder logos — full-width cream plate */}
+                <div className="rounded-2xl bg-[#FAF8F5] p-5">
+                  <p className="text-xs font-body font-medium text-text-muted text-center mb-4">
+                    Finansieras och stöds av
+                  </p>
+                  <div className="flex items-center justify-center gap-8 md:gap-12">
+                    {[
+                      {
+                        alt: "EU Socialfonden",
+                        src: "/images/eu-logo-jordbruksfonden.png",
+                      },
+                      {
+                        alt: "Arbetsförmedlingen",
+                        src: "/images/af-logo.png",
+                      },
+                      {
+                        alt: "FC Rosengård",
+                        src: "/images/FCR_logo_2014_CMYK.png",
+                      },
+                    ].map((logo) => (
+                      <img
+                        key={logo.alt}
+                        src={logo.src}
+                        alt={logo.alt}
+                        loading="lazy"
+                        decoding="async"
+                        className="h-16 md:h-20 max-w-[120px] w-auto object-contain opacity-80 hover:opacity-100 transition-opacity"
+                      />
+                    ))}
+                  </div>
                 </div>
               </motion.div>
             </div>
@@ -733,6 +763,7 @@ export default function HomePage() {
                     alt="Selfmade & Strong — gruppvägledning för personlig utveckling"
                     className="relative w-full h-auto rounded-3xl shadow-lg"
                     loading="lazy"
+                    decoding="async"
                   />
                 </motion.div>
               </div>

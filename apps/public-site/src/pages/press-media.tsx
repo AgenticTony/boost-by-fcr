@@ -12,7 +12,7 @@ export default function PressMediaPage() {
     <>
       <section className="relative bg-brand-navy text-white overflow-hidden">
         <div className="container-page relative py-20 md:py-28">
-          <h1 className="text-4xl md:text-5xl font-display font-extrabold leading-tight mb-4">
+          <h1 className="text-4xl md:text-5xl lg:text-[3.5rem] font-display font-extrabold leading-tight mb-4">
             Press & media
           </h1>
           <p className="text-lg text-white/75 max-w-lg leading-relaxed">
@@ -49,11 +49,11 @@ export default function PressMediaPage() {
                   Anna Nettrup — Projektledare
                 </p>
                 <div className="flex items-center gap-2 text-sm text-text-muted">
-                  <Mail className="h-4 w-4 text-brand-gold" />
+                  <Mail className="h-4 w-4 text-brand-red" />
                   anna.nettrup@boostbyfcr.se
                 </div>
                 <div className="flex items-center gap-2 text-sm text-text-muted">
-                  <Phone className="h-4 w-4 text-brand-gold" />
+                  <Phone className="h-4 w-4 text-brand-red" />
                   070-992 17 66
                 </div>
               </div>
@@ -67,11 +67,11 @@ export default function PressMediaPage() {
                   Käthe Andersson — Samarbetssansvarig
                 </p>
                 <div className="flex items-center gap-2 text-sm text-text-muted">
-                  <Mail className="h-4 w-4 text-brand-gold" />
+                  <Mail className="h-4 w-4 text-brand-red" />
                   kathe.andersson@boostbyfcr.se
                 </div>
                 <div className="flex items-center gap-2 text-sm text-text-muted">
-                  <Phone className="h-4 w-4 text-brand-gold" />
+                  <Phone className="h-4 w-4 text-brand-red" />
                   072-164 53 45
                 </div>
               </div>

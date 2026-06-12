@@ -12,7 +12,7 @@ export default function LedigaTjansterPage() {
     <>
       <section className="relative bg-brand-navy text-white overflow-hidden">
         <div className="container-page relative py-20 md:py-28">
-          <h1 className="text-4xl md:text-5xl font-display font-extrabold leading-tight mb-4">
+          <h1 className="text-4xl md:text-5xl lg:text-[3.5rem] font-display font-extrabold leading-tight mb-4">
             Jobba hos oss
           </h1>
           <p className="text-lg text-white/75 max-w-lg leading-relaxed">
@@ -50,16 +50,16 @@ export default function LedigaTjansterPage() {
               Skicka ditt CV och ett kort personligt brev till{" "}
               <a
                 href="mailto:info@boostbyfcr.se"
-                className="text-brand-teal hover:underline font-medium"
+                className="text-brand-navy hover:underline font-medium"
               >
                 info@boostbyfcr.se
               </a>
             </p>
             <div className="mt-6 flex items-center justify-center gap-2 text-sm text-text-muted">
-              <Mail className="h-4 w-4 text-brand-gold" />
+              <Mail className="h-4 w-4 text-brand-red" />
               <a
                 href="mailto:info@boostbyfcr.se"
-                className="text-brand-teal hover:underline font-medium"
+                className="text-brand-navy hover:underline font-medium"
               >
                 info@boostbyfcr.se
               </a>

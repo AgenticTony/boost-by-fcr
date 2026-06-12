@@ -39,13 +39,13 @@ export default function HalsosparetPage() {
         <div className="pointer-events-none absolute inset-0">
           <img
             src="/images/Haelsospaaret3.jpeg"
-            alt=""
+            alt="Hälsa och rörelse — deltagare tränar tillsammans"
             className="absolute inset-0 w-full h-full object-cover opacity-20"
           />
         </div>
-        <div className="pointer-events-none absolute -bottom-32 -right-32 h-96 w-96 rounded-full bg-success/10 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-32 -right-32 h-96 w-96 rounded-full bg-brand-navy/10 blur-3xl" />
         <div className="container-page relative py-20 md:py-28">
-          <p className="text-xs font-body font-medium text-success tracking-widest uppercase mb-4">
+          <p className="text-xs font-body font-medium text-brand-navy tracking-widest uppercase mb-4">
             Hälsospåret
           </p>
           <h1 className="text-4xl md:text-5xl lg:text-[3.5rem] font-display font-extrabold leading-tight mb-4">
@@ -58,18 +58,33 @@ export default function HalsosparetPage() {
       </section>
 
       <section className="py-12 md:py-16">
-        <div className="container-page max-w-3xl">
-          <h2 className="text-3xl md:text-[2.5rem] font-display font-extrabold text-text leading-tight mb-6">
-            Hälsa är inte ett sidospår — det är grunden
-          </h2>
-          <div className="space-y-5 text-text-muted leading-relaxed">
-            <p>
-              Forskningen är tydlig: ohälsa och arbetslöshet förstärker varandra
-              i en negativ spiral. Det vet vi på Boost — och det är varför hälsa
-              är en lika stor del av vår verksamhet som studier och jobbsökning.
-              Hälsospåret är för dig som vill röra på kroppen, äta bättre, sova
-              bättre eller bara hitta ett sammanhang där du trivs.
-            </p>
+        <div className="container-page">
+          <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+            <div>
+              <h2 className="text-3xl md:text-[2.5rem] font-display font-extrabold text-text leading-tight mb-6">
+                Hälsa är inte ett sidospår — det är grunden
+              </h2>
+              <div className="space-y-5 text-text-muted leading-relaxed">
+                <p>
+                  Forskningen är tydlig: ohälsa och arbetslöshet förstärker
+                  varandra i en negativ spiral. Det vet vi på Boost — och det är
+                  varför hälsa är en lika stor del av vår verksamhet som studier
+                  och jobbsökning. Hälsospåret är för dig som vill röra på
+                  kroppen, äta bättre, sova bättre eller bara hitta ett
+                  sammanhang där du trivs.
+                </p>
+              </div>
+            </div>
+            <div className="hidden lg:block">
+              <div className="rounded-2xl overflow-hidden bg-[#C0C7DA]/20 p-6">
+                <img
+                  src="/images/illustration-tree-of-life.jpg"
+                  alt="Livets träd — symbol för hälsa, tillväxt och rötter"
+                  className="w-full h-auto rounded-xl object-contain max-h-72 mx-auto"
+                  loading="lazy"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -83,7 +98,7 @@ export default function HalsosparetPage() {
               { number: "Samtal", label: "Om välmående" },
             ].map((stat) => (
               <div key={stat.label}>
-                <p className="text-2xl md:text-3xl font-display font-extrabold text-brand-gold tracking-tight">
+                <p className="text-2xl md:text-3xl font-display font-extrabold text-brand-red tracking-tight">
                   {stat.number}
                 </p>
                 <p className="mt-1 text-white/60 text-xs md:text-sm">
@@ -101,9 +116,9 @@ export default function HalsosparetPage() {
             {features.map((f) => (
               <div
                 key={f.title}
-                className="bg-white rounded-2xl p-6 md:p-8 border border-border/60"
+                className="bg-[#072D59]/5 rounded-3xl p-8 md:p-10"
               >
-                <div className="inline-flex items-center justify-center h-11 w-11 rounded-xl bg-success text-white mb-5">
+                <div className="inline-flex items-center justify-center h-16 w-16 rounded-2xl bg-brand-navy text-white mb-5">
                   <f.icon className="h-5 w-5" />
                 </div>
                 <h3 className="font-display font-semibold text-lg text-text mb-2">
@@ -131,7 +146,7 @@ export default function HalsosparetPage() {
           <Button
             asChild
             size="lg"
-            className="bg-success text-white hover:bg-success/90 font-display font-semibold rounded-cta px-8 h-12"
+            className="bg-brand-navy text-white hover:bg-brand-navy/90 font-display font-semibold rounded-cta px-8 h-12"
           >
             <Link to="/anmal-dig">
               Börja din resa <ArrowRight className="ml-2 h-4 w-4" />
