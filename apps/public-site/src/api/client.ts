@@ -1,13 +1,23 @@
 /**
  * API client — barrel re-export.
  *
- * All functions delegate to the active adapter (mock now, Hygraph in Sprint 3).
+ * All functions delegate to the active adapter.
+ * Set VITE_USE_HYGRAPH=true to switch from mock to Hygraph.
  * Pages import from here and never touch the adapter directly.
  */
 
-// ─── Adapter singleton (swap here for Sprint 3) ───
+// ─── Adapter singleton ───
 import { createMockAdapter } from "./mock-adapter";
-const adapter = createMockAdapter();
+import { createHygraphAdapter } from "./hygraph-adapter";
+
+const useHygraph = import.meta.env.VITE_USE_HYGRAPH === "true";
+
+const adapter = useHygraph
+  ? createHygraphAdapter(
+      import.meta.env.VITE_HYGRAPH_ENDPOINT ?? "",
+      import.meta.env.VITE_HYGRAPH_TOKEN,
+    )
+  : createMockAdapter();
 
 // ─── Types ───
 export type { NewsArticle, TimelineEntry, Resource } from "@/types";
