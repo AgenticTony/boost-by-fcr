@@ -54,3 +54,15 @@ Anna_client_docs/
 # Never commit binary docs or debug screenshots to public assets
 *.docx
 screencapture-*
+
+# Vite cache
+.vite/
+
+# Test results
+test-results/
+
+# Secrets — never commit
+apps/public-site/src/assets/recovery-codes.txt
+
+# Local-only push tracking (not shared with team)
+docs/P2_PUSH_PLAN.md
