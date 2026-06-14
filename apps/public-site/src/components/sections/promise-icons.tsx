@@ -46,7 +46,11 @@ export function PromiseIcons({ className }: Props) {
               initial: { opacity: 0, y: 20 },
               whileInView: { opacity: 1, y: 0 },
               viewport: { once: true },
-              transition: { duration: 0.4, delay: i * 0.08, ease: "easeOut" },
+              transition: {
+                duration: 0.4,
+                delay: i * 0.08,
+                ease: "easeOut" as const,
+              },
             };
 
         return (
