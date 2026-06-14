@@ -8,15 +8,52 @@ type Props = {
   fallbackClassName?: string;
 };
 
+/**
+ * Inner component that manages error state — re-mounted when src changes
+ * via the key prop, which resets the error state automatically.
+ */
+function ImageWithFallback({
+  src,
+  alt,
+  className,
+}: {
+  src: string;
+  alt: string;
+  className?: string;
+}) {
+  const [error, setError] = useState(false);
+
+  if (error) {
+    return (
+      <div
+        className="flex items-center justify-center bg-muted/40 text-text-muted/30"
+        role="img"
+        aria-label={alt}
+      >
+        <ImageIcon className="h-10 w-10" />
+      </div>
+    );
+  }
+
+  return (
+    <img
+      src={src}
+      alt={alt}
+      className={className}
+      loading="lazy"
+      decoding="async"
+      onError={() => setError(true)}
+    />
+  );
+}
+
 export function ResilientImage({
   src,
   alt,
   className,
   fallbackClassName,
 }: Props) {
-  const [error, setError] = useState(false);
-
-  if (!src || error) {
+  if (!src) {
     return (
       <div
         className={
@@ -32,11 +69,6 @@ export function ResilientImage({
   }
 
   return (
-    <img
-      src={src}
-      alt={alt}
-      className={className}
-      onError={() => setError(true)}
-    />
+    <ImageWithFallback key={src} src={src} alt={alt} className={className} />
   );
 }

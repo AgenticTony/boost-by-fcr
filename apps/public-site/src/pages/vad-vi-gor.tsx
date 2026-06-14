@@ -24,6 +24,7 @@ export default function VadViGorPage() {
     title: "Vad vi gör",
     description:
       "En organisation — tre sätt att skapa förändring. Fabriken, Akademin och Labbet.",
+    canonical: "/vad-vi-gor",
   });
 
   return (

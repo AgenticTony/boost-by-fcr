@@ -31,6 +31,7 @@ export default function HalsosparetPage() {
     title: "Hälsospåret",
     description:
       "Fysisk träning, kostworkshops, sömnstöd och samtal om välmående. För att orka ta nästa steg måste du må bra.",
+    canonical: "/halsosparet",
   });
 
   return (

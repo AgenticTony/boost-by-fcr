@@ -50,7 +50,7 @@ function ResourceCard({ resource }: { resource: Resource }) {
               </span>
             )}
           </div>
-          {resource.fileUrl && (
+          {resource.fileUrl && /^https?:\/\//i.test(resource.fileUrl) && (
             <a
               href={resource.fileUrl}
               target="_blank"
@@ -80,6 +80,7 @@ export default function ResurserPage() {
     title: "Resurser",
     description:
       "Verktyg och metodmaterial för ett mer inkluderande arbetsliv — fritt tillgängliga att ladda ner.",
+    canonical: "/resurser",
   });
 
   return (
@@ -113,7 +114,7 @@ export default function ResurserPage() {
                     ? "bg-brand-navy text-white"
                     : "bg-muted text-text-muted hover:bg-muted/80"
                 }`}
-                aria-current={category === key ? "page" : undefined}
+                aria-pressed={category === key}
               >
                 {Icon && <Icon className="h-3.5 w-3.5" />}
                 {label}

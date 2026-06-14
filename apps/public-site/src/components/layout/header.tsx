@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import {
@@ -95,20 +95,117 @@ const moreLinks = [
   },
 ];
 
+type DropdownId = "job-seeker" | "about" | "more";
+
 export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [activeDropdown, setActiveDropdown] = useState<DropdownId | null>(null);
   const prefersReducedMotion = useReducedMotion();
 
-  function handleDropdownKey(e: React.KeyboardEvent, dropdown: string) {
+  const drawerRef = useRef<HTMLElement>(null);
+  const toggleRef = useRef<HTMLButtonElement>(null);
+  const firstFocusableRef = useRef<HTMLButtonElement>(null);
+
+  /** Focus the first link inside a dropdown panel after it opens. */
+  const focusDropdownItem = useCallback((id: DropdownId) => {
+    // Allow AnimatePresence to mount the panel first
+    requestAnimationFrame(() => {
+      const panel = document.getElementById(`dropdown-${id}`);
+      const firstLink = panel?.querySelector<HTMLAnchorElement>("a");
+      firstLink?.focus();
+    });
+  }, []);
+
+  function handleDropdownKey(e: React.KeyboardEvent, dropdown: DropdownId) {
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
-      setActiveDropdown(activeDropdown === dropdown ? null : dropdown);
+      const isOpening = activeDropdown !== dropdown;
+      setActiveDropdown(isOpening ? dropdown : null);
+      if (isOpening) focusDropdownItem(dropdown);
     }
     if (e.key === "Escape") {
       setActiveDropdown(null);
     }
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      const isOpening = activeDropdown !== dropdown;
+      setActiveDropdown(isOpening ? dropdown : null);
+      if (isOpening) focusDropdownItem(dropdown);
+    }
   }
+
+  /** Handle keyboard nav inside a dropdown panel. */
+  function handlePanelKeyDown(e: React.KeyboardEvent, id: DropdownId) {
+    if (e.key === "Escape") {
+      setActiveDropdown(null);
+      // Return focus to the toggle button
+      const btn = document.querySelector<HTMLButtonElement>(
+        `[aria-controls="dropdown-${id}"]`,
+      );
+      btn?.focus();
+    }
+    if (e.key === "Tab") {
+      // Close on Tab out
+      setActiveDropdown(null);
+    }
+  }
+
+  /* ─── Mobile drawer focus trap ─── */
+  const closeMobile = useCallback(() => setMobileOpen(false), []);
+
+  // Focus first element when drawer opens, return to toggle on close
+  useEffect(() => {
+    if (mobileOpen) {
+      // Defer to let AnimatePresence mount
+      requestAnimationFrame(() => {
+        firstFocusableRef.current?.focus();
+      });
+    }
+  }, [mobileOpen]);
+
+  // Trap Tab/Shift-Tab inside drawer
+  useEffect(() => {
+    if (!mobileOpen || !drawerRef.current) return;
+
+    function handleDrawerKey(e: KeyboardEvent) {
+      if (e.key !== "Tab") return;
+
+      const drawer = drawerRef.current;
+      if (!drawer) return;
+
+      const focusable = drawer.querySelectorAll<HTMLElement>(
+        'a[href], button, input, textarea, select, [tabindex]:not([tabindex="-1"])',
+      );
+      if (focusable.length === 0) return;
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    }
+
+    document.addEventListener("keydown", handleDrawerKey);
+    return () => document.removeEventListener("keydown", handleDrawerKey);
+  }, [mobileOpen]);
+
+  // Close drawer on Escape
+  useEffect(() => {
+    if (!mobileOpen) return;
+    function onEscape(e: KeyboardEvent) {
+      if (e.key === "Escape") {
+        closeMobile();
+        toggleRef.current?.focus();
+      }
+    }
+    document.addEventListener("keydown", onEscape);
+    return () => document.removeEventListener("keydown", onEscape);
+  }, [mobileOpen, closeMobile]);
 
   return (
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-border shadow-sm">
@@ -143,6 +240,7 @@ export function Header() {
                 className="px-1.5 py-2 text-text hover:text-brand-navy transition-colors"
                 aria-expanded={activeDropdown === "job-seeker"}
                 aria-haspopup="true"
+                aria-controls="dropdown-job-seeker"
                 aria-label="Arbetssökande undermeny"
                 onKeyDown={(e) => handleDropdownKey(e, "job-seeker")}
               >
@@ -152,16 +250,20 @@ export function Header() {
             <AnimatePresence>
               {activeDropdown === "job-seeker" && (
                 <motion.div
+                  id="dropdown-job-seeker"
+                  role="menu"
                   initial={prefersReducedMotion ? false : { opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={prefersReducedMotion ? undefined : { opacity: 0, y: 8 }}
                   transition={{ duration: prefersReducedMotion ? 0 : 0.15 }}
                   className="absolute top-full left-0 mt-1 w-64 bg-white rounded-card shadow-lg border border-border p-2"
+                  onKeyDown={(e) => handlePanelKeyDown(e, "job-seeker")}
                 >
                   {jobSeekerLinks.map((link) => (
                     <Link
                       key={link.href}
                       to={link.href}
+                      role="menuitem"
                       className="flex items-center gap-3 px-3 py-2.5 rounded-md text-sm hover:bg-muted transition-colors"
                     >
                       <link.icon className={`h-5 w-5 ${link.iconColor}`} />
@@ -213,6 +315,7 @@ export function Header() {
                 className="px-1.5 py-2 text-text hover:text-brand-navy transition-colors"
                 aria-expanded={activeDropdown === "about"}
                 aria-haspopup="true"
+                aria-controls="dropdown-about"
                 aria-label="Om oss undermeny"
                 onKeyDown={(e) => handleDropdownKey(e, "about")}
               >
@@ -222,16 +325,20 @@ export function Header() {
             <AnimatePresence>
               {activeDropdown === "about" && (
                 <motion.div
+                  id="dropdown-about"
+                  role="menu"
                   initial={prefersReducedMotion ? false : { opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={prefersReducedMotion ? undefined : { opacity: 0, y: 8 }}
                   transition={{ duration: prefersReducedMotion ? 0 : 0.15 }}
                   className="absolute top-full left-0 mt-1 w-52 bg-white rounded-card shadow-lg border border-border p-2"
+                  onKeyDown={(e) => handlePanelKeyDown(e, "about")}
                 >
                   {aboutLinks.map((link) => (
                     <Link
                       key={link.href}
                       to={link.href}
+                      role="menuitem"
                       className="flex items-center gap-3 px-3 py-2.5 rounded-md text-sm hover:bg-muted transition-colors"
                     >
                       <link.icon className={`h-5 w-5 ${link.iconColor}`} />
@@ -253,6 +360,7 @@ export function Header() {
               className="flex items-center gap-1 px-3 py-2 text-sm font-medium text-text hover:text-brand-navy transition-colors rounded-md hover:bg-muted"
               aria-expanded={activeDropdown === "more"}
               aria-haspopup="true"
+              aria-controls="dropdown-more"
               onKeyDown={(e) => handleDropdownKey(e, "more")}
             >
               Mer
@@ -261,16 +369,20 @@ export function Header() {
             <AnimatePresence>
               {activeDropdown === "more" && (
                 <motion.div
+                  id="dropdown-more"
+                  role="menu"
                   initial={prefersReducedMotion ? false : { opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={prefersReducedMotion ? undefined : { opacity: 0, y: 8 }}
                   transition={{ duration: prefersReducedMotion ? 0 : 0.15 }}
                   className="absolute top-full right-0 mt-1 w-52 bg-white rounded-card shadow-lg border border-border p-2"
+                  onKeyDown={(e) => handlePanelKeyDown(e, "more")}
                 >
                   {moreLinks.map((link) => (
                     <Link
                       key={link.href}
                       to={link.href}
+                      role="menuitem"
                       className="flex items-center gap-3 px-3 py-2.5 rounded-md text-sm hover:bg-muted transition-colors"
                     >
                       <link.icon className={`h-5 w-5 ${link.iconColor}`} />
@@ -294,9 +406,11 @@ export function Header() {
 
           {/* Mobile menu toggle */}
           <button
+            ref={toggleRef}
             className="lg:hidden p-2 text-text hover:text-brand-navy"
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label={mobileOpen ? "Stäng meny" : "Öppna meny"}
+            aria-expanded={mobileOpen}
           >
             {mobileOpen ? (
               <X className="h-6 w-6" />
@@ -316,10 +430,11 @@ export function Header() {
               animate={{ opacity: 0.5 }}
               exit={prefersReducedMotion ? undefined : { opacity: 0 }}
               className="fixed inset-0 bg-black z-40 lg:hidden"
-              onClick={() => setMobileOpen(false)}
+              onClick={closeMobile}
               aria-hidden="true"
             />
             <motion.aside
+              ref={drawerRef}
               initial={prefersReducedMotion ? false : { x: "-100%" }}
               animate={{ x: "0%" }}
               exit={prefersReducedMotion ? undefined : { x: "-100%" }}
@@ -341,6 +456,7 @@ export function Header() {
                 backgroundColor: "white",
               }}
               role="dialog"
+              aria-modal="true"
               aria-label="Navigeringsmeny"
             >
               <div className="p-6">
@@ -351,7 +467,8 @@ export function Header() {
                     className="h-7 w-auto"
                   />
                   <button
-                    onClick={() => setMobileOpen(false)}
+                    ref={firstFocusableRef}
+                    onClick={closeMobile}
                     aria-label="Stäng meny"
                   >
                     <X className="h-6 w-6 text-text" />
@@ -363,7 +480,7 @@ export function Header() {
                   <div>
                     <Link
                       to="/anmal-dig"
-                      onClick={() => setMobileOpen(false)}
+                      onClick={closeMobile}
                       className="flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-semibold text-brand-red hover:bg-brand-red-light transition-colors"
                     >
                       <PenLine className="h-5 w-5 text-brand-red" />
@@ -380,7 +497,7 @@ export function Header() {
                         <Link
                           key={link.href}
                           to={link.href}
-                          onClick={() => setMobileOpen(false)}
+                          onClick={closeMobile}
                           className="flex items-center gap-3 px-3 py-2.5 rounded-md text-sm hover:bg-muted transition-colors"
                         >
                           <link.icon className={`h-5 w-5 ${link.iconColor}`} />
@@ -393,7 +510,7 @@ export function Header() {
                   <div>
                     <Link
                       to="/foretag"
-                      onClick={() => setMobileOpen(false)}
+                      onClick={closeMobile}
                       className="block px-3 py-2.5 text-sm font-medium hover:bg-muted rounded-md"
                     >
                       Arbetsgivare
@@ -403,7 +520,7 @@ export function Header() {
                   <div>
                     <Link
                       to="/studier"
-                      onClick={() => setMobileOpen(false)}
+                      onClick={closeMobile}
                       className="block px-3 py-2.5 text-sm font-medium hover:bg-muted rounded-md"
                     >
                       Skolor och utbildningsanordnare
@@ -413,7 +530,7 @@ export function Header() {
                   <div>
                     <Link
                       to="/vad-vi-gor"
-                      onClick={() => setMobileOpen(false)}
+                      onClick={closeMobile}
                       className="block px-3 py-2.5 text-sm font-medium hover:bg-muted rounded-md"
                     >
                       Vårt arbetssätt
@@ -429,7 +546,7 @@ export function Header() {
                         <Link
                           key={link.href}
                           to={link.href}
-                          onClick={() => setMobileOpen(false)}
+                          onClick={closeMobile}
                           className="flex items-center gap-3 px-3 py-2.5 rounded-md text-sm hover:bg-muted transition-colors"
                         >
                           <link.icon className={`h-5 w-5 ${link.iconColor}`} />
@@ -448,7 +565,7 @@ export function Header() {
                         <Link
                           key={link.href}
                           to={link.href}
-                          onClick={() => setMobileOpen(false)}
+                          onClick={closeMobile}
                           className="flex items-center gap-3 px-3 py-2.5 rounded-md text-sm hover:bg-muted transition-colors"
                         >
                           <link.icon className={`h-5 w-5 ${link.iconColor}`} />
@@ -464,7 +581,7 @@ export function Header() {
                     asChild
                     className="w-full bg-brand-red text-white hover:bg-brand-red/90 font-display font-semibold rounded-cta"
                   >
-                    <Link to="/anmal-dig" onClick={() => setMobileOpen(false)}>
+                    <Link to="/anmal-dig" onClick={closeMobile}>
                       Anmälan
                     </Link>
                   </Button>

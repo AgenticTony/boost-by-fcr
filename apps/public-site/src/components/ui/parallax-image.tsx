@@ -21,12 +21,7 @@ type Props = {
  * creating a parallax depth effect. Disabled on mobile and when the user
  * prefers reduced motion.
  */
-export function ParallaxImage({
-  src,
-  alt,
-  speed: _speed = 0.3,
-  className,
-}: Props) {
+export function ParallaxImage({ src, alt, speed = 0.3, className }: Props) {
   const prefersReducedMotion = useReducedMotion();
   const ref = useRef<HTMLDivElement>(null);
 
@@ -35,7 +30,9 @@ export function ParallaxImage({
     offset: ["start end", "end start"],
   });
 
-  const y = useTransform(scrollYProgress, [0, 1], ["-10%", "10%"]);
+  // speed controls parallax intensity: higher = more vertical offset
+  const offset = `${speed * 30}%`;
+  const y = useTransform(scrollYProgress, [0, 1], [`-${offset}`, offset]);
 
   // Disable parallax for reduced-motion users
   if (prefersReducedMotion) {

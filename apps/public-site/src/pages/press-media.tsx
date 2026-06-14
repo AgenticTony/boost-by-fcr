@@ -6,6 +6,7 @@ export default function PressMediaPage() {
     title: "Press & media",
     description:
       "Pressinformation och kontaktpersoner för Boost by FC Rosengård.",
+    canonical: "/press-media",
   });
 
   return (
@@ -50,11 +51,21 @@ export default function PressMediaPage() {
                 </p>
                 <div className="flex items-center gap-2 text-sm text-text-muted">
                   <Mail className="h-4 w-4 text-brand-red" />
-                  anna.nettrup@boostbyfcr.se
+                  <a
+                    href="mailto:anna.nettrup@boostbyfcr.se"
+                    className="hover:text-brand-navy transition-colors"
+                  >
+                    anna.nettrup@boostbyfcr.se
+                  </a>
                 </div>
                 <div className="flex items-center gap-2 text-sm text-text-muted">
                   <Phone className="h-4 w-4 text-brand-red" />
-                  070-992 17 66
+                  <a
+                    href="tel:+46709921766"
+                    className="hover:text-brand-navy transition-colors"
+                  >
+                    070-992 17 66
+                  </a>
                 </div>
               </div>
             </div>
@@ -68,11 +79,21 @@ export default function PressMediaPage() {
                 </p>
                 <div className="flex items-center gap-2 text-sm text-text-muted">
                   <Mail className="h-4 w-4 text-brand-red" />
-                  kathe.andersson@boostbyfcr.se
+                  <a
+                    href="mailto:kathe.andersson@boostbyfcr.se"
+                    className="hover:text-brand-navy transition-colors"
+                  >
+                    kathe.andersson@boostbyfcr.se
+                  </a>
                 </div>
                 <div className="flex items-center gap-2 text-sm text-text-muted">
                   <Phone className="h-4 w-4 text-brand-red" />
-                  072-164 53 45
+                  <a
+                    href="tel:+46721645345"
+                    className="hover:text-brand-navy transition-colors"
+                  >
+                    072-164 53 45
+                  </a>
                 </div>
               </div>
             </div>
