@@ -60,3 +60,6 @@ screencapture-*
 
 # Test results
 test-results/
+
+# Local-only push tracking (not shared with team)
+docs/P2_PUSH_PLAN.md
