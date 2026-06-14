@@ -9,7 +9,6 @@ import {
   Briefcase,
   Heart,
   UsersRound,
-  Layers,
   Newspaper,
   BriefcaseMedical,
   Clock,
