@@ -82,6 +82,7 @@ export default function HalsosparetPage() {
                   alt="Livets träd — symbol för hälsa, tillväxt och rötter"
                   className="w-full h-auto rounded-xl object-contain max-h-72 mx-auto"
                   loading="lazy"
+                  decoding="async"
                 />
               </div>
             </div>

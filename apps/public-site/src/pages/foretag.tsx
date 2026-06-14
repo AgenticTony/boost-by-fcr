@@ -150,6 +150,7 @@ export default function ForetagPage() {
                   alt="Händer som formar ett hjärta — symbol för inkludering och gemenskap"
                   className="w-full h-auto rounded-xl object-contain max-h-80 mx-auto"
                   loading="lazy"
+                  decoding="async"
                 />
               </div>
             </div>
