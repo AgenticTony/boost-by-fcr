@@ -27,6 +27,7 @@ export default function ArbetssokandePage() {
     title: "Arbetssökande",
     description:
       "På Boost hjälper vi dig att stärka dig själv och din kompetens så att du lättare kommer in på arbetsmarknaden.",
+    canonical: "/arbetssokande",
   });
 
   return (

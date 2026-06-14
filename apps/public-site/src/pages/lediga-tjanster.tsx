@@ -6,6 +6,7 @@ export default function LedigaTjansterPage() {
     title: "Lediga tjänster",
     description:
       "Jobba hos oss — vi söker människor som tror på vad vi tror på.",
+    canonical: "/lediga-tjanster",
   });
 
   return (

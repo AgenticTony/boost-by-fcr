@@ -19,6 +19,7 @@ export default function NyheterPage() {
   useSeo({
     title: "Nyheter",
     description: "Nyheter och uppdateringar från Boost by FC Rosengård.",
+    canonical: "/nyheter",
   });
 
   return (
@@ -47,7 +48,7 @@ export default function NyheterPage() {
                   ? "bg-brand-navy text-white"
                   : "bg-muted text-text-muted hover:bg-muted/80"
               }`}
-              aria-current={category === key ? "page" : undefined}
+              aria-pressed={category === key}
             >
               {label}
             </button>

@@ -9,6 +9,8 @@ interface Props {
 
 interface State {
   hasError: boolean;
+  /** Incremented on retry to force React to remount the entire subtree. */
+  retryKey: number;
 }
 
 /**
@@ -18,16 +20,23 @@ interface State {
 export class ErrorBoundary extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.state = { hasError: false };
+    this.state = { hasError: false, retryKey: 0 };
   }
 
   static getDerivedStateFromError(): State {
-    return { hasError: true };
+    return { hasError: true, retryKey: 0 };
   }
 
   componentDidCatch(error: Error, info: ErrorInfo) {
     console.error("ErrorBoundary caught:", error, info);
   }
+
+  private handleRetry = () => {
+    this.setState((prev) => ({
+      hasError: false,
+      retryKey: prev.retryKey + 1,
+    }));
+  };
 
   render() {
     if (this.state.hasError) {
@@ -47,7 +56,7 @@ export class ErrorBoundary extends Component<Props, State> {
             <div className="flex flex-wrap gap-4 justify-center">
               <Button
                 className="bg-white text-text hover:bg-muted font-display font-semibold rounded-cta border border-border"
-                onClick={() => this.setState({ hasError: false })}
+                onClick={this.handleRetry}
               >
                 <RotateCcw className="mr-2 h-4 w-4" />
                 Försök igen
@@ -64,6 +73,6 @@ export class ErrorBoundary extends Component<Props, State> {
       );
     }
 
-    return this.props.children;
+    return <div key={this.state.retryKey}>{this.props.children}</div>;
   }
 }

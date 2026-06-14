@@ -1,4 +1,4 @@
-import { Suspense, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -16,6 +16,8 @@ const schema = z.object({
   email: z.string().email("Ange en giltig e-postadress"),
   subject: z.string().min(1, "Ämne är obligatoriskt"),
   message: z.string().min(1, "Meddelande är obligatoriskt"),
+  /** Honeypot — must be empty. */
+  website: z.string().max(0).optional(),
 });
 
 type FormData = z.infer<typeof schema>;
@@ -38,18 +40,26 @@ function KontaktForm() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: {
       name: "",
       email: "",
-      subject: prefillSubject === "foretag" ? "Företagssamarbete" : "",
+      subject:
+        prefillSubject && subjectOptions.includes(prefillSubject)
+          ? prefillSubject
+          : "",
       message: "",
     },
   });
 
   async function onSubmit(data: FormData) {
+    // Honeypot check — bots fill this field
+    if (data.website) {
+      setSubmitted(true);
+      return;
+    }
     setServerError("");
     try {
       const result = await submitContact(data);
@@ -74,6 +84,15 @@ function KontaktForm() {
         </div>
       ) : (
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+          {/* Honeypot — hidden from users, bots fill it out */}
+          <div className="absolute -left-[9999px]" aria-hidden="true">
+            <input
+              type="text"
+              tabIndex={-1}
+              autoComplete="off"
+              {...register("website")}
+            />
+          </div>
           <div className="space-y-2">
             <Label htmlFor="name">
               Namn <span className="text-brand-red">*</span>
@@ -155,9 +174,11 @@ function KontaktForm() {
           )}
           <Button
             type="submit"
-            className="w-full bg-brand-red text-brand-navy hover:bg-brand-red/90 font-display font-semibold rounded-cta h-12"
+            disabled={isSubmitting}
+            className="w-full bg-brand-red text-brand-navy hover:bg-brand-red/90 font-display font-semibold rounded-cta h-12 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Skicka meddelande <ArrowRight className="ml-2 h-4 w-4" />
+            {isSubmitting ? "Skickar..." : "Skicka meddelande"}
+            {!isSubmitting && <ArrowRight className="ml-2 h-4 w-4" />}
           </Button>
         </form>
       )}
@@ -170,6 +191,7 @@ export default function KontaktPage() {
     title: "Kontakt",
     description:
       "Har du frågor eller vill veta mer? Vi svarar snabbt och gärna. Ring, mejla eller fyll i formuläret.",
+    canonical: "/kontakt",
   });
 
   return (
@@ -261,13 +283,7 @@ export default function KontaktPage() {
                 />
               </div>
             </div>
-            <Suspense
-              fallback={
-                <div className="bg-white rounded-2xl p-6 md:p-8 border border-border/60 animate-pulse h-96" />
-              }
-            >
-              <KontaktForm />
-            </Suspense>
+            <KontaktForm />
           </div>
         </div>
       </section>

@@ -12,6 +12,7 @@ export default function VarHistoriaPage() {
     title: "Vår historia",
     description:
       "Över 20 år av att skapa förändring — från en idé i Rosengård till en organisation som hjälper hundratals unga varje år.",
+    canonical: "/var-historia",
   });
 
   return (

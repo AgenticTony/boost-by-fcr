@@ -69,6 +69,7 @@ export default function ForetagPage() {
     title: "Arbetsgivare",
     description:
       "Samarbeta med Boost — föreläsningar, workshops och inkluderande rekrytering för arbetsgivare som vill göra skillnad.",
+    canonical: "/foretag",
   });
 
   return (

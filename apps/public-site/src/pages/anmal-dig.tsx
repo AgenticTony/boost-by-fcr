@@ -23,9 +23,15 @@ const schema = z.object({
   phone: z
     .string()
     .min(7, "Ange ett giltigt telefonnummer")
-    .regex(/^[0-9+\-\s()]+$/, "Ange ett giltigt telefonnummer"),
+    .regex(/^[0-9+\-\s()]+$/, "Ange ett giltigt telefonnummer")
+    .refine(
+      (v) => v.replace(/\D/g, "").length >= 7,
+      "Ange ett giltigt telefonnummer",
+    ),
   track: z.string().min(1, "Välj ett spår"),
   about: z.string().optional(),
+  /** Honeypot — must be empty. */
+  website: z.string().max(0).optional(),
 });
 
 type FormData = z.infer<typeof schema>;
@@ -48,16 +54,22 @@ export default function AnmalDigPage() {
     title: "Anmäl dig",
     description:
       "Ta första steget — det tar tre minuter. Vi hör av oss inom en arbetsdag.",
+    canonical: "/anmal-dig",
   });
   const [submitted, setSubmitted] = useState(false);
   const [serverError, setServerError] = useState("");
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<FormData>({ resolver: zodResolver(schema) });
 
   async function onSubmit(data: FormData) {
+    // Honeypot check — bots fill this field
+    if (data.website) {
+      setSubmitted(true);
+      return;
+    }
     setServerError("");
     try {
       const result = await submitRegistration(data);
@@ -129,6 +141,15 @@ export default function AnmalDigPage() {
           ) : (
             <div className="bg-white rounded-2xl p-6 md:p-8 border border-border/60 shadow-sm">
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+                {/* Honeypot — hidden from users, bots fill it out */}
+                <div className="absolute -left-[9999px]" aria-hidden="true">
+                  <input
+                    type="text"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    {...register("website")}
+                  />
+                </div>
                 <div className="grid sm:grid-cols-2 gap-5">
                   <div className="space-y-2">
                     <Label htmlFor="firstName">
@@ -287,9 +308,11 @@ export default function AnmalDigPage() {
                 )}
                 <Button
                   type="submit"
-                  className="w-full bg-brand-red text-brand-navy hover:bg-brand-red/90 font-display font-semibold rounded-cta h-12"
+                  disabled={isSubmitting}
+                  className="w-full bg-brand-red text-brand-navy hover:bg-brand-red/90 font-display font-semibold rounded-cta h-12 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Skicka anmälan <ArrowRight className="ml-2 h-4 w-4" />
+                  {isSubmitting ? "Skickar..." : "Skicka anmälan"}
+                  {!isSubmitting && <ArrowRight className="ml-2 h-4 w-4" />}
                 </Button>
               </form>
             </div>

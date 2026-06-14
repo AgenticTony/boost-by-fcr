@@ -27,13 +27,13 @@
 
 ---
 
-## Från Marcus (P1 — Umbraco Backend)
+## Från Marcus (P1 — Hygraph CMS)
 
 | # | Vad | När jag behöver det | Status |
 |---|---|---|---|
-| 11 | Delivery API base-URL (staging) | Sprint 3 (vecka 5) — men ju förr desto bättre | `WAITING` |
-| 12 | Document type schemas — JSON-struktur per typ | Sprint 2-3 (vecka 3-5) | `WAITING` |
-| 13 | API-nyckel / auth-krav för Delivery API | Sprint 3 (vecka 5) | `WAITING` |
+| 11 | Hygraph GraphQL endpoint (staging) | Sprint 3 (vecka 5) — men ju förr desto bättre | `WAITING` |
+| 12 | Content model schemas — GraphQL types per model | Sprint 2-3 (vecka 3-5) | `WAITING` |
+| 13 | API-nyckel / auth-krav för Hygraph Content API | Sprint 3 (vecka 5) | `WAITING` |
 | 14 | `/api/contact` endpoint live | Sprint 3 (vecka 5-6) | `WAITING` |
 | 15 | CORS bekräftat för min React-app | Sprint 3 (vecka 5) | `WAITING` |
 
@@ -64,7 +64,7 @@
 |---|---|---|
 | 19 | valmaendearenan.se | https://valmaendearenan.se — modell för Metodmaterial |
 | 20 | Befintlig boostbyfcr.se | Skärmdumpa ALLT innan DNS-cutover |
-| 21 | Umbraco Delivery API docs | https://docs.umbraco.com/umbraco-cms/tutorials/headless-browsing |
+| 21 | Hygraph CMS docs | https://hygraph.com/docs |
 | 22 | TanStack Query docs | https://tanstack.com/query/latest |
 
 ---

@@ -1,4 +1,3 @@
-import { useRef } from "react";
 import { Link } from "react-router-dom";
 import { motion, useReducedMotion } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -90,21 +89,29 @@ const funders = [
   {
     alt: "EU Socialfonden",
     src: "/images/eu-logo-jordbruksfonden.png",
+    width: 140,
+    height: 96,
     className: "h-20 md:h-24 max-w-[140px]",
   },
   {
     alt: "Allmänna Arvsfonden",
     src: "/images/af-logo.png",
+    width: 210,
+    height: 112,
     className: "h-24 md:h-28 max-w-[210px]",
   },
   {
     alt: "Malmö Stad",
     src: "/images/malmostad-logo2013-inv.png",
+    width: 180,
+    height: 96,
     className: "h-20 md:h-24 max-w-[180px]",
   },
   {
     alt: "FC Rosengård",
     src: "/images/FCR_logo_2014_CMYK.png",
+    width: 140,
+    height: 96,
     className: "h-20 md:h-24 max-w-[140px]",
   },
 ];
@@ -122,6 +129,8 @@ function FunderLogoBar() {
               key={funder.alt}
               src={funder.src}
               alt={funder.alt}
+              width={funder.width}
+              height={funder.height}
               className={`w-auto object-contain hover:scale-105 transition-transform duration-300 ${funder.className}`}
             />
           ))}
@@ -317,18 +326,15 @@ export default function HomePage() {
     title: "Hem",
     description:
       "Tillsammans bygger vi förutsättningar som ger unga möjlighet att utvecklas, hitta riktning och forma sin framtid.",
+    canonical: "/",
   });
 
-  const heroRef = useRef<HTMLDivElement>(null);
   const prefersReducedMotion = useReducedMotion();
 
   return (
     <>
       {/* ─── BEAT 1: Hero — Asymmetric split + parallax ─── */}
-      <section
-        ref={heroRef}
-        className="relative bg-brand-navy text-white overflow-hidden"
-      >
+      <section className="relative bg-brand-navy text-white overflow-hidden">
         {/* Visible decorative blob (opacity 0.12, not invisible) */}
         <div
           className="pointer-events-none absolute -top-20 right-0 w-[600px] h-[600px] rounded-full bg-brand-red/12 blur-[120px]"

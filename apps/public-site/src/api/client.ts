@@ -31,8 +31,12 @@ export const fetchTimeline = () => adapter.fetchTimeline();
 export const fetchResources = () => adapter.fetchResources();
 export const fetchResourcesByCategory = (category: string) =>
   adapter.fetchResourcesByCategory(category);
-export const submitRegistration = adapter.submitRegistration.bind(adapter);
-export const submitContact = adapter.submitContact.bind(adapter);
+export const submitRegistration = (
+  data: Parameters<typeof adapter.submitRegistration>[0],
+) => adapter.submitRegistration(data);
+export const submitContact = (
+  data: Parameters<typeof adapter.submitContact>[0],
+) => adapter.submitContact(data);
 
 // ─── Category helpers (re-exported for convenience) ───
 

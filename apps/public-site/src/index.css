@@ -133,3 +133,12 @@
 .skip-to-content:focus {
   @apply top-4;
 }
+
+/* Disable accordion height transitions for reduced-motion users */
+@media (prefers-reduced-motion: reduce) {
+  [data-state="open"],
+  [data-state="closed"] {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
