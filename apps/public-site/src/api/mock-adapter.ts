@@ -33,12 +33,14 @@ export function createMockAdapter(): ApiAdapter {
 
     async submitRegistration(_data) {
       await delay(800);
-      return { success: true };
+      // No backend yet: success keeps the happy path, delivered=false tells the
+      // UI this wasn't actually sent anywhere.
+      return { success: true, delivered: false };
     },
 
     async submitContact(_data) {
       await delay(800);
-      return { success: true };
+      return { success: true, delivered: false };
     },
   };
 }
