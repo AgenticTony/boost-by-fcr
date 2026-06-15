@@ -8,6 +8,8 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { useSeo } from "@/hooks/use-seo";
+import { ScrollReveal } from "@/components/ui/scroll-reveal";
+import { WaveDivider } from "@/components/ui/wave-divider";
 
 const faqSections = [
   {
@@ -19,7 +21,7 @@ const faqSections = [
       },
       {
         q: "Vem kan delta?",
-        a: "Våra program vänder sig främst till unga vuxna som står långt från arbetsmarknaden. Du behöver inte ha något specifikt förkunskaper eller ha allt klart för dig — du behöver bara vilja ta ett steg framåt.",
+        a: "Våra program vänder sig främst till unga vuxna som står långt från arbetsmarknaden. Du behöver inte ha något specifika förkunskaper eller ha allt klart för dig — du behöver bara vilja ta ett steg framåt.",
       },
       {
         q: "Hur mycket kostar det?",
@@ -89,52 +91,69 @@ export default function VanligaFragorPage() {
 
   return (
     <>
+      {/* Hero */}
       <section className="relative bg-brand-navy text-white overflow-hidden">
         <div className="pointer-events-none absolute -top-32 -right-32 h-96 w-96 rounded-full bg-brand-red/10 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-32 -left-32 h-80 w-80 rounded-full bg-brand-navy/10 blur-3xl" />
         <div className="container-page relative py-20 md:py-28">
-          <h1 className="text-4xl md:text-5xl lg:text-[3.5rem] font-display font-extrabold leading-tight mb-4">
-            Vanliga frågor
-          </h1>
-          <p className="text-lg text-white/75 max-w-lg leading-relaxed">
-            Svaren på det du undrar — och några du kanske inte visste att du
-            hade.
-          </p>
+          <ScrollReveal>
+            <p className="text-xs font-body font-medium text-brand-red-bright tracking-widest uppercase mb-4">
+              Frågor & svar
+            </p>
+            <h1 className="text-4xl md:text-5xl lg:text-[3.5rem] font-display font-extrabold leading-tight mb-4">
+              Vanliga frågor
+            </h1>
+            <p className="text-lg text-white/75 max-w-lg leading-relaxed">
+              Svaren på det du undrar — och några du kanske inte visste att du
+              hade.
+            </p>
+          </ScrollReveal>
+        </div>
+        <WaveDivider color="navy" layered />
+      </section>
+
+      {/* FAQ sections */}
+      <section className="py-16 md:py-24 bg-white">
+        <div className="container-page max-w-2xl">
+          {faqSections.map((section, si) => (
+            <ScrollReveal key={section.heading} delay={si * 0.1}>
+              <div className={si > 0 ? "mt-12" : ""}>
+                <h2 className="text-xl font-display font-bold text-text mb-2">
+                  {section.heading}
+                </h2>
+                <Accordion type="single" collapsible className="mt-2">
+                  {section.items.map((item) => (
+                    <AccordionItem key={item.q} value={item.q}>
+                      <AccordionTrigger>{item.q}</AccordionTrigger>
+                      <AccordionContent>
+                        <p className="text-text-muted leading-relaxed">
+                          {item.a}
+                        </p>
+                      </AccordionContent>
+                    </AccordionItem>
+                  ))}
+                </Accordion>
+              </div>
+            </ScrollReveal>
+          ))}
         </div>
       </section>
 
-      <section className="py-12 md:py-16">
-        <div className="container-page max-w-2xl">
-          {faqSections.map((section, si) => (
-            <div key={section.heading} className={si > 0 ? "mt-12" : ""}>
-              <h2 className="text-xl font-display font-bold text-text mb-2">
-                {section.heading}
-              </h2>
-              <Accordion type="single" collapsible className="mt-2">
-                {section.items.map((item) => (
-                  <AccordionItem key={item.q} value={item.q}>
-                    <AccordionTrigger>{item.q}</AccordionTrigger>
-                    <AccordionContent>
-                      <p className="text-text-muted leading-relaxed">
-                        {item.a}
-                      </p>
-                    </AccordionContent>
-                  </AccordionItem>
-                ))}
-              </Accordion>
-            </div>
-          ))}
-
-          <div className="mt-16 text-center bg-muted/60 rounded-2xl p-8 md:p-10 border border-border/60">
-            <h2 className="text-2xl font-display font-extrabold text-text mb-3">
+      {/* Bottom CTA */}
+      <section className="bg-brand-navy text-white overflow-hidden border-b-4 border-b-brand-red">
+        <WaveDivider color="white" flip layered />
+        <div className="container-page pt-4 pb-16 md:pt-6 md:pb-24 text-center">
+          <ScrollReveal>
+            <h2 className="text-3xl md:text-4xl font-display font-extrabold mb-4">
               Hittade du inte svaret?
             </h2>
-            <p className="text-text-muted leading-relaxed mb-6">
+            <p className="text-white/70 max-w-md mx-auto leading-relaxed mb-8">
               Skicka ett mejl eller ring oss — vi svarar gärna.
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <Button
                 asChild
-                className="bg-brand-red text-brand-navy hover:bg-brand-red/90 font-display font-semibold rounded-cta"
+                className="bg-brand-red-bright text-white hover:bg-brand-red-bright/90 font-display font-semibold rounded-full px-10 h-14 shadow-lg shadow-brand-red-bright/25 hover:scale-[1.02] transition-all duration-300"
               >
                 <Link to="/kontakt">
                   Kontakta oss <ArrowRight className="ml-2 h-4 w-4" />
@@ -142,14 +161,14 @@ export default function VanligaFragorPage() {
               </Button>
               <Button
                 asChild
-                className="bg-brand-red text-brand-navy hover:bg-brand-red/90 font-display font-semibold rounded-cta"
+                className="border-2 border-white/30 text-white hover:bg-white/10 rounded-full px-10 h-14 font-display bg-transparent transition-all duration-300"
               >
                 <Link to="/anmal-dig">
                   Anmäl dig <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
             </div>
-          </div>
+          </ScrollReveal>
         </div>
       </section>
     </>

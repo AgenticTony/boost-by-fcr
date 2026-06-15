@@ -1,21 +1,69 @@
-import { Factory, GraduationCap, FlaskConical } from "lucide-react";
+import {
+  Factory,
+  GraduationCap,
+  FlaskConical,
+  CheckCircle2,
+  ArrowRight,
+} from "lucide-react";
+import { ScrollReveal } from "@/components/ui/scroll-reveal";
+import { WaveDivider } from "@/components/ui/wave-divider";
 import { useSeo } from "@/hooks/use-seo";
+import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 const branches = [
   {
     icon: Factory,
     title: "Fabriken",
-    body: "Här levererar vi beprövade lösningar till offentlig sektor. Det kan handla om upphandlade arbetsmarknadstjänster, samverkansformer som IOP, eller projekt där vi jobbar med etablerade metoder som vi vet fungerar.",
+    body: "Beprövade lösningar till offentlig sektor — etablerade metoder som vi vet fungerar.",
+    points: [
+      "Upphandlade arbetsmarknadstjänster",
+      "Samverkansformer som IOP",
+      "Projekt med beprövade metoder",
+    ],
   },
   {
     icon: GraduationCap,
     title: "Akademin",
-    body: "Här delar vi med oss av allt vi lärt oss under tjugo år i branschen. Vi håller föreläsningar och workshops, stöttar andra organisationer med projektplanering och ansökningsskrivande, och erbjuder projektadministration och redovisningstjänster.",
+    body: "Tjugo års erfarenhet delad med andra — utbildning, stöd och administration.",
+    points: [
+      "Föreläsningar och workshops",
+      "Projektplanering och ansökningsskrivande",
+      "Projektadministration och redovisning",
+    ],
   },
   {
     icon: FlaskConical,
     title: "Labbet",
-    body: "Här testar vi nytt. Labbet är platsen för innovation — nya metoder, nya samarbeten, nya målgrupper. Det är här vi hittar morgondagens lösningar, ofta i projektform och alltid i nära samverkan med andra.",
+    body: "Innovation och nya metoder — morgondagens lösningar i nära samverkan.",
+    points: [
+      "Nya metoder och samarbeten",
+      "Nya målgrupper och insatser",
+      "Projektform med externa partners",
+    ],
+  },
+];
+
+const steps = [
+  {
+    number: "01",
+    title: "Lyssna",
+    body: "Vi börjar alltid med att förståbehovet — från individ, organisation eller samhälle.",
+  },
+  {
+    number: "02",
+    title: "Designa",
+    body: "Vi väljer rätt gren och metod — Fabriken, Akademin eller Labbet.",
+  },
+  {
+    number: "03",
+    title: "Genomföra",
+    body: "Vi levererar med professionell drift, engagemang och transparens.",
+  },
+  {
+    number: "04",
+    title: "Följa upp",
+    body: "Vi mäter resultat, samlar lärdomar och utvecklar vår verksamhet.",
   },
 ];
 
@@ -29,36 +77,125 @@ export default function VadViGorPage() {
 
   return (
     <>
+      {/* Hero */}
       <section className="relative bg-brand-navy text-white overflow-hidden">
         <div className="pointer-events-none absolute -top-32 -right-32 h-96 w-96 rounded-full bg-brand-red/10 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-32 -left-32 h-80 w-80 rounded-full bg-brand-navy/8 blur-3xl" />
         <div className="container-page relative py-20 md:py-28">
-          <h1 className="text-4xl md:text-5xl lg:text-[3.5rem] font-display font-extrabold leading-tight mb-4">
-            En organisation — tre sätt att skapa förändring
-          </h1>
-          <p className="text-lg text-white/75 max-w-lg leading-relaxed">
-            Vi delar in vår verksamhet i tre grenar — alla med samma mål, olika
-            metoder.
-          </p>
+          <ScrollReveal>
+            <h1 className="text-4xl md:text-5xl lg:text-[3.5rem] font-display font-extrabold leading-tight mb-4">
+              En organisation — tre sätt att skapa förändring
+            </h1>
+            <p className="text-lg text-white/75 max-w-lg leading-relaxed">
+              Vi delar in vår verksamhet i tre grenar — alla med samma mål,
+              olika metoder.
+            </p>
+          </ScrollReveal>
         </div>
+        <WaveDivider color="navy" layered />
       </section>
-      <section className="py-12 md:py-16">
+
+      {/* Branch cards */}
+      <section className="py-16 md:py-24 bg-white">
         <div className="container-page">
           <div className="grid md:grid-cols-3 gap-6 md:gap-8">
-            {branches.map((branch) => (
-              <div
-                key={branch.title}
-                className="bg-[#072D59]/5 rounded-3xl p-8 md:p-10"
-              >
-                <div className="inline-flex items-center justify-center h-12 w-12 rounded-xl bg-brand-red text-brand-navy mb-6">
-                  <branch.icon className="h-6 w-6" />
+            {branches.map((branch, i) => (
+              <ScrollReveal key={branch.title} delay={i * 0.1}>
+                <div className="bg-surface rounded-2xl border border-border/60 p-8 md:p-10 shadow-sm hover:shadow-lg transition-all duration-300 h-full">
+                  <div className="inline-flex items-center justify-center h-14 w-14 rounded-2xl bg-brand-red text-white mb-6">
+                    <branch.icon className="h-6 w-6" />
+                  </div>
+                  <h2 className="font-display font-bold text-2xl text-text mb-3">
+                    {branch.title}
+                  </h2>
+                  <p className="text-text-muted leading-relaxed mb-5">
+                    {branch.body}
+                  </p>
+                  <ul className="space-y-2">
+                    {branch.points.map((point) => (
+                      <li
+                        key={point}
+                        className="flex items-start gap-2 text-sm text-text-muted"
+                      >
+                        <CheckCircle2 className="h-4 w-4 text-brand-red mt-0.5 shrink-0" />
+                        <span>{point}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-                <h2 className="font-display font-bold text-2xl text-text mb-3">
-                  {branch.title}
-                </h2>
-                <p className="text-text-muted leading-relaxed">{branch.body}</p>
-              </div>
+              </ScrollReveal>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Process steps */}
+      <section className="py-16 md:py-24 bg-surface">
+        <div className="container-page">
+          <ScrollReveal>
+            <p className="text-sm font-body font-medium text-brand-red tracking-widest uppercase mb-4">
+              Vårt arbetssätt
+            </p>
+            <h2 className="text-3xl md:text-[2.75rem] font-display font-extrabold text-text leading-tight mb-14">
+              Så här jobbar vi
+            </h2>
+          </ScrollReveal>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+            {steps.map((step, i) => (
+              <ScrollReveal key={step.number} delay={i * 0.1}>
+                <div className="relative bg-white rounded-2xl border border-border/60 p-6 md:p-8 h-full">
+                  <span className="text-5xl font-display font-extrabold text-brand-red/10 absolute top-4 right-6">
+                    {step.number}
+                  </span>
+                  <div className="relative">
+                    <span className="inline-block text-xs font-display font-bold text-brand-red bg-brand-red/10 rounded-full px-3 py-1 mb-4">
+                      Steg {step.number}
+                    </span>
+                    <h3 className="font-display font-bold text-lg text-text mb-2">
+                      {step.title}
+                    </h3>
+                    <p className="text-sm text-text-muted leading-relaxed">
+                      {step.body}
+                    </p>
+                  </div>
+                </div>
+              </ScrollReveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Bottom CTA */}
+      <section className="bg-brand-navy text-white overflow-hidden border-b-4 border-b-brand-red">
+        <WaveDivider color="white" flip layered />
+        <div className="container-page pt-4 pb-16 md:pt-6 md:pb-24 text-center">
+          <ScrollReveal>
+            <h2 className="text-3xl md:text-4xl font-display font-extrabold mb-4">
+              Vill du veta mer?
+            </h2>
+            <p className="text-white/70 max-w-md mx-auto leading-relaxed mb-8">
+              Hör av dig så berättar vi hur Fabriken, Akademin eller Labbet kan
+              passa er.
+            </p>
+            <div className="flex flex-wrap gap-4 justify-center">
+              <Button
+                asChild
+                size="lg"
+                className="bg-brand-red-bright text-white hover:bg-brand-red-bright/90 font-display font-semibold rounded-full px-10 h-14 shadow-lg shadow-brand-red-bright/25 hover:scale-[1.02] transition-all duration-300"
+              >
+                <Link to="/kontakt">
+                  Kontakta oss <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+              <Button
+                asChild
+                size="lg"
+                className="border-2 border-white/30 text-white hover:bg-white/10 rounded-full px-10 h-14 font-display bg-transparent transition-all duration-300"
+              >
+                <Link to="/vem-vi-ar">Om oss</Link>
+              </Button>
+            </div>
+          </ScrollReveal>
         </div>
       </section>
     </>
