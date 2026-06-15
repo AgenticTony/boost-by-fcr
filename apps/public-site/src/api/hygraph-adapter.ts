@@ -261,17 +261,18 @@ export function createHygraphAdapter(
       return data.resources.map(mapResource);
     },
 
-    // Forms are not CMS-backed — these stay as no-ops until a backend endpoint exists
+    // Forms are not CMS-backed — these stay as no-ops until a backend endpoint exists.
+    // delivered=false signals to the UI that nothing was actually sent.
     async submitRegistration(_data: RegistrationFormData) {
       console.warn(
         "[hygraph-adapter] submitRegistration: no backend endpoint yet",
       );
-      return { success: true };
+      return { success: true, delivered: false };
     },
 
     async submitContact(_data: ContactFormData) {
       console.warn("[hygraph-adapter] submitContact: no backend endpoint yet");
-      return { success: true };
+      return { success: true, delivered: false };
     },
   };
 }
