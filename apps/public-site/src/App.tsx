@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { ErrorBoundary } from "@/components/error-boundary";
+import { ScrollToTop } from "@/components/scroll-to-top";
 
 /* Eager — always visible or needed for initial shell */
 import NotFoundPage from "@/pages/not-found";
@@ -66,6 +67,7 @@ function PageLoader() {
 export default function App() {
   return (
     <div className="flex min-h-screen flex-col overflow-x-hidden">
+      <ScrollToTop />
       <Header />
       <main id="main-content" className="flex-1">
         <ErrorBoundary>
