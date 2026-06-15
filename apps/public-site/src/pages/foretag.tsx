@@ -12,6 +12,8 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { useSeo } from "@/hooks/use-seo";
+import { ScrollReveal } from "@/components/ui/scroll-reveal";
+import { WaveDivider } from "@/components/ui/wave-divider";
 
 const offerings = [
   {
@@ -74,6 +76,7 @@ export default function ForetagPage() {
 
   return (
     <>
+      {/* Hero */}
       <section className="relative bg-brand-navy text-white overflow-hidden">
         <div className="pointer-events-none absolute inset-0">
           <img
@@ -82,133 +85,143 @@ export default function ForetagPage() {
             className="absolute inset-0 w-full h-full object-cover opacity-20"
           />
         </div>
-        <div className="pointer-events-none absolute top-0 right-0 h-64 w-64 bg-brand-red/10 rounded-full blur-3xl -translate-y-1/3 translate-x-1/3" />
+        <div className="pointer-events-none absolute -top-32 -right-32 h-96 w-96 rounded-full bg-brand-red/10 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-32 -left-32 h-80 w-80 rounded-full bg-brand-navy/10 blur-3xl" />
         <div className="container-page relative py-20 md:py-28">
-          <p className="text-xs font-body font-medium text-brand-red tracking-widest uppercase mb-4">
-            För arbetsgivare
-          </p>
-          <h1 className="text-4xl md:text-5xl lg:text-[3.5rem] font-display font-extrabold leading-tight mb-4">
-            Inkludering — arbete — jämställdhet — hälsa
-          </h1>
-          <p className="text-lg text-white/75 max-w-xl leading-relaxed">
-            Vill du och din organisation vara med och se till att skapa
-            förutsättningar för att alla ska kunna ta sig in på arbetsmarknaden?
-            Vi vet att — precis som för våra deltagare — så är också
-            arbetsgivarnas behov olika.
-          </p>
+          <ScrollReveal>
+            <p className="text-xs font-body font-medium text-brand-red-bright tracking-widest uppercase mb-4">
+              För arbetsgivare
+            </p>
+            <h1 className="text-4xl md:text-5xl lg:text-[3.5rem] font-display font-extrabold leading-tight mb-4">
+              Inkludering — arbete — jämställdhet — hälsa
+            </h1>
+            <p className="text-lg text-white/75 max-w-xl leading-relaxed">
+              Vill du och din organisation vara med och se till att skapa
+              förutsättningar för att alla ska kunna ta sig in på
+              arbetsmarknaden? Vi vet att — precis som för våra deltagare — så
+              är också arbetsgivarnas behov olika.
+            </p>
+          </ScrollReveal>
         </div>
+        <WaveDivider color="navy" layered />
       </section>
 
-      <section className="py-12 md:py-16">
+      {/* Offerings */}
+      <section className="py-16 md:py-24 bg-white">
         <div className="container-page">
-          <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">
-            <div>
-              <p className="text-text-muted leading-relaxed mb-8">
-                Samarbeten med Boost by FCR kan därför se olika ut, från att vi
-                hjälper dig i din rekrytering, föreläsningar eller att du
-                träffar en av våra deltagare.
-              </p>
-              <p className="text-xs font-body font-medium text-brand-navy tracking-widest uppercase mb-4">
-                Vårt erbjudande
-              </p>
-              <h2 className="text-3xl md:text-[2.5rem] font-display font-extrabold text-text leading-tight mb-12">
-                Så kan vi samarbeta
-              </h2>
-              <div className="grid sm:grid-cols-2 gap-6 md:gap-8">
-                {offerings.map((item) => (
-                  <div
-                    key={item.title}
-                    className="bg-white rounded-2xl p-6 md:p-8 border border-border/60"
-                  >
-                    <div className="inline-flex items-center justify-center h-14 w-14 rounded-2xl bg-brand-navy/10 text-brand-navy mb-5">
-                      <item.icon className="h-7 w-7" />
-                    </div>
-                    <h3 className="font-display font-semibold text-lg text-text mb-2">
-                      {item.title}
-                    </h3>
-                    <p className="text-sm text-text-muted leading-relaxed">
-                      {item.body}
-                    </p>
+          <ScrollReveal>
+            <p className="text-text-muted leading-relaxed max-w-2xl mb-8">
+              Samarbeten med Boost by FCR kan se olika ut — från att vi hjälper
+              dig i din rekrytering, till föreläsningar eller att du träffar en
+              av våra deltagare.
+            </p>
+          </ScrollReveal>
+          <ScrollReveal>
+            <p className="text-xs font-body font-medium text-brand-red-bright tracking-widest uppercase mb-4">
+              Vårt erbjudande
+            </p>
+            <h2 className="text-3xl md:text-[2.75rem] font-display font-extrabold text-text leading-tight mb-12">
+              Så kan vi samarbeta
+            </h2>
+          </ScrollReveal>
+          <div className="grid sm:grid-cols-3 gap-6 md:gap-8">
+            {offerings.map((item, i) => (
+              <ScrollReveal key={item.title} delay={i * 0.1}>
+                <div className="bg-surface rounded-2xl p-6 md:p-8 border border-border/60 shadow-sm hover:shadow-lg transition-all duration-300 h-full">
+                  <div className="inline-flex items-center justify-center h-14 w-14 rounded-2xl bg-brand-navy text-white mb-5">
+                    <item.icon className="h-7 w-7" />
                   </div>
-                ))}
-              </div>
-              <div className="mt-10">
-                <Button
-                  asChild
-                  className="bg-brand-red text-white hover:bg-brand-red/90 font-display font-semibold rounded-cta h-12"
-                >
-                  <Link to="/kontakt?amne=foretag">
-                    Berätta om ert uppdrag{" "}
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </Link>
-                </Button>
-              </div>
-            </div>
-            <div className="hidden lg:block">
-              <div className="rounded-2xl overflow-hidden bg-[#C0C7DA]/20 p-6 sticky top-24">
-                <img
-                  src="/images/illustration-hands-heart.jpg"
-                  alt="Händer som formar ett hjärta — symbol för inkludering och gemenskap"
-                  className="w-full h-auto rounded-xl object-contain max-h-80 mx-auto"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </div>
-            </div>
+                  <h3 className="font-display font-semibold text-lg text-text mb-2">
+                    {item.title}
+                  </h3>
+                  <p className="text-sm text-text-muted leading-relaxed">
+                    {item.body}
+                  </p>
+                </div>
+              </ScrollReveal>
+            ))}
+          </div>
+          <div className="mt-10 text-center">
+            <Button
+              asChild
+              className="bg-brand-red-bright text-white hover:bg-brand-red-bright/90 font-display font-semibold rounded-full px-10 h-14 shadow-lg shadow-brand-red-bright/25 hover:scale-[1.02] transition-all duration-300"
+            >
+              <Link to="/kontakt?amne=foretag">
+                Berätta om ert uppdrag <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
           </div>
         </div>
       </section>
 
-      <section className="py-12 md:py-16 bg-muted/60">
+      {/* Recruitment steps */}
+      <section className="py-16 md:py-24 bg-surface">
         <div className="container-page">
-          <p className="text-xs font-body font-medium text-brand-navy tracking-widest uppercase mb-4">
-            Rekrytering
-          </p>
-          <h2 className="text-3xl font-display font-extrabold text-text mb-12">
-            Hitta din nästa medarbetare
-          </h2>
+          <ScrollReveal>
+            <p className="text-xs font-body font-medium text-brand-red-bright tracking-widest uppercase mb-4">
+              Rekrytering
+            </p>
+            <h2 className="text-3xl md:text-[2.75rem] font-display font-extrabold text-text mb-12">
+              Hitta din nästa medarbetare
+            </h2>
+          </ScrollReveal>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {steps.map((step, i) => (
-              <div
-                key={step.label}
-                className="relative bg-white rounded-2xl p-6 md:p-8 border border-border/60"
-              >
-                <div className="flex items-center gap-3 mb-4">
-                  <span className="flex items-center justify-center h-12 w-12 rounded-full bg-brand-red text-white font-display font-extrabold text-lg">
-                    {i + 1}
-                  </span>
-                  <div className="h-11 w-11 rounded-xl bg-brand-navy text-white flex items-center justify-center">
-                    <step.icon className="h-5 w-5" />
+              <ScrollReveal key={step.label} delay={i * 0.08}>
+                <div className="relative bg-white rounded-2xl p-6 md:p-8 border border-border/60 shadow-sm hover:shadow-lg transition-all duration-300 h-full">
+                  <div className="flex items-center gap-3 mb-4">
+                    <span className="flex items-center justify-center h-12 w-12 rounded-full bg-brand-red-bright text-white font-display font-extrabold text-lg shadow-md shadow-brand-red-bright/20">
+                      {i + 1}
+                    </span>
+                    <div className="h-11 w-11 rounded-xl bg-brand-navy text-white flex items-center justify-center">
+                      <step.icon className="h-5 w-5" />
+                    </div>
                   </div>
+                  <h3 className="font-display font-semibold text-lg text-text mb-2">
+                    {step.label}
+                  </h3>
+                  <p className="text-sm text-text-muted leading-relaxed">
+                    {step.body}
+                  </p>
                 </div>
-                <h3 className="font-display font-semibold text-lg text-text mb-2">
-                  {step.label}
-                </h3>
-                <p className="text-sm text-text-muted leading-relaxed">
-                  {step.body}
-                </p>
-              </div>
+              </ScrollReveal>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="bg-brand-navy text-white">
-        <div className="container-page py-12 md:py-16 max-w-3xl">
-          <div className="bg-white/5 rounded-2xl p-6 md:p-8 border-l-4 border-l-brand-red border border-white/10">
-            <p className="font-display font-semibold text-white text-lg mb-1">
-              Kontakta Käthe för att prata samarbete
+      {/* Bottom CTA */}
+      <section className="bg-brand-navy text-white overflow-hidden border-b-4 border-b-brand-red">
+        <WaveDivider color="white" flip layered />
+        <div className="container-page pt-4 pb-16 md:pt-6 md:pb-24 text-center">
+          <ScrollReveal>
+            <h2 className="text-3xl md:text-4xl font-display font-extrabold mb-4">
+              Redo att samarbeta?
+            </h2>
+            <p className="text-white/70 max-w-md mx-auto leading-relaxed mb-8">
+              Kontakta Käthe för att prata om hur vi kan hjälpa er hitta rätt
+              personer — och göra skillnad tillsammans.
             </p>
-            <p className="text-sm text-white/70 mb-6">
+            <div className="flex flex-wrap gap-4 justify-center">
+              <Button
+                asChild
+                className="bg-brand-red-bright text-white hover:bg-brand-red-bright/90 font-display font-semibold rounded-full px-10 h-14 shadow-lg shadow-brand-red-bright/25 hover:scale-[1.02] transition-all duration-300"
+              >
+                <a href="mailto:kathe.andersson@boostbyfcr.se">
+                  Skicka ett mejl <ArrowRight className="ml-2 h-4 w-4" />
+                </a>
+              </Button>
+              <Button
+                asChild
+                className="border-2 border-white/30 text-white hover:bg-white/10 rounded-full px-10 h-14 font-display bg-transparent transition-all duration-300"
+              >
+                <Link to="/kontakt?amne=Företagssamarbete">Kontakta oss</Link>
+              </Button>
+            </div>
+            <p className="text-sm text-white/50 mt-6">
               Käthe Andersson — kathe.andersson@boostbyfcr.se — 072-164 53 45
             </p>
-            <a
-              href="mailto:kathe.andersson@boostbyfcr.se"
-              className="inline-flex items-center gap-2 bg-brand-red text-white hover:bg-brand-red/90 font-display font-semibold rounded-cta px-8 h-12 text-sm transition-colors"
-            >
-              Skicka ett mejl <ArrowRight className="h-4 w-4" />
-            </a>
-          </div>
+          </ScrollReveal>
         </div>
       </section>
     </>

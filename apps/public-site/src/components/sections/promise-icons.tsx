@@ -38,40 +38,35 @@ export function PromiseIcons({ className }: Props) {
     <div
       className={`flex flex-wrap justify-center gap-6 md:gap-10 ${className ?? ""}`}
     >
-      {promises.map((p, i) => {
-        const Wrapper = prefersReducedMotion ? "div" : motion.div;
-        const animProps = prefersReducedMotion
-          ? {}
-          : {
-              initial: { opacity: 0, y: 20 },
-              whileInView: { opacity: 1, y: 0 },
-              viewport: { once: true },
-              transition: {
-                duration: 0.4,
-                delay: i * 0.08,
-                ease: "easeOut" as const,
-              },
-            };
-
-        return (
-          <Wrapper
-            key={p.label}
-            className="flex flex-col items-center gap-2"
-            {...animProps}
-          >
-            <div className="flex items-center justify-center h-14 w-14 md:h-16 md:w-16 rounded-2xl bg-brand-red/10">
-              <img
-                src={p.src}
-                alt={p.label}
-                className="h-10 w-10 md:h-12 md:w-12 object-contain"
-              />
-            </div>
-            <span className="text-xs font-display font-semibold text-text-muted text-center">
-              {p.label}
-            </span>
-          </Wrapper>
-        );
-      })}
+      {promises.map((p, i) => (
+        <motion.div
+          key={p.label}
+          className="flex flex-col items-center gap-2"
+          {...(prefersReducedMotion
+            ? {}
+            : {
+                initial: { opacity: 0, y: 20 },
+                whileInView: { opacity: 1, y: 0 },
+                viewport: { once: true },
+                transition: {
+                  duration: 0.4,
+                  delay: i * 0.08,
+                  ease: "easeOut" as const,
+                },
+              })}
+        >
+          <div className="flex items-center justify-center h-14 w-14 md:h-16 md:w-16 rounded-2xl bg-brand-red/10">
+            <img
+              src={p.src}
+              alt={p.label}
+              className="h-10 w-10 md:h-12 md:w-12 object-contain"
+            />
+          </div>
+          <span className="text-xs font-display font-semibold text-text-muted text-center">
+            {p.label}
+          </span>
+        </motion.div>
+      ))}
     </div>
   );
 }
