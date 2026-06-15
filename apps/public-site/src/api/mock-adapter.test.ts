@@ -101,7 +101,7 @@ describe("mock-adapter", () => {
         phone: "070-1234567",
         track: "arbetssparet",
       });
-      expect(result).toEqual({ success: true });
+      expect(result).toEqual({ success: true, delivered: false });
     });
   });
 
@@ -113,7 +113,7 @@ describe("mock-adapter", () => {
         subject: "Question",
         message: "Hello!",
       });
-      expect(result).toEqual({ success: true });
+      expect(result).toEqual({ success: true, delivered: false });
     });
   });
 });

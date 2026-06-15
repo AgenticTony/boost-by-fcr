@@ -7,7 +7,11 @@ describe("cn", () => {
   });
 
   it("handles conditional classes", () => {
-    expect(cn("base", false && "hidden", "active")).toBe("base active");
+    const isHidden = false;
+    const isActive = true;
+    expect(cn("base", isHidden && "hidden", isActive && "active")).toBe(
+      "base active",
+    );
   });
 
   it("deduplicates tailwind utilities", () => {
