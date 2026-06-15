@@ -33,12 +33,8 @@ describe("App routing", () => {
     });
   });
 
-  it("shows skeleton loader while page loads", () => {
+  it("renders the app shell container", () => {
     renderApp("/");
-    // Skeleton loaders use animate-pulse class
-    const skeletons = document.querySelectorAll(".animate-pulse");
-    // They may or may not be visible depending on render timing
-    // Just verify the app container renders
     expect(document.querySelector(".flex.min-h-screen")).toBeInTheDocument();
   });
 
@@ -96,4 +92,39 @@ describe("App routing", () => {
     const main = document.getElementById("main-content");
     expect(main).toBeInTheDocument();
   });
+});
+
+describe("App routing — every route mounts without crashing", () => {
+  // A lazy-load export mistake (missing default export, renamed symbol) would
+  // throw on render and surface the ErrorBoundary fallback. This catches that
+  // class of breakage for every public route.
+  const routes = [
+    "/",
+    "/anmal-dig",
+    "/arbetssokande",
+    "/bridge",
+    "/dataskyddspolicy",
+    "/foretag",
+    "/halsosparet",
+    "/kontakt",
+    "/lediga-tjanster",
+    "/nyheter",
+    "/press-media",
+    "/resurser",
+    "/studier",
+    "/vad-vi-gor",
+    "/var-historia",
+    "/vanliga-fragor",
+    "/vem-vi-ar",
+  ];
+
+  it.each(routes)(
+    "mounts %s without hitting the error boundary",
+    async (path) => {
+      renderApp(path);
+      await waitFor(() => {
+        expect(screen.queryByText(/Något gick fel/i)).not.toBeInTheDocument();
+      });
+    },
+  );
 });

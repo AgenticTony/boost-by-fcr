@@ -12,6 +12,7 @@ import { submitContact } from "@/api/client";
 import { useSeo } from "@/hooks/use-seo";
 import { ScrollReveal } from "@/components/ui/scroll-reveal";
 import { WaveDivider } from "@/components/ui/wave-divider";
+import { DemoNotice } from "@/components/demo-notice";
 
 const schema = z.object({
   name: z.string().min(1, "Namn är obligatoriskt"),
@@ -35,6 +36,7 @@ const subjectOptions = [
 
 function KontaktForm() {
   const [submitted, setSubmitted] = useState(false);
+  const [delivered, setDelivered] = useState(false);
   const [serverError, setServerError] = useState("");
   const [searchParams] = useSearchParams();
   const prefillSubject = searchParams.get("amne");
@@ -65,8 +67,10 @@ function KontaktForm() {
     setServerError("");
     try {
       const result = await submitContact(data);
-      if (result.success) setSubmitted(true);
-      else setServerError("Något gick fel. Försök igen.");
+      if (result.success) {
+        setDelivered(result.delivered);
+        setSubmitted(true);
+      } else setServerError("Något gick fel. Försök igen.");
     } catch {
       setServerError("Något gick fel. Försök igen.");
     }
@@ -83,6 +87,7 @@ function KontaktForm() {
           <p className="text-text-muted leading-relaxed">
             Vi hör av oss inom en arbetsdag.
           </p>
+          {!delivered && <DemoNotice />}
         </div>
       ) : (
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">

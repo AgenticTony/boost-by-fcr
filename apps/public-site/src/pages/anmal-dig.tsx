@@ -17,6 +17,7 @@ import { submitRegistration } from "@/api/client";
 import { useSeo } from "@/hooks/use-seo";
 import { ScrollReveal } from "@/components/ui/scroll-reveal";
 import { WaveDivider } from "@/components/ui/wave-divider";
+import { DemoNotice } from "@/components/demo-notice";
 
 const schema = z.object({
   firstName: z.string().min(1, "Förnamn är obligatoriskt"),
@@ -59,6 +60,7 @@ export default function AnmalDigPage() {
     canonical: "/anmal-dig",
   });
   const [submitted, setSubmitted] = useState(false);
+  const [delivered, setDelivered] = useState(false);
   const [serverError, setServerError] = useState("");
   const {
     register,
@@ -75,8 +77,10 @@ export default function AnmalDigPage() {
     setServerError("");
     try {
       const result = await submitRegistration(data);
-      if (result.success) setSubmitted(true);
-      else setServerError("Något gick fel. Försök igen.");
+      if (result.success) {
+        setDelivered(result.delivered);
+        setSubmitted(true);
+      } else setServerError("Något gick fel. Försök igen.");
     } catch {
       setServerError("Något gick fel. Försök igen.");
     }
@@ -148,6 +152,7 @@ export default function AnmalDigPage() {
                   Din anmälan är mottagen. En vägledare kontaktar dig inom en
                   arbetsdag.
                 </p>
+                {!delivered && <DemoNotice />}
               </div>
             ) : (
               <div className="bg-white rounded-2xl p-6 md:p-8 border border-border/60 shadow-sm">

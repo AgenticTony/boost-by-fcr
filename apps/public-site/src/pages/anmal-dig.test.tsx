@@ -112,6 +112,10 @@ describe("AnmalDigPage (Registration form)", () => {
       },
       { timeout: 5000 },
     );
+
+    // No backend wired yet (mock returns delivered=false): the success screen
+    // is honest that the submission was not actually sent anywhere.
+    expect(screen.getByText(/har inte skickats/i)).toBeInTheDocument();
   });
 
   it("has track options in select", () => {

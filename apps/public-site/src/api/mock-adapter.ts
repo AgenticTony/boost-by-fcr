@@ -31,16 +31,16 @@ export function createMockAdapter(): ApiAdapter {
       return mockResources.filter((r) => r.category === category);
     },
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     async submitRegistration(_data) {
       await delay(800);
-      return { success: true };
+      // No backend yet: success keeps the happy path, delivered=false tells the
+      // UI this wasn't actually sent anywhere.
+      return { success: true, delivered: false };
     },
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     async submitContact(_data) {
       await delay(800);
-      return { success: true };
+      return { success: true, delivered: false };
     },
   };
 }
