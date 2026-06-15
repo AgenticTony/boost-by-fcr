@@ -7,17 +7,78 @@
  */
 
 // ─── Adapter singleton ───
+import type { ApiAdapter } from "./adapter";
 import { createMockAdapter } from "./mock-adapter";
 import { createHygraphAdapter } from "./hygraph-adapter";
 
 const useHygraph = import.meta.env.VITE_USE_HYGRAPH === "true";
+const endpoint = import.meta.env.VITE_HYGRAPH_ENDPOINT ?? "";
 
-const adapter = useHygraph
-  ? createHygraphAdapter(
-      import.meta.env.VITE_HYGRAPH_ENDPOINT ?? "",
-      import.meta.env.VITE_HYGRAPH_TOKEN,
-    )
-  : createMockAdapter();
+/**
+ * Wrap a primary adapter so any failed read degrades to the fallback adapter,
+ * keeping the site contented even if Hygraph is misconfigured or unreachable.
+ * Form submissions are not covered (they are no-ops pending a backend in both
+ * adapters) and pass straight through to the primary.
+ */
+export function createResilientAdapter(
+  primary: ApiAdapter,
+  fallback: ApiAdapter,
+): ApiAdapter {
+  const withFallback = <T>(
+    label: string,
+    run: () => Promise<T>,
+    fallbackRun: () => Promise<T>,
+  ): Promise<T> =>
+    run().catch((error) => {
+      console.warn(`[api] ${label} failed, falling back to mock data`, error);
+      return fallbackRun();
+    });
+
+  return {
+    fetchNews: () =>
+      withFallback("fetchNews", primary.fetchNews, fallback.fetchNews),
+    fetchNewsBySlug: (slug) =>
+      withFallback(
+        "fetchNewsBySlug",
+        () => primary.fetchNewsBySlug(slug),
+        () => fallback.fetchNewsBySlug(slug),
+      ),
+    fetchTimeline: () =>
+      withFallback(
+        "fetchTimeline",
+        primary.fetchTimeline,
+        fallback.fetchTimeline,
+      ),
+    fetchResources: () =>
+      withFallback(
+        "fetchResources",
+        primary.fetchResources,
+        fallback.fetchResources,
+      ),
+    fetchResourcesByCategory: (category) =>
+      withFallback(
+        "fetchResourcesByCategory",
+        () => primary.fetchResourcesByCategory(category),
+        () => fallback.fetchResourcesByCategory(category),
+      ),
+    submitRegistration: (data) => primary.submitRegistration(data),
+    submitContact: (data) => primary.submitContact(data),
+  };
+}
+
+const adapter: ApiAdapter = (() => {
+  if (!useHygraph) return createMockAdapter();
+  if (!endpoint) {
+    console.warn(
+      "[api] VITE_USE_HYGRAPH=true but VITE_HYGRAPH_ENDPOINT is unset — using mock data",
+    );
+    return createMockAdapter();
+  }
+  return createResilientAdapter(
+    createHygraphAdapter(endpoint, import.meta.env.VITE_HYGRAPH_TOKEN),
+    createMockAdapter(),
+  );
+})();
 
 // ─── Types ───
 export type { NewsArticle, TimelineEntry, Resource } from "@/types";

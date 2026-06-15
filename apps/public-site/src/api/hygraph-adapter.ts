@@ -120,7 +120,48 @@ query FetchResourcesByCategory($category: String!) {
 
 // ─── Mappers ────────────────────────────────────────────────────────
 
-function mapNews(raw: HygraphNews): NewsArticle {
+/**
+ * Hygraph Rich Text `raw` is a serialized JSON AST (Lexical-style), not plain
+ * text. Flatten it to readable plain text — block nodes become paragraphs
+ * joined by a blank line, matching the article page's "\n\n" renderer.
+ *
+ * Falls back to the raw string when it is not valid JSON (e.g. plain-text CMS
+ * fields or mock data), so non-rich fields keep working unchanged.
+ *
+ * Trade-off: preserves text content, not formatting (headings/lists lose
+ * structure). Swap for a full rich-text renderer later if the CMS needs it.
+ */
+interface RichTextNode {
+  type?: string;
+  text?: string;
+  children?: RichTextNode[];
+}
+
+function collectText(node: RichTextNode): string {
+  if (node.text != null) return node.text;
+  if (node.children) return node.children.map(collectText).join("");
+  return "";
+}
+
+export function richTextToPlainText(raw: string): string {
+  try {
+    const ast = JSON.parse(raw) as RichTextNode;
+    const blocks = (ast.children ?? [])
+      .map(collectText)
+      .map((block) => block.trim())
+      .filter(Boolean);
+    return blocks.length > 0 ? blocks.join("\n\n") : raw;
+  } catch {
+    return raw;
+  }
+}
+
+function mapBody(body: HygraphNews["body"]): string {
+  if (typeof body === "string") return body;
+  return body?.raw ? richTextToPlainText(body.raw) : "";
+}
+
+export function mapNews(raw: HygraphNews): NewsArticle {
   return {
     id: raw.id,
     slug: raw.slug,
@@ -128,14 +169,14 @@ function mapNews(raw: HygraphNews): NewsArticle {
     publishedAt: raw.publishedAt,
     category: raw.category,
     excerpt: raw.excerpt,
-    body: typeof raw.body === "string" ? raw.body : (raw.body?.raw ?? ""),
+    body: mapBody(raw.body),
     imageUrl: raw.image?.url,
     imageAlt: raw.image?.altText,
     author: raw.author,
   };
 }
 
-function mapTimeline(raw: HygraphTimeline): TimelineEntry {
+export function mapTimeline(raw: HygraphTimeline): TimelineEntry {
   return {
     id: raw.id,
     year: raw.year,
@@ -147,7 +188,7 @@ function mapTimeline(raw: HygraphTimeline): TimelineEntry {
   };
 }
 
-function mapResource(raw: HygraphResource): Resource {
+export function mapResource(raw: HygraphResource): Resource {
   return {
     id: raw.id,
     title: raw.title,
