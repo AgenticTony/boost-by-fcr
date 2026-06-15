@@ -93,3 +93,38 @@ describe("App routing", () => {
     expect(main).toBeInTheDocument();
   });
 });
+
+describe("App routing — every route mounts without crashing", () => {
+  // A lazy-load export mistake (missing default export, renamed symbol) would
+  // throw on render and surface the ErrorBoundary fallback. This catches that
+  // class of breakage for every public route.
+  const routes = [
+    "/",
+    "/anmal-dig",
+    "/arbetssokande",
+    "/bridge",
+    "/dataskyddspolicy",
+    "/foretag",
+    "/halsosparet",
+    "/kontakt",
+    "/lediga-tjanster",
+    "/nyheter",
+    "/press-media",
+    "/resurser",
+    "/studier",
+    "/vad-vi-gor",
+    "/var-historia",
+    "/vanliga-fragor",
+    "/vem-vi-ar",
+  ];
+
+  it.each(routes)(
+    "mounts %s without hitting the error boundary",
+    async (path) => {
+      renderApp(path);
+      await waitFor(() => {
+        expect(screen.queryByText(/Något gick fel/i)).not.toBeInTheDocument();
+      });
+    },
+  );
+});
