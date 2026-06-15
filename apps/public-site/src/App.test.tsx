@@ -33,12 +33,8 @@ describe("App routing", () => {
     });
   });
 
-  it("shows skeleton loader while page loads", () => {
+  it("renders the app shell container", () => {
     renderApp("/");
-    // Skeleton loaders use animate-pulse class
-    const skeletons = document.querySelectorAll(".animate-pulse");
-    // They may or may not be visible depending on render timing
-    // Just verify the app container renders
     expect(document.querySelector(".flex.min-h-screen")).toBeInTheDocument();
   });
 
