@@ -45,3 +45,7 @@ class MockIntersectionObserver {
 
 globalThis.IntersectionObserver =
   MockIntersectionObserver as unknown as typeof IntersectionObserver;
+
+// jsdom does not implement window.scrollTo — stub it so route-change scroll
+// resets (ScrollToTop) don't log "Not implemented" warnings during tests.
+window.scrollTo = () => {};
