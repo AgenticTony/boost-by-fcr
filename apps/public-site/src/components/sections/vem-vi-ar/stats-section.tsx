@@ -6,7 +6,7 @@ const stats = [
   { number: 7500, label: "Unga som varit hos oss" },
   { number: 3800, label: "Fått arbete eller studier" },
   { text: "8 av 10", label: "Nöjda deltagare" },
-  { number: 2003, label: "Sedan starten" },
+  { text: "2003", label: "Sedan starten" },
 ];
 
 export function StatsSection() {
