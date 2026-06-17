@@ -64,5 +64,12 @@ test-results/
 # Secrets — never commit
 apps/public-site/src/assets/recovery-codes.txt
 
-# Local-only push tracking (not shared with team)
+# Anthony's local-only working docs (not shared with the team)
+docs/Boost_Arbetsuppdelning_v3_Anna_uppdatering.md
+docs/BOOST_BRAND_COLORS.md
+docs/DesignBrief.md
+docs/P2_PREREQUISITES.md
 docs/P2_PUSH_PLAN.md
+docs/P2_ROADMAP.md
+docs/Phase2Brief.md
+docs/plan2.md
