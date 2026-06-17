@@ -86,7 +86,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: locked-area-dist
-          path: ./apps/locked-area/dist
+          path: ./dist
 
   # Deploy public site to Cloudflare Pages
   deploy-public-site:
