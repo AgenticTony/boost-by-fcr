@@ -1,9 +1,28 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi, beforeEach } from "vitest";
+
+// Mock graphql-request so the adapter factory can be exercised without network.
+// Hoisted so the mock is registered before the module under test loads.
+const { requestMock, GraphQLClientMock } = vi.hoisted(() => {
+  const requestMock = vi.fn();
+  return {
+    requestMock,
+    // Regular function so it is callable with `new GraphQLClient(...)`.
+    GraphQLClientMock: vi.fn().mockImplementation(function () {
+      return { request: requestMock };
+    }),
+  };
+});
+
+vi.mock("graphql-request", () => ({
+  GraphQLClient: GraphQLClientMock,
+}));
+
 import {
   mapNews,
   mapTimeline,
   mapResource,
   richTextToPlainText,
+  createHygraphAdapter,
 } from "./hygraph-adapter";
 import type { NewsArticle, TimelineEntry, Resource } from "@/types";
 
@@ -56,6 +75,18 @@ describe("richTextToPlainText", () => {
       type: "root",
       children: [
         { type: "paragraph", children: [{ type: "text", text: "   " }] },
+        { type: "paragraph", children: [{ type: "text", text: "kept" }] },
+      ],
+    });
+    expect(richTextToPlainText(raw)).toBe("kept");
+  });
+
+  it("treats a leaf node with neither text nor children as empty", () => {
+    // A node like { type: "image" } hits collectText's final `return ""`.
+    const raw = JSON.stringify({
+      type: "root",
+      children: [
+        { type: "image" },
         { type: "paragraph", children: [{ type: "text", text: "kept" }] },
       ],
     });
@@ -171,5 +202,154 @@ describe("mapResource", () => {
       isPublic: true,
     };
     expect(mapped).toEqual(expected);
+  });
+});
+
+/**
+ * Adapter factory: verifies each read maps Hygraph payloads and that form
+ * submissions are honest no-ops (delivered=false) until a backend exists.
+ * Network is intercepted via the graphql-request mock above.
+ */
+describe("createHygraphAdapter", () => {
+  beforeEach(() => {
+    requestMock.mockReset();
+    GraphQLClientMock.mockClear();
+  });
+
+  const endpoint = "https://test.hygraph.com/graphql";
+
+  function makeAdapter(token?: string) {
+    return createHygraphAdapter(endpoint, token);
+  }
+
+  it("constructs a GraphQLClient with a bearer header when a token is given", () => {
+    makeAdapter("tok");
+    expect(GraphQLClientMock).toHaveBeenCalledWith(endpoint, {
+      headers: { Authorization: "Bearer tok" },
+    });
+  });
+
+  it("omits the Authorization header when no token is supplied", () => {
+    makeAdapter();
+    expect(GraphQLClientMock).toHaveBeenCalledWith(endpoint, { headers: {} });
+  });
+
+  it("fetchNews maps Hygraph articles", async () => {
+    requestMock.mockResolvedValue({
+      newsArticles: [
+        {
+          id: "n1",
+          slug: "s1",
+          title: "Title",
+          publishedAt: "2026-01-01T00:00:00Z",
+          category: "nyhet",
+          excerpt: "Ex",
+          body: { raw: "Plain body" },
+        },
+      ],
+    });
+    const news = await makeAdapter().fetchNews();
+    expect(news).toHaveLength(1);
+    expect(news[0]).toMatchObject({
+      id: "n1",
+      title: "Title",
+      body: "Plain body",
+    });
+  });
+
+  it("fetchNewsBySlug returns null when the article is absent", async () => {
+    requestMock.mockResolvedValue({ newsArticle: null });
+    expect(await makeAdapter().fetchNewsBySlug("missing")).toBeNull();
+  });
+
+  it("fetchNewsBySlug returns a mapped article when present", async () => {
+    requestMock.mockResolvedValue({
+      newsArticle: {
+        id: "n2",
+        slug: "s2",
+        title: "T2",
+        publishedAt: "2026-02-02T00:00:00Z",
+        category: "nyhet",
+        excerpt: "e",
+        body: { raw: "b" },
+      },
+    });
+    const article = await makeAdapter().fetchNewsBySlug("s2");
+    expect(article?.id).toBe("n2");
+  });
+
+  it("fetchTimeline maps timeline entries", async () => {
+    requestMock.mockResolvedValue({
+      timelineEntries: [
+        { id: "t1", year: 2010, projectName: "P", description: "D" },
+      ],
+    });
+    const timeline = await makeAdapter().fetchTimeline();
+    expect(timeline).toHaveLength(1);
+    expect(timeline[0].projectName).toBe("P");
+  });
+
+  it("fetchResources maps resources", async () => {
+    requestMock.mockResolvedValue({
+      resources: [
+        {
+          id: "r1",
+          title: "R",
+          slug: "r",
+          category: "normer",
+          description: "d",
+          isPublic: true,
+        },
+      ],
+    });
+    const resources = await makeAdapter().fetchResources();
+    expect(resources).toHaveLength(1);
+    expect(resources[0].title).toBe("R");
+  });
+
+  it("fetchResourcesByCategory forwards the category to the query", async () => {
+    requestMock.mockResolvedValue({ resources: [] });
+    await makeAdapter().fetchResourcesByCategory("normer");
+    expect(requestMock).toHaveBeenCalledWith(expect.anything(), {
+      category: "normer",
+    });
+  });
+
+  it("fetchResourcesByCategory('alla') delegates to fetchResources with no category filter", async () => {
+    requestMock.mockResolvedValue({
+      resources: [
+        {
+          id: "r1",
+          title: "R",
+          slug: "r",
+          category: "normer",
+          description: "d",
+          isPublic: true,
+        },
+      ],
+    });
+    const resources = await makeAdapter().fetchResourcesByCategory("alla");
+    expect(resources).toHaveLength(1);
+    // The "alla" path calls client.request(query) with a single argument.
+    expect(requestMock).toHaveBeenCalledWith(expect.anything());
+  });
+
+  it("submitRegistration warns and signals not delivered (no backend yet)", async () => {
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+    const result = await makeAdapter().submitRegistration({} as never);
+    expect(result).toEqual({ success: true, delivered: false });
+    expect(warnSpy).toHaveBeenCalled();
+  });
+
+  it("submitContact warns and signals not delivered (no backend yet)", async () => {
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+    const result = await makeAdapter().submitContact({} as never);
+    expect(result).toEqual({ success: true, delivered: false });
+    expect(warnSpy).toHaveBeenCalled();
+  });
+
+  it("propagates request errors so the resilient layer can fall back", async () => {
+    requestMock.mockRejectedValue(new Error("network down"));
+    await expect(makeAdapter().fetchNews()).rejects.toThrow("network down");
   });
 });
