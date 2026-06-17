@@ -1,4 +1,5 @@
 ﻿// P4: Testing CI/CD workflow
+// Force fresh workflow run
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { AuthProvider } from './auth/AuthContext'
