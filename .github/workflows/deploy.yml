@@ -22,7 +22,7 @@ jobs:
         with:
           node-version: "20"
           cache: "npm"
-          cache-dependency-path: ./apps/public-site/package-lock.json
+          cache-dependency-path: package-lock.json
 
       - name: Install dependencies
         run: npm ci
@@ -47,7 +47,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: public-site-dist
-          path: ./apps/public-site/dist
+          path: ./dist
 
   # Build and test locked area
   build-locked-area:
@@ -64,7 +64,7 @@ jobs:
         with:
           node-version: "20"
           cache: "npm"
-          cache-dependency-path: ./apps/locked-area/package-lock.json
+          cache-dependency-path: package-lock.json
 
       - name: Install dependencies
         run: npm ci
