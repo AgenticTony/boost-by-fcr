@@ -21,7 +21,7 @@ export function BridgeSection() {
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-start">
             {/* Left: Text content */}
             <div className="min-w-0">
-              <p className="text-xs font-body font-medium text-brand-red tracking-widest uppercase mb-5">
+              <p className="text-xs font-body font-medium text-white tracking-widest uppercase mb-5">
                 ESF-projekt
               </p>
               <h2 className="text-2xl md:text-4xl font-display font-extrabold mb-3 leading-tight">
@@ -76,17 +76,21 @@ export function BridgeSection() {
                 <div className="grid grid-cols-3 gap-0 divide-x divide-white/10">
                   {[
                     {
-                      icon: <Users className="h-5 w-5 text-brand-red" />,
+                      icon: <Users className="h-5 w-5 text-brand-red-bright" />,
                       value: "18–29",
                       sub: "år",
                     },
                     {
-                      icon: <Landmark className="h-5 w-5 text-brand-red" />,
+                      icon: (
+                        <Landmark className="h-5 w-5 text-brand-red-bright" />
+                      ),
                       value: "ESF",
                       sub: "finansierat",
                     },
                     {
-                      icon: <Handshake className="h-5 w-5 text-brand-red" />,
+                      icon: (
+                        <Handshake className="h-5 w-5 text-brand-red-bright" />
+                      ),
                       value: "AF",
                       sub: "samarbete",
                     },
