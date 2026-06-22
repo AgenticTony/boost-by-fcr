@@ -96,7 +96,7 @@ export default function StudierPage() {
       <section className="bg-brand-navy text-white overflow-hidden">
         <WaveDivider color="white" flip layered />
         <div className="container-page py-12 md:py-16">
-          <div className="grid grid-cols-3 gap-6 md:gap-8 text-center">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 md:gap-8 text-center">
             {[
               {
                 number: 150,

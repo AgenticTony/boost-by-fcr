@@ -9,12 +9,12 @@ export function ImpactStatsSection() {
           Bakom varje siffra finns en människa som tagit ett steg framåt
         </p>
 
-        <div className="grid md:grid-cols-2 gap-8 md:gap-16 max-w-4xl mx-auto mb-8">
+        <div className="grid md:grid-cols-2 gap-12 md:gap-16 max-w-4xl mx-auto mb-8">
           {/* 7 500 */}
           <div className="text-center relative">
             {/* Bullseye circle behind number */}
             <div
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 md:w-52 md:h-52 rounded-full border-2 border-brand-red/20 pointer-events-none"
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 md:w-52 md:h-52 rounded-full border-2 border-brand-red/20 pointer-events-none"
               aria-hidden="true"
             />
             <p className="relative text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-display font-extrabold tracking-tighter leading-none">
@@ -29,7 +29,7 @@ export function ImpactStatsSection() {
           {/* 3 800 */}
           <div className="text-center relative">
             <div
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 md:w-52 md:h-52 rounded-full border-2 border-white/10 pointer-events-none"
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 md:w-52 md:h-52 rounded-full border-2 border-white/10 pointer-events-none"
               aria-hidden="true"
             />
             <p className="relative text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-display font-extrabold tracking-tighter leading-none">
