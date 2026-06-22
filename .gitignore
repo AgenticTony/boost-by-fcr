@@ -66,3 +66,4 @@ apps/public-site/src/assets/recovery-codes.txt
 
 # Local-only push tracking (not shared with team)
 docs/P2_PUSH_PLAN.md
+*.dev.vars
