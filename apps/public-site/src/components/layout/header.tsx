@@ -12,7 +12,6 @@ import {
   Newspaper,
   BriefcaseMedical,
   Clock,
-  FileText,
   PenLine,
   Phone,
 } from "lucide-react";
@@ -73,7 +72,7 @@ const aboutLinks = [
   },
 ];
 
-/* "Mer" dropdown — Nyheter, Kontakt, Resurser */
+/* "Mer" dropdown — Nyheter, Kontakt */
 const moreLinks = [
   {
     href: "/nyheter",
@@ -86,12 +85,6 @@ const moreLinks = [
     label: "Kontakt",
     icon: Phone,
     iconColor: "text-brand-navy",
-  },
-  {
-    href: "/resurser",
-    label: "Resurser",
-    icon: FileText,
-    iconColor: "text-brand-red",
   },
 ];
 
