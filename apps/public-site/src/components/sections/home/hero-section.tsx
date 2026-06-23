@@ -54,7 +54,7 @@ export function HeroSection() {
               </div>
             </StaggeredLine>
 
-            <h1 className="text-[2.75rem] sm:text-[3.5rem] md:text-[4rem] lg:text-[5rem] font-display font-extrabold leading-[0.95] tracking-tight mb-8">
+            <h1 className="text-[2.75rem] sm:text-[3.5rem] md:text-[4rem] lg:text-[5rem] font-display font-extrabold leading-[1.1] tracking-tight mb-8">
               <StaggeredLine delay={0.15}>Tillsammans</StaggeredLine>
               <StaggeredLine delay={0.3}>
                 <span className="text-brand-red-bright">öppnar vi</span>
