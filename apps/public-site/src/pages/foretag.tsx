@@ -93,7 +93,7 @@ export default function ForetagPage() {
               För arbetsgivare
             </p>
             <h1 className="text-4xl md:text-5xl lg:text-[3.5rem] font-display font-extrabold leading-tight mb-4">
-              Inkludering — arbete — jämställdhet — hälsa
+              Tillsammans öppnar vi dörrar till arbetsmarknaden
             </h1>
             <p className="text-lg text-white/75 max-w-xl leading-relaxed">
               Vill du och din organisation vara med och se till att skapa
