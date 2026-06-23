@@ -29,7 +29,7 @@ export default function VarHistoriaPage() {
               Vår historia
             </p>
             <h1 className="text-4xl md:text-5xl lg:text-[3.5rem] font-display font-extrabold leading-tight mb-4">
-              Över 20 år av att skapa förändring
+              Vi har funnits sedan 2003
             </h1>
             <p className="text-lg text-white/75 max-w-lg leading-relaxed">
               Från en idé i Rosengård till en organisation som hjälper
