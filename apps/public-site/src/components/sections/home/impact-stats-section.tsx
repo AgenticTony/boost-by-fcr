@@ -33,11 +33,7 @@ export function ImpactStatsSection() {
               aria-hidden="true"
             />
             <p className="relative text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-display font-extrabold tracking-tighter leading-none">
-              <CountUp
-                target={3800}
-                duration={2}
-                className="text-brand-red-bright"
-              />
+              <CountUp target={3800} duration={2} className="text-brand-gold" />
             </p>
             <div className="relative mt-3 h-px w-10 bg-white/30 mx-auto mb-3" />
             <p className="relative text-white/70 text-sm md:text-base leading-relaxed max-w-xs mx-auto">
