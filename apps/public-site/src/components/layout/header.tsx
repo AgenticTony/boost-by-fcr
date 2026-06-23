@@ -5,7 +5,6 @@ import {
   Menu,
   X,
   ChevronDown,
-  BookOpen,
   Briefcase,
   Heart,
   UsersRound,
@@ -24,12 +23,6 @@ const jobSeekerLinks = [
     label: "Arbetsspåret",
     icon: Briefcase,
     iconColor: "text-brand-navy",
-  },
-  {
-    href: "/studier",
-    label: "Studiespåret",
-    icon: BookOpen,
-    iconColor: "text-brand-red",
   },
   {
     href: "/halsosparet",
