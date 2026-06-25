@@ -411,49 +411,44 @@ export default function AnmalDigPage() {
                     />
                   </Field>
 
-                  <div className="rounded-input border border-border/60 bg-surface p-4">
-                    <div className="flex items-start gap-3">
-                      <input
-                        id="consent"
-                        type="checkbox"
-                        className="mt-1 h-4 w-4 shrink-0 accent-[#C93320]"
-                        aria-invalid={!!errors.consent}
-                        {...register("consent")}
-                      />
-                      <div className="space-y-1.5">
-                        <Label
-                          htmlFor="consent"
-                          className="text-sm font-semibold leading-relaxed text-text"
-                        >
-                          Samtycke till behandling av personuppgifter{" "}
-                          <span className="text-brand-red">*</span>
-                        </Label>
-                        <p className="text-xs text-text-muted leading-relaxed">
-                          Vi behöver spara och behandla dessa personuppgifter om
-                          dig så att vi vet vilka som kommer till oss, och så
-                          att vi kan kontakta dig för att ge information om
-                          inskrivningsmötet. Vi behöver också dem till att
-                          berätta för dina myndighetskontakter om din närvaro på
-                          mötet. Du har rätt att återkalla ditt samtycke när du
-                          vill — kontakta oss på info@boostbyfcr.se. Läs mer om
-                          hur vi behandlar och skyddar dina personuppgifter i
-                          vår{" "}
-                          <Link
-                            to="/dataskyddspolicy"
-                            className="font-semibold text-brand-navy underline hover:text-brand-red"
-                          >
-                            dataskyddspolicy
-                          </Link>
-                          .
-                        </p>
-                      </div>
-                    </div>
+                  <div className="flex items-start gap-3 rounded-input border border-border/60 bg-surface p-4">
+                    <input
+                      id="consent"
+                      type="checkbox"
+                      className="mt-0.5 h-4 w-4 shrink-0 accent-[#C93320]"
+                      aria-invalid={!!errors.consent}
+                      {...register("consent")}
+                    />
+                    <Label
+                      htmlFor="consent"
+                      className="text-sm font-normal leading-relaxed text-text"
+                    >
+                      Jag godkänner behandling av mina personuppgifter.{" "}
+                      <span className="text-brand-red">*</span>
+                    </Label>
                   </div>
                   {errors.consent && (
                     <p className="text-sm text-error" role="alert">
                       {errors.consent.message}
                     </p>
                   )}
+                  <p className="text-xs text-text-muted leading-relaxed">
+                    <span className="text-brand-red">*</span> Vi behöver spara
+                    och behandla dessa personuppgifter om dig så att vi vet
+                    vilka som kommer till oss, och så att vi kan kontakta dig
+                    för att ge information om inskrivningsmötet. Vi behöver
+                    också dem till att berätta för dina myndighetskontakter om
+                    din närvaro på mötet. Du har rätt att återkalla ditt
+                    samtycke när du vill — kontakta oss på info@boostbyfcr.se.
+                    Läs mer i vår{" "}
+                    <Link
+                      to="/dataskyddspolicy"
+                      className="font-semibold text-brand-navy underline hover:text-brand-red"
+                    >
+                      dataskyddspolicy
+                    </Link>
+                    .
+                  </p>
 
                   {serverError && (
                     <p className="text-sm text-error text-center" role="alert">
