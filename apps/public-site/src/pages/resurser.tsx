@@ -89,7 +89,7 @@ export default function ResurserPage() {
   useSeo({
     title: "Resurser",
     description:
-      "Verktyg och metodmaterial för ett mer inkluderande arbetsliv — fritt tillgängliga att ladda ner.",
+      "Boosts Metodbok — metodmaterial och handböcker för ett mer inkluderande arbetsliv. Området är under uppbyggnad.",
     canonical: "/resurser",
   });
 
@@ -102,13 +102,13 @@ export default function ResurserPage() {
         <div className="container-page relative py-20 md:py-28">
           <ScrollReveal>
             <p className="text-xs font-body font-medium text-brand-red-bright tracking-widest uppercase mb-4">
-              Metodmaterial
+              Metodboken
             </p>
             <h1 className="text-4xl md:text-5xl lg:text-[3.5rem] font-display font-extrabold leading-tight max-w-2xl">
               Verktyg för ett mer inkluderande arbetsliv
             </h1>
             <p className="mt-4 text-lg text-white/80 max-w-xl leading-relaxed">
-              Här delar vi med oss av de metoder och material vi arbetar med.
+              Här samlas de metoder och material vi utvecklar i vårt arbete.
             </p>
           </ScrollReveal>
         </div>
@@ -147,10 +147,12 @@ export default function ResurserPage() {
           <ScrollReveal>
             <div className="mb-8">
               <h2 className="text-2xl md:text-[2.75rem] font-display font-extrabold text-text">
-                Öppet material
+                Metodmaterial
               </h2>
               <p className="mt-2 text-text-muted">
-                Fritt tillgängliga material att ladda ner och använda.
+                En förhandsvisning av materialet som samlas här. Det
+                fullständiga området är under uppbyggnad och kommer att kräva
+                inloggning.
               </p>
             </div>
           </ScrollReveal>

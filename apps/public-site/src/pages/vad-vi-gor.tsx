@@ -84,7 +84,7 @@ export default function VadViGorPage() {
         <div className="container-page relative py-20 md:py-28">
           <ScrollReveal>
             <h1 className="text-4xl md:text-5xl lg:text-[3.5rem] font-display font-extrabold leading-tight mb-4">
-              En organisation — tre sätt att skapa förändring
+              En organisation, tre spår
             </h1>
             <p className="text-lg text-white/75 max-w-lg leading-relaxed">
               Vi delar in vår verksamhet i tre grenar — alla med samma mål,

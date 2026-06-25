@@ -33,7 +33,6 @@ const footerSections = [
     heading: "Övrigt",
     links: [
       { href: "/kontakt", label: "Kontakt" },
-      { href: "/resurser", label: "Resurser" },
       { href: "/dataskyddspolicy", label: "Dataskyddspolicy" },
     ],
   },
@@ -47,7 +46,7 @@ export function Footer() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
           {footerSections.map((section) => (
             <div key={section.heading}>
-              <h3 className="font-display font-semibold text-sm uppercase tracking-wider text-brand-red mb-4">
+              <h3 className="font-display font-semibold text-sm uppercase tracking-wider text-white mb-4">
                 {section.heading}
               </h3>
               <ul className="space-y-2">
@@ -75,11 +74,11 @@ export function Footer() {
             </p>
             <div className="space-y-2">
               <div className="flex items-center gap-2 text-sm text-white/70">
-                <MapPin className="h-4 w-4 text-brand-red" />
+                <MapPin className="h-4 w-4 text-brand-red-bright" />
                 Norra Grängesbergsgatan 15, 214 50 Malmö
               </div>
               <div className="flex items-center gap-2 text-sm text-white/70">
-                <Phone className="h-4 w-4 text-brand-red" />
+                <Phone className="h-4 w-4 text-brand-red-bright" />
                 <a
                   href="tel:+46709921766"
                   className="hover:text-white transition-colors"
@@ -88,7 +87,7 @@ export function Footer() {
                 </a>
               </div>
               <div className="flex items-center gap-2 text-sm text-white/70">
-                <Mail className="h-4 w-4 text-brand-red" />
+                <Mail className="h-4 w-4 text-brand-red-bright" />
                 <a
                   href="mailto:info@boostbyfcr.se"
                   className="hover:text-white transition-colors"

@@ -112,7 +112,7 @@ export default function AnmalDigPage() {
       {/* Trust bar */}
       <section className="py-8 bg-surface">
         <div className="container-page">
-          <div className="grid grid-cols-3 gap-6 text-center">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">
             {[
               { icon: Clock, label: "Tar 3 minuter" },
               { icon: Shield, label: "Dina uppgifter är trygga" },

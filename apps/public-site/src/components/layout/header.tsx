@@ -5,14 +5,12 @@ import {
   Menu,
   X,
   ChevronDown,
-  BookOpen,
   Briefcase,
   Heart,
   UsersRound,
   Newspaper,
   BriefcaseMedical,
   Clock,
-  FileText,
   PenLine,
   Phone,
 } from "lucide-react";
@@ -25,12 +23,6 @@ const jobSeekerLinks = [
     label: "Arbetsspåret",
     icon: Briefcase,
     iconColor: "text-brand-navy",
-  },
-  {
-    href: "/studier",
-    label: "Studiespåret",
-    icon: BookOpen,
-    iconColor: "text-brand-red",
   },
   {
     href: "/halsosparet",
@@ -73,7 +65,7 @@ const aboutLinks = [
   },
 ];
 
-/* "Mer" dropdown — Nyheter, Kontakt, Resurser */
+/* "Mer" dropdown — Nyheter, Kontakt */
 const moreLinks = [
   {
     href: "/nyheter",
@@ -86,12 +78,6 @@ const moreLinks = [
     label: "Kontakt",
     icon: Phone,
     iconColor: "text-brand-navy",
-  },
-  {
-    href: "/resurser",
-    label: "Resurser",
-    icon: FileText,
-    iconColor: "text-brand-red",
   },
 ];
 

@@ -66,8 +66,17 @@ export default function HalsosparetPage() {
       </section>
 
       {/* Intro — 2-col with image */}
-      <section className="py-16 md:py-24 bg-white">
-        <div className="container-page">
+      <section className="relative py-16 md:py-24 bg-white overflow-hidden">
+        {/* Tree of life — Anna's requested health/roots symbol, soft background motif */}
+        <img
+          src="/images/illustration-tree-of-life.jpg"
+          alt=""
+          aria-hidden="true"
+          className="pointer-events-none absolute right-[-5rem] md:right-[4%] top-1/2 -translate-y-1/2 w-[22rem] md:w-[30rem] max-w-none opacity-[0.08] select-none"
+          loading="lazy"
+          decoding="async"
+        />
+        <div className="container-page relative">
           <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
             <ScrollReveal direction="left">
               <h2 className="text-3xl md:text-[2.75rem] font-display font-extrabold text-text leading-tight mb-6">
@@ -105,7 +114,7 @@ export default function HalsosparetPage() {
       <section className="bg-brand-navy text-white overflow-hidden">
         <WaveDivider color="white" flip layered />
         <div className="container-page py-12 md:py-16">
-          <div className="grid grid-cols-3 gap-6 md:gap-8 text-center">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 md:gap-8 text-center">
             {[
               { label: "Träning ingår", emoji: "Fysisk" },
               { label: "Workshops", emoji: "Kost" },

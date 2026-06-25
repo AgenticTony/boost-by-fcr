@@ -20,8 +20,8 @@ export function BridgeSection() {
         <div className="container-page relative py-16 md:py-24">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-start">
             {/* Left: Text content */}
-            <div>
-              <p className="text-xs font-body font-medium text-brand-red tracking-widest uppercase mb-5">
+            <div className="min-w-0">
+              <p className="text-xs font-body font-medium text-white tracking-widest uppercase mb-5">
                 ESF-projekt
               </p>
               <h2 className="text-2xl md:text-4xl font-display font-extrabold mb-3 leading-tight">
@@ -67,7 +67,7 @@ export function BridgeSection() {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
-              className="space-y-6"
+              className="min-w-0 space-y-6"
             >
               {/* Fact chips — defined card panel */}
               <div className="rounded-2xl bg-white/6 backdrop-blur-sm border border-white/10 overflow-hidden">
@@ -76,17 +76,21 @@ export function BridgeSection() {
                 <div className="grid grid-cols-3 gap-0 divide-x divide-white/10">
                   {[
                     {
-                      icon: <Users className="h-5 w-5 text-brand-red" />,
+                      icon: <Users className="h-5 w-5 text-brand-red-bright" />,
                       value: "18–29",
                       sub: "år",
                     },
                     {
-                      icon: <Landmark className="h-5 w-5 text-brand-red" />,
+                      icon: (
+                        <Landmark className="h-5 w-5 text-brand-red-bright" />
+                      ),
                       value: "ESF",
                       sub: "finansierat",
                     },
                     {
-                      icon: <Handshake className="h-5 w-5 text-brand-red" />,
+                      icon: (
+                        <Handshake className="h-5 w-5 text-brand-red-bright" />
+                      ),
                       value: "AF",
                       sub: "samarbete",
                     },
@@ -99,10 +103,10 @@ export function BridgeSection() {
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true }}
                       transition={{ duration: 0.3, delay: i * 0.1 }}
-                      className="flex flex-col items-center justify-center py-6 px-3"
+                      className="flex flex-col items-center justify-center py-6 px-2 sm:px-3"
                     >
                       <div className="mb-2">{chip.icon}</div>
-                      <span className="text-xl font-display font-extrabold text-white">
+                      <span className="text-lg sm:text-xl font-display font-extrabold text-white">
                         {chip.value}
                       </span>
                       <span className="text-xs text-white/60 mt-0.5">
@@ -131,22 +135,25 @@ export function BridgeSection() {
                   <p className="text-xs font-body font-medium text-white/50 text-center mb-4">
                     Finansieras och stöds av
                   </p>
-                  <div className="flex items-center justify-center gap-8 md:gap-12">
+                  <div className="flex flex-wrap items-center justify-center gap-6 md:gap-12">
                     {[
                       {
                         alt: "EU Socialfonden",
                         src: "/images/eu-logo-jordbruksfonden.png",
-                        className: "h-16 md:h-20 max-w-[130px]",
+                        className:
+                          "h-12 sm:h-16 md:h-20 max-w-[90px] sm:max-w-[130px]",
                       },
                       {
                         alt: "Arbetsförmedlingen",
                         src: "/images/af-logo.png",
-                        className: "h-22 md:h-[6.5rem] max-w-[180px]",
+                        className:
+                          "h-14 sm:h-22 md:h-[6.5rem] max-w-[120px] sm:max-w-[180px]",
                       },
                       {
                         alt: "FC Rosengård",
                         src: "/images/FCR_logo_2014_CMYK.png",
-                        className: "h-16 md:h-20 max-w-[130px]",
+                        className:
+                          "h-12 sm:h-16 md:h-20 max-w-[90px] sm:max-w-[130px]",
                       },
                     ].map((logo) => (
                       <img
