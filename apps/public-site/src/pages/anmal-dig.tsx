@@ -1,5 +1,6 @@
 import { useState } from "react";
 import type { ReactNode } from "react";
+import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -246,10 +247,12 @@ export default function AnmalDigPage() {
               Fyll i dina uppgifter
             </h2>
             <p className="text-text-muted mb-8 leading-relaxed">
-              Mötet är ett individuellt möte på Boost By FC Rosengård, Norra
-              Grängesbergsgatan 15, med den vägledare du kommer att samarbeta
-              med. För att delta i ESF-projektet Bridge by FCR behöver du vara
-              mellan 18–29 år och kunna ta dig till Malmö.
+              Mötet som du anmäler dig till är ett individuellt möte på Boost By
+              FC Rosengård, Norra Grängesbergsgatan 15, med den vägledare som du
+              kommer att samarbeta med. För att kunna delta i ESF-projektet
+              Bridge by FCR behöver du vara mellan 18–29 år och kunna ta dig
+              till Malmö. Bokar du en tid som du sen inte kan komma till behöver
+              du meddela det till info@boostbyfcr.se eller ring 070-992 17 66.
             </p>
           </ScrollReveal>
           <ScrollReveal delay={0.1}>
@@ -412,7 +415,7 @@ export default function AnmalDigPage() {
                     <input
                       id="consent"
                       type="checkbox"
-                      className="mt-1 h-4 w-4 accent-[#C93320]"
+                      className="mt-0.5 h-4 w-4 shrink-0 accent-[#C93320]"
                       aria-invalid={!!errors.consent}
                       {...register("consent")}
                     />
@@ -429,6 +432,23 @@ export default function AnmalDigPage() {
                       {errors.consent.message}
                     </p>
                   )}
+                  <p className="text-xs text-text-muted leading-relaxed">
+                    <span className="text-brand-red">*</span> Vi behöver spara
+                    och behandla dessa personuppgifter om dig så att vi vet
+                    vilka som kommer till oss, och så att vi kan kontakta dig
+                    för att ge information om inskrivningsmötet. Vi behöver
+                    också dem till att berätta för dina myndighetskontakter om
+                    din närvaro på mötet. Du har rätt att återkalla ditt
+                    samtycke när du vill — kontakta oss på info@boostbyfcr.se.
+                    Läs mer i vår{" "}
+                    <Link
+                      to="/dataskyddspolicy"
+                      className="font-semibold text-brand-navy underline hover:text-brand-red"
+                    >
+                      dataskyddspolicy
+                    </Link>
+                    .
+                  </p>
 
                   {serverError && (
                     <p className="text-sm text-error text-center" role="alert">
