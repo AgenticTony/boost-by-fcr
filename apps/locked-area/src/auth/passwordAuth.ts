@@ -1,7 +1,7 @@
 ﻿export const passwordAuth = {
   login: async (email: string, password: string) => {
     const validEmail = 'moh17670s@gmail.com';
-    const validPassword = 'boost2025';
+    const PASSWORD = import.meta.env.VITE_AUTH_PASSWORD || "";
 
     if (email === validEmail && password === validPassword) {
       return { success: true };
