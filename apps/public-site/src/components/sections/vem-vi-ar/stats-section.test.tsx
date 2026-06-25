@@ -7,7 +7,7 @@ describe("StatsSection", () => {
     render(<StatsSection />);
     expect(
       screen.getByRole("heading", {
-        name: /Resultaten talar för sig själva/i,
+        name: /Så här mycket har vi hunnit/i,
       }),
     ).toBeInTheDocument();
   });

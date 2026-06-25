@@ -18,7 +18,7 @@ export function StatsSection() {
           <ScrollReveal direction="left">
             <div>
               <h2 className="text-3xl md:text-[2.75rem] font-display font-extrabold leading-tight mb-6">
-                Resultaten talar för sig själva
+                Så här mycket har vi hunnit
               </h2>
               <p className="text-white/75 leading-relaxed max-w-md">
                 Bakom varje siffra finns en människa som tagit ett steg framåt.
