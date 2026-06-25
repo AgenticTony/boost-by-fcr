@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router-dom";
@@ -22,20 +22,45 @@ function renderPage() {
   );
 }
 
-/** Submit the form directly via fireEvent to bypass jsdom native validation */
+/** Submit the form directly via fireEvent to bypass jsdom native validation. */
 function submitForm() {
   const form = document.querySelector("form")!;
   fireEvent.submit(form);
 }
 
-describe("AnmalDigPage (Registration form)", () => {
+/** Fill every required field with valid values (consent checked). */
+async function fillValidForm(user: ReturnType<typeof userEvent.setup>) {
+  await user.type(
+    screen.getByLabelText(/För- och efternamn/i),
+    "Anna Andersson",
+  );
+  await user.type(screen.getByLabelText(/Personnummer/i), "990101-1234");
+  await user.type(screen.getByLabelText(/^Telefonnummer$/i), "070-123 45 67");
+  await user.type(screen.getByLabelText(/Mejladress/i), "anna@test.se");
+  await user.type(
+    screen.getByLabelText(/Handläggare, namn/i),
+    "Maria Vägledare",
+  );
+  await user.type(
+    screen.getByLabelText(/Handläggare, mejl/i),
+    "maria@boostbyfcr.se",
+  );
+  await user.selectOptions(
+    screen.getByLabelText(/inskrivningsmöte/i),
+    "15 juli kl 11:00",
+  );
+  await user.click(screen.getByLabelText(/godkänner behandling/i));
+}
+
+describe("AnmalDigPage (Anmälan → Google Form)", () => {
   it("renders the form with all fields", () => {
     renderPage();
-    expect(screen.getByLabelText(/Förnamn/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/Efternamn/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/E-post/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/Telefon/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/Vilket spår/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/För- och efternamn/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/Personnummer/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/^Telefonnummer$/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/Mejladress/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/Handläggare, namn/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/inskrivningsmöte/i)).toBeInTheDocument();
   });
 
   it("renders submit button", () => {
@@ -45,29 +70,33 @@ describe("AnmalDigPage (Registration form)", () => {
     ).toBeInTheDocument();
   });
 
-  it("shows validation errors on empty submit", async () => {
+  it("shows validation errors on empty submit and does not call fetch", async () => {
+    const fetchMock = vi.fn();
+    vi.stubGlobal("fetch", fetchMock);
     renderPage();
 
     submitForm();
 
     await waitFor(() => {
-      const alerts = screen.getAllByRole("alert");
-      expect(alerts.length).toBeGreaterThanOrEqual(1);
+      expect(screen.getAllByRole("alert").length).toBeGreaterThanOrEqual(1);
     });
+    expect(fetchMock).not.toHaveBeenCalled();
+    vi.unstubAllGlobals();
   });
 
   it("shows error for invalid email", async () => {
     const user = userEvent.setup();
     renderPage();
 
-    await user.type(screen.getByLabelText(/Förnamn/i), "Anna");
-    await user.type(screen.getByLabelText(/Efternamn/i), "Test");
-    await user.type(screen.getByLabelText(/E-post/i), "not-an-email");
-    await user.type(screen.getByLabelText(/Telefon/i), "0701234567");
+    await user.type(screen.getByLabelText(/För- och efternamn/i), "Anna");
+    await user.type(screen.getByLabelText(/Personnummer/i), "990101-1234");
+    await user.type(screen.getByLabelText(/Mejladress/i), "not-an-email");
+    await user.type(screen.getByLabelText(/Handläggare, namn/i), "Maria");
     await user.selectOptions(
-      screen.getByLabelText(/Vilket spår/i),
-      "Arbetsspåret",
+      screen.getByLabelText(/inskrivningsmöte/i),
+      "15 juli kl 11:00",
     );
+    await user.click(screen.getByLabelText(/godkänner behandling/i));
 
     submitForm();
 
@@ -76,56 +105,76 @@ describe("AnmalDigPage (Registration form)", () => {
     });
   });
 
-  it("shows error for short phone number", async () => {
+  it("requires GDPR consent", async () => {
     const user = userEvent.setup();
     renderPage();
 
-    await user.type(screen.getByLabelText(/Telefon/i), "123");
+    await user.type(screen.getByLabelText(/För- och efternamn/i), "Anna");
+    await user.type(screen.getByLabelText(/Personnummer/i), "990101-1234");
+    await user.type(screen.getByLabelText(/Handläggare, namn/i), "Maria");
+    await user.selectOptions(
+      screen.getByLabelText(/inskrivningsmöte/i),
+      "15 juli kl 11:00",
+    );
+    // consent deliberately NOT checked
 
     submitForm();
 
     await waitFor(() => {
-      expect(screen.getByText(/giltigt telefonnummer/i)).toBeInTheDocument();
+      expect(
+        screen.getByText(/godkänna behandling av personuppgifter/i),
+      ).toBeInTheDocument();
     });
   });
 
-  it("shows success state after valid submission", async () => {
+  it("posts to the Google Form and shows success on valid submission", async () => {
+    const fetchMock = vi.fn().mockResolvedValue({ ok: true });
+    vi.stubGlobal("fetch", fetchMock);
     const user = userEvent.setup();
     renderPage();
 
-    await user.type(screen.getByLabelText(/Förnamn/i), "Anna");
-    await user.type(screen.getByLabelText(/Efternamn/i), "Andersson");
-    await user.type(screen.getByLabelText(/E-post/i), "anna@test.se");
-    await user.type(screen.getByLabelText(/Telefon/i), "070-123 45 67");
-    await user.selectOptions(
-      screen.getByLabelText(/Vilket spår/i),
-      "Arbetsspåret",
-    );
-
+    await fillValidForm(user);
     submitForm();
 
-    await waitFor(
-      () => {
-        expect(
-          screen.getByText(/Tack — vi hör av oss snart/i),
-        ).toBeInTheDocument();
-      },
-      { timeout: 5000 },
-    );
+    await waitFor(() => {
+      expect(screen.getByText(/din anmälan är mottagen/i)).toBeInTheDocument();
+    });
 
-    // No backend wired yet (mock returns delivered=false): the success screen
-    // is honest that the submission was not actually sent anywhere.
-    expect(screen.getByText(/har inte skickats/i)).toBeInTheDocument();
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    const [url, opts] = fetchMock.mock.calls[0];
+    expect(String(url)).toContain("docs.google.com");
+    expect(opts).toMatchObject({ method: "POST", mode: "no-cors" });
+
+    vi.unstubAllGlobals();
   });
 
-  it("has track options in select", () => {
+  it("shows an error if the network submission fails", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn().mockRejectedValue(new Error("network down")),
+    );
+    const user = userEvent.setup();
     renderPage();
-    const select = screen.getByLabelText(/Vilket spår/i) as HTMLSelectElement;
 
+    await fillValidForm(user);
+    submitForm();
+
+    await waitFor(() => {
+      expect(
+        screen.getByText(/något gick fel vid sändningen/i),
+      ).toBeInTheDocument();
+    });
+    vi.unstubAllGlobals();
+  });
+
+  it("has the current meeting time slots in the select", () => {
+    renderPage();
+    const select = screen.getByLabelText(
+      /inskrivningsmöte/i,
+    ) as HTMLSelectElement;
     expect(select).toBeInTheDocument();
-    expect(screen.getByText("Arbetsspåret")).toBeInTheDocument();
-    expect(screen.getByText("Studiespåret")).toBeInTheDocument();
-    expect(screen.getByText("Hälsospåret")).toBeInTheDocument();
+    expect(screen.getByText("15 juli kl 11:00")).toBeInTheDocument();
+    expect(screen.getByText("4 september kl 9:00")).toBeInTheDocument();
   });
 
   it("has honeypot field hidden from users", () => {

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import type { ReactNode } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -13,44 +14,121 @@ import {
   CheckCircle,
   ArrowRight,
 } from "lucide-react";
-import { submitRegistration } from "@/api/client";
 import { useSeo } from "@/hooks/use-seo";
 import { ScrollReveal } from "@/components/ui/scroll-reveal";
 import { WaveDivider } from "@/components/ui/wave-divider";
-import { DemoNotice } from "@/components/demo-notice";
+
+/**
+ * Native, on-brand Anmälan form that posts directly into Anna's existing
+ * Bridge-enrollment Google Form — responses land in the same Google Sheet.
+ * Entry IDs are sourced from the live form. NOTE: the meeting time slots are
+ * hardcoded from the form; if Anna changes them in Google Forms, this list
+ * must be refreshed to match.
+ */
+const GOOGLE_FORM_URL =
+  "https://docs.google.com/forms/d/e/1FAIpQLSeXgSD42m6JLWIna8yE7C03qD4h_I-6TdPC-Mr3MWpS5mZ8lQ/formResponse";
+
+const ENTRY = {
+  name: "entry.1567091042",
+  personnummer: "entry.2040378868",
+  phone: "entry.1502921893",
+  email: "entry.234922361",
+  handlerName: "entry.248650715",
+  handlerContact: "entry.128291249",
+  meetingTime: "entry.788472964",
+  other: "entry.1770564120",
+  /** Consent is a Google Forms checkbox — the option label is literally "Alternativ 1". */
+  consent: "entry.1676789778",
+} as const;
+const CONSENT_VALUE = "Alternativ 1";
+
+/** Meeting slots — mirror the Google Form's current options. */
+const meetingSlots = [
+  "15 juli kl 11:00",
+  "23 juli kl 14:00",
+  "23 juli kl 15:00",
+  "28 juli kl 15:00",
+  "30 juli kl 15:00",
+  "4 augusti kl 15:00",
+  "6 augusti kl 15:00",
+  "12 augusti kl 14:00",
+  "12 augusti kl 15:00",
+  "18 augusti kl 10:00",
+  "19 augusti kl 10:00",
+  "21 augusti kl 9:00",
+  "21 augusti kl 10:00",
+  "21 augusti kl 13:00",
+  "28 augusti kl 9:00",
+  "31 augusti kl 9:00",
+  "31 augusti kl 10:30",
+  "4 september kl 9:00",
+];
+
+const steps = [
+  "Vi läser din anmälan",
+  "En vägledare kontaktar dig",
+  "Vi bokar ett första möte",
+];
 
 const schema = z.object({
-  firstName: z.string().min(1, "Förnamn är obligatoriskt"),
-  lastName: z.string().min(1, "Efternamn är obligatoriskt"),
-  email: z.string().email("Ange en giltig e-postadress"),
-  phone: z
+  name: z.string().min(1, "För- och efternamn är obligatoriskt"),
+  personnummer: z.string().min(1, "Personnummer är obligatoriskt"),
+  phone: z.string().optional(),
+  email: z
     .string()
-    .min(7, "Ange ett giltigt telefonnummer")
-    .regex(/^[0-9+\-\s()]+$/, "Ange ett giltigt telefonnummer")
+    .email("Ange en giltig e-postadress")
+    .optional()
+    .or(z.literal("")),
+  handlerName: z.string().min(1, "Handläggarens namn är obligatoriskt"),
+  handlerContact: z.string().optional(),
+  meetingTime: z.string().min(1, "Välj en tid för inskrivningsmöte"),
+  other: z.string().optional(),
+  consent: z
+    .boolean()
     .refine(
-      (v) => v.replace(/\D/g, "").length >= 7,
-      "Ange ett giltigt telefonnummer",
+      (v) => v === true,
+      "Du måste godkänna behandling av personuppgifter",
     ),
-  track: z.string().min(1, "Välj ett spår"),
-  about: z.string().optional(),
   /** Honeypot — must be empty. */
   website: z.string().max(0).optional(),
 });
 
 type FormData = z.infer<typeof schema>;
 
-const tracks = [
-  "Arbetsspåret",
-  "Studiespåret",
-  "Hälsospåret",
-  "Bridge by FCR",
-  "Vet ej — hjälp mig välja",
-];
-const steps = [
-  "Vi läser din anmälan",
-  "En vägledare kontaktar dig",
-  "Vi bokar ett första möte",
-];
+function Field({
+  label,
+  htmlFor,
+  required,
+  error,
+  children,
+}: {
+  label: string;
+  htmlFor: string;
+  required?: boolean;
+  error?: string;
+  children: ReactNode;
+}) {
+  return (
+    <div className="space-y-2">
+      <Label htmlFor={htmlFor}>
+        {label} {required && <span className="text-brand-red">*</span>}
+      </Label>
+      {children}
+      {error && (
+        <p id={`${htmlFor}-error`} className="text-sm text-error" role="alert">
+          {error}
+        </p>
+      )}
+    </div>
+  );
+}
+
+const inputCls = (error?: string) =>
+  `rounded-input h-11 ${error ? "border-error" : ""}`;
+const selectCls = (error?: string) =>
+  `flex h-11 w-full rounded-input border bg-white px-3 py-2 text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red ${
+    error ? "border-error" : "border-input"
+  }`;
 
 export default function AnmalDigPage() {
   useSeo({
@@ -60,29 +138,56 @@ export default function AnmalDigPage() {
     canonical: "/anmal-dig",
   });
   const [submitted, setSubmitted] = useState(false);
-  const [delivered, setDelivered] = useState(false);
   const [serverError, setServerError] = useState("");
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<FormData>({ resolver: zodResolver(schema) });
+  } = useForm<FormData>({
+    resolver: zodResolver(schema),
+    defaultValues: {
+      name: "",
+      personnummer: "",
+      phone: "",
+      email: "",
+      handlerName: "",
+      handlerContact: "",
+      meetingTime: "",
+      other: "",
+      consent: false,
+      website: "",
+    },
+  });
 
   async function onSubmit(data: FormData) {
-    // Honeypot check — bots fill this field
+    // Honeypot — bots fill this; pretend success.
     if (data.website) {
       setSubmitted(true);
       return;
     }
     setServerError("");
     try {
-      const result = await submitRegistration(data);
-      if (result.success) {
-        setDelivered(result.delivered);
-        setSubmitted(true);
-      } else setServerError("Något gick fel. Försök igen.");
+      const params = new URLSearchParams();
+      params.set(ENTRY.name, data.name);
+      params.set(ENTRY.personnummer, data.personnummer);
+      if (data.phone) params.set(ENTRY.phone, data.phone);
+      if (data.email) params.set(ENTRY.email, data.email);
+      params.set(ENTRY.handlerName, data.handlerName);
+      if (data.handlerContact)
+        params.set(ENTRY.handlerContact, data.handlerContact);
+      params.set(ENTRY.meetingTime, data.meetingTime);
+      if (data.other) params.set(ENTRY.other, data.other);
+      if (data.consent) params.set(ENTRY.consent, CONSENT_VALUE);
+      // no-cors: Google accepts the POST; the response is opaque, so on resolve
+      // we treat it as delivered.
+      await fetch(GOOGLE_FORM_URL, {
+        method: "POST",
+        mode: "no-cors",
+        body: params,
+      });
+      setSubmitted(true);
     } catch {
-      setServerError("Något gick fel. Försök igen.");
+      setServerError("Något gick fel vid sändningen. Försök igen.");
     }
   }
 
@@ -137,22 +242,28 @@ export default function AnmalDigPage() {
       <section className="py-16 md:py-24 bg-white">
         <div className="container-page max-w-2xl">
           <ScrollReveal>
-            <h2 className="text-3xl md:text-[2.75rem] font-display font-extrabold text-text mb-8">
+            <h2 className="text-3xl md:text-[2.75rem] font-display font-extrabold text-text mb-4">
               Fyll i dina uppgifter
             </h2>
+            <p className="text-text-muted mb-8 leading-relaxed">
+              Mötet är ett individuellt möte på Boost By FC Rosengård, Norra
+              Grängesbergsgatan 15, med den vägledare du kommer att samarbeta
+              med. För att delta i ESF-projektet Bridge by FCR behöver du vara
+              mellan 18–29 år och kunna ta dig till Malmö.
+            </p>
           </ScrollReveal>
           <ScrollReveal delay={0.1}>
             {submitted ? (
               <div className="bg-white rounded-2xl p-8 md:p-12 border border-border/60 text-center">
                 <CheckCircle className="h-16 w-16 text-brand-navy mx-auto mb-4" />
                 <h3 className="text-2xl font-display font-extrabold text-text mb-2">
-                  Tack — vi hör av oss snart
+                  Tack — din anmälan är mottagen
                 </h3>
                 <p className="text-text-muted leading-relaxed">
-                  Din anmälan är mottagen. En vägledare kontaktar dig inom en
-                  arbetsdag.
+                  En vägledare kontaktar dig inom en arbetsdag. Behöver du ändra
+                  eller avanmäla en tid? Mejla info@boostbyfcr.se eller ring
+                  070-992 17 66.
                 </p>
-                {!delivered && <DemoNotice />}
               </div>
             ) : (
               <div className="bg-white rounded-2xl p-6 md:p-8 border border-border/60 shadow-sm">
@@ -166,159 +277,159 @@ export default function AnmalDigPage() {
                       {...register("website")}
                     />
                   </div>
+
                   <div className="grid sm:grid-cols-2 gap-5">
-                    <div className="space-y-2">
-                      <Label htmlFor="firstName">
-                        Förnamn <span className="text-brand-red">*</span>
-                      </Label>
+                    <Field
+                      label="För- och efternamn"
+                      htmlFor="name"
+                      required
+                      error={errors.name?.message}
+                    >
                       <Input
-                        id="firstName"
-                        placeholder="Ditt förnamn"
-                        required
-                        autoComplete="given-name"
-                        aria-describedby={
-                          errors.firstName ? "firstName-error" : undefined
-                        }
-                        aria-invalid={!!errors.firstName}
-                        className={`rounded-input h-11 ${errors.firstName ? "border-error" : ""}`}
-                        {...register("firstName")}
+                        id="name"
+                        placeholder="För- och efternamn"
+                        autoComplete="name"
+                        aria-invalid={!!errors.name}
+                        className={inputCls(errors.name?.message)}
+                        {...register("name")}
                       />
-                      {errors.firstName && (
-                        <p
-                          id="firstName-error"
-                          className="text-sm text-error"
-                          role="alert"
-                        >
-                          {errors.firstName.message}
-                        </p>
-                      )}
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="lastName">
-                        Efternamn <span className="text-brand-red">*</span>
-                      </Label>
+                    </Field>
+                    <Field
+                      label="Personnummer (ÅÅMMDD-XXXX)"
+                      htmlFor="personnummer"
+                      required
+                      error={errors.personnummer?.message}
+                    >
                       <Input
-                        id="lastName"
-                        placeholder="Ditt efternamn"
-                        required
-                        autoComplete="family-name"
-                        aria-describedby={
-                          errors.lastName ? "lastName-error" : undefined
-                        }
-                        aria-invalid={!!errors.lastName}
-                        className={`rounded-input h-11 ${errors.lastName ? "border-error" : ""}`}
-                        {...register("lastName")}
+                        id="personnummer"
+                        placeholder="ÅÅMMDD-XXXX"
+                        autoComplete="off"
+                        aria-invalid={!!errors.personnummer}
+                        className={inputCls(errors.personnummer?.message)}
+                        {...register("personnummer")}
                       />
-                      {errors.lastName && (
-                        <p
-                          id="lastName-error"
-                          className="text-sm text-error"
-                          role="alert"
-                        >
-                          {errors.lastName.message}
-                        </p>
-                      )}
-                    </div>
+                    </Field>
                   </div>
+
                   <div className="grid sm:grid-cols-2 gap-5">
-                    <div className="space-y-2">
-                      <Label htmlFor="email">
-                        E-post <span className="text-brand-red">*</span>
-                      </Label>
-                      <Input
-                        id="email"
-                        type="email"
-                        placeholder="din@email.se"
-                        required
-                        autoComplete="email"
-                        aria-describedby={
-                          errors.email ? "email-error" : undefined
-                        }
-                        aria-invalid={!!errors.email}
-                        className={`rounded-input h-11 ${errors.email ? "border-error" : ""}`}
-                        {...register("email")}
-                      />
-                      {errors.email && (
-                        <p
-                          id="email-error"
-                          className="text-sm text-error"
-                          role="alert"
-                        >
-                          {errors.email.message}
-                        </p>
-                      )}
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="phone">
-                        Telefon <span className="text-brand-red">*</span>
-                      </Label>
+                    <Field
+                      label="Telefonnummer"
+                      htmlFor="phone"
+                      error={errors.phone?.message}
+                    >
                       <Input
                         id="phone"
                         type="tel"
                         placeholder="07x-xxx xx xx"
-                        required
                         autoComplete="tel"
-                        aria-describedby={
-                          errors.phone ? "phone-error" : undefined
-                        }
-                        aria-invalid={!!errors.phone}
-                        className={`rounded-input h-11 ${errors.phone ? "border-error" : ""}`}
+                        className={inputCls(errors.phone?.message)}
                         {...register("phone")}
                       />
-                      {errors.phone && (
-                        <p
-                          id="phone-error"
-                          className="text-sm text-error"
-                          role="alert"
-                        >
-                          {errors.phone.message}
-                        </p>
-                      )}
-                    </div>
+                    </Field>
+                    <Field
+                      label="Mejladress"
+                      htmlFor="email"
+                      error={errors.email?.message}
+                    >
+                      <Input
+                        id="email"
+                        type="email"
+                        placeholder="din@email.se"
+                        autoComplete="email"
+                        aria-invalid={!!errors.email}
+                        className={inputCls(errors.email?.message)}
+                        {...register("email")}
+                      />
+                    </Field>
                   </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="track">
-                      Vilket spår? <span className="text-brand-red">*</span>
-                    </Label>
+
+                  <div className="grid sm:grid-cols-2 gap-5">
+                    <Field
+                      label="Handläggare, namn"
+                      htmlFor="handlerName"
+                      required
+                      error={errors.handlerName?.message}
+                    >
+                      <Input
+                        id="handlerName"
+                        placeholder="Handläggarens namn"
+                        className={inputCls(errors.handlerName?.message)}
+                        {...register("handlerName")}
+                      />
+                    </Field>
+                    <Field
+                      label="Handläggare, mejl och telefonnummer"
+                      htmlFor="handlerContact"
+                      error={errors.handlerContact?.message}
+                    >
+                      <Input
+                        id="handlerContact"
+                        placeholder="mejl och telefon"
+                        className={inputCls(errors.handlerContact?.message)}
+                        {...register("handlerContact")}
+                      />
+                    </Field>
+                  </div>
+
+                  <Field
+                    label="Tid för inskrivningsmöte"
+                    htmlFor="meetingTime"
+                    required
+                    error={errors.meetingTime?.message}
+                  >
                     <select
-                      id="track"
-                      aria-describedby={
-                        errors.track ? "track-error" : undefined
-                      }
-                      aria-invalid={!!errors.track}
-                      className={`flex h-11 w-full rounded-input border bg-white px-3 py-2 text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red ${errors.track ? "border-error" : "border-input"}`}
-                      defaultValue=""
-                      {...register("track")}
+                      id="meetingTime"
+                      aria-invalid={!!errors.meetingTime}
+                      className={selectCls(errors.meetingTime?.message)}
+                      {...register("meetingTime")}
                     >
                       <option value="" disabled>
-                        Välj ett spår
+                        Välj en tid
                       </option>
-                      {tracks.map((t) => (
-                        <option key={t} value={t}>
-                          {t}
+                      {meetingSlots.map((slot) => (
+                        <option key={slot} value={slot}>
+                          {slot}
                         </option>
                       ))}
                     </select>
-                    {errors.track && (
-                      <p
-                        id="track-error"
-                        className="text-sm text-error"
-                        role="alert"
-                      >
-                        {errors.track.message}
-                      </p>
-                    )}
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="about">Berätta kort om dig</Label>
+                  </Field>
+
+                  <Field
+                    label="Övrig information"
+                    htmlFor="other"
+                    error={errors.other?.message}
+                  >
                     <Textarea
-                      id="about"
-                      placeholder="Valfritt — berätta något om din situation eller vad du hoppas på"
+                      id="other"
+                      placeholder="Valfritt — något vi bör veta?"
                       rows={4}
                       className="rounded-input"
-                      {...register("about")}
+                      {...register("other")}
                     />
+                  </Field>
+
+                  <div className="flex items-start gap-3 rounded-input border border-border/60 bg-surface p-4">
+                    <input
+                      id="consent"
+                      type="checkbox"
+                      className="mt-1 h-4 w-4 accent-[#C93320]"
+                      aria-invalid={!!errors.consent}
+                      {...register("consent")}
+                    />
+                    <Label
+                      htmlFor="consent"
+                      className="text-sm font-normal leading-relaxed text-text"
+                    >
+                      Jag godkänner behandling av mina personuppgifter.{" "}
+                      <span className="text-brand-red">*</span>
+                    </Label>
                   </div>
+                  {errors.consent && (
+                    <p className="text-sm text-error" role="alert">
+                      {errors.consent.message}
+                    </p>
+                  )}
+
                   {serverError && (
                     <p className="text-sm text-error text-center" role="alert">
                       {serverError}
