@@ -295,7 +295,7 @@ export default function BridgePage() {
         <div className="container-page pt-4 pb-16 md:pt-6 md:pb-24 text-center">
           <ScrollReveal>
             <h2 className="text-3xl md:text-4xl font-display font-extrabold mb-4">
-              Redo att ta steget?
+              Är Bridge något för dig?
             </h2>
             <p className="text-white/70 max-w-md mx-auto leading-relaxed mb-8">
               Det tar tre minuter att anmäla sig. Vi hör av oss inom en
