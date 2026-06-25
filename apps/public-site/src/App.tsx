@@ -4,6 +4,8 @@ import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { ErrorBoundary } from "@/components/error-boundary";
 import { ScrollToTop } from "@/components/scroll-to-top";
+import Contact from './pages/contact';
+import Registration from './pages/Registration';
 
 /* Eager — always visible or needed for initial shell */
 import NotFoundPage from "@/pages/not-found";
@@ -95,6 +97,8 @@ export default function App() {
               <Route path="/vanliga-fragor" element={<VanligaFragorPage />} />
               <Route path="/vem-vi-ar" element={<VemViArPage />} />
               <Route path="*" element={<NotFoundPage />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/registration" element={<Registration />} />
             </Routes>
           </Suspense>
         </ErrorBoundary>
