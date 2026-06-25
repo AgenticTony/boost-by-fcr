@@ -1,193 +1,160 @@
-# Boost by FCR — Team Git Workflow
+# Boost by FCR — Git (enkel guide)
 
-**Repo:** https://github.com/AgenticTony/boost-by-fcr
-**Owner:** Anthony (AgenticTony)
-**Senast uppdaterad:** 2026-05-28
+Hur vi jobbar med Git. **Följ stegen i ordning.** Hela loopen är 6 steg.
+
+Repo: **github.com/AgenticTony/boost-by-fcr**
 
 ---
 
-## Daglig rutin — innan du börjar koda
+## ⚠️ Tre regler som alltid gäller
 
+1. **Pusha aldrig direkt till `main`** — alltid via en PR (Pull Request).
+2. **Hämta senaste innan du börjar koda** (steg 1).
+3. **En review** från någon annan innan en PR mergas.
+
+---
+
+## 📍 Var gör du allt detta? (läs detta en gång)
+
+**Alla kommandon** i den här guiden skriver du i **terminalen** — inte i en kodfil.
+
+Så här kommer du dit (i **VS Code** — funkar likadant i de flesta editorer):
+
+1. Öppna VS Code.
+2. Öppna projektmappen: **File → Open Folder…** → välj mappen `boost-by-fcr`.
+3. Öppna terminalen: klicka i menyfliken **Terminal → New Terminal**.
+
+Nu öppnas en terminal i botten av VS Code. **Alla `git`-kommandon nedan skriver du här** — och trycker **Enter** efter varje.
+
+**Kolla att du är på rätt ställe:** det ska stå något med `boost-by-fcr` i terminalen
+(t.ex. `➜ boost-by-fcr`). Står det något annat? Skriv `cd ` (med mellanslag) och dra in
+projektmappen i terminalfönstret, så fylls sökvägen i automatiskt — tryck Enter.
+
+> **Första gången och det känns krångligt?** Fråga Anthony eller Robert — vi visar dig.
+
+---
+
+## Din arbetsdag — 6 steg
+
+Allt nedan görs i terminalen (se ☝️), om inget annat sägs.
+
+### 1. Hämta senaste
 ```bash
-# 1. Gå till repo-mappen
-cd boost-by-fcr
-
-# 2. Hämta senaste ändringar
 git checkout main
 git pull origin main
-
-# 3. Skapa din feature-branch för dagen
-git checkout -b feature/pX-kort-beskrivning
 ```
+*Gör alltid detta först. Då har du andras senaste ändringar och slipper konflikter.*
 
-**Branch-namnkonvention:**
-
-| Prefix | Används for | Exempel |
-|--------|-------------|---------|
-| `feature/p1-` | Ny funktionalitet | `feature/p1-projects-doc-type` |
-| `feature/p2-` | Ny funktionalitet | `feature/p2-homepage` |
-| `feature/p3-` | Ny funktionalitet | `feature/p3-backoffice-branding` |
-| `feature/p4-` | Ny funktionalitet | `feature/p4-login-page` |
-| `fix/pX-` | Buggfix | `fix/p2-mobile-nav` |
-| `chore/pX-` | Konfiguration, deps | `chore/p4-ci-pipeline` |
-
----
-
-## Nar du är klar — pusha & skapa PR
-
-### Steg 1: Spara dina andringar
-
+### 2. Skapa en egen branch
 ```bash
-# Se vad du andrat
-git status
-
-# Lagg till dina filer (anvand specifika filer, inte alltid -A)
-git add apps/public-site/src/pages/Home.tsx
-git add apps/public-site/src/components/Header.tsx
-
-# Eller om du andrat manga filer i din app
-git add apps/public-site/
-
-# Committa med beskrivande meddelande
-git commit -m "feat(p2): add homepage with hero section and initiative highlights"
+git checkout -b feature/pX-min-uppgift
 ```
+- `pX` = din roll: **p1, p2, p3** eller **p4**
+- `min-uppgift` = kort vad du gör
 
-### Commit-meddelanden
+**Exempel:** `feature/p4-login-page` (ny funktion) eller `fix/p2-mobile-nav` (buggfix).
 
-Format: `typ(scope): beskrivning`
-
-| Typ | Anvands for |
-|-----|-------------|
-| `feat` | Ny funktion eller sida |
-| `fix` | Buggfix |
-| `style` | CSS, styling, inga logikandringar |
-| `refactor` | Omstrukturering utan beteendeandring |
-| `chore` | Konfiguration, dependencies, build |
-| `docs` | Dokumentation |
-
-**Scope** = din roll: `p1`, `p2`, `p3`, `p4`
-
-Exempel:
-```
-feat(p1): add Project document type with all fields
-feat(p2): add FAQ page with accordion component
-fix(p3): hide developer tools from Anna's view
-chore(p4): set up GitHub Actions CI pipeline
-```
-
-### Steg 2: Pusha till GitHub
-
+### 3. Koda och spara (committa) — ofta
+Gör dina ändringar i koden (i vanliga filer, som vanligt). Spara dem sen i små commits
+i terminalen:
 ```bash
-git push origin feature/p2-homepage
+git status                          # se vilka filer du ändrat
+git add apps/din/mapp/fil.tsx       # lägg till dina filer (specifika sökvägar)
+git commit -m "feature/p4: la till logga på startsidan"
+```
+**Commit-meddelande:** `typ: kort beskrivning` — `feature` (nytt), `fix` (bugg),
+`chore` (config), `docs`.
+*Tips: spara hellre 5 små gånger än 1 stor.*
+
+### 4. Pusha till GitHub
+```bash
+git push origin feature/pX-min-uppgift
 ```
 
-### Steg 3: Skapa Pull Request
+### 5. Öppna en Pull Request (PR)
+**Lättast — på webben:**
+1. Gå till **github.com/AgenticTony/boost-by-fcr** i din webbläsare.
+2. Du ser en grön knapp **"Compare & pull request"** — klicka den.
+3. Skriv en titel, klicka **"Create pull request"**.
 
+*Eller i terminalen (om GitHub CLI `gh` är installerat):*
 ```bash
-# Snabbaste sättet — via terminalen
-gh pr create --title "feat(p2): homepage with hero and initiatives" --body ""
+gh pr create --title "feature/p4: logga på startsidan" --body ""
 ```
 
-Eller ga till https://github.com/AgenticTony/boost-by-fcr — det dyker upp en gron knapp "Compare & pull request".
+### 6. Be om review — sen mergea
+Skriv i team-chatten:
+> "PR uppe för [vad du gjort], kan någon reviewa? #p4"
 
-### Steg 4: Be om review
+När någon har godkänt — **innan du mergear, kolla två saker:**
+- **Inga konflikter:** det ska stå *"This branch has no conflicts with the base branch"*.
+  Står det *"has conflicts that must be resolved"*? Då måste du lösa dem först (se
+  "Merge-konflikt" under *Vid problem* nedan) — GitHub blockerar merge-knappen tills
+  det är klart.
+- **Checkar gröna:** ikonerna vid PR:n ska vara ✓ (godkända), inte ✗. Röd ✗? Då har
+  något test eller bygge misslyckats — rätta och pusha igen (steg 3–4).
 
-Informera teamet i teamchatten:
+*Ok på båda? Då mergear du på webben:*
+1. Öppna din PR på github.com.
+2. Klicka **"Merge pull request"** → **"Confirm merge"**.
 
-> "PR uppe for homepage, kan nsn reviewa? #p2"
-
-Vem som helst kan reviewa. Hall koll:
-- **Rutin-PRs** (nya sidor, styling) → nasta tillgangliga person reviewar
-- **Cross-cutting PRs** (shared-types, CI/CD) → Robert (TL) reviewar
-- **Reviewa inte din egen kod** — alltid nagon annan
-
-### Steg 5: Efter godkand review
-
+*Eller i terminalen:*
 ```bash
-# Squasha och merge via GitHub (rekommenderas)
 gh pr merge <PR-nummer> --squash
+```
 
-# Rensa din lokala branch
+Sen — tillbaka i terminalen — hämta senaste och städa din branch:
+```bash
 git checkout main
 git pull origin main
-git branch -d feature/p2-homepage
+git branch -d feature/pX-min-uppgift
 ```
 
 ---
 
-## Regler
+## Vid problem (läs här om det strular)
 
-1. **ALDRIG** pusha direkt till `main` — alltid via PR
-2. **ALDRIG** andra filer i nagon annans app-mapp utan att prata med dem forst
-3. **EN review** kravs for att mergea
-4. **Pulla main** innan du borjar koda varje dag
-5. **Sma PRs** — en funktion/sida per PR, inte en hel sprint
-6. **Committa ofta** — hellre 5 sma commits an 1 jatte
-
----
-
-## Karta — vem ror vad
-
-```
-boost-by-fcr/
-├── apps/
-│   ├── cms/            ← MARCUS (P1) + ROBERT (P3)
-│   ├── public-site/    ← ANTHONY (P2)
-│   └── locked-area/    ← MOHAND (P4)
-├── packages/
-│   └── shared-types/   ← ALLA (andras sallan, koordinera vid andring)
-├── .github/workflows/  ← MOHAND (P4)
-├── docs/               ← ALLA
-└── README.md           ← ALLA
-```
-
-Om du MASTE andra nagot utanfor din mapp:
-1. Skapa en issue eller skriv i chatten
-2. Lat personen som ager mappen gora andringen, ELLER
-3. Skapa en PR och lat agaren reviewa
-
----
-
-## Problem-losning
-
-### "Jag har skrivit kod i main av misstag"
+### "Jag skrev kod direkt i main av misstag"
 ```bash
-git checkout -b feature/p2-my-changes
-git push origin feature/p2-my-changes
+git checkout -b feature/pX-mine-changes
+git push origin feature/pX-mine-changes
 git checkout main
 git reset --hard origin/main
 ```
 
-### "Merge conflict nar jag pullar main"
+### "Merge-konflikt när jag pullade"
 ```bash
 git pull origin main
-# Oppna filerna som har konflikter
-# Leta efter <<<<<<< HEAD
-# Valj ratt kod, ta bort markorerna
+# Öppna filerna som nämns. Leta efter <<<<<<< HEAD
+# Välj rätt kod, ta bort markörerna (<<<<<<, =======, >>>>>>)
 git add .
-git commit -m "fix: resolve merge conflicts"
+git commit -m "fix: löste merge-konflikt"
 ```
 
-### "Jag vill ogora min senaste commit (inte pushad annu)"
+### "Jag vill ångra min senaste commit (inte pushad ännu)"
 ```bash
 git reset --soft HEAD~1
-# Andringarna finns kvar som unstaged
+# Ändringarna finns kvar, bara inte sparade (uncommitted)
 ```
+
+### "Terminalen säger att den inte hittar `git` eller `gh`"
+Då är programmet inte installerat. Fråga Anthony eller Robert om hjälp.
 
 ---
 
-## Snabb-referens
-
-```bash
-# Starta dagen
-git checkout main && git pull origin main
-git checkout -b feature/p2-what-im-doing
-
-# Slut pa dagen
-git add apps/public-site/
-git commit -m "feat(p2): what i built"
-git push origin feature/p2-what-im-doing
-gh pr create --title "feat(p2): what i built" --body ""
-
-# Nasta morgon — borja om fran toppen
+## Vem gör vad (rör inte andras mappar)
 ```
+apps/public-site/     ← ANTHONY (P2)
+apps/locked-area/     ← MOHAND (P4)
+apps/contact-worker/  ← MOHAND (P4)
+apps/cms/             ← MARCUS (P1) + ROBERT (P3)
+.github/workflows/    ← MOHAND (P4)
+docs/                 ← ALLA
+```
+**Ändra aldrig filer i någon annans mapp utan att prata med dem först.**
+Behöver du ändra något utanför din mapp: skriv i chatten, eller gör en PR och låt
+mappens ägare reviewa.
+
+---
+
+*Senast uppdaterad: 2026-06-25*
