@@ -56,7 +56,7 @@ describe("VarHistoriaPage", () => {
     renderPage();
     expect(
       screen.getByRole("heading", {
-        name: /Över 20 år av att skapa förändring/i,
+        name: /Vi har funnits sedan 2003/i,
       }),
     ).toBeInTheDocument();
   });
