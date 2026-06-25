@@ -24,6 +24,7 @@ packages/
 
 | Role | Person              | Responsibility                                       |
 | ---- | ------------------- | ---------------------------------------------------- |
+| P1   | Marcus              | Hygraph CMS — content models, schemas, GraphQL API   |
 | P2   | Anthony Foran       | Public React frontend, all pages, SEO, accessibility |
 | P3   | Robert Czuchra (TL) | Backoffice customization, Anna's UX, training        |
 | P4   | Mohand              | Locked area, Metodmaterial, CI/CD, deployment        |
@@ -51,7 +52,7 @@ packages/
 
 ### CMS
 
-- Hygraph (headless CMS, GraphQL API)
+- Hygraph (headless CMS, GraphQL API) — owned by P1 (Marcus): content models, schemas
 
 ### Infrastructure
 
