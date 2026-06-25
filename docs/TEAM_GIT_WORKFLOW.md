@@ -14,6 +14,34 @@ Repo: **github.com/AgenticTony/boost-by-fcr**
 
 ---
 
+## 🖥️ Första gången? Hämta projektet (gör detta en gång)
+
+Innan du kan följa stegen nedan måste projektet ligga på din dator.
+
+1. Öppna en terminal (Terminal på Mac, eller terminalen i VS Code).
+2. Gå till mappen där du vill ha projektet, t.ex.:
+   ```bash
+   cd ~/Projects
+   ```
+3. Hämta projektet från GitHub:
+   ```bash
+   git clone https://github.com/AgenticTony/boost-by-fcr.git
+   ```
+4. Gå in i projektmappen:
+   ```bash
+   cd boost-by-fcr
+   ```
+5. Installera paketen i den app du ska jobba i (första gången):
+   ```bash
+   cd apps/public-site     # eller apps/locked-area, apps/contact-worker
+   npm install
+   ```
+
+
+Sen är du igång — **varje dag du jobbar** följer du 6-stegsloopen nedan (steg 1: `git pull`).
+
+---
+
 ## 📍 Var gör du allt detta? (läs detta en gång)
 
 **Alla kommandon** i den här guiden skriver du i **terminalen** — inte i en kodfil.
