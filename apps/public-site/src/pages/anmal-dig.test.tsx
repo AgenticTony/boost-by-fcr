@@ -49,7 +49,7 @@ async function fillValidForm(user: ReturnType<typeof userEvent.setup>) {
     screen.getByLabelText(/inskrivningsmöte/i),
     "15 juli kl 11:00",
   );
-  await user.click(screen.getByLabelText(/godkänner behandling/i));
+  await user.click(screen.getByLabelText(/samtycke till behandling/i));
 }
 
 describe("AnmalDigPage (Anmälan → Google Form)", () => {
@@ -96,7 +96,7 @@ describe("AnmalDigPage (Anmälan → Google Form)", () => {
       screen.getByLabelText(/inskrivningsmöte/i),
       "15 juli kl 11:00",
     );
-    await user.click(screen.getByLabelText(/godkänner behandling/i));
+    await user.click(screen.getByLabelText(/samtycke till behandling/i));
 
     submitForm();
 
