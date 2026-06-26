@@ -8,7 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { CheckCircle, Mail, Phone, MapPin, ArrowRight } from "lucide-react";
-import { submitContact } from "@/api/client";
+// import { submitContact } from "@/api/client";
 import { useSeo } from "@/hooks/use-seo";
 import { ScrollReveal } from "@/components/ui/scroll-reveal";
 import { WaveDivider } from "@/components/ui/wave-divider";
@@ -66,13 +66,29 @@ function KontaktForm() {
     }
     setServerError("");
     try {
-      const result = await submitContact(data);
-      if (result.success) {
-        setDelivered(result.delivered);
+      const response = await fetch(import.meta.env.VITE_CONTACT_WORKER_URL || "https://contact-worker.moh17670s.workers.dev", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: data.name,
+          email: data.email,
+          subject: data.subject,
+          message: data.message,
+        }),
+      });
+
+      console.log("Response:", response.status, response);
+      const result = await response.json();
+      console.log("Result:", result);
+
+      if (response.ok && result.success) {
+        setDelivered(true);
         setSubmitted(true);
-      } else setServerError("Något gick fel. Försök igen.");
+      } else {
+        setServerError(result.error || "Något gick fel. Försök igen.");
+      }
     } catch {
-      setServerError("Något gick fel. Försök igen.");
+      setServerError("Kunde inte skicka meddelandet. Kontrollera din internetanslutning.");
     }
   }
 
