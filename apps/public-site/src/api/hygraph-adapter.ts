@@ -270,9 +270,25 @@ export function createHygraphAdapter(
       return { success: true, delivered: false };
     },
 
-    async submitContact(_data: ContactFormData) {
-      console.warn("[hygraph-adapter] submitContact: no backend endpoint yet");
-      return { success: true, delivered: false };
-    },
+    async submitContact(data: ContactFormData) {
+  try {
+    const response = await fetch("https://contact-worker.moh17670s.workers.dev", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      const error = await response.text();
+      console.error("[hygraph-adapter] contact worker error:", error);
+      return { success: false, delivered: false };
+    }
+
+    return { success: true, delivered: true };
+  } catch (error) {
+    console.error("[hygraph-adapter] submitContact failed:", error);
+    return { success: false, delivered: false };
+  }
+}
   };
 }

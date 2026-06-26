@@ -189,7 +189,7 @@ export function Header() {
       <a href="#main-content" className="skip-to-content">
         Hoppa till huvudinnehåll
       </a>
-      <nav className="container-page flex items-center justify-between h-16 md:h-20">
+      <nav className="w-full max-w-[1440px] mx-auto px-4 lg:px-6 flex items-center justify-between h-16 md:h-20">
         <Link to="/" className="flex items-center gap-2">
           <img
             src="/images/logo_boostbyfcr_dark.png"
