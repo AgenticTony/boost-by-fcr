@@ -1,0 +1,130 @@
+name: Deploy to Cloudflare Pages
+
+on:
+  push:
+    branches: [main, Mohand]
+  pull_request:
+    branches: [main]
+
+jobs:
+  # Build and test public site
+  build-public-site:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./apps/public-site
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: apps/public-site/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+        env:
+          VITE_HYGRAPH_URL: ${{ secrets.VITE_HYGRAPH_URL }}
+      - name: Type check
+        run: npx tsc --noEmit
+
+      - name: Lint
+        run: npm run lint
+        continue-on-error: true
+
+      - name: Build
+        run: npm run build
+        env:
+          VITE_HYGRAPH_URL: ${{ secrets.VITE_HYGRAPH_URL }}
+          VITE_HYGRAPH_TOKEN: ${{ secrets.VITE_HYGRAPH_TOKEN }}
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: public-site-dist
+          path: ./dist
+
+  # Build and test locked area
+  build-locked-area:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./apps/locked-area
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: apps/public-site/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Type check
+        run: npx tsc --noEmit
+
+      - name: Lint
+        run: npm run lint
+        continue-on-error: true
+
+      - name: Build
+        run: npm run build
+        env:
+          VITE_HYGRAPH_URL: ${{ secrets.VITE_HYGRAPH_URL }}
+          VITE_HYGRAPH_TOKEN: ${{ secrets.VITE_HYGRAPH_TOKEN_LOCKED }}
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: locked-area-dist
+          path: ./dist
+
+  # Deploy public site to Cloudflare Pages
+  deploy-public-site:
+    needs: build-public-site
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: public-site-dist
+          path: ./dist
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/pages-action@v1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: boost-public-site
+          directory: ./dist
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+
+  # Deploy locked area to Cloudflare Pages
+  deploy-locked-area:
+    needs: build-locked-area
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: locked-area-dist
+          path: ./dist
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/pages-action@v1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: boost-locked-area
+          directory: ./dist
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
