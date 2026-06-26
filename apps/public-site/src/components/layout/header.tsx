@@ -23,19 +23,19 @@ const jobSeekerLinks = [
     href: "/arbetssokande",
     label: "Arbetsspåret",
     icon: Briefcase,
-    iconColor: "text-brand-navy",
+    iconColor: "text-white",
   },
   {
     href: "/halsosparet",
     label: "Hälsospåret",
     icon: Heart,
-    iconColor: "text-brand-navy",
+    iconColor: "text-white",
   },
   {
     href: "/bridge",
     label: "Bridge by FCR",
     icon: PenLine,
-    iconColor: "text-brand-red",
+    iconColor: "text-[#D4AF37]",
   },
 ];
 
@@ -44,25 +44,25 @@ const aboutLinks = [
     href: "/vem-vi-ar",
     label: "Om oss",
     icon: UsersRound,
-    iconColor: "text-brand-navy",
+    iconColor: "text-white",
   },
   {
     href: "/var-historia",
     label: "Vår historia",
     icon: Clock,
-    iconColor: "text-brand-navy",
+    iconColor: "text-white",
   },
   {
     href: "/press-media",
     label: "Press & media",
     icon: Newspaper,
-    iconColor: "text-brand-red",
+    iconColor: "text-[#D4AF37]",
   },
   {
     href: "/lediga-tjanster",
     label: "Lediga tjänster",
     icon: BriefcaseMedical,
-    iconColor: "text-brand-navy",
+    iconColor: "text-white",
   },
 ];
 
@@ -72,13 +72,13 @@ const moreLinks = [
     href: "/nyheter",
     label: "Nyheter",
     icon: Newspaper,
-    iconColor: "text-brand-red",
+    iconColor: "text-[#D4AF37]",
   },
   {
     href: "/kontakt",
     label: "Kontakt",
     icon: Phone,
-    iconColor: "text-brand-navy",
+    iconColor: "text-white",
   },
 ];
 
@@ -95,7 +95,6 @@ export function Header() {
 
   /** Focus the first link inside a dropdown panel after it opens. */
   const focusDropdownItem = useCallback((id: DropdownId) => {
-    // Allow AnimatePresence to mount the panel first
     requestAnimationFrame(() => {
       const panel = document.getElementById(`dropdown-${id}`);
       const firstLink = panel?.querySelector<HTMLAnchorElement>("a");
@@ -121,36 +120,29 @@ export function Header() {
     }
   }
 
-  /** Handle keyboard nav inside a dropdown panel. */
   function handlePanelKeyDown(e: React.KeyboardEvent, id: DropdownId) {
     if (e.key === "Escape") {
       setActiveDropdown(null);
-      // Return focus to the toggle button
       const btn = document.querySelector<HTMLButtonElement>(
         `[aria-controls="dropdown-${id}"]`,
       );
       btn?.focus();
     }
     if (e.key === "Tab") {
-      // Close on Tab out
       setActiveDropdown(null);
     }
   }
 
-  /* ─── Mobile drawer focus trap ─── */
   const closeMobile = useCallback(() => setMobileOpen(false), []);
 
-  // Focus first element when drawer opens, return to toggle on close
   useEffect(() => {
     if (mobileOpen) {
-      // Defer to let AnimatePresence mount
       requestAnimationFrame(() => {
         firstFocusableRef.current?.focus();
       });
     }
   }, [mobileOpen]);
 
-  // Trap Tab/Shift-Tab inside drawer
   useEffect(() => {
     if (!mobileOpen || !drawerRef.current) return;
 
@@ -181,7 +173,6 @@ export function Header() {
     return () => document.removeEventListener("keydown", handleDrawerKey);
   }, [mobileOpen]);
 
-  // Close drawer on Escape
   useEffect(() => {
     if (!mobileOpen) return;
     function onEscape(e: KeyboardEvent) {
@@ -195,11 +186,11 @@ export function Header() {
   }, [mobileOpen, closeMobile]);
 
   return (
-    <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-border shadow-sm">
+    <header className="sticky top-0 z-50 bg-[#0A1929]/95 backdrop-blur-md shadow-lg border-b border-white/10">
       <a href="#main-content" className="skip-to-content">
         Hoppa till huvudinnehåll
       </a>
-      <nav className="container-page flex items-center justify-between h-16 md:h-20">
+      <nav className="w-full max-w-[1440px] mx-auto px-4 lg:px-6 flex items-center justify-between h-16 md:h-20">
         <Link to="/" className="flex items-center gap-2">
           <img
             src="/images/logo_boostbyfcr_dark.png"
@@ -208,9 +199,9 @@ export function Header() {
           />
         </Link>
 
-        {/* Desktop nav — Anna's requested order */}
+        {/* Desktop nav */}
         <div className="hidden lg:flex items-center gap-1">
-          {/* Arbetssökande — link + dropdown on hover */}
+          {/* Arbetssökande */}
           <div
             className="relative"
             onMouseEnter={() => setActiveDropdown("job-seeker")}
@@ -219,12 +210,12 @@ export function Header() {
             <div className="flex items-center">
               <Link
                 to="/arbetssokande"
-                className="px-1.5 py-2 text-sm font-medium text-text hover:text-brand-navy transition-colors rounded-md hover:bg-muted"
+                className="px-1.5 py-2 text-sm font-medium whitespace-nowrap text-white/80 hover:text-[#D4AF37] transition-colors rounded-md hover:bg-white/10"
               >
                 Arbetssökande
               </Link>
               <button
-                className="px-1.5 py-2 text-text hover:text-brand-navy transition-colors"
+                className="px-1.5 py-2 text-white/80 hover:text-[#D4AF37] transition-colors"
                 aria-expanded={activeDropdown === "job-seeker"}
                 aria-haspopup="true"
                 aria-controls="dropdown-job-seeker"
@@ -243,7 +234,7 @@ export function Header() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={prefersReducedMotion ? undefined : { opacity: 0, y: 8 }}
                   transition={{ duration: prefersReducedMotion ? 0 : 0.15 }}
-                  className="absolute top-full left-0 mt-1 w-64 bg-white rounded-card shadow-lg border border-border p-2"
+                  className="absolute top-full left-0 mt-1 w-64 bg-[#0A1929]/95 backdrop-blur-md rounded-card shadow-lg border border-white/10 p-2"
                   onKeyDown={(e) => handlePanelKeyDown(e, "job-seeker")}
                 >
                   {jobSeekerLinks.map((link) => (
@@ -251,7 +242,7 @@ export function Header() {
                       key={link.href}
                       to={link.href}
                       role="menuitem"
-                      className="flex items-center gap-3 px-3 py-2.5 rounded-md text-sm hover:bg-muted transition-colors"
+                      className="flex items-center gap-3 px-3 py-2.5 rounded-md text-sm text-white/80 hover:text-[#D4AF37] hover:bg-white/10 transition-colors"
                     >
                       <link.icon className={`h-5 w-5 ${link.iconColor}`} />
                       {link.label}
@@ -264,28 +255,26 @@ export function Header() {
 
           <Link
             to="/foretag"
-            className="px-3 py-2 text-sm font-medium text-text hover:text-brand-navy transition-colors rounded-md hover:bg-muted"
+            className="px-2 py-2 text-sm font-medium whitespace-nowrap text-white/80 hover:text-[#D4AF37] transition-colors rounded-md hover:bg-white/10"
           >
             Arbetsgivare
           </Link>
 
-          {/* Skolor och utbildningsanordnare — Anna's exact label */}
           <Link
             to="/studier"
-            className="px-3 py-2 text-sm font-medium text-text hover:text-brand-navy transition-colors rounded-md hover:bg-muted"
+            className="px-2 py-2 text-sm font-medium whitespace-nowrap text-white/80 hover:text-[#D4AF37] transition-colors rounded-md hover:bg-white/10"
           >
             Skolor och utbildningsanordnare
           </Link>
 
-          {/* Vårt arbetssätt — Anna's requested top-level item */}
           <Link
             to="/vad-vi-gor"
-            className="px-3 py-2 text-sm font-medium text-text hover:text-brand-navy transition-colors rounded-md hover:bg-muted"
+            className="px-2 py-2 text-sm font-medium whitespace-nowrap text-white/80 hover:text-[#D4AF37] transition-colors rounded-md hover:bg-white/10"
           >
             Vårt arbetssätt
           </Link>
 
-          {/* Om oss — link + dropdown on hover */}
+          {/* Om oss */}
           <div
             className="relative"
             onMouseEnter={() => setActiveDropdown("about")}
@@ -294,12 +283,12 @@ export function Header() {
             <div className="flex items-center">
               <Link
                 to="/vem-vi-ar"
-                className="px-1.5 py-2 text-sm font-medium text-text hover:text-brand-navy transition-colors rounded-md hover:bg-muted"
+                className="px-1.5 py-2 text-sm font-medium whitespace-nowrap text-white/80 hover:text-[#D4AF37] transition-colors rounded-md hover:bg-white/10"
               >
                 Om oss
               </Link>
               <button
-                className="px-1.5 py-2 text-text hover:text-brand-navy transition-colors"
+                className="px-1.5 py-2 text-white/80 hover:text-[#D4AF37] transition-colors"
                 aria-expanded={activeDropdown === "about"}
                 aria-haspopup="true"
                 aria-controls="dropdown-about"
@@ -318,7 +307,7 @@ export function Header() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={prefersReducedMotion ? undefined : { opacity: 0, y: 8 }}
                   transition={{ duration: prefersReducedMotion ? 0 : 0.15 }}
-                  className="absolute top-full left-0 mt-1 w-52 bg-white rounded-card shadow-lg border border-border p-2"
+                  className="absolute top-full left-0 mt-1 w-52 bg-[#0A1929]/95 backdrop-blur-md rounded-card shadow-lg border border-white/10 p-2"
                   onKeyDown={(e) => handlePanelKeyDown(e, "about")}
                 >
                   {aboutLinks.map((link) => (
@@ -326,7 +315,7 @@ export function Header() {
                       key={link.href}
                       to={link.href}
                       role="menuitem"
-                      className="flex items-center gap-3 px-3 py-2.5 rounded-md text-sm hover:bg-muted transition-colors"
+                      className="flex items-center gap-3 px-3 py-2.5 rounded-md text-sm text-white/80 hover:text-[#D4AF37] hover:bg-white/10 transition-colors"
                     >
                       <link.icon className={`h-5 w-5 ${link.iconColor}`} />
                       {link.label}
@@ -337,14 +326,14 @@ export function Header() {
             </AnimatePresence>
           </div>
 
-          {/* Mer — dropdown with Nyheter, Kontakt, Resurser */}
+          {/* Mer */}
           <div
             className="relative"
             onMouseEnter={() => setActiveDropdown("more")}
             onMouseLeave={() => setActiveDropdown(null)}
           >
             <button
-              className="flex items-center gap-1 px-3 py-2 text-sm font-medium text-text hover:text-brand-navy transition-colors rounded-md hover:bg-muted"
+              className="flex items-center gap-1 px-3 py-2 text-sm font-medium whitespace-nowrap text-white/80 hover:text-[#D4AF37] transition-colors rounded-md hover:bg-white/10"
               aria-expanded={activeDropdown === "more"}
               aria-haspopup="true"
               aria-controls="dropdown-more"
@@ -362,7 +351,7 @@ export function Header() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={prefersReducedMotion ? undefined : { opacity: 0, y: 8 }}
                   transition={{ duration: prefersReducedMotion ? 0 : 0.15 }}
-                  className="absolute top-full right-0 mt-1 w-52 bg-white rounded-card shadow-lg border border-border p-2"
+                  className="absolute top-full right-0 mt-1 w-52 bg-[#0A1929]/95 backdrop-blur-md rounded-card shadow-lg border border-white/10 p-2"
                   onKeyDown={(e) => handlePanelKeyDown(e, "more")}
                 >
                   {moreLinks.map((link) => (
@@ -370,7 +359,7 @@ export function Header() {
                       key={link.href}
                       to={link.href}
                       role="menuitem"
-                      className="flex items-center gap-3 px-3 py-2.5 rounded-md text-sm hover:bg-muted transition-colors"
+                      className="flex items-center gap-3 px-3 py-2.5 rounded-md text-sm text-white/80 hover:text-[#D4AF37] hover:bg-white/10 transition-colors"
                     >
                       <link.icon className={`h-5 w-5 ${link.iconColor}`} />
                       {link.label}
@@ -383,7 +372,7 @@ export function Header() {
         </div>
 
         <div className="flex items-center gap-3">
-          {/* Anmälan — top-level CTA as Anna requested */}
+          {/* Anmälan */}
           <Button
             asChild
             className="hidden lg:inline-flex bg-brand-red text-white hover:bg-brand-red/90 font-display font-semibold rounded-cta px-6"
@@ -391,12 +380,12 @@ export function Header() {
             <Link to="/anmal-dig">Anmälan</Link>
           </Button>
 
-          {/* Medlemsarea — external link to locked-area app */}
+          {/* Medlemsarea */}
           <a
             href="https://boost-locked-area.pages.dev/login"
             target="_blank"
             rel="noopener noreferrer"
-            className="hidden lg:inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-text hover:text-brand-navy transition-colors rounded-md hover:bg-muted"
+            className="hidden lg:inline-flex items-center gap-1.5 px-2 py-2 text-sm font-medium whitespace-nowrap text-white/80 hover:text-[#D4AF37] transition-colors rounded-md hover:bg-white/10"
           >
             <Lock className="h-4 w-4" />
             Medlemsarea
@@ -405,7 +394,7 @@ export function Header() {
           {/* Mobile menu toggle */}
           <button
             ref={toggleRef}
-            className="lg:hidden p-2 text-text hover:text-brand-navy"
+            className="lg:hidden p-2 text-white/80 hover:text-[#D4AF37]"
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label={mobileOpen ? "Stäng meny" : "Öppna meny"}
             aria-expanded={mobileOpen}
@@ -451,7 +440,7 @@ export function Header() {
                 maxWidth: 360,
                 zIndex: 50,
                 overflowY: "auto",
-                backgroundColor: "white",
+                backgroundColor: "#0A1929",
               }}
               role="dialog"
               aria-modal="true"
@@ -469,25 +458,25 @@ export function Header() {
                     onClick={closeMobile}
                     aria-label="Stäng meny"
                   >
-                    <X className="h-6 w-6 text-text" />
+                    <X className="h-6 w-6 text-white/80" />
                   </button>
                 </div>
 
                 <div className="space-y-6">
-                  {/* Anmälan — top link in mobile */}
+                  {/* Anmälan */}
                   <div>
                     <Link
                       to="/anmal-dig"
                       onClick={closeMobile}
-                      className="flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-semibold text-brand-red hover:bg-brand-red-light transition-colors"
+                      className="flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-semibold text-[#D4AF37] hover:bg-white/10 transition-colors"
                     >
-                      <PenLine className="h-5 w-5 text-brand-red" />
+                      <PenLine className="h-5 w-5 text-[#D4AF37]" />
                       Anmälan
                     </Link>
                   </div>
 
                   <div>
-                    <p className="text-xs font-medium text-text-muted uppercase tracking-wider mb-3">
+                    <p className="text-xs font-medium text-white/60 uppercase tracking-wider mb-3">
                       Arbetssökande
                     </p>
                     <div className="space-y-1">
@@ -496,7 +485,7 @@ export function Header() {
                           key={link.href}
                           to={link.href}
                           onClick={closeMobile}
-                          className="flex items-center gap-3 px-3 py-2.5 rounded-md text-sm hover:bg-muted transition-colors"
+                          className="flex items-center gap-3 px-3 py-2.5 rounded-md text-sm text-white/80 hover:text-[#D4AF37] hover:bg-white/10 transition-colors"
                         >
                           <link.icon className={`h-5 w-5 ${link.iconColor}`} />
                           {link.label}
@@ -509,7 +498,7 @@ export function Header() {
                     <Link
                       to="/foretag"
                       onClick={closeMobile}
-                      className="block px-3 py-2.5 text-sm font-medium hover:bg-muted rounded-md"
+                      className="block px-3 py-2.5 text-sm font-medium text-white/80 hover:text-[#D4AF37] hover:bg-white/10 rounded-md transition-colors"
                     >
                       Arbetsgivare
                     </Link>
@@ -519,7 +508,7 @@ export function Header() {
                     <Link
                       to="/studier"
                       onClick={closeMobile}
-                      className="block px-3 py-2.5 text-sm font-medium hover:bg-muted rounded-md"
+                      className="block px-3 py-2.5 text-sm font-medium text-white/80 hover:text-[#D4AF37] hover:bg-white/10 rounded-md transition-colors"
                     >
                       Skolor och utbildningsanordnare
                     </Link>
@@ -529,14 +518,14 @@ export function Header() {
                     <Link
                       to="/vad-vi-gor"
                       onClick={closeMobile}
-                      className="block px-3 py-2.5 text-sm font-medium hover:bg-muted rounded-md"
+                      className="block px-3 py-2.5 text-sm font-medium text-white/80 hover:text-[#D4AF37] hover:bg-white/10 rounded-md transition-colors"
                     >
                       Vårt arbetssätt
                     </Link>
                   </div>
 
                   <div>
-                    <p className="text-xs font-medium text-text-muted uppercase tracking-wider mb-3">
+                    <p className="text-xs font-medium text-white/60 uppercase tracking-wider mb-3">
                       Om oss
                     </p>
                     <div className="space-y-1">
@@ -545,7 +534,7 @@ export function Header() {
                           key={link.href}
                           to={link.href}
                           onClick={closeMobile}
-                          className="flex items-center gap-3 px-3 py-2.5 rounded-md text-sm hover:bg-muted transition-colors"
+                          className="flex items-center gap-3 px-3 py-2.5 rounded-md text-sm text-white/80 hover:text-[#D4AF37] hover:bg-white/10 transition-colors"
                         >
                           <link.icon className={`h-5 w-5 ${link.iconColor}`} />
                           {link.label}
@@ -555,7 +544,7 @@ export function Header() {
                   </div>
 
                   <div>
-                    <p className="text-xs font-medium text-text-muted uppercase tracking-wider mb-3">
+                    <p className="text-xs font-medium text-white/60 uppercase tracking-wider mb-3">
                       Mer
                     </p>
                     <div className="space-y-1">
@@ -564,7 +553,7 @@ export function Header() {
                           key={link.href}
                           to={link.href}
                           onClick={closeMobile}
-                          className="flex items-center gap-3 px-3 py-2.5 rounded-md text-sm hover:bg-muted transition-colors"
+                          className="flex items-center gap-3 px-3 py-2.5 rounded-md text-sm text-white/80 hover:text-[#D4AF37] hover:bg-white/10 transition-colors"
                         >
                           <link.icon className={`h-5 w-5 ${link.iconColor}`} />
                           {link.label}
@@ -574,7 +563,7 @@ export function Header() {
                   </div>
                 </div>
 
-                <div className="mt-8 pt-6 border-t border-border">
+                <div className="mt-8 pt-6 border-t border-white/10">
                   <Button
                     asChild
                     className="w-full bg-brand-red text-white hover:bg-brand-red/90 font-display font-semibold rounded-cta"
