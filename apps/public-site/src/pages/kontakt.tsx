@@ -8,12 +8,19 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { CheckCircle, Mail, Phone, MapPin, ArrowRight } from "lucide-react";
+<<<<<<< HEAD
 // import { submitContact } from "@/api/client";
+=======
+import { submitContact } from "@/api/client";
+>>>>>>> 1fd42970727189e803ffb3827ee449ca8e429251
 import { useSeo } from "@/hooks/use-seo";
 import { ScrollReveal } from "@/components/ui/scroll-reveal";
 import { WaveDivider } from "@/components/ui/wave-divider";
 import { DemoNotice } from "@/components/demo-notice";
+<<<<<<< HEAD
 
+=======
+>>>>>>> 1fd42970727189e803ffb3827ee449ca8e429251
 
 const schema = z.object({
   name: z.string().min(1, "Namn är obligatoriskt"),
@@ -60,13 +67,18 @@ function KontaktForm() {
   });
 
   async function onSubmit(data: FormData) {
+<<<<<<< HEAD
     // Honeypot check
+=======
+    // Honeypot check — bots fill this field
+>>>>>>> 1fd42970727189e803ffb3827ee449ca8e429251
     if (data.website) {
       setSubmitted(true);
       return;
     }
     setServerError("");
     try {
+<<<<<<< HEAD
       const response = await fetch(import.meta.env.VITE_CONTACT_WORKER_URL || "https://contact-worker.moh17670s.workers.dev", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -86,6 +98,13 @@ function KontaktForm() {
       } else {
         setServerError(result.error || "Något gick fel. Försök igen.");
       }
+=======
+      const result = await submitContact(data);
+      if (result.success) {
+        setDelivered(result.delivered);
+        setSubmitted(true);
+      } else setServerError("Något gick fel. Försök igen.");
+>>>>>>> 1fd42970727189e803ffb3827ee449ca8e429251
     } catch {
       setServerError("Kunde inte skicka meddelandet. Kontrollera din internetanslutning.");
     }
