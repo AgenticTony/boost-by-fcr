@@ -59,20 +59,34 @@ function KontaktForm() {
   });
 
   async function onSubmit(data: FormData) {
-    // Honeypot check — bots fill this field
+    // Honeypot check
     if (data.website) {
       setSubmitted(true);
       return;
     }
     setServerError("");
     try {
-      const result = await submitContact(data);
-      if (result.success) {
-        setDelivered(result.delivered);
+      const response = await fetch(import.meta.env.VITE_CONTACT_WORKER_URL || "https://contact-worker.moh17670s.workers.dev", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: data.name,
+          email: data.email,
+          subject: data.subject,
+          message: data.message,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (response.ok && result.success) {
+        setDelivered(true);
         setSubmitted(true);
-      } else setServerError("Något gick fel. Försök igen.");
+      } else {
+        setServerError(result.error || "Något gick fel. Försök igen.");
+      }
     } catch {
-      setServerError("Något gick fel. Försök igen.");
+      setServerError("Kunde inte skicka meddelandet. Kontrollera din internetanslutning.");
     }
   }
 
