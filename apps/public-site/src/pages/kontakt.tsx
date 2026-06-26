@@ -8,11 +8,12 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { CheckCircle, Mail, Phone, MapPin, ArrowRight } from "lucide-react";
-import { submitContact } from "@/api/client";
+// import { submitContact } from "@/api/client";
 import { useSeo } from "@/hooks/use-seo";
 import { ScrollReveal } from "@/components/ui/scroll-reveal";
 import { WaveDivider } from "@/components/ui/wave-divider";
 import { DemoNotice } from "@/components/demo-notice";
+
 
 const schema = z.object({
   name: z.string().min(1, "Namn är obligatoriskt"),
