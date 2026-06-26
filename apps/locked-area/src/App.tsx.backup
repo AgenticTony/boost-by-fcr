@@ -1,0 +1,105 @@
+// import { BrowserRouter, Routes, Route } from 'react-router-dom'
+// import { AuthProvider } from './auth/AuthContext'
+// import { ProtectedRoute } from './components/ProtectedRoute'
+// import Header from './components/Header'
+// import Login from './pages/login'
+// import Library from './pages/Library'
+// import ExerciseDetail from './pages/ExerciseDetail'
+// import { Resources } from './pages/Resources'
+// import { HandbookReader } from './pages/HandbookReader'
+// import { KnowledgeSection } from './pages/KnowledgeSection'
+
+// export default function App() {
+//   return (
+//     <AuthProvider>
+//       <BrowserRouter>
+//         <Header />
+//         <main className="pt-16">
+//           <Routes>
+//             <Route path="/login" element={<Login />} />
+//             <Route 
+//               path="/" 
+//               element={
+//                 <ProtectedRoute>
+//                   <Library />
+//                 </ProtectedRoute>
+//               } 
+//             />
+//             <Route 
+//               path="/resources" 
+//               element={
+//                 <ProtectedRoute>
+//                   <Resources />
+//                 </ProtectedRoute>
+//               } 
+//             />
+//             <Route 
+//               path="/exercise/:id" 
+//               element={
+//                 <ProtectedRoute>
+//                   <ExerciseDetail />
+//                 </ProtectedRoute>
+//               } 
+//             />
+//             <Route 
+//               path="/exercises" 
+//               element={
+//                 <ProtectedRoute>
+//                   <ExerciseDetail />
+//                 </ProtectedRoute>
+//               } 
+//             />
+//             <Route 
+//               path="/handbook" 
+//               element={
+//                 <ProtectedRoute>
+//                   <HandbookReader />
+//                 </ProtectedRoute>
+//               } 
+//             />
+//             <Route 
+//               path="/knowledge" 
+//               element={
+//                 <ProtectedRoute>
+//                   <KnowledgeSection />
+//                 </ProtectedRoute>
+//               } 
+//             />
+//           </Routes>
+//         </main>
+//       </BrowserRouter>
+//     </AuthProvider>
+//   )
+// }
+// apps/locked-area/src/App.tsx
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { AuthProvider } from './auth/AuthContext'
+import { ProtectedRoute } from './components/ProtectedRoute'
+import Header from './components/Header'
+import Login from './pages/login'
+import Library from './pages/Library'
+import ExerciseDetail from './pages/ExerciseDetail'
+import { Resources } from './pages/Resources'
+import { HandbookReader } from './pages/HandbookReader'
+import { KnowledgeSection } from './pages/KnowledgeSection'
+
+export default function App() {
+  return (
+    <AuthProvider>
+      <BrowserRouter>
+        <Header />
+        <main className="pt-16">
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="/" element={<ProtectedRoute><Library /></ProtectedRoute>} />
+            <Route path="/resources" element={<ProtectedRoute><Resources /></ProtectedRoute>} />
+            <Route path="/exercise/:id" element={<ProtectedRoute><ExerciseDetail /></ProtectedRoute>} />
+            <Route path="/exercises" element={<ProtectedRoute><ExerciseDetail /></ProtectedRoute>} />
+            <Route path="/handbook" element={<ProtectedRoute><HandbookReader /></ProtectedRoute>} />
+            <Route path="/knowledge" element={<ProtectedRoute><KnowledgeSection /></ProtectedRoute>} />
+          </Routes>
+        </main>
+      </BrowserRouter>
+    </AuthProvider>
+  )
+}

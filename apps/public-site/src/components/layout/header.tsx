@@ -13,6 +13,7 @@ import {
   Clock,
   PenLine,
   Phone,
+  Lock,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -389,6 +390,17 @@ export function Header() {
           >
             <Link to="/anmal-dig">Anmälan</Link>
           </Button>
+
+          {/* Medlemsarea — external link to locked-area app */}
+          <a
+            href="https://boost-locked-area.pages.dev/login"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hidden lg:inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-text hover:text-brand-navy transition-colors rounded-md hover:bg-muted"
+          >
+            <Lock className="h-4 w-4" />
+            Medlemsarea
+          </a>
 
           {/* Mobile menu toggle */}
           <button
