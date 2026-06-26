@@ -261,7 +261,8 @@ export function createHygraphAdapter(
       return data.resources.map(mapResource);
     },
 
-    // Forms are not CMS-backed — these stay as no-ops until a backend endpoint exists.
+    // Forms are not CMS-backed. Registration stays a no-op pending a backend;
+    // contact posts to the Cloudflare contact-worker (see VITE_CONTACT_WORKER_URL).
     // delivered=false signals to the UI that nothing was actually sent.
     async submitRegistration(_data: RegistrationFormData) {
       console.warn(
@@ -270,9 +271,39 @@ export function createHygraphAdapter(
       return { success: true, delivered: false };
     },
 
-    async submitContact(_data: ContactFormData) {
-      console.warn("[hygraph-adapter] submitContact: no backend endpoint yet");
-      return { success: true, delivered: false };
+    async submitContact(data: ContactFormData) {
+      const url = import.meta.env.VITE_CONTACT_WORKER_URL;
+      if (!url) {
+        console.warn(
+          "[hygraph-adapter] submitContact: VITE_CONTACT_WORKER_URL not configured",
+        );
+        return { success: true, delivered: false };
+      }
+      try {
+        const res = await fetch(url, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: data.name,
+            email: data.email,
+            subject: data.subject,
+            message: data.message,
+          }),
+        });
+        if (!res.ok) {
+          console.error(
+            "[hygraph-adapter] submitContact: worker returned",
+            res.status,
+          );
+          return { success: false, delivered: false };
+        }
+        const json = (await res.json()) as { success?: boolean };
+        const delivered = json.success === true;
+        return { success: delivered, delivered };
+      } catch (err) {
+        console.error("[hygraph-adapter] submitContact failed:", err);
+        return { success: false, delivered: false };
+      }
     },
   };
 }

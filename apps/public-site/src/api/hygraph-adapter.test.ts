@@ -348,6 +348,66 @@ describe("createHygraphAdapter", () => {
     expect(warnSpy).toHaveBeenCalled();
   });
 
+  const contactPayload = {
+    name: "Anna",
+    email: "anna@example.se",
+    subject: "Hej",
+    message: "Testmeddelande",
+  };
+
+  it("submitContact POSTs to VITE_CONTACT_WORKER_URL and reports delivered on success", async () => {
+    vi.stubEnv("VITE_CONTACT_WORKER_URL", "https://worker.test/submit");
+    const fetchMock = vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({ success: true, id: "abc" }),
+    });
+    vi.stubGlobal("fetch", fetchMock);
+
+    const result = await makeAdapter().submitContact(contactPayload);
+
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(fetchMock).toHaveBeenCalledWith(
+      "https://worker.test/submit",
+      expect.objectContaining({
+        method: "POST",
+        body: JSON.stringify(contactPayload),
+      }),
+    );
+    expect(result).toEqual({ success: true, delivered: true });
+
+    vi.unstubAllGlobals();
+    vi.unstubAllEnvs();
+  });
+
+  it("submitContact reports not delivered when the worker responds non-2xx", async () => {
+    vi.stubEnv("VITE_CONTACT_WORKER_URL", "https://worker.test/submit");
+    vi.stubGlobal(
+      "fetch",
+      vi.fn().mockResolvedValue({ ok: false, status: 500, json: async () => ({}) }),
+    );
+    const errSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+
+    const result = await makeAdapter().submitContact(contactPayload);
+    expect(result).toEqual({ success: false, delivered: false });
+
+    errSpy.mockRestore();
+    vi.unstubAllGlobals();
+    vi.unstubAllEnvs();
+  });
+
+  it("submitContact reports not delivered when the network call throws", async () => {
+    vi.stubEnv("VITE_CONTACT_WORKER_URL", "https://worker.test/submit");
+    vi.stubGlobal("fetch", vi.fn().mockRejectedValue(new Error("network down")));
+    const errSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+
+    const result = await makeAdapter().submitContact(contactPayload);
+    expect(result).toEqual({ success: false, delivered: false });
+
+    errSpy.mockRestore();
+    vi.unstubAllGlobals();
+    vi.unstubAllEnvs();
+  });
+
   it("propagates request errors so the resilient layer can fall back", async () => {
     requestMock.mockRejectedValue(new Error("network down"));
     await expect(makeAdapter().fetchNews()).rejects.toThrow("network down");
