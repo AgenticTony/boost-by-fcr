@@ -341,11 +341,29 @@ describe("createHygraphAdapter", () => {
     expect(warnSpy).toHaveBeenCalled();
   });
 
-  it("submitContact warns and signals not delivered (no backend yet)", async () => {
-    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
-    const result = await makeAdapter().submitContact({} as never);
-    expect(result).toEqual({ success: true, delivered: false });
-    expect(warnSpy).toHaveBeenCalled();
+  it("submitContact falls back to the deployed worker when VITE_CONTACT_WORKER_URL is unset", async () => {
+    vi.stubEnv("VITE_CONTACT_WORKER_URL", "");
+    const fetchMock = vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({ success: true, id: "fb" }),
+    });
+    vi.stubGlobal("fetch", fetchMock);
+
+    const result = await makeAdapter().submitContact({
+      name: "Anna",
+      email: "anna@example.se",
+      subject: "Hej",
+      message: "Testmeddelande",
+    });
+
+    expect(fetchMock).toHaveBeenCalledWith(
+      "https://contact-worker.moh17670s.workers.dev",
+      expect.objectContaining({ method: "POST" }),
+    );
+    expect(result).toEqual({ success: true, delivered: true });
+
+    vi.unstubAllGlobals();
+    vi.unstubAllEnvs();
   });
 
   const contactPayload = {
