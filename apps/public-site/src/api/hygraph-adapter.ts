@@ -272,13 +272,11 @@ export function createHygraphAdapter(
     },
 
     async submitContact(data: ContactFormData) {
-      const url = import.meta.env.VITE_CONTACT_WORKER_URL;
-      if (!url) {
-        console.warn(
-          "[hygraph-adapter] submitContact: VITE_CONTACT_WORKER_URL not configured",
-        );
-        return { success: true, delivered: false };
-      }
+      // Env var preferred; fall back to the deployed project worker so the form
+      // works even when the build doesn't inline the env var.
+      const url =
+        import.meta.env.VITE_CONTACT_WORKER_URL ||
+        "https://contact-worker.moh17670s.workers.dev";
       try {
         const res = await fetch(url, {
           method: "POST",
