@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router-dom";
@@ -79,6 +79,13 @@ describe("KontaktPage (Contact form)", () => {
   });
 
   it("shows success state after valid submission", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn().mockResolvedValue({
+        ok: true,
+        json: async () => ({ success: true, id: "abc" }),
+      }),
+    );
     const user = userEvent.setup();
     renderPage();
 
@@ -101,9 +108,11 @@ describe("KontaktPage (Contact form)", () => {
       { timeout: 5000 },
     );
 
-    // No backend wired yet (mock returns delivered=false): the success screen
-    // is honest that the submission was not actually sent anywhere.
-    expect(screen.getByText(/har inte skickats/i)).toBeInTheDocument();
+    // Form is wired to the contact worker, so the submission IS delivered —
+    // the "not actually sent" notice should NOT appear.
+    expect(screen.queryByText(/har inte skickats/i)).not.toBeInTheDocument();
+
+    vi.unstubAllGlobals();
   });
 
   it("has subject options in select", () => {

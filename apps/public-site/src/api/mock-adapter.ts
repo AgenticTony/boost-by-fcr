@@ -38,9 +38,30 @@ export function createMockAdapter(): ApiAdapter {
       return { success: true, delivered: false };
     },
 
-    async submitContact(_data) {
-      await delay(800);
-      return { success: true, delivered: false };
+    async submitContact(data) {
+      // Real submission even in mock mode — the contact form should always send.
+      // (Other endpoints stay mock while Hygraph has no data.)
+      const url =
+        import.meta.env.VITE_CONTACT_WORKER_URL ||
+        "https://contact-worker.moh17670s.workers.dev";
+      try {
+        const res = await fetch(url, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: data.name,
+            email: data.email,
+            subject: data.subject,
+            message: data.message,
+          }),
+        });
+        if (!res.ok) return { success: false, delivered: false };
+        const json = (await res.json()) as { success?: boolean };
+        const delivered = json.success === true;
+        return { success: delivered, delivered };
+      } catch {
+        return { success: false, delivered: false };
+      }
     },
   };
 }

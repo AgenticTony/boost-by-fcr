@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { createMockAdapter } from "./mock-adapter";
 import { mockNewsArticles, mockTimeline, mockResources } from "./mock-data";
 
@@ -106,14 +106,39 @@ describe("mock-adapter", () => {
   });
 
   describe("submitContact", () => {
-    it("returns success", async () => {
+    it("POSTs the form to the contact worker and reports delivered on success", async () => {
+      const fetchMock = vi.fn().mockResolvedValue({
+        ok: true,
+        json: async () => ({ success: true, id: "abc" }),
+      });
+      vi.stubGlobal("fetch", fetchMock);
+
       const result = await adapter.submitContact({
         name: "Test User",
         email: "test@example.com",
         subject: "Question",
         message: "Hello!",
       });
-      expect(result).toEqual({ success: true, delivered: false });
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        "https://contact-worker.moh17670s.workers.dev",
+        expect.objectContaining({ method: "POST" }),
+      );
+      expect(result).toEqual({ success: true, delivered: true });
+
+      vi.unstubAllGlobals();
+    });
+
+    it("reports not delivered when the worker call fails", async () => {
+      vi.stubGlobal("fetch", vi.fn().mockRejectedValue(new Error("network")));
+      const result = await adapter.submitContact({
+        name: "Test User",
+        email: "test@example.com",
+        subject: "Question",
+        message: "Hello!",
+      });
+      expect(result).toEqual({ success: false, delivered: false });
+      vi.unstubAllGlobals();
     });
   });
 });
