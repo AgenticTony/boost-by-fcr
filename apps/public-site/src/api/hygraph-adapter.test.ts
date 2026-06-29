@@ -24,7 +24,7 @@ import {
   richTextToPlainText,
   createHygraphAdapter,
 } from "./hygraph-adapter";
-import type { NewsArticle, TimelineEntry, Resource } from "@/types";
+import type { TimelineEntry, Resource } from "@/types";
 
 describe("richTextToPlainText", () => {
   it("flattens a Hygraph rich-text AST into blank-line-separated paragraphs", () => {
@@ -100,12 +100,12 @@ describe("mapNews", () => {
     slug: "hello-world",
     title: "Hello World",
     publishedAt: "2026-01-01T00:00:00Z",
-    category: "nyhet",
-    excerpt: "Short summary",
+    category: "projekt",
+    preview: "Short summary",
   };
 
-  it("maps all fields and flattens a rich-text body", () => {
-    const bodyRaw = JSON.stringify({
+  it("maps all fields and flattens rich-text content", () => {
+    const contentRaw = JSON.stringify({
       type: "root",
       children: [
         {
@@ -114,32 +114,29 @@ describe("mapNews", () => {
         },
       ],
     });
-    const mapped = mapNews({ ...base, body: { raw: bodyRaw } });
-    const expected: NewsArticle = {
-      ...base,
+    const mapped = mapNews({ ...base, content: { raw: contentRaw } });
+    expect(mapped).toMatchObject({
+      id: "n1",
+      title: "Hello World",
+      category: "projekt",
+      excerpt: "Short summary",
       body: "Body text",
-      imageUrl: undefined,
-      imageAlt: undefined,
-      author: undefined,
-    };
-    expect(mapped).toEqual(expected);
+    });
+    expect(mapped.imageUrl).toBeUndefined();
   });
 
-  it("keeps a plain-string body unchanged", () => {
-    const mapped = mapNews({ ...base, body: "Plain body" });
+  it("keeps a plain-string content unchanged", () => {
+    const mapped = mapNews({ ...base, content: "Plain body" });
     expect(mapped.body).toBe("Plain body");
   });
 
-  it("maps optional image and author when present", () => {
+  it("maps optional coverImage to imageUrl", () => {
     const mapped = mapNews({
       ...base,
-      body: "x",
-      image: { url: "https://img/x.jpg", altText: "alt" },
-      author: "Anna",
+      content: "x",
+      coverImage: { url: "https://img/x.jpg" },
     });
     expect(mapped.imageUrl).toBe("https://img/x.jpg");
-    expect(mapped.imageAlt).toBe("alt");
-    expect(mapped.author).toBe("Anna");
   });
 });
 
@@ -236,15 +233,15 @@ describe("createHygraphAdapter", () => {
 
   it("fetchNews maps Hygraph articles", async () => {
     requestMock.mockResolvedValue({
-      newsArticles: [
+      newsItems: [
         {
           id: "n1",
           slug: "s1",
           title: "Title",
           publishedAt: "2026-01-01T00:00:00Z",
-          category: "nyhet",
-          excerpt: "Ex",
-          body: { raw: "Plain body" },
+          category: "projekt",
+          preview: "Ex",
+          content: { raw: "Plain body" },
         },
       ],
     });
@@ -258,20 +255,20 @@ describe("createHygraphAdapter", () => {
   });
 
   it("fetchNewsBySlug returns null when the article is absent", async () => {
-    requestMock.mockResolvedValue({ newsArticle: null });
+    requestMock.mockResolvedValue({ newsItem: null });
     expect(await makeAdapter().fetchNewsBySlug("missing")).toBeNull();
   });
 
   it("fetchNewsBySlug returns a mapped article when present", async () => {
     requestMock.mockResolvedValue({
-      newsArticle: {
+      newsItem: {
         id: "n2",
         slug: "s2",
         title: "T2",
         publishedAt: "2026-02-02T00:00:00Z",
-        category: "nyhet",
-        excerpt: "e",
-        body: { raw: "b" },
+        category: "projekt",
+        preview: "e",
+        content: { raw: "b" },
       },
     });
     const article = await makeAdapter().fetchNewsBySlug("s2");
