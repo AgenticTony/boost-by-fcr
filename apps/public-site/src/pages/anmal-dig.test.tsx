@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router-dom";
@@ -47,12 +47,29 @@ async function fillValidForm(user: ReturnType<typeof userEvent.setup>) {
   );
   await user.selectOptions(
     screen.getByLabelText(/inskrivningsmöte/i),
-    "15 juli kl 11:00",
+    "23 juli kl 14:00",
   );
   await user.click(screen.getByLabelText(/godkänner behandling/i));
 }
 
 describe("AnmalDigPage (Anmälan → Google Form)", () => {
+  // The page fetches /api/slots on mount. Stub global fetch so that resolves
+  // (page keeps its fallback slots); tests override where they need to.
+  let fetchMock: ReturnType<typeof vi.fn>;
+  beforeEach(() => {
+    fetchMock = vi.fn((url: string) =>
+      Promise.resolve(
+        String(url).includes("/api/slots")
+          ? { ok: true, json: () => Promise.resolve({ slots: [] }) }
+          : { ok: true },
+      ),
+    );
+    vi.stubGlobal("fetch", fetchMock);
+  });
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
   it("renders the form with all fields", () => {
     renderPage();
     expect(screen.getByLabelText(/För- och efternamn/i)).toBeInTheDocument();
@@ -70,9 +87,7 @@ describe("AnmalDigPage (Anmälan → Google Form)", () => {
     ).toBeInTheDocument();
   });
 
-  it("shows validation errors on empty submit and does not call fetch", async () => {
-    const fetchMock = vi.fn();
-    vi.stubGlobal("fetch", fetchMock);
+  it("shows validation errors on empty submit and does not submit to Google", async () => {
     renderPage();
 
     submitForm();
@@ -80,8 +95,11 @@ describe("AnmalDigPage (Anmälan → Google Form)", () => {
     await waitFor(() => {
       expect(screen.getAllByRole("alert").length).toBeGreaterThanOrEqual(1);
     });
-    expect(fetchMock).not.toHaveBeenCalled();
-    vi.unstubAllGlobals();
+    // /api/slots fires on mount, but a blocked submit must never hit Google.
+    const googleCalls = fetchMock.mock.calls.filter(
+      (call) => Array.isArray(call) && String(call[0]).includes("docs.google.com"),
+    );
+    expect(googleCalls).toHaveLength(0);
   });
 
   it("shows error for invalid email", async () => {
@@ -94,7 +112,7 @@ describe("AnmalDigPage (Anmälan → Google Form)", () => {
     await user.type(screen.getByLabelText(/Handläggare, namn/i), "Maria");
     await user.selectOptions(
       screen.getByLabelText(/inskrivningsmöte/i),
-      "15 juli kl 11:00",
+      "23 juli kl 14:00",
     );
     await user.click(screen.getByLabelText(/godkänner behandling/i));
 
@@ -114,7 +132,7 @@ describe("AnmalDigPage (Anmälan → Google Form)", () => {
     await user.type(screen.getByLabelText(/Handläggare, namn/i), "Maria");
     await user.selectOptions(
       screen.getByLabelText(/inskrivningsmöte/i),
-      "15 juli kl 11:00",
+      "23 juli kl 14:00",
     );
     // consent deliberately NOT checked
 
@@ -128,8 +146,6 @@ describe("AnmalDigPage (Anmälan → Google Form)", () => {
   });
 
   it("posts to the Google Form and shows success on valid submission", async () => {
-    const fetchMock = vi.fn().mockResolvedValue({ ok: true });
-    vi.stubGlobal("fetch", fetchMock);
     const user = userEvent.setup();
     renderPage();
 
@@ -140,12 +156,12 @@ describe("AnmalDigPage (Anmälan → Google Form)", () => {
       expect(screen.getByText(/din anmälan är mottagen/i)).toBeInTheDocument();
     });
 
-    expect(fetchMock).toHaveBeenCalledTimes(1);
-    const [url, opts] = fetchMock.mock.calls[0];
-    expect(String(url)).toContain("docs.google.com");
-    expect(opts).toMatchObject({ method: "POST", mode: "no-cors" });
-
-    vi.unstubAllGlobals();
+    // /api/slots also fires on mount — filter to the Google POST specifically.
+    const googleCalls = fetchMock.mock.calls.filter(
+      (call) => Array.isArray(call) && String(call[0]).includes("docs.google.com"),
+    );
+    expect(googleCalls).toHaveLength(1);
+    expect(googleCalls[0][1]).toMatchObject({ method: "POST", mode: "no-cors" });
   });
 
   it("shows an error if the network submission fails", async () => {
@@ -173,7 +189,7 @@ describe("AnmalDigPage (Anmälan → Google Form)", () => {
       /inskrivningsmöte/i,
     ) as HTMLSelectElement;
     expect(select).toBeInTheDocument();
-    expect(screen.getByText("15 juli kl 11:00")).toBeInTheDocument();
+    expect(screen.getByText("23 juli kl 14:00")).toBeInTheDocument();
     expect(screen.getByText("4 september kl 9:00")).toBeInTheDocument();
   });
 
