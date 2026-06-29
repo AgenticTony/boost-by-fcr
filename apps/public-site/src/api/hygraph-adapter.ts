@@ -15,10 +15,9 @@ interface HygraphNews {
   title: string;
   publishedAt: string;
   category: string;
-  excerpt: string;
-  body: { raw: string } | string;
-  image?: { url: string; altText?: string };
-  author?: string;
+  preview: string;
+  content: { raw: string } | string;
+  coverImage?: { url: string };
 }
 
 interface HygraphTimeline {
@@ -44,16 +43,15 @@ interface HygraphResource {
 // ─── GraphQL queries ────────────────────────────────────────────────
 
 const NEWS_FRAGMENT = `
-fragment NewsFields on NewsArticle {
+fragment NewsFields on NewsItem {
   id
   slug
   title
   publishedAt
   category
-  excerpt
-  body { raw }
-  image { url altText }
-  author
+  preview
+  content { raw }
+  coverImage { url }
 }`;
 
 const TIMELINE_FRAGMENT = `
@@ -81,7 +79,7 @@ fragment ResourceFields on Resource {
 const FETCH_NEWS = `
 ${NEWS_FRAGMENT}
 query FetchNews {
-  newsArticles(orderBy: publishedAt_DESC) {
+  newsItems(orderBy: publishedAt_DESC) {
     ...NewsFields
   }
 }`;
@@ -89,7 +87,7 @@ query FetchNews {
 const FETCH_NEWS_BY_SLUG = `
 ${NEWS_FRAGMENT}
 query FetchNewsBySlug($slug: String!) {
-  newsArticle(where: { slug: $slug }) {
+  newsItem(where: { slug: $slug }) {
     ...NewsFields
   }
 }`;
@@ -156,9 +154,9 @@ export function richTextToPlainText(raw: string): string {
   }
 }
 
-function mapBody(body: HygraphNews["body"]): string {
-  if (typeof body === "string") return body;
-  return body?.raw ? richTextToPlainText(body.raw) : "";
+function mapBody(content: HygraphNews["content"]): string {
+  if (typeof content === "string") return content;
+  return content?.raw ? richTextToPlainText(content.raw) : "";
 }
 
 export function mapNews(raw: HygraphNews): NewsArticle {
@@ -168,11 +166,9 @@ export function mapNews(raw: HygraphNews): NewsArticle {
     title: raw.title,
     publishedAt: raw.publishedAt,
     category: raw.category,
-    excerpt: raw.excerpt,
-    body: mapBody(raw.body),
-    imageUrl: raw.image?.url,
-    imageAlt: raw.image?.altText,
-    author: raw.author,
+    excerpt: raw.preview,
+    body: mapBody(raw.content),
+    imageUrl: raw.coverImage?.url,
   };
 }
 
@@ -224,18 +220,18 @@ export function createHygraphAdapter(
 
   return {
     async fetchNews() {
-      const data = await client.request<{ newsArticles: HygraphNews[] }>(
+      const data = await client.request<{ newsItems: HygraphNews[] }>(
         FETCH_NEWS,
       );
-      return data.newsArticles.map(mapNews);
+      return data.newsItems.map(mapNews);
     },
 
     async fetchNewsBySlug(slug) {
-      const data = await client.request<{ newsArticle: HygraphNews | null }>(
+      const data = await client.request<{ newsItem: HygraphNews | null }>(
         FETCH_NEWS_BY_SLUG,
         { slug },
       );
-      return data.newsArticle ? mapNews(data.newsArticle) : null;
+      return data.newsItem ? mapNews(data.newsItem) : null;
     },
 
     async fetchTimeline() {
