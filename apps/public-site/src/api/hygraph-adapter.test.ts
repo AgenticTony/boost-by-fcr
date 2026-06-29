@@ -24,7 +24,7 @@ import {
   richTextToPlainText,
   createHygraphAdapter,
 } from "./hygraph-adapter";
-import type { NewsArticle, TimelineEntry, Resource } from "@/types";
+import type { TimelineEntry, Resource } from "@/types";
 
 describe("richTextToPlainText", () => {
   it("flattens a Hygraph rich-text AST into blank-line-separated paragraphs", () => {
