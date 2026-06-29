@@ -1,4 +1,4 @@
-import type { VercelRequest, VercelResponse } from "@vercel/node";
+import type { IncomingMessage, ServerResponse } from "node:http";
 
 /**
  * GET /api/slots -> { slots: string[] }
@@ -22,11 +22,11 @@ const FORM_VIEW_URL =
 /** Google Form field id for "Tid för inskrivningsmöte". */
 const MEETING_FIELD_ID = "788472964";
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+export default async function handler(req: IncomingMessage, res: ServerResponse) {
   // Same-origin GET from the Anmälan page; reject anything else.
   if (req.method !== "GET") {
-    res.setHeader("Allow", "GET");
-    res.status(405).json({ slots: [] });
+    res.writeHead(405, { Allow: "GET", "Content-Type": "application/json" });
+    res.end(JSON.stringify({ slots: [] }));
     return;
   }
 
@@ -38,7 +38,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     });
     if (!googleRes.ok) {
       console.error(`[slots] Google form returned ${googleRes.status}`);
-      res.status(502).json({ slots: [] });
+      res.writeHead(502, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ slots: [] }));
       return;
     }
     const html = await googleRes.text();
@@ -47,16 +48,21 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       // Google responded but we found no options — likely an
       // FB_PUBLIC_LOAD_DATA_ format change. Surface it; never cache a miss.
       console.error("[slots] parsed 0 slots — possible format change");
-      res.status(502).json({ slots: [] });
+      res.writeHead(502, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ slots: [] }));
       return;
     }
     // Edge-cache for 60s; serve stale up to 5m while revalidating, so we don't
     // hit Google on every pageview. Only cache real results, never failures.
-    res.setHeader("Cache-Control", "s-maxage=60, stale-while-revalidate=300");
-    res.status(200).json({ slots });
+    res.writeHead(200, {
+      "Content-Type": "application/json",
+      "Cache-Control": "s-maxage=60, stale-while-revalidate=300",
+    });
+    res.end(JSON.stringify({ slots }));
   } catch (err) {
     console.error("[slots] fetch failed:", err);
-    res.status(502).json({ slots: [] });
+    res.writeHead(502, { "Content-Type": "application/json" });
+    res.end(JSON.stringify({ slots: [] }));
   }
 }
 
