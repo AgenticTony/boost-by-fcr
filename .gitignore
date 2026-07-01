@@ -82,3 +82,4 @@ docs/plan2.md
 .env.local
 .env.*.local
 *.dev.vars
+.wrangler/
