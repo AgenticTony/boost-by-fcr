@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -43,9 +43,11 @@ const ENTRY = {
 } as const;
 const CONSENT_VALUE = "Alternativ 1";
 
-/** Meeting slots — mirror the Google Form's current options. */
-const meetingSlots = [
-  "15 juli kl 11:00",
+/**
+ * Meeting slots — fallback used if /api/slots is unavailable. Mirrors the
+ * Google Form's current options; the live list is fetched on mount.
+ */
+const FALLBACK_SLOTS = [
   "23 juli kl 14:00",
   "23 juli kl 15:00",
   "28 juli kl 15:00",
@@ -159,6 +161,28 @@ export default function AnmalDigPage() {
       website: "",
     },
   });
+
+  const [meetingSlots, setMeetingSlots] = useState<string[]>(FALLBACK_SLOTS);
+
+  // Live-sync the meeting-time options from /api/slots (Anna's Google Form).
+  // Falls back to FALLBACK_SLOTS on any failure so the form always works.
+  useEffect(() => {
+    if (typeof fetch !== "function") return; // jsdom / test guard
+    fetch("/api/slots")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data) => {
+        if (data && Array.isArray(data.slots) && data.slots.length > 0) {
+          setMeetingSlots(data.slots);
+        } else if (import.meta.env.DEV) {
+          console.info(
+            "[anmal-dig] /api/slots unavailable (expected in `vite dev`). Showing fallback slots — use `vercel dev` to exercise live sync.",
+          );
+        }
+      })
+      .catch(() => {
+        /* keep fallback */
+      });
+  }, []);
 
   async function onSubmit(data: FormData) {
     // Honeypot — bots fill this; pretend success.
