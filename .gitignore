@@ -23,6 +23,8 @@ obj/
 .env
 .env.local
 .env.*.local
+.env.production
+.env.development
 
 # IDE
 .vscode/
@@ -63,8 +65,6 @@ test-results/
 
 # Secrets — never commit
 apps/public-site/src/assets/recovery-codes.txt
-
-# Cloudflare worker local secrets
 *.dev.vars
 
 # Anthony's local-only working docs (not shared with the team)

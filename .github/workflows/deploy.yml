@@ -2,7 +2,7 @@ name: Deploy to Cloudflare Pages
 
 on:
   push:
-    branches: [main, Mohand]
+    branches: [main]
   pull_request:
     branches: [main]
 
@@ -27,8 +27,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-        env:
-          VITE_HYGRAPH_URL: ${{ secrets.VITE_HYGRAPH_URL }}
       - name: Type check
         run: npx tsc --noEmit
 
@@ -46,7 +44,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: public-site-dist
-          path: ./dist
+          path: ./apps/public-site/dist   # ✅ FIXED: full path from repo root
 
   # Build and test locked area
   build-locked-area:
@@ -63,7 +61,7 @@ jobs:
         with:
           node-version: "20"
           cache: "npm"
-          cache-dependency-path: apps/public-site/package-lock.json
+          cache-dependency-path: apps/locked-area/package-lock.json
 
       - name: Install dependencies
         run: npm ci
@@ -85,7 +83,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: locked-area-dist
-          path: ./dist
+          path: ./apps/locked-area/dist   # ✅ FIXED: full path from repo root
 
   # Deploy public site to Cloudflare Pages
   deploy-public-site:
