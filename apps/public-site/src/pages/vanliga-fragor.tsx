@@ -163,7 +163,7 @@ export default function VanligaFragorPage() {
                 asChild
                 className="border-2 border-white/30 text-white hover:bg-white/10 rounded-full px-10 h-14 font-display bg-transparent transition-all duration-300"
               >
-                <Link to="/anmal-dig">
+                <Link to="/anmal-dig2">
                   Anmäl dig <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>

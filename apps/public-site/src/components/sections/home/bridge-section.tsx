@@ -51,7 +51,7 @@ export function BridgeSection() {
                   asChild
                   className="bg-brand-red text-white hover:bg-brand-red/90 font-display font-semibold rounded-full h-12 px-8 shadow-lg shadow-brand-red/20 hover:shadow-brand-red/40 hover:scale-[1.02] transition-all duration-300"
                 >
-                  <Link to="/anmal-dig">
+                  <Link to="/anmal-dig2">
                     Anmäl dig till Bridge
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Link>

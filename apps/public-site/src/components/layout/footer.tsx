@@ -16,7 +16,7 @@ const footerSections = [
     heading: "Arbetsgivare",
     links: [
       { href: "/foretag", label: "Samarbeta med oss" },
-      { href: "/anmal-dig", label: "Anmälan" },
+      { href: "/anmal-dig2", label: "Anmälan" },
     ],
   },
   {
