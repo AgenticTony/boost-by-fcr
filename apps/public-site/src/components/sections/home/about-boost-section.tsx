@@ -6,16 +6,21 @@ export function AboutBoostSection() {
   return (
     <section className="relative overflow-hidden bg-white">
       <div className="grid lg:grid-cols-2 min-h-[50vh] lg:min-h-[60vh]">
-        {/* Full-bleed video */}
-        <div className="relative order-2 lg:order-1 overflow-hidden">
+        {/* Full-bleed video. On small screens the container gets aspect-video so
+            it has an actual height (an absolute-fill child collapses without a
+            sized parent — previously the video was 0px tall on mobile). On lg+
+            aspect-auto lets the 2-col grid stretch it full-height as before. */}
+        <div className="relative order-2 lg:order-1 overflow-hidden aspect-video lg:aspect-auto">
           <video
             autoPlay
             muted
             loop
             playsInline
+            preload="metadata"
             className="absolute inset-0 w-full h-full object-cover"
             poster="/images/illustration-hands-heart.jpg"
           >
+            <source src="/images/hand-heart.webm" type="video/webm" />
             <source src="/images/hand-heart.mp4" type="video/mp4" />
           </video>
           <div className="absolute inset-0 bg-gradient-to-r from-transparent to-white/60 lg:block hidden pointer-events-none" />
