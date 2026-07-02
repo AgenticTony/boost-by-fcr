@@ -1,37 +1,41 @@
 import { Heart } from "lucide-react";
 import { ScrollReveal } from "@/components/ui/scroll-reveal";
 
-/** BEAT 6: Om Boost + Inclusion */
+/** BEAT 6: Om Boost + Inclusion.
+ *  Mirrors SelfmadeSection's layout (container-page + contained media card +
+ *  text column) so the video + text stay grouped at every viewport — the only
+ *  difference is the media is a <video> instead of an <img>. Previously this
+ *  section was full-bleed, which split the video and text apart on wide screens. */
 export function AboutBoostSection() {
   return (
     <section className="relative overflow-hidden bg-white">
-      <div className="grid xl:grid-cols-2 min-h-[50vh] xl:min-h-[60vh]">
-        {/* Full-bleed video. Below xl it's a single column: the container gets
-            aspect-video so the video has a real height and shrinks with the
-            viewport (the 2-col layout previously kicked in at lg=1024, which
-            crushed the text and stretched the video into a tall strip at
-            1024–1279px). At xl+ aspect-auto lets the 2-col grid stretch it
-            full-height beside the text. */}
-        <div className="relative order-2 xl:order-1 overflow-hidden aspect-video xl:aspect-auto">
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="metadata"
-            className="absolute inset-0 w-full h-full object-cover"
-            poster="/images/illustration-hands-heart.jpg"
-          >
-            <source src="/images/hand-heart.webm" type="video/webm" />
-            <source src="/images/hand-heart.mp4" type="video/mp4" />
-          </video>
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent to-white/60 xl:block hidden pointer-events-none" />
-        </div>
+      <div className="container-page py-16 md:py-24">
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
+          {/* Video card — contained like the Selfmade image */}
+          <ScrollReveal>
+            <div className="relative">
+              <div
+                className="absolute -inset-4 rounded-3xl bg-brand-red/10 -rotate-1"
+                aria-hidden="true"
+              />
+              <video
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="metadata"
+                className="relative w-full h-auto rounded-3xl shadow-lg aspect-video object-cover"
+                poster="/images/illustration-hands-heart.jpg"
+              >
+                <source src="/images/hand-heart.webm" type="video/webm" />
+                <source src="/images/hand-heart.mp4" type="video/mp4" />
+              </video>
+            </div>
+          </ScrollReveal>
 
-        {/* Text card */}
-        <ScrollReveal direction="right">
-          <div className="order-1 xl:order-2 flex items-center py-16 md:py-24 px-8 md:px-16 xl:px-24">
-            <div className="max-w-md">
+          {/* Text */}
+          <ScrollReveal direction="right">
+            <div className="lg:pl-12 xl:pl-24">
               <p className="text-sm font-body font-medium text-brand-navy tracking-widest uppercase mb-4">
                 Om Boost by FC Rosengård
               </p>
@@ -65,8 +69,8 @@ export function AboutBoostSection() {
                 livet.
               </p>
             </div>
-          </div>
-        </ScrollReveal>
+          </ScrollReveal>
+        </div>
       </div>
     </section>
   );
