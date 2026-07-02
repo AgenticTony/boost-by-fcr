@@ -34,6 +34,10 @@ obj/
 *.swo
 *~
 
+# Local MCP config — per-developer tooling, not shared with the team
+# (e.g. Supabase project wiring). Each developer sets up their own.
+.mcp.json
+
 # OS
 .DS_Store
 Thumbs.db
