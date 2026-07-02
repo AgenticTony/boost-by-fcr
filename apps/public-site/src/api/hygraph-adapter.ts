@@ -14,7 +14,7 @@ interface HygraphNews {
   slug: string;
   title: string;
   publishedAt: string;
-  category: string;
+  tag?: { slug: string; name: string } | null;
   preview: string;
   content: { raw: string } | string;
   coverImage?: { url: string };
@@ -48,7 +48,7 @@ fragment NewsFields on NewsItem {
   slug
   title
   publishedAt
-  category
+  tag { slug name }
   preview
   content { raw }
   coverImage { url }
@@ -76,10 +76,12 @@ fragment ResourceFields on Resource {
   isPublic
 }`;
 
+// Hygraph's default query stage is DRAFT — pass stage: PUBLISHED or you silently
+// fetch draft content (publishedAt null). https://github.com/hygraph/hygraph-examples/issues/266
 const FETCH_NEWS = `
 ${NEWS_FRAGMENT}
 query FetchNews {
-  newsItems(orderBy: publishedAt_DESC) {
+  newsItems(stage: PUBLISHED, orderBy: publishedAt_DESC) {
     ...NewsFields
   }
 }`;
@@ -87,7 +89,7 @@ query FetchNews {
 const FETCH_NEWS_BY_SLUG = `
 ${NEWS_FRAGMENT}
 query FetchNewsBySlug($slug: String!) {
-  newsItem(where: { slug: $slug }) {
+  newsItem(stage: PUBLISHED, where: { slug: $slug }) {
     ...NewsFields
   }
 }`;
@@ -95,7 +97,7 @@ query FetchNewsBySlug($slug: String!) {
 const FETCH_TIMELINE = `
 ${TIMELINE_FRAGMENT}
 query FetchTimeline {
-  timelineEntries(orderBy: year_ASC) {
+  timelineEntries(stage: PUBLISHED, orderBy: year_ASC) {
     ...TimelineFields
   }
 }`;
@@ -103,7 +105,7 @@ query FetchTimeline {
 const FETCH_RESOURCES = `
 ${RESOURCE_FRAGMENT}
 query FetchResources {
-  resources(where: { isPublic: true }) {
+  resources(stage: PUBLISHED, where: { isPublic: true }) {
     ...ResourceFields
   }
 }`;
@@ -111,7 +113,7 @@ query FetchResources {
 const FETCH_RESOURCES_BY_CATEGORY = `
 ${RESOURCE_FRAGMENT}
 query FetchResourcesByCategory($category: String!) {
-  resources(where: { category: $category, isPublic: true }) {
+  resources(stage: PUBLISHED, where: { category: $category, isPublic: true }) {
     ...ResourceFields
   }
 }`;
@@ -165,7 +167,7 @@ export function mapNews(raw: HygraphNews): NewsArticle {
     slug: raw.slug,
     title: raw.title,
     publishedAt: raw.publishedAt,
-    category: raw.category,
+    category: raw.tag?.slug ?? "",
     excerpt: raw.preview,
     body: mapBody(raw.content),
     imageUrl: raw.coverImage?.url,

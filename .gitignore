@@ -75,6 +75,7 @@ docs/P2_PREREQUISITES.md
 docs/P2_PUSH_PLAN.md
 docs/P2_ROADMAP.md
 docs/Phase2Brief.md
+<<<<<<< HEAD
 docs/plan2.md
 
 # Local environment variables (never commit)
@@ -82,3 +83,6 @@ docs/plan2.md
 .env.local
 .env.*.local
 *.dev.vars
+=======
+docs/plan2.md
+>>>>>>> 3011cdc1194dc4f6447a64a2cb27abc4a6752080
