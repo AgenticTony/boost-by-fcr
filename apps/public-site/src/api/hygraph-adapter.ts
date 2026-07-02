@@ -16,7 +16,7 @@ interface HygraphNews {
   publishedAt: string;
   tag?: { slug: string; name: string } | null;
   preview: string;
-  content: { raw: string } | string;
+  content: { raw: string | RichTextNode } | string;
   coverImage?: { url: string };
 }
 
@@ -143,17 +143,27 @@ function collectText(node: RichTextNode): string {
   return "";
 }
 
-export function richTextToPlainText(raw: string): string {
-  try {
-    const ast = JSON.parse(raw) as RichTextNode;
-    const blocks = (ast.children ?? [])
-      .map(collectText)
-      .map((block) => block.trim())
-      .filter(Boolean);
-    return blocks.length > 0 ? blocks.join("\n\n") : raw;
-  } catch {
-    return raw;
+export function richTextToPlainText(raw: string | RichTextNode): string {
+  // Hygraph returns RichText `raw` as a PARSED object (the AST), not a string.
+  // Older paths / mocks may pass a serialized JSON string — handle both so the
+  // article page's `body.split("\n\n")` renderer always gets a string.
+  let ast: RichTextNode;
+  if (typeof raw === "string") {
+    try {
+      ast = JSON.parse(raw) as RichTextNode;
+    } catch {
+      return raw;
+    }
+  } else if (raw && typeof raw === "object") {
+    ast = raw;
+  } else {
+    return "";
   }
+  const blocks = (ast.children ?? [])
+    .map(collectText)
+    .map((block) => block.trim())
+    .filter(Boolean);
+  return blocks.length > 0 ? blocks.join("\n\n") : "";
 }
 
 function mapBody(content: HygraphNews["content"]): string {
