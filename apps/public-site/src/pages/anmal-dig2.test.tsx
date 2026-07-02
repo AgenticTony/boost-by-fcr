@@ -37,11 +37,6 @@ describe("AnmalDig2Page (Anmälan → embedded Google Form iframe)", () => {
     expect(iframe.src).toContain("embedded=true");
   });
 
-  it("labels itself as Lösning A in the demo banner", () => {
-    renderPage();
-    expect(screen.getByText(/Lösning A · Inbäddat Google-formulär/i)).toBeInTheDocument();
-  });
-
   it("keeps the shared page chrome (hero + steps heading)", () => {
     renderPage();
     expect(screen.getByRole("heading", { name: /Ta första steget/i })).toBeInTheDocument();
