@@ -100,7 +100,7 @@ describe("mapNews", () => {
     slug: "hello-world",
     title: "Hello World",
     publishedAt: "2026-01-01T00:00:00Z",
-    category: "projekt",
+    tag: { slug: "projekt", name: "Projekt" },
     preview: "Short summary",
   };
 
@@ -137,6 +137,11 @@ describe("mapNews", () => {
       coverImage: { url: "https://img/x.jpg" },
     });
     expect(mapped.imageUrl).toBe("https://img/x.jpg");
+  });
+
+  it("falls back to an empty category when the article has no tag", () => {
+    const mapped = mapNews({ ...base, tag: null, content: "x" });
+    expect(mapped.category).toBe("");
   });
 });
 
@@ -239,7 +244,7 @@ describe("createHygraphAdapter", () => {
           slug: "s1",
           title: "Title",
           publishedAt: "2026-01-01T00:00:00Z",
-          category: "projekt",
+          tag: { slug: "projekt", name: "Projekt" },
           preview: "Ex",
           content: { raw: "Plain body" },
         },
@@ -266,7 +271,7 @@ describe("createHygraphAdapter", () => {
         slug: "s2",
         title: "T2",
         publishedAt: "2026-02-02T00:00:00Z",
-        category: "projekt",
+        tag: { slug: "projekt", name: "Projekt" },
         preview: "e",
         content: { raw: "b" },
       },
