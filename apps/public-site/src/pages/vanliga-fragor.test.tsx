@@ -55,7 +55,7 @@ describe("VanligaFragorPage (FAQ)", () => {
     );
     expect(screen.getByRole("link", { name: /Anmäl dig/i })).toHaveAttribute(
       "href",
-      "/anmal-dig",
+      "/anmal-dig2",
     );
   });
 });

@@ -95,7 +95,7 @@ describe("VarHistoriaPage", () => {
     renderPage();
     expect(screen.getByRole("link", { name: /Anmäl dig/i })).toHaveAttribute(
       "href",
-      "/anmal-dig",
+      "/anmal-dig2",
     );
   });
 });

@@ -377,7 +377,7 @@ export function Header() {
             asChild
             className="hidden lg:inline-flex bg-brand-red text-white hover:bg-brand-red/90 font-display font-semibold rounded-cta px-6"
           >
-            <Link to="/anmal-dig">Anmälan</Link>
+            <Link to="/anmal-dig2">Anmälan</Link>
           </Button>
 
           {/* Medlemsarea */}
@@ -466,7 +466,7 @@ export function Header() {
                   {/* Anmälan */}
                   <div>
                     <Link
-                      to="/anmal-dig"
+                      to="/anmal-dig2"
                       onClick={closeMobile}
                       className="flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-semibold text-[#D4AF37] hover:bg-white/10 transition-colors"
                     >
@@ -568,7 +568,7 @@ export function Header() {
                     asChild
                     className="w-full bg-brand-red text-white hover:bg-brand-red/90 font-display font-semibold rounded-cta"
                   >
-                    <Link to="/anmal-dig" onClick={closeMobile}>
+                    <Link to="/anmal-dig2" onClick={closeMobile}>
                       Anmälan
                     </Link>
                   </Button>
