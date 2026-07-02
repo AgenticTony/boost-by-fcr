@@ -11,8 +11,15 @@ import type { ApiAdapter } from "./adapter";
 import { createMockAdapter } from "./mock-adapter";
 import { createHygraphAdapter } from "./hygraph-adapter";
 
-const useHygraph = import.meta.env.VITE_USE_HYGRAPH === "true";
-const endpoint = import.meta.env.VITE_HYGRAPH_ENDPOINT ?? "";
+// Hygraph is on by default in production builds; dev opts in via VITE_USE_HYGRAPH=true.
+const useHygraph =
+  import.meta.env.PROD || import.meta.env.VITE_USE_HYGRAPH === "true";
+
+// Public, read-only CDN URL (the browser calls it directly). Override via
+// VITE_HYGRAPH_ENDPOINT (e.g. a staging project), or set it to "" to force mock data.
+const DEFAULT_HYGRAPH_ENDPOINT =
+  "https://eu-west-2.cdn.hygraph.com/content/cmq1xlnd2022t07w9jmsfkk5o/master";
+const endpoint = import.meta.env.VITE_HYGRAPH_ENDPOINT ?? DEFAULT_HYGRAPH_ENDPOINT;
 
 /**
  * Wrap a primary adapter so any failed read degrades to the fallback adapter,
@@ -69,9 +76,7 @@ export function createResilientAdapter(
 const adapter: ApiAdapter = (() => {
   if (!useHygraph) return createMockAdapter();
   if (!endpoint) {
-    console.warn(
-      "[api] VITE_USE_HYGRAPH=true but VITE_HYGRAPH_ENDPOINT is unset — using mock data",
-    );
+    console.warn("[api] VITE_HYGRAPH_ENDPOINT is empty — using mock data");
     return createMockAdapter();
   }
   return createResilientAdapter(
