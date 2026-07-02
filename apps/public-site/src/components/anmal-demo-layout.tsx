@@ -11,13 +11,14 @@ const steps = [
 ];
 
 /**
- * Shared chrome for the Anmälan demo variants (/anmal-dig2, /anmal-dig3) so the
- * team can compare submission strategies side by side. Renders the same hero,
- * trust bar, and "Vad händer sen?" sections as the live /anmal-dig page, with a
- * clearly-labelled demo banner identifying which solution the page demonstrates.
+ * Shared chrome for Anmälan pages — the hero, trust bar, and "Vad händer sen?"
+ * sections that wrap the form. `children` is the form itself, so each page
+ * (the live iframe embed /anmal-dig2, the Supabase demo /anmal-dig3) controls
+ * its own submission mechanism while the surrounding page stays identical.
  *
- * The form itself is passed as `children`, so each variant controls its own
- * submission mechanism while the surrounding page stays identical.
+ * Pass `solutionLabel` (and optionally `solutionNote`) to render a yellow
+ * "Demovariant" banner — used by the comparison demo /anmal-dig3. Omit them for
+ * a clean, live page (the current /anmal-dig2).
  *
  * NOTE: deliberately does NOT touch apps/public-site/src/pages/anmal-dig.tsx.
  */
@@ -26,25 +27,28 @@ export function AnmalDemoLayout({
   solutionNote,
   children,
 }: {
-  solutionLabel: string;
-  solutionNote: string;
+  /** When provided, a yellow "Demovariant" banner renders. Omit for the live page. */
+  solutionLabel?: string;
+  solutionNote?: string;
   children: ReactNode;
 }) {
   return (
     <>
-      {/* Demo banner — makes the variant obvious when comparing */}
-      <section className="bg-amber-50 border-b border-amber-200">
-        <div className="container-page py-2.5 text-center text-sm text-amber-900">
-          <span className="font-semibold">Demovariant:</span> {solutionLabel} —{" "}
-          {solutionNote}{" "}
-          <Link
-            to="/anmal-dig"
-            className="font-semibold underline hover:text-amber-700"
-          >
-            nuvarande /anmal-dig
-          </Link>
-        </div>
-      </section>
+      {/* Demo banner — only on comparison variants (e.g. /anmal-dig3) */}
+      {solutionLabel && (
+        <section className="bg-amber-50 border-b border-amber-200">
+          <div className="container-page py-2.5 text-center text-sm text-amber-900">
+            <span className="font-semibold">Demovariant:</span> {solutionLabel}
+            {solutionNote ? <> — {solutionNote} </> : null}{" "}
+            <Link
+              to="/anmal-dig"
+              className="font-semibold underline hover:text-amber-700"
+            >
+              nuvarande /anmal-dig
+            </Link>
+          </div>
+        </section>
+      )}
 
       {/* Hero */}
       <section className="relative bg-brand-navy text-white overflow-hidden">
