@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [main]
 
+permissions:
+  contents: read        # checkout code
+  deployments: write    # cloudflare/pages-action creates a GitHub deployment record (was 403 "Resource not accessible by integration")
+
 jobs:
   # Build and test public site
   build-public-site:
@@ -35,10 +39,7 @@ jobs:
         continue-on-error: true
 
       - name: Build
-        run: npm run build
-        env:
-          VITE_HYGRAPH_URL: ${{ secrets.VITE_HYGRAPH_URL }}
-          VITE_HYGRAPH_TOKEN: ${{ secrets.VITE_HYGRAPH_TOKEN }}
+        run: npm run build # Hygraph is enabled by default in production builds (see src/api/client.ts); no env injection needed.
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
