@@ -1,7 +1,5 @@
-﻿import { Client, cacheExchange, fetchExchange } from "urql";
-
-console.log('HYGRAPH_URL:', import.meta.env.VITE_HYGRAPH_URL);
-console.log('TOKEN exists:', !!import.meta.env.VITE_HYGRAPH_TOKEN_LOCKED);
+﻿// v4 - force rebuild with correct API endpoint
+import { Client, cacheExchange, fetchExchange } from '@urql/core';
 
 const url = import.meta.env.VITE_HYGRAPH_URL;
 const token = import.meta.env.VITE_HYGRAPH_TOKEN_LOCKED;
