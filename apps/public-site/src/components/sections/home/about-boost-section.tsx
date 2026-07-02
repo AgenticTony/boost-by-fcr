@@ -5,12 +5,14 @@ import { ScrollReveal } from "@/components/ui/scroll-reveal";
 export function AboutBoostSection() {
   return (
     <section className="relative overflow-hidden bg-white">
-      <div className="grid lg:grid-cols-2 min-h-[50vh] lg:min-h-[60vh]">
-        {/* Full-bleed video. On small screens the container gets aspect-video so
-            it has an actual height (an absolute-fill child collapses without a
-            sized parent — previously the video was 0px tall on mobile). On lg+
-            aspect-auto lets the 2-col grid stretch it full-height as before. */}
-        <div className="relative order-2 lg:order-1 overflow-hidden aspect-video lg:aspect-auto">
+      <div className="grid xl:grid-cols-2 min-h-[50vh] xl:min-h-[60vh]">
+        {/* Full-bleed video. Below xl it's a single column: the container gets
+            aspect-video so the video has a real height and shrinks with the
+            viewport (the 2-col layout previously kicked in at lg=1024, which
+            crushed the text and stretched the video into a tall strip at
+            1024–1279px). At xl+ aspect-auto lets the 2-col grid stretch it
+            full-height beside the text. */}
+        <div className="relative order-2 xl:order-1 overflow-hidden aspect-video xl:aspect-auto">
           <video
             autoPlay
             muted
@@ -23,12 +25,12 @@ export function AboutBoostSection() {
             <source src="/images/hand-heart.webm" type="video/webm" />
             <source src="/images/hand-heart.mp4" type="video/mp4" />
           </video>
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent to-white/60 lg:block hidden pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent to-white/60 xl:block hidden pointer-events-none" />
         </div>
 
         {/* Text card */}
         <ScrollReveal direction="right">
-          <div className="order-1 lg:order-2 flex items-center py-16 md:py-24 px-8 md:px-16 lg:px-40">
+          <div className="order-1 xl:order-2 flex items-center py-16 md:py-24 px-8 md:px-16 xl:px-24">
             <div className="max-w-md">
               <p className="text-sm font-body font-medium text-brand-navy tracking-widest uppercase mb-4">
                 Om Boost by FC Rosengård
