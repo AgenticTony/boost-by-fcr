@@ -1,7 +1,7 @@
 // src/pages/Library.tsx
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, Clock, Users, BookOpen, Filter, ArrowRight, Info, X, Dumbbell, Target, Zap } from 'lucide-react';
+import { Search, Clock, BookOpen, Filter, ArrowRight, Info, X, Dumbbell, Target, Zap } from 'lucide-react';
 import { useExercises } from '../hooks/useExercises';
 import { useAuth } from '../auth/useAuth';
 
