@@ -1,8 +1,21 @@
 ﻿import { Client, cacheExchange, fetchExchange } from "urql";
 
-const HYGRAPH_URL = "https://eu-west-2.cdn.hygraph.com/content/cmpsipkj900tq07w3wypgapa2/master";
+console.log('HYGRAPH_URL:', import.meta.env.VITE_HYGRAPH_URL);
+console.log('TOKEN exists:', !!import.meta.env.VITE_HYGRAPH_TOKEN_LOCKED);
+
+const url = import.meta.env.VITE_HYGRAPH_URL;
+const token = import.meta.env.VITE_HYGRAPH_TOKEN_LOCKED;
+
+if (!url || !token) {
+  throw new Error('Missing Hygraph environment variables. Check your .env file.');
+}
 
 export const client = new Client({
-  url: HYGRAPH_URL,
+  url: url as string,
   exchanges: [cacheExchange, fetchExchange],
+  fetchOptions: () => {
+    return {
+      headers: { Authorization: `Bearer ${token}` },
+    };
+  },
 });
