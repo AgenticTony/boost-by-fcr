@@ -76,6 +76,7 @@ docs/P2_PUSH_PLAN.md
 docs/P2_ROADMAP.md
 docs/Phase2Brief.md
 <<<<<<< HEAD
+<<<<<<< HEAD
 docs/plan2.md
 
 # Local environment variables (never commit)
@@ -92,3 +93,7 @@ docs/plan2.md
 
 .wrangler/
 >>>>>>> fix/gitignore-conflict
+=======
+docs/plan2.md
+.wrangler/
+>>>>>>> 1942cfa6bd18e350f4e57723ebee812aa4828063
