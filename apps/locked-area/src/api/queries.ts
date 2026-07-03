@@ -1,16 +1,19 @@
 ﻿import { gql } from "urql";
 
-export const GET_MATERIALS = gql`
-  query GetMaterials {
-    materials {
+export const GET_ARTICLES = gql`
+  query GetArticles {
+    articles(orderBy: publishedAt_DESC) {
       id
       title
-      description
-      file {
+      slug
+      summary
+      publishedAt
+      publishedDate
+      readTime
+      category
+      image {
         url
       }
-      fileType
-      size
     }
   }
 `;
