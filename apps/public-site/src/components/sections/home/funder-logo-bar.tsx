@@ -2,14 +2,14 @@
 const funders = [
   {
     alt: "EU Socialfonden",
-    src: "/images/eu-logo-jordbruksfonden.png",
+    src: "/images/eu-logo-jordbruksfonden.webp",
     width: 140,
     height: 96,
     className: "h-20 md:h-24 max-w-[140px]",
   },
   {
     alt: "Allmänna Arvsfonden",
-    src: "/images/af-logo.png",
+    src: "/images/af-logo.webp",
     width: 210,
     height: 112,
     className: "h-24 md:h-28 max-w-[210px]",
@@ -23,7 +23,7 @@ const funders = [
   },
   {
     alt: "FC Rosengård",
-    src: "/images/FCR_logo_2014_CMYK.png",
+    src: "/images/FCR_logo_2014_CMYK.webp",
     width: 140,
     height: 96,
     className: "h-20 md:h-24 max-w-[140px]",

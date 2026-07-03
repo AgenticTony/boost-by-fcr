@@ -25,7 +25,7 @@ export function AboutBoostSection() {
                 playsInline
                 preload="metadata"
                 className="relative w-full h-auto rounded-3xl shadow-lg aspect-video object-cover"
-                poster="/images/illustration-hands-heart.jpg"
+                poster="/images/illustration-hands-heart.webp"
               >
                 <source src="/images/hand-heart.webm" type="video/webm" />
                 <source src="/images/hand-heart.mp4" type="video/mp4" />

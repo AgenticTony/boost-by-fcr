@@ -1,5 +1,12 @@
 @import "tailwindcss";
 
+/* Self-hosted Montserrat (latin subset — covers Swedish å/ä/ö). No external request. */
+@font-face { font-family: "Montserrat"; font-style: normal; font-weight: 400; font-display: swap; src: url("/fonts/Montserrat-Regular.woff2") format("woff2"); }
+@font-face { font-family: "Montserrat"; font-style: normal; font-weight: 500; font-display: swap; src: url("/fonts/Montserrat-Medium.woff2") format("woff2"); }
+@font-face { font-family: "Montserrat"; font-style: normal; font-weight: 600; font-display: swap; src: url("/fonts/Montserrat-SemiBold.woff2") format("woff2"); }
+@font-face { font-family: "Montserrat"; font-style: normal; font-weight: 700; font-display: swap; src: url("/fonts/Montserrat-Bold.woff2") format("woff2"); }
+@font-face { font-family: "Montserrat"; font-style: normal; font-weight: 800; font-display: swap; src: url("/fonts/Montserrat-ExtraBold.woff2") format("woff2"); }
+
 @theme {
   /* Logo palette from Anna: #072D59 (navy), #C0C7DA (light blue), #E04832 (warm red) */
   --color-brand-navy: #072D59;
