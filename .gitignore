@@ -75,25 +75,5 @@ docs/P2_PREREQUISITES.md
 docs/P2_PUSH_PLAN.md
 docs/P2_ROADMAP.md
 docs/Phase2Brief.md
-<<<<<<< HEAD
-<<<<<<< HEAD
-docs/plan2.md
-
-# Local environment variables (never commit)
-.env
-.env.local
-.env.*.local
-*.dev.vars
-<<<<<<< HEAD
-=======
-docs/plan2.md
->>>>>>> 3011cdc1194dc4f6447a64a2cb27abc4a6752080
-=======
-.wrangler/
-
-.wrangler/
->>>>>>> fix/gitignore-conflict
-=======
 docs/plan2.md
 .wrangler/
->>>>>>> 1942cfa6bd18e350f4e57723ebee812aa4828063
