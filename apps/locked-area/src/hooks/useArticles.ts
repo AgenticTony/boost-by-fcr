@@ -1,14 +1,24 @@
-﻿import { useQuery } from "@tanstack/react-query";
-import { client } from "../api/client";
-import { GET_ARTICLES } from "../api/queries";
+import { useQuery } from 'urql';
+
+const GET_ARTICLES = `
+  query GetExercises {
+    exercises {
+      id
+      title
+      slug
+      description
+      duration
+      difficulty
+      category
+    }
+  }
+`;
 
 export const useArticles = () => {
-  return useQuery({
-    queryKey: ["articles"],
-    queryFn: async () => {
-      const result = await client.query(GET_ARTICLES, {}).toPromise();
-      if (result.error) throw result.error;
-      return result.data?.articles;
-    },
-  });
+  const [result] = useQuery({ query: GET_ARTICLES });
+  return {
+    data: result.data?.exercises || [],
+    isLoading: result.fetching,
+    error: result.error,
+  };
 };

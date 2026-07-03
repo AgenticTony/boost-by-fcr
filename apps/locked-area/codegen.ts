@@ -2,7 +2,7 @@
 
 const config: CodegenConfig = {
   overwrite: true,
-  schema: "https://eu-west-2.cdn.hygraph.com/content/cmpsipkj900tq07w3wypgapa2/master",
+  schema: "https://api-eu-west-2.hygraph.com/v2/cmpsipkj900tq07w3wypgapa2/master",
   documents: ["src/**/*.tsx", "src/**/*.ts", "!src/types/**/*"],
   generates: {
     "src/types/generated.ts": {
