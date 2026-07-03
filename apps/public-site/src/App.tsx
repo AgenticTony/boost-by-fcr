@@ -11,6 +11,8 @@ import NotFoundPage from "@/pages/not-found";
 /* Lazy — code-split per route */
 const HomePage = lazy(() => import("@/pages/home"));
 const AnmalDigPage = lazy(() => import("@/pages/anmal-dig"));
+const AnmalDig2Page = lazy(() => import("@/pages/anmal-dig2"));
+const AnmalDig3Page = lazy(() => import("@/pages/anmal-dig3"));
 const ArbetssokandePage = lazy(() => import("@/pages/arbetssokande"));
 const BridgePage = lazy(() => import("@/pages/bridge"));
 const DataskyddspolicyPage = lazy(() => import("@/pages/dataskyddspolicy"));
@@ -75,6 +77,8 @@ export default function App() {
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/anmal-dig" element={<AnmalDigPage />} />
+              <Route path="/anmal-dig2" element={<AnmalDig2Page />} />
+              <Route path="/anmal-dig3" element={<AnmalDig3Page />} />
               <Route path="/arbetssokande" element={<ArbetssokandePage />} />
               <Route path="/bridge" element={<BridgePage />} />
               <Route

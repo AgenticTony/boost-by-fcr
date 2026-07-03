@@ -65,9 +65,9 @@ describe("richTextToPlainText", () => {
     expect(richTextToPlainText(plain)).toBe(plain);
   });
 
-  it("returns the raw string unchanged when the JSON has no block children", () => {
-    const raw = '{"type":"root","children":[]}';
-    expect(richTextToPlainText(raw)).toBe(raw);
+  it("returns an empty string when the JSON has no block children", () => {
+    // Empty rich text should render as no body, not as a literal JSON string.
+    expect(richTextToPlainText('{"type":"root","children":[]}')).toBe("");
   });
 
   it("drops empty/whitespace-only blocks", () => {
@@ -100,7 +100,7 @@ describe("mapNews", () => {
     slug: "hello-world",
     title: "Hello World",
     publishedAt: "2026-01-01T00:00:00Z",
-    category: "projekt",
+    tag: { slug: "projekt", name: "Projekt" },
     preview: "Short summary",
   };
 
@@ -125,6 +125,26 @@ describe("mapNews", () => {
     expect(mapped.imageUrl).toBeUndefined();
   });
 
+  it("flattens rich-text content when raw is a parsed object (real Hygraph)", () => {
+    // Hygraph returns content.raw as a parsed AST object, not a string — mapNews
+    // must still yield a string body. Regression: this crashed the article page
+    // with "body.split is not a function".
+    const mapped = mapNews({
+      ...base,
+      content: {
+        raw: {
+          type: "root",
+          children: [
+            { type: "paragraph", children: [{ text: "First paragraph." }] },
+            { type: "paragraph", children: [{ text: "Second paragraph." }] },
+          ],
+        },
+      },
+    });
+    expect(typeof mapped.body).toBe("string");
+    expect(mapped.body).toBe("First paragraph.\n\nSecond paragraph.");
+  });
+
   it("keeps a plain-string content unchanged", () => {
     const mapped = mapNews({ ...base, content: "Plain body" });
     expect(mapped.body).toBe("Plain body");
@@ -137,6 +157,11 @@ describe("mapNews", () => {
       coverImage: { url: "https://img/x.jpg" },
     });
     expect(mapped.imageUrl).toBe("https://img/x.jpg");
+  });
+
+  it("falls back to an empty category when the article has no tag", () => {
+    const mapped = mapNews({ ...base, tag: null, content: "x" });
+    expect(mapped.category).toBe("");
   });
 });
 
@@ -239,7 +264,7 @@ describe("createHygraphAdapter", () => {
           slug: "s1",
           title: "Title",
           publishedAt: "2026-01-01T00:00:00Z",
-          category: "projekt",
+          tag: { slug: "projekt", name: "Projekt" },
           preview: "Ex",
           content: { raw: "Plain body" },
         },
@@ -266,7 +291,7 @@ describe("createHygraphAdapter", () => {
         slug: "s2",
         title: "T2",
         publishedAt: "2026-02-02T00:00:00Z",
-        category: "projekt",
+        tag: { slug: "projekt", name: "Projekt" },
         preview: "e",
         content: { raw: "b" },
       },

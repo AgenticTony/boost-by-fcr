@@ -6,19 +6,22 @@ on:
   pull_request:
     branches: [main]
 
+permissions:
+  contents: read   # checkout only; wrangler deploys via CLOUDFLARE_API_TOKEN (no GitHub deployment record)
+
 jobs:
   # Build and test public site
-build-public-site:
+  build-public-site:
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./apps/public-site
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: "20"
           cache: "npm"
@@ -35,13 +38,10 @@ build-public-site:
         continue-on-error: true
 
       - name: Build
-        run: npm run build
-        env:
-          VITE_HYGRAPH_URL: ${{ secrets.VITE_HYGRAPH_URL }}
-          VITE_HYGRAPH_TOKEN: ${{ secrets.VITE_HYGRAPH_TOKEN }}
+        run: npm run build # Hygraph is enabled by default in production builds (see src/api/client.ts); no env injection needed.
 
       - name: Upload build artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: public-site-dist
           path: ./apps/public-site/dist   # ✅ FIXED: full path from repo root
@@ -54,10 +54,10 @@ build-public-site:
         working-directory: ./apps/locked-area
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: "20"
           cache: "npm"
@@ -77,10 +77,10 @@ build-public-site:
         run: npm run build
         env:
           VITE_HYGRAPH_URL: ${{ secrets.VITE_HYGRAPH_URL }}
-          VITE_HYGRAPH_TOKEN: ${{ secrets.VITE_HYGRAPH_TOKEN_LOCKED }}
+          VITE_HYGRAPH_TOKEN_LOCKED: ${{ secrets.VITE_HYGRAPH_TOKEN_LOCKED }}
 
       - name: Upload build artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: locked-area-dist
           path: ./apps/locked-area/dist   # ✅ FIXED: full path from repo root
@@ -92,19 +92,16 @@ build-public-site:
     runs-on: ubuntu-latest
     steps:
       - name: Download build artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: public-site-dist
           path: ./dist
 
       - name: Deploy to Cloudflare Pages
-        uses: cloudflare/pages-action@v1
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: boost-public-site
-          directory: ./dist
-          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+        run: npx -y wrangler@3 pages deploy ./dist --project-name=boost-public-site
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
 
   # Deploy locked area to Cloudflare Pages
   deploy-locked-area:
@@ -113,16 +110,13 @@ build-public-site:
     runs-on: ubuntu-latest
     steps:
       - name: Download build artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: locked-area-dist
           path: ./dist
 
       - name: Deploy to Cloudflare Pages
-        uses: cloudflare/pages-action@v1
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: boost-locked-area
-          directory: ./dist
-          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+        run: npx -y wrangler@3 pages deploy ./dist --project-name=boost-locked-area
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

@@ -76,7 +76,7 @@ export function HeroSection() {
                   size="lg"
                   className="bg-brand-red-bright text-white hover:bg-brand-red-bright/90 font-display font-semibold rounded-full px-10 h-14 text-base shadow-lg shadow-brand-red-bright/25 hover:shadow-brand-red-bright/40 hover:scale-[1.02] transition-all duration-300"
                 >
-                  <Link to="/anmal-dig">Anmälan</Link>
+                  <Link to="/anmal-dig2">Anmälan</Link>
                 </Button>
                 <Button
                   asChild

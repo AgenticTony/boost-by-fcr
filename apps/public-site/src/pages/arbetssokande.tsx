@@ -90,7 +90,7 @@ export default function ArbetssokandePage() {
               size="lg"
               className="bg-brand-red-bright text-white hover:bg-brand-red-bright/90 font-display font-semibold rounded-full px-10 h-14 shadow-lg shadow-brand-red-bright/25 hover:shadow-brand-red-bright/40 hover:scale-[1.02] transition-all duration-300"
             >
-              <Link to="/anmal-dig">
+              <Link to="/anmal-dig2">
                 Anmäl dig här <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
@@ -207,7 +207,7 @@ export default function ArbetssokandePage() {
               size="lg"
               className="bg-brand-red-bright text-white hover:bg-brand-red-bright/90 font-display font-semibold rounded-full px-10 h-14 shadow-lg shadow-brand-red-bright/25 hover:scale-[1.02] transition-all duration-300"
             >
-              <Link to="/anmal-dig">
+              <Link to="/anmal-dig2">
                 Anmäl dig idag <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>

@@ -196,7 +196,7 @@ describe("adapter selection (module init)", () => {
 
     expect(Array.isArray(result)).toBe(true);
     expect(warnSpy).toHaveBeenCalledWith(
-      expect.stringContaining("VITE_HYGRAPH_ENDPOINT is unset"),
+      expect.stringContaining("VITE_HYGRAPH_ENDPOINT is empty"),
     );
   });
 
