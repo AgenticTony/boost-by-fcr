@@ -8,7 +8,7 @@ const GET_EXERCISES = `
       description
       duration
       difficulty
-      muscleGroups
+      category
     }
   }
 `;
@@ -19,7 +19,7 @@ export interface Exercise {
   description: string;
   duration: string;
   difficulty: string;
-  muscleGroups: string;
+  category: string;
 }
 
 export const useExercises = () => {
