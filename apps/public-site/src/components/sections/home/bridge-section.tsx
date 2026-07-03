@@ -139,19 +139,19 @@ export function BridgeSection() {
                     {[
                       {
                         alt: "EU Socialfonden",
-                        src: "/images/eu-logo-jordbruksfonden.png",
+                        src: "/images/eu-logo-jordbruksfonden.webp",
                         className:
                           "h-12 sm:h-16 md:h-20 max-w-[90px] sm:max-w-[130px]",
                       },
                       {
                         alt: "Arbetsförmedlingen",
-                        src: "/images/af-logo.png",
+                        src: "/images/af-logo.webp",
                         className:
                           "h-14 sm:h-22 md:h-[6.5rem] max-w-[120px] sm:max-w-[180px]",
                       },
                       {
                         alt: "FC Rosengård",
-                        src: "/images/FCR_logo_2014_CMYK.png",
+                        src: "/images/FCR_logo_2014_CMYK.webp",
                         className:
                           "h-12 sm:h-16 md:h-20 max-w-[90px] sm:max-w-[130px]",
                       },

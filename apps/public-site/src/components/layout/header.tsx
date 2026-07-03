@@ -193,7 +193,7 @@ export function Header() {
       <nav className="w-full max-w-[1440px] mx-auto px-4 lg:px-6 flex items-center justify-between h-16 md:h-20">
         <Link to="/" className="flex items-center gap-2">
           <img
-            src="/images/logo_boostbyfcr_dark.png"
+            src="/images/logo_boostbyfcr_dark.webp"
             alt="Boost by FC Rosengård"
             className="h-8 md:h-10 w-auto"
           />
@@ -449,7 +449,7 @@ export function Header() {
               <div className="p-6">
                 <div className="flex items-center justify-between mb-8">
                   <img
-                    src="/images/logo_boostbyfcr_dark.png"
+                    src="/images/logo_boostbyfcr_dark.webp"
                     alt="Boost by FC Rosengård"
                     className="h-7 w-auto"
                   />
