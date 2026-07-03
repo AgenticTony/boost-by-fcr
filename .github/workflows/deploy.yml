@@ -77,7 +77,7 @@ jobs:
         run: npm run build
         env:
           VITE_HYGRAPH_URL: ${{ secrets.VITE_HYGRAPH_URL }}
-          VITE_HYGRAPH_TOKEN: ${{ secrets.VITE_HYGRAPH_TOKEN_LOCKED }}
+          VITE_HYGRAPH_TOKEN_LOCKED: ${{ secrets.VITE_HYGRAPH_TOKEN_LOCKED }}
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v5
