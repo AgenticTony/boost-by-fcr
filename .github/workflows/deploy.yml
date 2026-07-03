@@ -78,6 +78,7 @@ jobs:
         env:
           VITE_HYGRAPH_URL: ${{ secrets.VITE_HYGRAPH_URL }}
           VITE_HYGRAPH_TOKEN_LOCKED: ${{ secrets.VITE_HYGRAPH_TOKEN_LOCKED }}
+          VITE_AUTH_PASSWORD: ${{ secrets.VITE_AUTH_PASSWORD }}
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v5
