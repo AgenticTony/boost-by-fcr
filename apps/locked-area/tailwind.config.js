@@ -7,6 +7,7 @@ export default {
   theme: {
     extend: {
       colors: {
+        // Core Boost brand colors (keep these)
         'boost-navy': '#072D59',
         'boost-navy-light': '#0F2B42',
         'boost-gold': '#D4AF37',
@@ -17,13 +18,21 @@ export default {
         'boost-red-bright': '#F04D38',
         'boost-red-light': '#FEF0ED',
         'boost-blue-light': '#C0C7DA',
-        'surface': '#FAF8F5',
-        'surface-dark': '#072D59',
-        'text': '#333333',
-        'text-muted': '#555B66',
-        'success': '#4CAF50',
-        'error': '#B91C1C',
-        'border': '#E5E7EB',
+
+        // DARK BLUE THEME - Matching login page exactly
+        'surface': '#072D59',        // Main background = boost-navy (login page bg)
+        'surface-dark': '#0a1f3d',   // Darker navy for depth
+        'surface-card': '#0d2a4f',   // Slightly lighter navy for cards
+        'surface-input': '#0e2d55',  // Input fields
+        'text': '#F5F0E6',           // Primary text = boost-cream (warm white)
+        'text-secondary': '#C0C7DA', // Secondary text = boost-blue-light
+        'text-muted': '#8a9bb8',     // Muted text
+        'accent': '#D4AF37',         // Accent = boost-gold (matches login page gold)
+        'accent-hover': '#e0bd4a',   // Gold hover = boost-gold-light
+        'border': '#1a4a7a',         // Subtle navy borders
+        'border-light': '#2a5a8a',   // Lighter borders
+        'success': '#22c55e',        // Green
+        'error': '#C93320',          // Red = boost-red
       },
       fontFamily: {
         display: ['Montserrat', 'sans-serif'],

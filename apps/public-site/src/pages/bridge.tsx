@@ -123,7 +123,7 @@ export default function BridgePage() {
                     {[
                       {
                         alt: "EU Socialfonden",
-                        src: "/images/eu-logo-jordbruksfonden.png",
+                        src: "/images/eu-logo-jordbruksfonden.webp",
                       },
                       {
                         alt: "Malmö Stad",
@@ -131,7 +131,7 @@ export default function BridgePage() {
                       },
                       {
                         alt: "FC Rosengård",
-                        src: "/images/FCR_logo_2014_CMYK.png",
+                        src: "/images/FCR_logo_2014_CMYK.webp",
                       },
                     ].map((logo) => (
                       <div
@@ -257,12 +257,12 @@ export default function BridgePage() {
               {[
                 {
                   alt: "EU Socialfonden",
-                  src: "/images/eu-logo-jordbruksfonden.png",
+                  src: "/images/eu-logo-jordbruksfonden.webp",
                   className: "h-14 w-auto",
                 },
                 {
                   alt: "Arbetsförmedlingen",
-                  src: "/images/af-logo.png",
+                  src: "/images/af-logo.webp",
                   className: "h-10 w-auto",
                 },
                 {
