@@ -6,6 +6,9 @@ type Props = {
   alt: string;
   className?: string;
   fallbackClassName?: string;
+  /** Intrinsic pixel dimensions — helps the browser reserve space (CLS). */
+  width?: number;
+  height?: number;
 };
 
 /**
@@ -16,10 +19,14 @@ function ImageWithFallback({
   src,
   alt,
   className,
+  width,
+  height,
 }: {
   src: string;
   alt: string;
   className?: string;
+  width?: number;
+  height?: number;
 }) {
   const [error, setError] = useState(false);
 
@@ -39,6 +46,8 @@ function ImageWithFallback({
     <img
       src={src}
       alt={alt}
+      width={width}
+      height={height}
       className={className}
       loading="lazy"
       decoding="async"
@@ -52,6 +61,8 @@ export function ResilientImage({
   alt,
   className,
   fallbackClassName,
+  width,
+  height,
 }: Props) {
   if (!src) {
     return (
@@ -69,6 +80,6 @@ export function ResilientImage({
   }
 
   return (
-    <ImageWithFallback key={src} src={src} alt={alt} className={className} />
+    <ImageWithFallback key={src} src={src} alt={alt} className={className} width={width} height={height} />
   );
 }

@@ -6,7 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Boost by FC Rosengård</title>
     <meta name="description" content="Sedan 2003 har vi hjälpt tusentals unga i Malmö att hitta sin plats på arbetsmarknaden." />
-    <link rel="preload" href="/fonts/Montserrat-Regular.woff2" as="font" type="font/woff2" crossorigin />
+    <!-- Self-hosted Montserrat: preload the two most critical weights (700 for display headings, 400 for body). -->
+    <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/Montserrat-Bold.woff2" />
+    <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/Montserrat-Regular.woff2" />
+    <!-- Hero LCP image (optimized: 840×1260, ~42 KB). High priority so it starts before hydration. -->
+    <link rel="preload" as="image" href="/images/deltagare_boostbyfcr_pa_trappa.jpg" fetchpriority="high" />
   </head>
   <body>
     <a href="#main-content" class="skip-to-content">Hoppa till huvudinnehåll</a>

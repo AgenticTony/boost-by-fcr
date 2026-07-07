@@ -24,6 +24,7 @@ export function AboutBoostSection() {
                 loop
                 playsInline
                 preload="metadata"
+                aria-label="Korta klipp: händer som lägger sig runt en ung planta och formar ett hjärta — en bild av omvårdnad och tillväxt."
                 className="relative w-full h-auto rounded-3xl shadow-lg aspect-video object-cover"
                 poster="/images/illustration-hands-heart.webp"
               >

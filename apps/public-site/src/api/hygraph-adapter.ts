@@ -280,8 +280,9 @@ export function createHygraphAdapter(
     },
 
     async submitContact(data: ContactFormData) {
-      // Env var preferred; fall back to the deployed project worker so the form
-      // works even when the build doesn't inline the env var.
+      // The contact-worker URL is a public browser endpoint (not a secret), so
+      // the production default is baked in here. VITE_CONTACT_WORKER_URL overrides
+      // it for staging/dev or if the worker moves (see .env.example).
       const url =
         import.meta.env.VITE_CONTACT_WORKER_URL ||
         "https://contact-worker.moh17670s.workers.dev";

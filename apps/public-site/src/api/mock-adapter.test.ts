@@ -106,7 +106,33 @@ describe("mock-adapter", () => {
   });
 
   describe("submitContact", () => {
-    it("POSTs the form to the contact worker and reports delivered on success", async () => {
+    it("POSTs to VITE_CONTACT_WORKER_URL and reports delivered on success", async () => {
+      vi.stubEnv("VITE_CONTACT_WORKER_URL", "https://worker.test/submit");
+      const fetchMock = vi.fn().mockResolvedValue({
+        ok: true,
+        json: async () => ({ success: true, id: "abc" }),
+      });
+      vi.stubGlobal("fetch", fetchMock);
+
+      const result = await adapter.submitContact({
+        name: "Test User",
+        email: "test@example.com",
+        subject: "Question",
+        message: "Hello!",
+      });
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        "https://worker.test/submit",
+        expect.objectContaining({ method: "POST" }),
+      );
+      expect(result).toEqual({ success: true, delivered: true });
+
+      vi.unstubAllGlobals();
+      vi.unstubAllEnvs();
+    });
+
+    it("falls back to the deployed worker when VITE_CONTACT_WORKER_URL is unset", async () => {
+      vi.stubEnv("VITE_CONTACT_WORKER_URL", "");
       const fetchMock = vi.fn().mockResolvedValue({
         ok: true,
         json: async () => ({ success: true, id: "abc" }),
@@ -127,9 +153,11 @@ describe("mock-adapter", () => {
       expect(result).toEqual({ success: true, delivered: true });
 
       vi.unstubAllGlobals();
+      vi.unstubAllEnvs();
     });
 
     it("reports not delivered when the worker call fails", async () => {
+      vi.stubEnv("VITE_CONTACT_WORKER_URL", "https://worker.test/submit");
       vi.stubGlobal("fetch", vi.fn().mockRejectedValue(new Error("network")));
       const result = await adapter.submitContact({
         name: "Test User",
@@ -139,6 +167,7 @@ describe("mock-adapter", () => {
       });
       expect(result).toEqual({ success: false, delivered: false });
       vi.unstubAllGlobals();
+      vi.unstubAllEnvs();
     });
   });
 });

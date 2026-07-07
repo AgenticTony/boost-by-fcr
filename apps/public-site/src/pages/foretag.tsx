@@ -117,7 +117,7 @@ export default function ForetagPage() {
             </p>
           </ScrollReveal>
           <ScrollReveal>
-            <p className="text-xs font-body font-medium text-brand-red-bright tracking-widest uppercase mb-4">
+            <p className="text-xs font-body font-medium text-brand-red tracking-widest uppercase mb-4">
               Vårt erbjudande
             </p>
             <h2 className="text-3xl md:text-[2.75rem] font-display font-extrabold text-text leading-tight mb-12">
@@ -158,7 +158,7 @@ export default function ForetagPage() {
       <section className="py-16 md:py-24 bg-surface">
         <div className="container-page">
           <ScrollReveal>
-            <p className="text-xs font-body font-medium text-brand-red-bright tracking-widest uppercase mb-4">
+            <p className="text-xs font-body font-medium text-brand-red tracking-widest uppercase mb-4">
               Rekrytering
             </p>
             <h2 className="text-3xl md:text-[2.75rem] font-display font-extrabold text-text mb-12">

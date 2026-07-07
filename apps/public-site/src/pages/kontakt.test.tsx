@@ -79,6 +79,7 @@ describe("KontaktPage (Contact form)", () => {
   });
 
   it("shows success state after valid submission", async () => {
+    vi.stubEnv("VITE_CONTACT_WORKER_URL", "https://worker.test/submit");
     vi.stubGlobal(
       "fetch",
       vi.fn().mockResolvedValue({
@@ -113,6 +114,7 @@ describe("KontaktPage (Contact form)", () => {
     expect(screen.queryByText(/har inte skickats/i)).not.toBeInTheDocument();
 
     vi.unstubAllGlobals();
+    vi.unstubAllEnvs();
   });
 
   it("has subject options in select", () => {
