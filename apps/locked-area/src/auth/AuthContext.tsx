@@ -8,6 +8,7 @@ interface Member {
   email: string
   isVerified: boolean
   isApproved: boolean
+  user: 'USER' | 'ADMIN'
 }
 
 interface AuthContextValue {
@@ -84,6 +85,7 @@ const login = async (email: string, password: string) => {
           password
           isVerified
           isApproved
+          user 
         }
       }`,
       { email }
@@ -119,6 +121,7 @@ const login = async (email: string, password: string) => {
       email: found.email,
       isVerified: found.isVerified,
       isApproved: found.isApproved,
+      user: found.user,
     }
 
     setUser(memberData)
@@ -160,7 +163,7 @@ const login = async (email: string, password: string) => {
           verificationToken: $verificationToken
           isVerified: true
           isApproved: false
-          user: ADMIN
+          user: ADMIN 
         }) {
           id
           email

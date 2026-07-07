@@ -2,7 +2,7 @@
 import { useAuth } from "../auth/useAuth";
 
 export default function Header() {
-  const { logout } = useAuth();
+  const { logout, user } = useAuth(); // ← ADD user here
   const location = useLocation();
 
   const isActive = (path: string) => {
@@ -69,20 +69,22 @@ export default function Header() {
 
         {/* Right side: Admin + Logout */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <Link
-            to="/admin/approvals"
-            style={{
-              padding: '6px 12px',
-              borderRadius: '8px',
-              fontSize: '14px',
-              fontWeight: 500,
-              textDecoration: 'none',
-              color: isActive("/admin") ? '#D4AF37' : '#C0C7DA',
-              backgroundColor: isActive("/admin") ? 'rgba(212,175,55,0.1)' : 'transparent'
-            }}
-          >
-            Admin
-          </Link>
+          {user?.email === 'moh17670s@gmail.com' && ( // ← ADD this condition
+            <Link
+              to="/admin/approvals"
+              style={{
+                padding: '6px 12px',
+                borderRadius: '8px',
+                fontSize: '14px',
+                fontWeight: 500,
+                textDecoration: 'none',
+                color: isActive("/admin") ? '#D4AF37' : '#C0C7DA',
+                backgroundColor: isActive("/admin") ? 'rgba(212,175,55,0.1)' : 'transparent'
+              }}
+            >
+              Admin
+            </Link>
+          )}
           <button 
             onClick={logout}
             style={{ 
