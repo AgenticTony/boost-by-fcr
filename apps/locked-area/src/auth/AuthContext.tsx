@@ -132,59 +132,70 @@ const login = async (email: string, password: string) => {
 
   // ── Register ────────────────────────────────────────
 
-  const register = async (name: string, email: string, password: string) => {
-    try {
-      const { data: existing } = await hygraphFetch(
-        `query CheckEmail($email: String!) {
-          members(where: { email: $email }) { id }
-        }`,
-        { email }
-      )
+ const register = async (name: string, email: string, password: string) => {
+  try {
+    const { data: existing } = await hygraphFetch(
+      `query CheckEmail($email: String!) {
+        members(where: { email: $email }) { id }
+      }`,
+      { email }
+    )
 
-      if (existing?.members?.length > 0) {
-        return { success: false, error: 'E-postadressen är redan registrerad' }
-      }
-
-      const hashedPassword = hashPassword(password)
-      
-      const verificationToken = typeof crypto !== 'undefined' && crypto.randomUUID
-        ? crypto.randomUUID()
-        : Math.random().toString(36).substring(2) + Date.now().toString(36)
-
-   const { data, errors } = await hygraphFetch(
-  `mutation CreateMember($name: String!, $email: String!, $password: String!, $verificationToken: String!) {
-    createMember(data: {
-      name: $name
-      email: $email
-      password: $password
-      verificationToken: $verificationToken
-      isVerified: true 
-      isApproved: false
-      user: ADMIN
-    }) {
-      id
-      email
+    if (existing?.members?.length > 0) {
+      return { success: false, error: 'E-postadressen är redan registrerad' }
     }
-  }`,
-  { name, email, password: hashedPassword, verificationToken }
-)
-     if (errors) {
-       console.error('GraphQL errors:', JSON.stringify(errors, null, 2))
-       alert('Error: ' + JSON.stringify(errors, null, 2))
-       return { success: false, error: 'Kunde inte skapa konto. Försök igen.' }
-}
 
-      if (!data?.createMember) {
-        return { success: false, error: 'Kunde inte skapa konto. Försök igen.' }
-      }
+    const hashedPassword = hashPassword(password)
+    const verificationToken = typeof crypto !== 'undefined' && crypto.randomUUID
+      ? crypto.randomUUID()
+      : Math.random().toString(36).substring(2) + Date.now().toString(36)
 
-      return { success: true }
-    } catch (err) {
-      console.error('Register error:', err)
-      return { success: false, error: 'Ett fel uppstod. Försök igen.' }
+    // ── 1. Create the member (draft) ─────────────────────
+    const { data, errors } = await hygraphFetch(
+      `mutation CreateMember($name: String!, $email: String!, $password: String!, $verificationToken: String!) {
+        createMember(data: {
+          name: $name
+          email: $email
+          password: $password
+          verificationToken: $verificationToken
+          isVerified: true
+          isApproved: false
+          user: ADMIN
+        }) {
+          id
+          email
+        }
+      }`,
+      { name, email, password: hashedPassword, verificationToken }
+    )
+
+    if (errors) {
+      console.error('GraphQL errors:', JSON.stringify(errors, null, 2))
+      alert('Error: ' + JSON.stringify(errors, null, 2))
+      return { success: false, error: 'Kunde inte skapa konto. Försök igen.' }
     }
+
+    if (!data?.createMember) {
+      return { success: false, error: 'Kunde inte skapa konto. Försök igen.' }
+    }
+
+    // ── 2. ✅ Publish the member (so admin can see it) ────
+    const memberId = data.createMember.id
+    await hygraphFetch(
+      `mutation PublishMember($id: ID!) {
+        publishMember(where: { id: $id }) {
+          id
+        }
+      }`,
+      { id: memberId }
+    )
+
+    return { success: true }
+  } catch (err) {
+    console.error('Register error:', err)
+    return { success: false, error: 'Ett fel uppstod. Försök igen.' }
   }
-
+}
   // ── Logout ──────────────────────────────────────────
 
   const logout = () => {

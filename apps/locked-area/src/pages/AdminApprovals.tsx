@@ -50,54 +50,65 @@ export default function AdminApprovals() {
     }
   }
 
- const approveUser = async (id: string) => {
-  try {
-    const response = await hygraphFetch(
-      `mutation ApproveUser($id: ID!) {
-        updateMember(where: { id: $id }, data: { isApproved: true }) {
-          id
-          isApproved
-        }
-      }`,
-      { id }
-    )
-    console.log('Full response:', response)
-    if (response.errors) {
-      alert('Error: ' + JSON.stringify(response.errors, null, 2))
-      return
+  const approveUser = async (id: string) => {
+    console.log('✅ Approve button clicked for ID:', id);
+    try {
+      const response = await hygraphFetch(
+        `mutation {
+          updateMember(where: { id: "${id}" }, data: { isApproved: true }) {
+            id
+            isApproved
+          }
+        }`
+      );
+      console.log('📦 Full response:', response);
+      if (response.errors) {
+        alert('❌ Error: ' + JSON.stringify(response.errors, null, 2));
+        return;
+      }
+      if (response.data?.updateMember) {
+        await fetchPending();
+        alert('✅ User approved!');
+      } else {
+        alert('⚠️ No data returned. Check the mutation.');
+      }
+    } catch (error) {
+      console.error('🔥 Approve error:', error);
+      alert('Something went wrong – see console.');
     }
-    if (response.data?.updateMember) {
-      // Refresh the list AFTER successful update
-      await fetchPending()
-    }
-  } catch (error) {
-    console.error('Approve error:', error)
-    alert('Something went wrong')
-  }
-}
+  };
 
+  // ❌ Deny user (delete) – THIS WAS MISSING
   const denyUser = async (id: string) => {
-    const { errors } = await hygraphFetch(
-      `mutation DeleteUser($id: ID!) {
-        deleteMember(where: { id: $id }) {
-          id
-        }
-      }`,
-      { id }
-    )
-    if (errors) {
-      alert('Kunde inte neka användaren.')
-      console.error(errors)
-    } else {
-      fetchPending()
+    console.log('❌ Deny button clicked for ID:', id);
+    const confirmed = window.confirm('Är du säker på att du vill neka denna användare?');
+    if (!confirmed) return;
+
+    try {
+      const response = await hygraphFetch(
+        `mutation {
+          deleteMember(where: { id: "${id}" }) {
+            id
+          }
+        }`
+      );
+      console.log('📦 Deny response:', response);
+      if (response.errors) {
+        alert('❌ Error: ' + JSON.stringify(response.errors, null, 2));
+      } else if (response.data?.deleteMember) {
+        await fetchPending();
+        alert('❌ User denied and deleted.');
+      }
+    } catch (error) {
+      console.error('🔥 Deny error:', error);
+      alert('Something went wrong – see console.');
     }
-  }
+  };
 
   useEffect(() => {
     fetchPending()
   }, [])
 
-  // ✅ Check admin status AFTER all hooks
   if (!isAdmin) {
     return <div className="p-4">Du har inte behörighet att se denna sida.</div>
   }
