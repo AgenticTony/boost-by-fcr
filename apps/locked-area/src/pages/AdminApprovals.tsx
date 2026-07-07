@@ -52,7 +52,12 @@ export default function AdminApprovals() {
 
   const approveUser = async (id: string) => {
     console.log('✅ Approve button clicked for ID:', id);
+
+    // Optimistically remove from UI
+    setPendingUsers((prev) => prev.filter((user) => user.id !== id));
+
     try {
+      // 1. Update isApproved to true
       const response = await hygraphFetch(
         `mutation {
           updateMember(where: { id: "${id}" }, data: { isApproved: true }) {
@@ -61,28 +66,47 @@ export default function AdminApprovals() {
           }
         }`
       );
-      console.log('📦 Full response:', response);
+
+      console.log('📦 Update response:', response);
+
       if (response.errors) {
         alert('❌ Error: ' + JSON.stringify(response.errors, null, 2));
+        await fetchPending(); // revert
         return;
       }
+
       if (response.data?.updateMember) {
+        // 2. Publish the member so the change is visible
+        await hygraphFetch(
+          `mutation PublishMember($id: ID!) {
+            publishMember(where: { id: $id }) {
+              id
+            }
+          }`,
+          { id }
+        );
+
+        // 3. Re‑fetch to sync (the user should now be gone)
         await fetchPending();
         alert('✅ User approved!');
       } else {
         alert('⚠️ No data returned. Check the mutation.');
+        await fetchPending();
       }
     } catch (error) {
       console.error('🔥 Approve error:', error);
       alert('Something went wrong – see console.');
+      await fetchPending();
     }
   };
 
-  // ❌ Deny user (delete) – THIS WAS MISSING
   const denyUser = async (id: string) => {
     console.log('❌ Deny button clicked for ID:', id);
     const confirmed = window.confirm('Är du säker på att du vill neka denna användare?');
     if (!confirmed) return;
+
+    // Optimistically remove from UI
+    setPendingUsers((prev) => prev.filter((user) => user.id !== id));
 
     try {
       const response = await hygraphFetch(
@@ -95,6 +119,7 @@ export default function AdminApprovals() {
       console.log('📦 Deny response:', response);
       if (response.errors) {
         alert('❌ Error: ' + JSON.stringify(response.errors, null, 2));
+        await fetchPending();
       } else if (response.data?.deleteMember) {
         await fetchPending();
         alert('❌ User denied and deleted.');
@@ -102,6 +127,7 @@ export default function AdminApprovals() {
     } catch (error) {
       console.error('🔥 Deny error:', error);
       alert('Something went wrong – see console.');
+      await fetchPending();
     }
   };
 
