@@ -1,397 +1,457 @@
 import { useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
-import { motion, AnimatePresence } from 'framer-motion'
-import { LogIn, AlertCircle, Lock, Eye, EyeOff, ArrowLeft, Sparkles, BookOpen, Users, Award } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
-import { useAuthContext } from '../auth/AuthContext'
-import { passwordAuth } from '../auth/passwordAuth'
+import { useAuth } from '../auth/AuthContext'
+import { Mail, Lock, User, ArrowRight, Eye, EyeOff, Check, X, BookOpen, UserCircle, BarChart3 } from 'lucide-react'
 
-const loginSchema = z.object({
-  email: z.string().email('Ogiltig e-postadress'),
-  password: z.string().min(1, 'Lösenord krävs'),
-})
+type Tab = 'login' | 'register'
 
-type LoginForm = z.infer<typeof loginSchema>
+interface PasswordRequirement {
+  label: string
+  met: boolean
+}
 
 export default function Login() {
-  const [error, setError] = useState('')
-  const [isLoading, setIsLoading] = useState(false)
-  const [showPassword, setShowPassword] = useState(false)
-  const [focusedField, setFocusedField] = useState<string | null>(null)
-  const { login } = useAuthContext()
   const navigate = useNavigate()
+  const { login, register } = useAuth()
+  const [activeTab, setActiveTab] = useState<Tab>('login')
+  const [showPassword, setShowPassword] = useState(false)
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState('')
+  const [success, setSuccess] = useState('')
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    watch,
-  } = useForm<LoginForm>({
-    resolver: zodResolver(loginSchema),
-  })
+  // Login fields
+  const [loginEmail, setLoginEmail] = useState('')
+  const [loginPassword, setLoginPassword] = useState('')
 
-  const emailValue = watch('email')
-  const passwordValue = watch('password')
+  // Register fields
+  const [regName, setRegName] = useState('')
+  const [regEmail, setRegEmail] = useState('')
+  const [regPassword, setRegPassword] = useState('')
+  const [regConfirmPassword, setRegConfirmPassword] = useState('')
 
-  const onSubmit = async (data: LoginForm) => {
+  const passwordRequirements: PasswordRequirement[] = [
+    { label: 'Minst 8 tecken', met: regPassword.length >= 8 },
+    { label: 'En stor bokstav', met: /[A-Z]/.test(regPassword) },
+    { label: 'En siffra', met: /[0-9]/.test(regPassword) },
+    { label: 'Ett specialtecken (!@#$%^&*)', met: /[!@#$%^&*(),.?":{}|<>]/.test(regPassword) },
+  ]
+
+  const strengthScore = passwordRequirements.filter((r) => r.met).length
+  const strengthLabel = ['Svag', 'Svag', 'Medel', 'Stark', 'Mycket stark'][strengthScore]
+  const strengthColor = [
+    'bg-red-500',
+    'bg-red-500',
+    'bg-yellow-500',
+    'bg-blue-500',
+    'bg-green-500',
+  ][strengthScore]
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault()
     setError('')
     setIsLoading(true)
-    try {
-      const result = await passwordAuth.login(data.email, data.password)
-      if (result.success) {
-        login('authenticated-user-token')
-        navigate('/', { replace: true })
-      } else {
-        setError(result.error || 'Felaktig e-post eller lösenord')
-      }
-    } catch (err) {
-      setError('Ett fel inträffade. Försök igen.')
-    } finally {
-      setIsLoading(false)
+
+    const result = await login(loginEmail, loginPassword)
+    setIsLoading(false)
+
+    if (result.success) {
+      navigate('/')
+    } else {
+      setError(result.error || 'Inloggning misslyckades')
+    }
+  }
+
+  const handleRegister = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setError('')
+    setSuccess('')
+
+    if (regPassword !== regConfirmPassword) {
+      setError('Lösenorden matchar inte')
+      return
+    }
+
+    if (strengthScore < 4) {
+      setError('Lösenordet uppfyller inte alla krav')
+      return
+    }
+
+    setIsLoading(true)
+    const result = await register(regName, regEmail, regPassword)
+    setIsLoading(false)
+
+    if (result.success) {
+      setSuccess('Konto skapat! Kontrollera din e-post för verifieringslänk.')
+      setRegName('')
+      setRegEmail('')
+      setRegPassword('')
+      setRegConfirmPassword('')
+      setActiveTab('login')
+    } else {
+      setError(result.error || 'Registrering misslyckades')
     }
   }
 
   return (
-    <div className="min-h-screen bg-boost-navy flex">
-      {/* LEFT SIDE — Hero Image & Content */}
-      <motion.div 
-        initial={{ opacity: 0, x: -40 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-        className="hidden lg:flex lg:w-1/2 xl:w-[55%] relative overflow-hidden"
-      >
-        {/* Background Image */}
+    <div className="min-h-screen flex">
+      {/* ── LEFT SIDE: Hero ── */}
+      <div className="hidden lg:flex lg:w-1/2 relative">
         <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: 'url(/images/deltagare_boostbyfcr_pa_trappa-scaled.jpg)' }}
-        />
-
-        {/* Dark overlay for readability */}
-        <div className="absolute inset-0 bg-gradient-to-r from-boost-navy/90 via-boost-navy/70 to-boost-navy/50" />
-        <div className="absolute inset-0 bg-gradient-to-t from-boost-navy/80 via-transparent to-boost-navy/40" />
-
-        {/* Content */}
-        <div className="relative z-10 flex flex-col justify-between p-12 xl:p-16">
-          {/* Top: Logo */}
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.6 }}
-          >
-            <img 
-              src="/images/logo_boostbyfcr_dark.png" 
-              alt="Boost by FC Rosengård"
-              className="h-10 w-auto"
-            />
-          </motion.div>
-
-          {/* Middle: Text content */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 0.7 }}
-            className="max-w-lg"
-          >
-            <div className="flex items-center gap-3 mb-6">
-              <Sparkles className="h-4 w-4 text-boost-gold" />
-              <p className="text-sm font-medium text-boost-gold tracking-widest uppercase">
-                Sedan 2003
-              </p>
-            </div>
-
-            <h1 className="text-4xl xl:text-5xl font-display font-extrabold leading-[1.1] tracking-tight text-white mb-6">
-              Tillsammans{' '}
-              <span className="text-boost-gold">öppnar vi</span>{' '}
-              vägar framåt
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: "url('/images/deltagare_boostbyfcr_pa_trappa-scaled.jpg')" }}
+        >
+          <div className="absolute inset-0 bg-[#1e3a5f]/80" />
+        </div>
+        
+        <div className="relative z-10 flex flex-col justify-between p-12 text-white">
+          <div>
+            <img src="/images/logo_boostbyfcr_dark.png" alt="Boost by FC Rosengård" className="h-10 mb-8" />
+            <p className="text-[#e0bd4a] text-sm font-medium mb-4 tracking-wider">✦ SEDAN 2003</p>
+            <h1 className="text-4xl font-bold mb-2 leading-tight">
+              Tillsammans öppnar<br />
+              <span className="text-[#e0bd4a]">vi vägar framåt</span>
             </h1>
-
-            <p className="text-lg leading-relaxed text-white/70 mb-8">
-              Vi bygger förutsättningar som ger unga möjlighet att utvecklas,
+            <p className="text-slate-300 max-w-md mt-4 text-sm leading-relaxed">
+              Vi bygger förutsättningar som ger unga möjlighet att utvecklas, 
               hitta riktning och forma sin framtid.
             </p>
-
-            {/* Feature highlights */}
-            <div className="space-y-4">
-              <div className="flex items-center gap-4 text-white/60">
-                <div className="w-10 h-10 rounded-xl bg-boost-gold/10 border border-boost-gold/20 flex items-center justify-center">
-                  <BookOpen className="w-5 h-5 text-boost-gold" />
-                </div>
-                <div>
-                  <p className="text-sm font-semibold text-white/80">Övningar & Handbok</p>
-                  <p className="text-xs text-white/50">Strukturerat metodmaterial</p>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-4 text-white/60">
-                <div className="w-10 h-10 rounded-xl bg-boost-gold/10 border border-boost-gold/20 flex items-center justify-center">
-                  <Users className="w-5 h-5 text-boost-gold" />
-                </div>
-                <div>
-                  <p className="text-sm font-semibold text-white/80">Kunskapsmaterial</p>
-                  <p className="text-xs text-white/50">För deltagare och handledare</p>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-4 text-white/60">
-                <div className="w-10 h-10 rounded-xl bg-boost-gold/10 border border-boost-gold/20 flex items-center justify-center">
-                  <Award className="w-5 h-5 text-boost-gold" />
-                </div>
-                <div>
-                  <p className="text-sm font-semibold text-white/80">Resultat & Uppföljning</p>
-                  <p className="text-xs text-white/50">Följ din utveckling</p>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Bottom: Stats */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.8, duration: 0.6 }}
-            className="flex gap-8"
-          >
-            <div>
-              <p className="text-2xl font-bold text-boost-gold">3 800+</p>
-              <p className="text-xs text-white/50 uppercase tracking-wider">Deltagare</p>
-            </div>
-            <div>
-              <p className="text-2xl font-bold text-boost-gold">20+</p>
-              <p className="text-xs text-white/50 uppercase tracking-wider">Års erfarenhet</p>
-            </div>
-            <div>
-              <p className="text-2xl font-bold text-boost-gold">98%</p>
-              <p className="text-xs text-white/50 uppercase tracking-wider">Nöjdhet</p>
-            </div>
-          </motion.div>
-        </div>
-      </motion.div>
-
-      {/* RIGHT SIDE — Login Form */}
-      <motion.div
-        initial={{ opacity: 0, x: 40 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-        className="w-full lg:w-1/2 xl:w-[45%] flex items-center justify-center p-6 md:p-12 relative"
-      >
-        {/* Mobile background image (only visible on small screens) */}
-        <div className="absolute inset-0 lg:hidden">
-          <div 
-            className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: 'url(/images/deltagare_boostbyfcr_pa_trappa-scaled.jpg)' }}
-          />
-          <div className="absolute inset-0 bg-boost-navy/95 backdrop-blur-sm" />
-        </div>
-
-        <div className="w-full max-w-md relative z-10">
-          {/* Mobile logo (visible only on small screens) */}
-          <div className="lg:hidden text-center mb-8">
-            <img 
-              src="/images/logo_boostbyfcr_dark.png" 
-              alt="Boost by FC Rosengård"
-              className="h-8 w-auto mx-auto"
-            />
           </div>
 
-          {/* Login card */}
-          <div className="bg-boost-navy-light/60 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/10 overflow-hidden">
-            {/* Top accent line */}
-            <div className="h-1 bg-gradient-to-r from-transparent via-boost-gold to-transparent" />
+          <div className="space-y-4">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center">
+                <BookOpen className="w-5 h-5 text-[#e0bd4a]" />
+              </div>
+              <div>
+                <p className="font-medium text-sm">Övningar & Handbok</p>
+                <p className="text-xs text-slate-400">Strukturerat metodmaterial</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center">
+                <UserCircle className="w-5 h-5 text-[#e0bd4a]" />
+              </div>
+              <div>
+                <p className="font-medium text-sm">Kunskapsmaterial</p>
+                <p className="text-xs text-slate-400">För deltagare och handledare</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center">
+                <BarChart3 className="w-5 h-5 text-[#e0bd4a]" />
+              </div>
+              <div>
+                <p className="font-medium text-sm">Resultat & Uppföljning</p>
+                <p className="text-xs text-slate-400">Följ din utveckling</p>
+              </div>
+            </div>
+          </div>
 
-            <div className="p-8">
-              {/* Header */}
-              <motion.div 
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.2, duration: 0.5 }}
-                className="text-center mb-8"
+          <div className="flex gap-8">
+            <div>
+              <p className="text-2xl font-bold text-[#e0bd4a]">3 800+</p>
+              <p className="text-xs text-slate-400 tracking-wider">DELTAGARE</p>
+            </div>
+            <div>
+              <p className="text-2xl font-bold text-[#e0bd4a]">20+</p>
+              <p className="text-xs text-slate-400 tracking-wider">ÅRS ERFARENHET</p>
+            </div>
+            <div>
+              <p className="text-2xl font-bold text-[#e0bd4a]">98%</p>
+              <p className="text-xs text-slate-400 tracking-wider">NÖJDHET</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ── RIGHT SIDE: Login/Register Card ── */}
+      <div className="w-full lg:w-1/2 bg-[#1e3a5f] flex items-center justify-center p-6">
+        <div className="w-full max-w-md">
+          {/* Card */}
+          <div className="bg-[#243b55] rounded-2xl border border-white/10 p-8">
+            {/* Lock Icon */}
+            <div className="flex justify-center mb-6">
+              <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center">
+                <Lock className="w-6 h-6 text-[#e0bd4a]" />
+              </div>
+            </div>
+
+            {/* Title */}
+            <h2 className="text-2xl font-bold text-white text-center mb-2">
+              {activeTab === 'login' ? 'Metodmaterial' : 'Skapa konto'}
+            </h2>
+            <p className="text-slate-400 text-center text-sm mb-6">
+              {activeTab === 'login' 
+                ? 'Logga in för att komma åt övningar, handbok och kunskapsmaterial' 
+                : 'Fyll i dina uppgifter för att skapa ett konto'}
+            </p>
+
+            {/* Tabs */}
+            <div className="flex border-b border-white/10 mb-6">
+              <button
+                onClick={() => { setActiveTab('login'); setError(''); setSuccess('') }}
+                className={`flex-1 py-3 text-sm font-medium transition-all ${
+                  activeTab === 'login'
+                    ? 'text-[#e0bd4a] border-b-2 border-[#e0bd4a]'
+                    : 'text-slate-400 hover:text-slate-200'
+                }`}
               >
-                <div className="relative inline-block mb-6">
-                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-boost-gold/20 to-boost-gold/5 border border-boost-gold/30 flex items-center justify-center mx-auto relative">
-                    <Lock className="w-7 h-7 text-boost-gold" />
-                    <div className="absolute -top-1 -right-1 w-3 h-3 bg-boost-gold rounded-full animate-pulse" />
+                Logga in
+              </button>
+              <button
+                onClick={() => { setActiveTab('register'); setError(''); setSuccess('') }}
+                className={`flex-1 py-3 text-sm font-medium transition-all ${
+                  activeTab === 'register'
+                    ? 'text-[#e0bd4a] border-b-2 border-[#e0bd4a]'
+                    : 'text-slate-400 hover:text-slate-200'
+                }`}
+              >
+                Skapa konto
+              </button>
+            </div>
+
+            {/* Alerts */}
+            {error && (
+              <div className="mb-4 p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm flex items-center gap-2">
+                <X className="w-4 h-4" />
+                {error}
+              </div>
+            )}
+            {success && (
+              <div className="mb-4 p-3 rounded-lg bg-green-500/10 border border-green-500/20 text-green-400 text-sm flex items-center gap-2">
+                <Check className="w-4 h-4" />
+                {success}
+              </div>
+            )}
+
+            {/* Login Form */}
+            {activeTab === 'login' && (
+              <form onSubmit={handleLogin} className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-slate-300 mb-1.5">E-post</label>
+                  <div className="relative">
+                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+                    <input
+                      type="email"
+                      value={loginEmail}
+                      onChange={(e) => setLoginEmail(e.target.value)}
+                      required
+                      className="w-full pl-10 pr-4 py-2.5 bg-white rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#e0bd4a]"
+                      placeholder="din@email.se"
+                    />
                   </div>
                 </div>
 
-                <h1 className="text-2xl font-bold text-white tracking-tight">
-                  Metodmaterial
-                </h1>
-                <p className="text-white/50 mt-2 text-sm leading-relaxed">
-                  Logga in för att komma åt övningar, handbok och kunskapsmaterial
-                </p>
-              </motion.div>
-
-              {/* Error message */}
-              <AnimatePresence>
-                {error && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0, marginBottom: 0 }}
-                    animate={{ opacity: 1, height: 'auto', marginBottom: 24 }}
-                    exit={{ opacity: 0, height: 0, marginBottom: 0 }}
-                    className="overflow-hidden"
-                  >
-                    <div className="bg-red-500/10 border border-red-500/30 rounded-xl p-4 flex items-start gap-3">
-                      <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
-                      <div>
-                        <p className="text-sm text-red-300 font-medium">Inloggning misslyckades</p>
-                        <p className="text-sm text-red-400/70 mt-0.5">{error}</p>
-                      </div>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-
-              {/* Form */}
-              <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-                {/* Email field */}
-                <motion.div
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.3 }}
-                >
+                <div>
+                  <label className="block text-sm font-medium text-slate-300 mb-1.5">Lösenord</label>
                   <div className="relative">
-                    <label 
-                      htmlFor="email"
-                      className={`absolute left-4 transition-all duration-200 pointer-events-none ${
-                        focusedField === 'email' || emailValue
-                          ? '-top-2 text-xs text-boost-gold bg-boost-navy-light px-1'
-                          : 'top-3 text-sm text-white/40'
-                      }`}
-                    >
-                      E-postadress
-                    </label>
+                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
                     <input
-                      {...register('email')}
-                      type="email"
-                      id="email"
-                      autoComplete="email"
-                      onFocus={() => setFocusedField('email')}
-                      onBlur={() => setFocusedField(null)}
-                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-transparent focus:outline-none focus:border-boost-gold/50 focus:ring-1 focus:ring-boost-gold/20 transition-all"
-                    />
-                  </div>
-                  {errors.email && (
-                    <motion.p 
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      className="text-red-400 text-xs mt-1.5 ml-1"
-                    >
-                      {errors.email.message}
-                    </motion.p>
-                  )}
-                </motion.div>
-
-                {/* Password field */}
-                <motion.div
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.4 }}
-                >
-                  <div className="relative">
-                    <label 
-                      htmlFor="password"
-                      className={`absolute left-4 transition-all duration-200 pointer-events-none ${
-                        focusedField === 'password' || passwordValue
-                          ? '-top-2 text-xs text-boost-gold bg-boost-navy-light px-1'
-                          : 'top-3 text-sm text-white/40'
-                      }`}
-                    >
-                      Lösenord
-                    </label>
-                    <input
-                      {...register('password')}
                       type={showPassword ? 'text' : 'password'}
-                      id="password"
-                      autoComplete="current-password"
-                      onFocus={() => setFocusedField('password')}
-                      onBlur={() => setFocusedField(null)}
-                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-transparent focus:outline-none focus:border-boost-gold/50 focus:ring-1 focus:ring-boost-gold/20 transition-all pr-12"
+                      value={loginPassword}
+                      onChange={(e) => setLoginPassword(e.target.value)}
+                      required
+                      className="w-full pl-10 pr-10 py-2.5 bg-white rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#e0bd4a]"
+                      placeholder="••••••••"
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-white/30 hover:text-white/60 transition-colors p-1"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-700"
                     >
                       {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                     </button>
                   </div>
-                  {errors.password && (
-                    <motion.p 
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      className="text-red-400 text-xs mt-1.5 ml-1"
-                    >
-                      {errors.password.message}
-                    </motion.p>
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={isLoading}
+                  className="w-full py-2.5 bg-[#e0bd4a] hover:bg-[#d4ad3f] text-slate-900 font-semibold rounded-lg transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+                >
+                  {isLoading ? (
+                    <div className="w-5 h-5 border-2 border-slate-900/30 border-t-slate-900 rounded-full animate-spin" />
+                  ) : (
+                    <>
+                      <ArrowRight className="w-4 h-4" />
+                      Logga in
+                    </>
                   )}
-                </motion.div>
+                </button>
 
-                {/* Submit button */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.5 }}
-                >
+                <p className="text-center text-sm text-slate-400">
+                  Har du inget konto?{' '}
                   <button
-                    type="submit"
-                    disabled={isLoading}
-                    className="w-full bg-gradient-to-r from-boost-gold to-boost-gold-dark text-boost-navy py-3.5 px-6 rounded-xl font-bold hover:from-boost-gold-light hover:to-boost-gold transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg shadow-boost-gold/20 hover:shadow-boost-gold/30 hover:scale-[1.02] active:scale-[0.98]"
+                    type="button"
+                    onClick={() => setActiveTab('register')}
+                    className="text-[#e0bd4a] hover:text-[#d4ad3f] font-medium"
                   >
-                    {isLoading ? (
-                      <>
-                        <div className="w-5 h-5 border-2 border-boost-navy/30 border-t-boost-navy rounded-full animate-spin" />
-                        <span>Loggar in...</span>
-                      </>
-                    ) : (
-                      <>
-                        <LogIn className="w-5 h-5" />
-                        <span>Logga in</span>
-                      </>
-                    )}
+                    Skapa ett här
                   </button>
-                </motion.div>
+                </p>
               </form>
+            )}
 
-              {/* Divider */}
-              <div className="mt-6 flex items-center gap-3">
-                <div className="flex-1 h-px bg-white/10" />
-                <Sparkles className="w-4 h-4 text-boost-gold/50" />
-                <div className="flex-1 h-px bg-white/10" />
-              </div>
+            {/* Register Form */}
+            {activeTab === 'register' && (
+              <form onSubmit={handleRegister} className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-slate-300 mb-1.5">Namn</label>
+                  <div className="relative">
+                    <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+                    <input
+                      type="text"
+                      value={regName}
+                      onChange={(e) => setRegName(e.target.value)}
+                      required
+                      className="w-full pl-10 pr-4 py-2.5 bg-white rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#e0bd4a]"
+                      placeholder="Ditt namn"
+                    />
+                  </div>
+                </div>
 
-              {/* Back link */}
-              <motion.div 
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.6 }}
-                className="mt-6 text-center"
-              >
-                <a 
-                  href="https://boost-by-fcr.vercel.app/" 
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-sm text-white/40 hover:text-boost-gold transition-colors group"
+                <div>
+                  <label className="block text-sm font-medium text-slate-300 mb-1.5">E-post</label>
+                  <div className="relative">
+                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+                    <input
+                      type="email"
+                      value={regEmail}
+                      onChange={(e) => setRegEmail(e.target.value)}
+                      required
+                      className="w-full pl-10 pr-4 py-2.5 bg-white rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#e0bd4a]"
+                      placeholder="din@email.se"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-slate-300 mb-1.5">Lösenord</label>
+                  <div className="relative">
+                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+                    <input
+                      type={showPassword ? 'text' : 'password'}
+                      value={regPassword}
+                      onChange={(e) => setRegPassword(e.target.value)}
+                      required
+                      className="w-full pl-10 pr-10 py-2.5 bg-white rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#e0bd4a]"
+                      placeholder="••••••••"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-700"
+                    >
+                      {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    </button>
+                  </div>
+
+                  {/* Password Strength */}
+                  {regPassword && (
+                    <div className="mt-3 space-y-2">
+                      <div className="flex items-center gap-2">
+                        <div className="flex-1 h-1.5 bg-slate-600 rounded-full overflow-hidden">
+                          <div
+                            className={`h-full ${strengthColor} transition-all duration-300`}
+                            style={{ width: `${(strengthScore / 4) * 100}%` }}
+                          />
+                        </div>
+                        <span className="text-xs text-slate-400 w-20 text-right">{strengthLabel}</span>
+                      </div>
+                      <div className="space-y-1">
+                        {passwordRequirements.map((req) => (
+                          <div key={req.label} className="flex items-center gap-1.5 text-xs">
+                            {req.met ? (
+                              <Check className="w-3 h-3 text-green-400" />
+                            ) : (
+                              <X className="w-3 h-3 text-slate-500" />
+                            )}
+                            <span className={req.met ? 'text-green-400' : 'text-slate-400'}>
+                              {req.label}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-slate-300 mb-1.5">Bekräfta lösenord</label>
+                  <div className="relative">
+                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+                    <input
+                      type={showConfirmPassword ? 'text' : 'password'}
+                      value={regConfirmPassword}
+                      onChange={(e) => setRegConfirmPassword(e.target.value)}
+                      required
+                      className="w-full pl-10 pr-10 py-2.5 bg-white rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#e0bd4a]"
+                      placeholder="••••••••"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-700"
+                    >
+                      {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    </button>
+                  </div>
+                  {regConfirmPassword && regPassword !== regConfirmPassword && (
+                    <p className="mt-1 text-xs text-red-400">Lösenorden matchar inte</p>
+                  )}
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={isLoading || strengthScore < 4}
+                  className="w-full py-2.5 bg-[#e0bd4a] hover:bg-[#d4ad3f] text-slate-900 font-semibold rounded-lg transition-all flex items-center justify-center gap-2 disabled:opacity-50"
                 >
-                  <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-                  Tillbaka till startsidan
-                </a>
-              </motion.div>
+                  {isLoading ? (
+                    <div className="w-5 h-5 border-2 border-slate-900/30 border-t-slate-900 rounded-full animate-spin" />
+                  ) : (
+                    <>
+                      <ArrowRight className="w-4 h-4" />
+                      Skapa konto
+                    </>
+                  )}
+                </button>
+
+                <p className="text-center text-sm text-slate-400">
+                  Har du redan ett konto?{' '}
+                  <button
+                    type="button"
+                    onClick={() => setActiveTab('login')}
+                    className="text-[#e0bd4a] hover:text-[#d4ad3f] font-medium"
+                  >
+                    Logga in
+                  </button>
+                </p>
+              </form>
+            )}
+
+            {/* Divider */}
+            <div className="flex items-center gap-4 my-6">
+              <div className="flex-1 h-px bg-white/10" />
+              <span className="text-[#e0bd4a] text-lg">✦</span>
+              <div className="flex-1 h-px bg-white/10" />
             </div>
+
+            {/* Back to home */}
+            <a
+              href="https://boost-by-fcr.vercel.app/"
+              className="flex items-center justify-center gap-2 text-slate-400 hover:text-white text-sm transition-colors"
+            >
+              <ArrowRight className="w-4 h-4 rotate-180" />
+              Tillbaka till startsidan
+            </a>
           </div>
 
-          {/* Footer */}
-          <motion.p 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.7 }}
-            className="text-center text-white/20 text-xs mt-6"
-          >
+          <p className="text-center text-xs text-slate-500 mt-6">
             Boost by FC Rosengård — Metodmaterial för deltagare
-          </motion.p>
+          </p>
         </div>
-      </motion.div>
+      </div>
     </div>
   )
 }

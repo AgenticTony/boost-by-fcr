@@ -1,8 +1,8 @@
-﻿@tailwind base;
+﻿@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+
+@tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
 
 @layer base {
   html {
@@ -20,7 +20,7 @@
   }
 
   *:focus-visible {
-    @apply outline-2 outline-offset-2 outline-boost-navy;
+    @apply outline-2 outline-offset-2 outline-accent;
   }
 }
 

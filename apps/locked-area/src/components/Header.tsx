@@ -1,116 +1,105 @@
-﻿// src/components/Header.tsx
-import { Link, useLocation } from 'react-router-dom';
-import { useAuth } from '../auth/useAuth';
-import { useState } from 'react';
-import { Menu, X } from 'lucide-react';
+﻿import { Link, useLocation } from "react-router-dom";
+import { useAuth } from "../auth/useAuth";
 
 export default function Header() {
-  const { isAuthenticated, logout } = useAuth();
+  const { logout } = useAuth();
   const location = useLocation();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const isActive = (path: string) => {
-    if (path === '/') {
-      return location.pathname === '/';
-    }
+    if (path === "/") return location.pathname === "/";
     return location.pathname.startsWith(path);
   };
 
-  const navItems = [
-    { label: 'Bibliotek', path: '/' },
-    { label: 'Resurser', path: '/resources' },
-    { label: 'Handbok', path: '/handbook' },
-    { label: 'Kunskap', path: '/knowledge' },
+  if (location.pathname === '/login') return null;
+
+  const navLinks = [
+    { path: "/", label: "Bibliotek" },
+    { path: "/resources", label: "Resurser" },
+    { path: "/knowledge", label: "Kunskapsbanken" },
+    { path: "/handbook", label: "Handböcker" },
   ];
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-boost-navy/95 backdrop-blur-md border-b border-white/10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <Link to="/" className="flex items-center">
-            <img 
-              src="/images/logo_boostbyfcr_dark.png" 
-              alt="Boost by FC Rosengård" 
-              className="h-8 w-auto"
-              onError={(e) => {
-                // Fallback to text if image fails
-                const target = e.target as HTMLImageElement;
-                target.style.display = 'none';
-                target.parentElement!.innerHTML = '<span class="text-boost-gold font-bold text-lg">BOOST <span class="text-white text-sm">by FCR</span></span>';
+    <header style={{ 
+      position: 'sticky', 
+      top: 0, 
+      zIndex: 9999,
+      backgroundColor: '#0a1f3d',
+      borderBottom: '1px solid #1a4a7a',
+      padding: '0 24px'
+    }}>
+      <div style={{ 
+        display: 'flex', 
+        alignItems: 'center', 
+        justifyContent: 'space-between',
+        maxWidth: '1280px',
+        margin: '0 auto',
+        height: '64px'
+      }}>
+        {/* Logo */}
+        <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '12px', textDecoration: 'none' }}>
+          <img 
+            src="/logo_boostbyfcr_dark.png" 
+            alt="Boost by FC Rosengård" 
+            style={{ height: '32px', width: 'auto' }}
+          />
+        </Link>
+        
+        {/* Desktop Nav */}
+        <nav style={{ display: 'flex', gap: '4px' }}>
+          {navLinks.map((link) => (
+            <Link
+              key={link.path}
+              to={link.path}
+              style={{
+                padding: '8px 16px',
+                borderRadius: '8px',
+                fontSize: '14px',
+                fontWeight: 500,
+                textDecoration: 'none',
+                color: isActive(link.path) ? '#D4AF37' : '#C0C7DA',
+                backgroundColor: isActive(link.path) ? 'rgba(212,175,55,0.1)' : 'transparent',
+                transition: 'all 0.2s'
               }}
-            />
-          </Link>
+            >
+              {link.label}
+            </Link>
+          ))}
+        </nav>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-1">
-            {navItems.map((item) => (
-              <Link
-                key={item.path}
-                to={item.path}
-                className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  isActive(item.path)
-                    ? 'text-boost-gold bg-white/10'
-                    : 'text-white/70 hover:text-white hover:bg-white/5'
-                }`}
-              >
-                {item.label}
-              </Link>
-            ))}
-            
-            {isAuthenticated && (
-              <button
-                onClick={logout}
-                className="ml-2 px-4 py-2 rounded-lg text-sm font-medium text-white/70 hover:text-white hover:bg-white/5 transition-colors border border-white/20"
-              >
-                Logga ut
-              </button>
-            )}
-          </nav>
-
-          {/* Mobile menu button */}
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2 rounded-lg text-white/70 hover:text-white hover:bg-white/10 transition-colors"
+        {/* Right side: Admin + Logout */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <Link
+            to="/admin/approvals"
+            style={{
+              padding: '6px 12px',
+              borderRadius: '8px',
+              fontSize: '14px',
+              fontWeight: 500,
+              textDecoration: 'none',
+              color: isActive("/admin") ? '#D4AF37' : '#C0C7DA',
+              backgroundColor: isActive("/admin") ? 'rgba(212,175,55,0.1)' : 'transparent'
+            }}
           >
-            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            Admin
+          </Link>
+          <button 
+            onClick={logout}
+            style={{ 
+              padding: '8px 16px',
+              borderRadius: '8px',
+              fontSize: '14px',
+              fontWeight: 500,
+              background: 'none',
+              border: '1px solid #C93320',
+              color: '#F04D38',
+              cursor: 'pointer'
+            }}
+          >
+            Logga ut
           </button>
         </div>
       </div>
-
-      {/* Mobile Navigation */}
-      {mobileMenuOpen && (
-        <div className="md:hidden bg-boost-navy-light border-t border-white/10">
-          <div className="px-4 py-3 space-y-1">
-            {navItems.map((item) => (
-              <Link
-                key={item.path}
-                to={item.path}
-                onClick={() => setMobileMenuOpen(false)}
-                className={`block px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  isActive(item.path)
-                    ? 'text-boost-gold bg-white/10'
-                    : 'text-white/70 hover:text-white hover:bg-white/5'
-                }`}
-              >
-                {item.label}
-              </Link>
-            ))}
-            
-            {isAuthenticated && (
-              <button
-                onClick={() => {
-                  logout();
-                  setMobileMenuOpen(false);
-                }}
-                className="w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-white/70 hover:text-white hover:bg-white/5 transition-colors"
-              >
-                Logga ut
-              </button>
-            )}
-          </div>
-        </div>
-      )}
     </header>
   );
 }
