@@ -40,7 +40,9 @@ export function createMockAdapter(): ApiAdapter {
 
     async submitContact(data) {
       // Real submission even in mock mode — the contact form should always send.
-      // (Other endpoints stay mock while Hygraph has no data.)
+      // (Other endpoints stay mock while Hygraph has no data.) The worker URL is
+      // a public browser endpoint; the production default is baked in here and
+      // VITE_CONTACT_WORKER_URL overrides it for staging/dev.
       const url =
         import.meta.env.VITE_CONTACT_WORKER_URL ||
         "https://contact-worker.moh17670s.workers.dev";

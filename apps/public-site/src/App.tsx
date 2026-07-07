@@ -5,14 +5,16 @@ import { Footer } from "@/components/layout/footer";
 import { ErrorBoundary } from "@/components/error-boundary";
 import { ScrollToTop } from "@/components/scroll-to-top";
 
-/* Eager — always visible or needed for initial shell */
+/* Eager — the home page is the primary landing page, so it ships in the main
+ * bundle. This lets the hero paint on first render instead of after the lazy
+ * chunk loads + hydrates (was the LCP bottleneck at ~4.1s). All other routes
+ * stay code-split. */
+import HomePage from "@/pages/home";
 import NotFoundPage from "@/pages/not-found";
 
 /* Lazy — code-split per route */
-const HomePage = lazy(() => import("@/pages/home"));
 const AnmalDigPage = lazy(() => import("@/pages/anmal-dig"));
 const AnmalDig2Page = lazy(() => import("@/pages/anmal-dig2"));
-const AnmalDig3Page = lazy(() => import("@/pages/anmal-dig3"));
 const ArbetssokandePage = lazy(() => import("@/pages/arbetssokande"));
 const BridgePage = lazy(() => import("@/pages/bridge"));
 const DataskyddspolicyPage = lazy(() => import("@/pages/dataskyddspolicy"));
@@ -78,7 +80,6 @@ export default function App() {
               <Route path="/" element={<HomePage />} />
               <Route path="/anmal-dig" element={<AnmalDigPage />} />
               <Route path="/anmal-dig2" element={<AnmalDig2Page />} />
-              <Route path="/anmal-dig3" element={<AnmalDig3Page />} />
               <Route path="/arbetssokande" element={<ArbetssokandePage />} />
               <Route path="/bridge" element={<BridgePage />} />
               <Route

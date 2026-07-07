@@ -14,6 +14,9 @@ type Props = {
   /** Parallax speed multiplier (default 0.3). Higher = more movement. */
   speed?: number;
   className?: string;
+  /** Intrinsic pixel dimensions — helps the browser reserve space (CLS). */
+  width?: number;
+  height?: number;
 };
 
 /**
@@ -21,7 +24,7 @@ type Props = {
  * creating a parallax depth effect. Disabled on mobile and when the user
  * prefers reduced motion.
  */
-export function ParallaxImage({ src, alt, speed = 0.3, className }: Props) {
+export function ParallaxImage({ src, alt, speed = 0.3, className, width, height }: Props) {
   const prefersReducedMotion = useReducedMotion();
   const ref = useRef<HTMLDivElement>(null);
 
@@ -41,6 +44,8 @@ export function ParallaxImage({ src, alt, speed = 0.3, className }: Props) {
         <img
           src={src}
           alt={alt}
+          width={width}
+          height={height}
           loading="lazy"
           decoding="async"
           className="w-full h-full object-cover"
@@ -54,6 +59,8 @@ export function ParallaxImage({ src, alt, speed = 0.3, className }: Props) {
       <motion.img
         src={src}
         alt={alt}
+        width={width}
+        height={height}
         style={{ y, scale: 1.15 }}
         className="w-full h-full object-cover"
       />

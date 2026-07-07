@@ -94,8 +94,10 @@ export function HeroSection() {
             {prefersReducedMotion ? (
               <div className="relative aspect-[3/4] rounded-l-[2rem] overflow-hidden shadow-2xl ring-1 ring-white/10 max-w-[420px] ml-auto">
                 <img
-                  src="/images/deltagare_boostbyfcr_pa_trappa-scaled.jpg"
+                  src="/images/deltagare_boostbyfcr_pa_trappa.jpg"
                   alt="Unga deltagare utomhus på Boost"
+                  width={840}
+                  height={1260}
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-brand-navy/20 via-transparent to-transparent" />
@@ -111,9 +113,11 @@ export function HeroSection() {
                 className="relative max-w-[420px] ml-auto"
               >
                 <ParallaxImage
-                  src="/images/deltagare_boostbyfcr_pa_trappa-scaled.jpg"
+                  src="/images/deltagare_boostbyfcr_pa_trappa.jpg"
                   alt="Unga deltagare utomhus på Boost"
                   speed={0.3}
+                  width={840}
+                  height={1260}
                   className="aspect-[3/4] rounded-l-[2rem] shadow-2xl ring-1 ring-white/10"
                 />
                 <div className="absolute inset-0 rounded-l-[2rem] bg-gradient-to-t from-brand-navy/20 via-transparent to-transparent pointer-events-none" />
