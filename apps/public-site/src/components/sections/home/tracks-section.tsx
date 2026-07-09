@@ -22,8 +22,10 @@ function TrackCardWork() {
           {/* Photo */}
           <div className="relative w-full md:w-64 lg:w-72 flex-shrink-0">
             <img
-              src="/images/Arbetsspaaret.jpg"
+              src="/images/Arbetsspaaret.webp"
               alt="Två personer samarbetar vid en dator — arbetsspåret"
+              width={1260}
+              height={839}
               className="w-full h-48 md:h-full object-cover"
               loading="lazy"
               decoding="async"
@@ -82,8 +84,10 @@ function TrackCardStudy() {
           {/* Photo */}
           <div className="relative w-full md:w-64 lg:w-72 shrink-0">
             <img
-              src="/images/Studiespaaret.jpg"
+              src="/images/Studiespaaret.webp"
               alt="Grupp i samarbetsmöte — studiespåret"
+              width={1260}
+              height={839}
               className="w-full h-48 md:h-full object-cover"
               loading="lazy"
               decoding="async"
@@ -140,8 +144,10 @@ function TrackCardHealth() {
           {/* Photo — left side */}
           <div className="relative w-full md:w-64 lg:w-72 shrink-0">
             <img
-              src="/images/fcr-sport.jpg"
+              src="/images/fcr-sport.webp"
               alt="Grupp spelar innebandy — hälsospåret"
+              width={1260}
+              height={840}
               className="w-full h-48 md:h-full object-cover"
               loading="lazy"
               decoding="async"
