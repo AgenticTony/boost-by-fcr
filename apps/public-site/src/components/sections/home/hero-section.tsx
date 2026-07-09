@@ -47,8 +47,8 @@ export function HeroSection() {
           <div>
             <StaggeredLine delay={0}>
               <div className="flex items-center gap-3 mb-6">
-                <Sparkles className="h-4 w-4 text-brand-red-bright" />
-                <p className="text-sm font-body font-medium text-brand-red-bright tracking-widest uppercase">
+                <Sparkles className="h-4 w-4 text-brand-gold" />
+                <p className="text-sm font-body font-medium text-brand-gold tracking-widest uppercase">
                   Sedan 2003
                 </p>
               </div>
@@ -57,7 +57,7 @@ export function HeroSection() {
             <h1 className="text-[2.75rem] sm:text-[3.5rem] md:text-[4rem] lg:text-[5rem] font-display font-extrabold leading-[1.1] tracking-tight mb-8">
               <StaggeredLine delay={0.15}>Tillsammans</StaggeredLine>
               <StaggeredLine delay={0.3}>
-                <span className="text-brand-red-bright">öppnar vi</span>
+                <span className="text-brand-gold">öppnar vi</span>
               </StaggeredLine>
               <StaggeredLine delay={0.45}>vägar framåt</StaggeredLine>
             </h1>
@@ -74,7 +74,7 @@ export function HeroSection() {
                 <Button
                   asChild
                   size="lg"
-                  className="bg-brand-red-bright text-white hover:bg-brand-red-bright/90 font-display font-semibold rounded-full px-10 h-14 text-base shadow-lg shadow-brand-red-bright/25 hover:shadow-brand-red-bright/40 hover:scale-[1.02] transition-all duration-300"
+                  className="bg-brand-red text-white hover:bg-brand-red/90 font-display font-semibold rounded-full px-10 h-14 text-base shadow-lg shadow-brand-red/25 hover:shadow-brand-red/40 hover:scale-[1.02] transition-all duration-300"
                 >
                   <Link to="/anmal-dig2">Anmälan</Link>
                 </Button>
