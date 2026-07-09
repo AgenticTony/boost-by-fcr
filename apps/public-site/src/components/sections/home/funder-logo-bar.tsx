@@ -35,7 +35,7 @@ export function FunderLogoBar() {
   return (
     <section className="bg-brand-navy/80 border-b-4 border-b-brand-red">
       <div className="container-page py-14 md:py-20">
-        <p className="text-center text-sm md:text-base font-display font-semibold uppercase tracking-widest text-brand-red-bright mb-10">
+        <p className="text-center text-sm md:text-base font-display font-semibold uppercase tracking-widest text-white/80 mb-10">
           Finansieras och stöds av
         </p>
         <div className="flex flex-wrap items-center justify-center gap-10 md:gap-16">
