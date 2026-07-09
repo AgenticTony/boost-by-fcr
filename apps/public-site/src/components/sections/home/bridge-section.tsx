@@ -119,7 +119,7 @@ export function BridgeSection() {
 
               {/* Vision quote */}
               <div className="rounded-2xl bg-white/[0.06] backdrop-blur-sm p-6 border border-white/10 border-l-4 border-l-brand-red">
-                <p className="text-xs font-medium text-white/50 uppercase tracking-wider mb-2">
+                <p className="text-xs font-medium text-white/60 uppercase tracking-wider mb-2">
                   Vår vision
                 </p>
                 <p className="text-white/75 leading-relaxed italic text-lg">
@@ -132,7 +132,7 @@ export function BridgeSection() {
               <div className="rounded-2xl bg-white/8 backdrop-blur-sm border border-white/10 overflow-hidden">
                 <div className="h-1 bg-linear-to-r from-brand-red via-brand-red/60 to-transparent" />
                 <div className="p-5">
-                  <p className="text-xs font-body font-medium text-white/50 text-center mb-4">
+                  <p className="text-xs font-body font-medium text-white/60 text-center mb-4">
                     Finansieras och stöds av
                   </p>
                   <div className="flex flex-wrap items-center justify-center gap-6 md:gap-12">

@@ -116,7 +116,7 @@ export default function BridgePage() {
                 {/* Funder logos — unified card */}
                 <div className="rounded-2xl bg-white/[0.06] backdrop-blur-sm border border-white/10 overflow-hidden">
                   <div className="h-1 bg-linear-to-r from-brand-red via-brand-red/60 to-transparent" />
-                  <p className="text-xs text-white/50 text-center pt-4 pb-2 uppercase tracking-wider">
+                  <p className="text-xs text-white/60 text-center pt-4 pb-2 uppercase tracking-wider">
                     Finansieras och stöds av
                   </p>
                   <div className="grid grid-cols-3 gap-0 divide-x divide-white/10">

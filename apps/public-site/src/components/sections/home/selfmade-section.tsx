@@ -112,7 +112,7 @@ export function SelfmadeSection() {
                 "Jag tar med mig bättre självförtroende och en känsla av att jag
                 faktiskt kan påverka min egen framtid."
               </p>
-              <p className="text-sm text-text-muted/60 mt-2 font-medium">
+              <p className="text-sm text-text-muted mt-2 font-medium">
                 — Albin, deltagare
               </p>
             </div>

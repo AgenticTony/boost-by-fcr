@@ -218,7 +218,7 @@ export default function ForetagPage() {
                 <Link to="/kontakt?amne=Företagssamarbete">Kontakta oss</Link>
               </Button>
             </div>
-            <p className="text-sm text-white/50 mt-6">
+            <p className="text-sm text-white/60 mt-6">
               Käthe Andersson — kathe.andersson@boostbyfcr.se — 072-164 53 45
             </p>
           </ScrollReveal>
