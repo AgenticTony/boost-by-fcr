@@ -37,7 +37,7 @@ function TrackCardWork() {
                 <div className="inline-flex items-center justify-center h-14 w-14 md:h-16 md:w-16 rounded-2xl bg-brand-navy/10 text-brand-navy mb-4 group-hover:scale-110 transition-transform duration-300">
                   <Briefcase className="h-7 w-7 md:h-8 md:w-8" />
                 </div>
-                <p className="text-xs font-display font-semibold uppercase tracking-widest text-brand-navy/50">
+                <p className="text-xs font-display font-semibold uppercase tracking-widest text-brand-navy">
                   Karriär & arbetsmarknad
                 </p>
               </div>
@@ -97,7 +97,7 @@ function TrackCardStudy() {
                 <div className="inline-flex items-center justify-center h-14 w-14 md:h-16 md:w-16 rounded-2xl bg-brand-blue-light/30 text-brand-navy mb-4 group-hover:scale-110 transition-transform duration-300">
                   <BookOpen className="h-7 w-7 md:h-8 md:w-8" />
                 </div>
-                <p className="text-xs font-display font-semibold uppercase tracking-widest text-brand-navy/40">
+                <p className="text-xs font-display font-semibold uppercase tracking-widest text-brand-navy">
                   Lärande & vägledning
                 </p>
               </div>
@@ -154,7 +154,7 @@ function TrackCardHealth() {
                 <div className="inline-flex items-center justify-center h-14 w-14 md:h-16 md:w-16 rounded-2xl bg-brand-red/10 text-brand-red mb-4 group-hover:scale-110 transition-transform duration-300">
                   <Heart className="h-7 w-7 md:h-8 md:w-8" />
                 </div>
-                <p className="text-xs font-display font-semibold uppercase tracking-widest text-brand-red/80">
+                <p className="text-xs font-display font-semibold uppercase tracking-widest text-brand-red">
                   Välmående & självförtroende
                 </p>
               </div>
