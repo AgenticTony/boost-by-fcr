@@ -1,3 +1,4 @@
+import { useRef, useState, useEffect } from "react";
 import { Heart } from "lucide-react";
 import { ScrollReveal } from "@/components/ui/scroll-reveal";
 
@@ -7,6 +8,28 @@ import { ScrollReveal } from "@/components/ui/scroll-reveal";
  *  difference is the media is a <video> instead of an <img>. Previously this
  *  section was full-bleed, which split the video and text apart on wide screens. */
 export function AboutBoostSection() {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [inView, setInView] = useState(false);
+
+  // Lazy-load: only fetch the video sources when the section scrolls into view.
+  // Defers ~815 KiB (webm + mp4) off the initial page load — this section is well
+  // below the fold and was needlessly downloading on first paint.
+  useEffect(() => {
+    const el = videoRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0]?.isIntersecting) {
+          setInView(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "200px" },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <section className="relative overflow-hidden bg-white">
       <div className="container-page py-16 md:py-24">
@@ -19,17 +42,22 @@ export function AboutBoostSection() {
                 aria-hidden="true"
               />
               <video
+                ref={videoRef}
                 autoPlay
                 muted
                 loop
                 playsInline
-                preload="metadata"
+                preload={inView ? "auto" : "none"}
                 aria-label="Korta klipp: händer som lägger sig runt en ung planta och formar ett hjärta — en bild av omvårdnad och tillväxt."
                 className="relative w-full h-auto rounded-3xl shadow-lg aspect-video object-cover"
                 poster="/images/illustration-hands-heart.webp"
               >
-                <source src="/images/hand-heart.webm" type="video/webm" />
-                <source src="/images/hand-heart.mp4" type="video/mp4" />
+                {inView && (
+                  <>
+                    <source src="/images/hand-heart.webm" type="video/webm" />
+                    <source src="/images/hand-heart.mp4" type="video/mp4" />
+                  </>
+                )}
               </video>
             </div>
           </ScrollReveal>
