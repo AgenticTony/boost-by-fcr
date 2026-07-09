@@ -26,7 +26,7 @@ export default function HomePage() {
       <PromiseSection />
       <TracksSection />
       <BridgeSection />
-      <WaveDivider color="#072d59" flip layered />
+      <WaveDivider color="#072d59" flip layered bg="white" />
       <AboutBoostSection />
       <SelfmadeSection />
       <LatestNews />
