@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth/AuthContext'
 import { Mail, Lock, User, ArrowRight, Eye, EyeOff, Check, X, BookOpen, UserCircle, BarChart3 } from 'lucide-react'
+import { useNavigate, Link } from 'react-router-dom'
 
 type Tab = 'login' | 'register'
 
@@ -19,6 +19,7 @@ export default function Login() {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
+  const [verificationUrl, setVerificationUrl] = useState('')
 
   // Login fields
   const [loginEmail, setLoginEmail] = useState('')
@@ -66,6 +67,7 @@ export default function Login() {
     e.preventDefault()
     setError('')
     setSuccess('')
+    setVerificationUrl('')
 
     if (regPassword !== regConfirmPassword) {
       setError('Lösenorden matchar inte')
@@ -82,7 +84,8 @@ export default function Login() {
     setIsLoading(false)
 
     if (result.success) {
-      setSuccess('Konto skapat! Kontrollera din e-post för verifieringslänk.')
+      setSuccess('Konto skapat! Klicka på länken nedan för att verifiera din e-post:')
+      setVerificationUrl(result.verificationUrl || '')
       setRegName('')
       setRegEmail('')
       setRegPassword('')
@@ -190,7 +193,7 @@ export default function Login() {
             {/* Tabs */}
             <div className="flex border-b border-white/10 mb-6">
               <button
-                onClick={() => { setActiveTab('login'); setError(''); setSuccess('') }}
+                onClick={() => { setActiveTab('login'); setError(''); setSuccess(''); setVerificationUrl('') }}
                 className={`flex-1 py-3 text-sm font-medium transition-all ${
                   activeTab === 'login'
                     ? 'text-[#e0bd4a] border-b-2 border-[#e0bd4a]'
@@ -200,15 +203,15 @@ export default function Login() {
                 Logga in
               </button>
               <button
-                onClick={() => { setActiveTab('register'); setError(''); setSuccess('') }}
-                className={`flex-1 py-3 text-sm font-medium transition-all ${
-                  activeTab === 'register'
-                    ? 'text-[#e0bd4a] border-b-2 border-[#e0bd4a]'
-                    : 'text-slate-400 hover:text-slate-200'
-                }`}
-              >
-                Skapa konto
-              </button>
+  onClick={() => { setActiveTab('register'); setError(''); setSuccess(''); setVerificationUrl('') }}
+  className={`flex-1 py-3 text-sm font-medium transition-all ${
+    activeTab === 'register'
+      ? 'text-[#e0bd4a] border-b-2 border-[#e0bd4a]'
+      : 'text-slate-400 hover:text-slate-200'
+  }`}
+>
+  Skapa konto
+</button>
             </div>
 
             {/* Alerts */}
@@ -218,7 +221,20 @@ export default function Login() {
                 {error}
               </div>
             )}
-            {success && (
+            {success && verificationUrl && (
+              <div className="mb-4 p-3 rounded-lg bg-blue-500/10 border border-blue-500/20 text-blue-400 text-sm">
+                <p className="mb-2">{success}</p>
+                <a 
+                  href={verificationUrl} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-[#e0bd4a] hover:text-[#d4ad3f] font-medium underline break-all"
+                >
+                  {verificationUrl}
+                </a>
+              </div>
+            )}
+            {success && !verificationUrl && (
               <div className="mb-4 p-3 rounded-lg bg-green-500/10 border border-green-500/20 text-green-400 text-sm flex items-center gap-2">
                 <Check className="w-4 h-4" />
                 {success}
@@ -263,6 +279,15 @@ export default function Login() {
                       {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                     </button>
                   </div>
+                </div>
+
+                <div className="text-right">
+                  <Link
+                    to="/forgot-password"
+                    className="text-sm text-[#e0bd4a] hover:text-[#d4ad3f] font-medium"
+                  >
+                    Glömt lösenord?
+                  </Link>
                 </div>
 
                 <button
