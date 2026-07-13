@@ -11,6 +11,7 @@ export default defineConfig({
   // without referencing them in the bundle output (no exposure to end users,
   // but uploadable to an error-tracking service or DevTools).
   build: {
+    outDir: '../../dist', // ? THIS IS THE KEY CHANGE
     sourcemap: "hidden",
   },
   resolve: {

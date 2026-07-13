@@ -39,14 +39,13 @@ export default function Header() {
         height: '64px'
       }}>
         {/* Logo */}
-        <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '12px', textDecoration: 'none' }}>
+       <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '12px', textDecoration: 'none' }}>
           <img 
-            src="/logo_boostbyfcr_dark.png" 
-            alt="Boost by FC Rosengård" 
-            style={{ height: '32px', width: 'auto' }}
-          />
-        </Link>
-        
+          src={import.meta.env.BASE_URL + 'logo_boostbyfcr_dark.png'} 
+          alt="Boost by FC Rosengård" 
+          style={{ height: '32px', width: 'auto' }}
+            />
+       </Link>
         {/* Desktop Nav - hidden on mobile */}
         <nav style={{ display: 'flex', gap: '4px' }} className="hidden md:flex">
           {navLinks.map((link) => (

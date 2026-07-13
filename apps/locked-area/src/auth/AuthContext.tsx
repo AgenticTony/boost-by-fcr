@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect, useCallback, type ReactNode } from 'react'
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react'
 
 // ── Types ───────────────────────────────────────────────
 
@@ -31,10 +31,11 @@ const AuthContext = createContext<AuthContextValue | null>(null)
 const HYGRAPH_ENDPOINT = import.meta.env.VITE_HYGRAPH_URL
 const HYGRAPH_TOKEN = import.meta.env.VITE_HYGRAPH_TOKEN_LOCKED
 const RESEND_API_KEY = import.meta.env.VITE_RESEND_API_KEY
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001'
 
 // ── Provider ────────────────────────────────────────────
 
-export function AuthProvider({ children }: { children: ReactNode }) {
+export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<Member | null>(null)
   const [isLoading, setIsLoading] = useState(true)
 
@@ -244,96 +245,97 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   // ── Register ────────────────────────────────────────
 
   const register = async (name: string, email: string, password: string) => {
+  try {
+    const { data: existing } = await hygraphFetch(
+      `query CheckEmail($email: String!) {
+        members(where: { email: $email }) { id }
+      }`,
+      { email }
+    )
+
+    if (existing?.members?.length > 0) {
+      return { success: false, error: 'E-postadressen är redan registrerad' }
+    }
+
+    const hashedPassword = hashPassword(password)
+    const verificationToken = generateToken()
+
+    const { data, errors } = await hygraphFetch(
+      `mutation CreateMember($name: String!, $email: String!, $password: String!, $verificationToken: String!) {
+        createMember(data: {
+          name: $name
+          email: $email
+          password: $password
+          verificationToken: $verificationToken
+          isVerified: false
+          isApproved: false
+          user: ADMIN
+        }) {
+          id
+          email
+        }
+      }`,
+      { name, email, password: hashedPassword, verificationToken }
+    )
+
+    if (errors) {
+      console.error('GraphQL errors:', JSON.stringify(errors, null, 2))
+      return { success: false, error: 'Kunde inte skapa konto. Försök igen.' }
+    }
+
+    if (!data?.createMember) {
+      return { success: false, error: 'Kunde inte skapa konto. Försök igen.' }
+    }
+
+    const memberId = data.createMember.id
+    const verificationUrl = `${window.location.origin}/verify-email?token=${verificationToken}`
+
+    // ── Send verification email via serverless function ──
     try {
-      const { data: existing } = await hygraphFetch(
-        `query CheckEmail($email: String!) {
-          members(where: { email: $email }) { id }
-        }`,
-        { email }
-      )
+      console.log('📧 Sending verification email to:', email)
 
-      if (existing?.members?.length > 0) {
-        return { success: false, error: 'E-postadressen är redan registrerad' }
-      }
+      const res = await fetch('http://localhost:3001/api/send-verification-email', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    to: email,
+    name: name,
+    verificationUrl: verificationUrl,
+  }),
+});
+      if (!res.ok) {
+        const errorText = await res.text()
+        console.error('❌ Email API error:', res.status, errorText)
+      } else {
+    console.log('✅ Verification email sent via Express server');
+  }
+} catch (err) {
+  console.error('❌ Failed to send verification email:', err);
+}
 
-      const hashedPassword = hashPassword(password)
-      const verificationToken = generateToken()
+    // ── Publish the member ──
+    await hygraphFetch(
+      `mutation PublishMember($id: ID!) {
+        publishMember(where: { id: $id }) {
+          id
+        }
+      }`,
+      { id: memberId }
+    )
 
-      const { data, errors } = await hygraphFetch(
-        `mutation CreateMember($name: String!, $email: String!, $password: String!, $verificationToken: String!) {
-          createMember(data: {
-            name: $name
-            email: $email
-            password: $password
-            verificationToken: $verificationToken
-            isVerified: false
-            isApproved: false
-            user: ADMIN
-          }) {
-            id
-            email
-          }
-        }`,
-        { name, email, password: hashedPassword, verificationToken }
-      )
+    return { success: true, verificationUrl }
 
-      if (errors) {
-        console.error('GraphQL errors:', JSON.stringify(errors, null, 2))
-        alert('Error: ' + JSON.stringify(errors, null, 2))
-        return { success: false, error: 'Kunde inte skapa konto. Försök igen.' }
-      }
-
-      if (!data?.createMember) {
-        return { success: false, error: 'Kunde inte skapa konto. Försök igen.' }
-      }
-
-      const memberId = data.createMember.id
-
-      const verificationUrl = `${window.location.origin}/verify-email?token=${verificationToken}`
+  } catch (err) {
+    console.error('Register error:', err)
+    return { success: false, error: 'Ett fel uppstod. Försök igen.' }
+  }
+}
 
       // Send verification email via Resend
-      await fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${RESEND_API_KEY}`,
-        },
-        body: JSON.stringify({
-          from: 'Boost by FCR <noreply@boostbyfcr.se>',
-          to: email,
-          subject: 'Verifiera din e-post',
-          html: `
-            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-              <h2 style="color: #1e3a5f;">Välkommen till Boost by FCR</h2>
-              <p>Hej ${name},</p>
-              <p>Tack för din registrering. Klicka på länken nedan för att verifiera din e-post:</p>
-              <p style="margin: 24px 0;">
-                <a href="${verificationUrl}" style="background: #e0bd4a; color: #1e3a5f; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block;">
-                  Verifiera e-post
-                </a>
-              </p>
-              <p style="color: #999; font-size: 12px;">Länken är giltig tills du verifierar dig.</p>
-            </div>
-          `,
-        }),
-      })
+  //     
+  
 
-      await hygraphFetch(
-        `mutation PublishMember($id: ID!) {
-          publishMember(where: { id: $id }) {
-            id
-          }
-        }`,
-        { id: memberId }
-      )
-
-      return { success: true, verificationUrl }
-    } catch (err) {
-      console.error('Register error:', err)
-      return { success: false, error: 'Ett fel uppstod. Försök igen.' }
-    }
-  }
-
+  
   // ── Verify Email ────────────────────────────────────
 
   const verifyEmail = async (token: string) => {
