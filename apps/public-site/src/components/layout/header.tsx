@@ -382,7 +382,7 @@ export function Header() {
 
           {/* Medlemsarea */}
           <a
-            href="https://locked-area-app.pages.dev/login"
+            href="https://boost-by-fcr-locked-area.pages.dev/login"
             target="_blank"
             rel="noopener noreferrer"
             className="hidden lg:inline-flex items-center gap-1.5 px-2 py-2 text-sm font-medium whitespace-nowrap text-white/80 hover:text-[#D4AF37] transition-colors rounded-md hover:bg-white/10"
