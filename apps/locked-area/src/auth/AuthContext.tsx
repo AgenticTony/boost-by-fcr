@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect, useCallback, type ReactNode } from 'react'
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react'
 
 // ── Types ───────────────────────────────────────────────
 
@@ -30,11 +30,15 @@ const AuthContext = createContext<AuthContextValue | null>(null)
 
 const HYGRAPH_ENDPOINT = import.meta.env.VITE_HYGRAPH_URL
 const HYGRAPH_TOKEN = import.meta.env.VITE_HYGRAPH_TOKEN_LOCKED
-const RESEND_API_KEY = import.meta.env.VITE_RESEND_API_KEY
 
+// Use environment variable for Worker URL, fallback to local Express for dev
+const WORKER_URL = import.meta.env.VITE_EMAIL_WORKER_URL;
+if (!WORKER_URL) {
+  console.error('❌ VITE_EMAIL_WORKER_URL is not set. Email sending will not work.');
+}
 // ── Provider ────────────────────────────────────────────
 
-export function AuthProvider({ children }: { children: ReactNode }) {
+export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<Member | null>(null)
   const [isLoading, setIsLoading] = useState(true)
 
@@ -279,7 +283,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       if (errors) {
         console.error('GraphQL errors:', JSON.stringify(errors, null, 2))
-        alert('Error: ' + JSON.stringify(errors, null, 2))
         return { success: false, error: 'Kunde inte skapa konto. Försök igen.' }
       }
 
@@ -288,36 +291,33 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
 
       const memberId = data.createMember.id
-
       const verificationUrl = `${window.location.origin}/verify-email?token=${verificationToken}`
 
-      // Send verification email via Resend
-      await fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${RESEND_API_KEY}`,
-        },
-        body: JSON.stringify({
-          from: 'Boost by FCR <noreply@boostbyfcr.se>',
-          to: email,
-          subject: 'Verifiera din e-post',
-          html: `
-            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-              <h2 style="color: #1e3a5f;">Välkommen till Boost by FCR</h2>
-              <p>Hej ${name},</p>
-              <p>Tack för din registrering. Klicka på länken nedan för att verifiera din e-post:</p>
-              <p style="margin: 24px 0;">
-                <a href="${verificationUrl}" style="background: #e0bd4a; color: #1e3a5f; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block;">
-                  Verifiera e-post
-                </a>
-              </p>
-              <p style="color: #999; font-size: 12px;">Länken är giltig tills du verifierar dig.</p>
-            </div>
-          `,
-        }),
-      })
+      // ── Send verification email via Worker ──
+      try {
+        console.log('📧 Sending verification email to:', email)
 
+        const res = await fetch(`${WORKER_URL}/send-verification-email`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            to: email,
+            name: name,
+            verificationUrl: verificationUrl,
+          }),
+        })
+
+        if (!res.ok) {
+          const errorText = await res.text()
+          console.error('❌ Email API error:', res.status, errorText)
+        } else {
+          console.log('✅ Verification email sent via Worker')
+        }
+      } catch (err) {
+        console.error('❌ Failed to send verification email:', err)
+      }
+
+      // ── Publish the member ──
       await hygraphFetch(
         `mutation PublishMember($id: ID!) {
           publishMember(where: { id: $id }) {
@@ -328,6 +328,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       )
 
       return { success: true, verificationUrl }
+
     } catch (err) {
       console.error('Register error:', err)
       return { success: false, error: 'Ett fel uppstod. Försök igen.' }
@@ -437,31 +438,42 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       const resetUrl = `${window.location.origin}/reset-password?token=${token}`
 
-      await fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${RESEND_API_KEY}`,
-        },
-        body: JSON.stringify({
-          from: 'Boost by FCR <noreply@boostbyfcr.se>',
-          to: found.email,
-          subject: 'Återställ ditt lösenord',
-          html: `
-            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-              <h2 style="color: #1e3a5f;">Återställ ditt lösenord</h2>
-              <p>Hej ${found.name},</p>
-              <p>Du har begärt att återställa ditt lösenord. Klicka på länken nedan:</p>
-              <p style="margin: 24px 0;">
-                <a href="${resetUrl}" style="background: #e0bd4a; color: #1e3a5f; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block;">
-                  Återställ lösenord
-                </a>
-              </p>
-              <p style="color: #999; font-size: 12px;">Länken är giltig i 1 timme.</p>
-            </div>
-          `,
-        }),
-      })
+      // ── Send password reset email via Worker ──
+      try {
+        console.log('📧 Sending password reset email to:', found.email)
+
+        const res = await fetch(`${WORKER_URL}/send-email`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            to: found.email,
+            name: found.name,
+            subject: 'Återställ ditt lösenord',
+            html: `
+              <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+                <h2 style="color: #1e3a5f;">Återställ ditt lösenord</h2>
+                <p>Hej ${found.name},</p>
+                <p>Du har begärt att återställa ditt lösenord. Klicka på länken nedan:</p>
+                <p style="margin: 24px 0;">
+                  <a href="${resetUrl}" style="background: #e0bd4a; color: #1e3a5f; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block;">
+                    Återställ lösenord
+                  </a>
+                </p>
+                <p style="color: #999; font-size: 12px;">Länken är giltig i 1 timme.</p>
+              </div>
+            `,
+          }),
+        })
+
+        if (!res.ok) {
+          const errorText = await res.text()
+          console.error('❌ Password reset email error:', res.status, errorText)
+        } else {
+          console.log('✅ Password reset email sent via Worker')
+        }
+      } catch (err) {
+        console.error('❌ Failed to send password reset email:', err)
+      }
 
       return { success: true }
     } catch (err) {

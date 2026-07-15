@@ -3,11 +3,11 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
-  base: '/locked-area/', // 👈 THIS is the magic line
+  // base removed – defaults to '/' (correct for root domain)
   server: {
     port: 5174,
   },
   build: {
-    outDir: '../../dist/locked-area', // 👈 Builds into the root 'dist/locked-area' folder
+    // outDir removed – defaults to 'dist'
   },
 })
