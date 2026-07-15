@@ -1,4 +1,5 @@
 /// <reference types="vitest/config" />
+/// <reference types="vitest/config" />
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
@@ -11,7 +12,6 @@ export default defineConfig({
   // without referencing them in the bundle output (no exposure to end users,
   // but uploadable to an error-tracking service or DevTools).
   build: {
-    outDir: '../../dist', // ? THIS IS THE KEY CHANGE
     sourcemap: "hidden",
   },
   resolve: {
