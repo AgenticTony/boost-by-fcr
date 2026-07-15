@@ -30,8 +30,9 @@ const AuthContext = createContext<AuthContextValue | null>(null)
 
 const HYGRAPH_ENDPOINT = import.meta.env.VITE_HYGRAPH_URL
 const HYGRAPH_TOKEN = import.meta.env.VITE_HYGRAPH_TOKEN_LOCKED
-const RESEND_API_KEY = import.meta.env.VITE_RESEND_API_KEY
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001'
+
+// Use environment variable for Worker URL, fallback to local Express for dev
+const WORKER_URL = import.meta.env.VITE_EMAIL_WORKER_URL || 'http://localhost:3001'
 
 // ── Provider ────────────────────────────────────────────
 
@@ -245,97 +246,93 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   // ── Register ────────────────────────────────────────
 
   const register = async (name: string, email: string, password: string) => {
-  try {
-    const { data: existing } = await hygraphFetch(
-      `query CheckEmail($email: String!) {
-        members(where: { email: $email }) { id }
-      }`,
-      { email }
-    )
-
-    if (existing?.members?.length > 0) {
-      return { success: false, error: 'E-postadressen är redan registrerad' }
-    }
-
-    const hashedPassword = hashPassword(password)
-    const verificationToken = generateToken()
-
-    const { data, errors } = await hygraphFetch(
-      `mutation CreateMember($name: String!, $email: String!, $password: String!, $verificationToken: String!) {
-        createMember(data: {
-          name: $name
-          email: $email
-          password: $password
-          verificationToken: $verificationToken
-          isVerified: false
-          isApproved: false
-          user: ADMIN
-        }) {
-          id
-          email
-        }
-      }`,
-      { name, email, password: hashedPassword, verificationToken }
-    )
-
-    if (errors) {
-      console.error('GraphQL errors:', JSON.stringify(errors, null, 2))
-      return { success: false, error: 'Kunde inte skapa konto. Försök igen.' }
-    }
-
-    if (!data?.createMember) {
-      return { success: false, error: 'Kunde inte skapa konto. Försök igen.' }
-    }
-
-    const memberId = data.createMember.id
-    const verificationUrl = `${window.location.origin}/verify-email?token=${verificationToken}`
-
-    // ── Send verification email via serverless function ──
     try {
-      console.log('📧 Sending verification email to:', email)
+      const { data: existing } = await hygraphFetch(
+        `query CheckEmail($email: String!) {
+          members(where: { email: $email }) { id }
+        }`,
+        { email }
+      )
 
-      const res = await fetch('http://localhost:3001/api/send-verification-email', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({
-    to: email,
-    name: name,
-    verificationUrl: verificationUrl,
-  }),
-});
-      if (!res.ok) {
-        const errorText = await res.text()
-        console.error('❌ Email API error:', res.status, errorText)
-      } else {
-    console.log('✅ Verification email sent via Express server');
-  }
-} catch (err) {
-  console.error('❌ Failed to send verification email:', err);
-}
+      if (existing?.members?.length > 0) {
+        return { success: false, error: 'E-postadressen är redan registrerad' }
+      }
 
-    // ── Publish the member ──
-    await hygraphFetch(
-      `mutation PublishMember($id: ID!) {
-        publishMember(where: { id: $id }) {
-          id
+      const hashedPassword = hashPassword(password)
+      const verificationToken = generateToken()
+
+      const { data, errors } = await hygraphFetch(
+        `mutation CreateMember($name: String!, $email: String!, $password: String!, $verificationToken: String!) {
+          createMember(data: {
+            name: $name
+            email: $email
+            password: $password
+            verificationToken: $verificationToken
+            isVerified: false
+            isApproved: false
+            user: ADMIN
+          }) {
+            id
+            email
+          }
+        }`,
+        { name, email, password: hashedPassword, verificationToken }
+      )
+
+      if (errors) {
+        console.error('GraphQL errors:', JSON.stringify(errors, null, 2))
+        return { success: false, error: 'Kunde inte skapa konto. Försök igen.' }
+      }
+
+      if (!data?.createMember) {
+        return { success: false, error: 'Kunde inte skapa konto. Försök igen.' }
+      }
+
+      const memberId = data.createMember.id
+      const verificationUrl = `${window.location.origin}/verify-email?token=${verificationToken}`
+
+      // ── Send verification email via Worker ──
+      try {
+        console.log('📧 Sending verification email to:', email)
+
+        const res = await fetch(`${WORKER_URL}/send-verification-email`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            to: email,
+            name: name,
+            verificationUrl: verificationUrl,
+          }),
+        })
+
+        if (!res.ok) {
+          const errorText = await res.text()
+          console.error('❌ Email API error:', res.status, errorText)
+        } else {
+          console.log('✅ Verification email sent via Worker')
         }
-      }`,
-      { id: memberId }
-    )
+      } catch (err) {
+        console.error('❌ Failed to send verification email:', err)
+      }
 
-    return { success: true, verificationUrl }
+      // ── Publish the member ──
+      await hygraphFetch(
+        `mutation PublishMember($id: ID!) {
+          publishMember(where: { id: $id }) {
+            id
+          }
+        }`,
+        { id: memberId }
+      )
 
-  } catch (err) {
-    console.error('Register error:', err)
-    return { success: false, error: 'Ett fel uppstod. Försök igen.' }
+      return { success: true, verificationUrl }
+
+    } catch (err) {
+      console.error('Register error:', err)
+      return { success: false, error: 'Ett fel uppstod. Försök igen.' }
+    }
   }
-}
 
-      // Send verification email via Resend
-  //     
-  
-
-  
   // ── Verify Email ────────────────────────────────────
 
   const verifyEmail = async (token: string) => {
@@ -439,31 +436,42 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
       const resetUrl = `${window.location.origin}/reset-password?token=${token}`
 
-      await fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${RESEND_API_KEY}`,
-        },
-        body: JSON.stringify({
-          from: 'Boost by FCR <noreply@boostbyfcr.se>',
-          to: found.email,
-          subject: 'Återställ ditt lösenord',
-          html: `
-            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-              <h2 style="color: #1e3a5f;">Återställ ditt lösenord</h2>
-              <p>Hej ${found.name},</p>
-              <p>Du har begärt att återställa ditt lösenord. Klicka på länken nedan:</p>
-              <p style="margin: 24px 0;">
-                <a href="${resetUrl}" style="background: #e0bd4a; color: #1e3a5f; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block;">
-                  Återställ lösenord
-                </a>
-              </p>
-              <p style="color: #999; font-size: 12px;">Länken är giltig i 1 timme.</p>
-            </div>
-          `,
-        }),
-      })
+      // ── Send password reset email via Worker ──
+      try {
+        console.log('📧 Sending password reset email to:', found.email)
+
+        const res = await fetch(`${WORKER_URL}/send-email`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            to: found.email,
+            name: found.name,
+            subject: 'Återställ ditt lösenord',
+            html: `
+              <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+                <h2 style="color: #1e3a5f;">Återställ ditt lösenord</h2>
+                <p>Hej ${found.name},</p>
+                <p>Du har begärt att återställa ditt lösenord. Klicka på länken nedan:</p>
+                <p style="margin: 24px 0;">
+                  <a href="${resetUrl}" style="background: #e0bd4a; color: #1e3a5f; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block;">
+                    Återställ lösenord
+                  </a>
+                </p>
+                <p style="color: #999; font-size: 12px;">Länken är giltig i 1 timme.</p>
+              </div>
+            `,
+          }),
+        })
+
+        if (!res.ok) {
+          const errorText = await res.text()
+          console.error('❌ Password reset email error:', res.status, errorText)
+        } else {
+          console.log('✅ Password reset email sent via Worker')
+        }
+      } catch (err) {
+        console.error('❌ Failed to send password reset email:', err)
+      }
 
       return { success: true }
     } catch (err) {
