@@ -32,8 +32,10 @@ const HYGRAPH_ENDPOINT = import.meta.env.VITE_HYGRAPH_URL
 const HYGRAPH_TOKEN = import.meta.env.VITE_HYGRAPH_TOKEN_LOCKED
 
 // Use environment variable for Worker URL, fallback to local Express for dev
-const WORKER_URL = import.meta.env.VITE_EMAIL_WORKER_URL || 'http://localhost:3001'
-
+const WORKER_URL = import.meta.env.VITE_EMAIL_WORKER_URL;
+if (!WORKER_URL) {
+  console.error('❌ VITE_EMAIL_WORKER_URL is not set. Email sending will not work.');
+}
 // ── Provider ────────────────────────────────────────────
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {

@@ -3,11 +3,11 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
-  base: '/locked-area/',
+  // base removed – defaults to '/' (correct for root domain)
   server: {
     port: 5174,
   },
   build: {
-    // outDir removed – defaults to 'dist' (Cloudflare expects this)
+    // outDir removed – defaults to 'dist'
   },
 })
