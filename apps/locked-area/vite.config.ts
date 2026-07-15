@@ -8,6 +8,6 @@ export default defineConfig({
     port: 5174,
   },
   build: {
-    outDir: '../../dist/locked-area', // 👈 Builds into the root 'dist/locked-area' folder
+    // outDir removed – defaults to 'dist' (which Cloudflare expects)
   },
 })
