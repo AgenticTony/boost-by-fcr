@@ -34,12 +34,37 @@ const subjectOptions = [
   "Annat",
 ];
 
+/**
+ * Maps short URL keys (?amne=foretag) to full subject labels.
+ * Supports both short keys and exact-match full labels for flexibility.
+ */
+const subjectAliases: Record<string, string> = {
+  foretag: "Företagssamarbete",
+  forelasning: "Föreläsning / Workshop",
+  workshop: "Föreläsning / Workshop",
+  press: "Press & Media",
+  media: "Press & Media",
+  jobb: "Lediga tjänster",
+  lediga: "Lediga tjänster",
+  allmant: "Allmän fråga",
+  annat: "Annat",
+};
+
+function resolveSubject(raw: string | null): string {
+  if (!raw) return "";
+  // Try exact match first (?amne=Företagssamarbete)
+  if (subjectOptions.includes(raw)) return raw;
+  // Then try short key (?amne=foretag)
+  const lower = raw.toLowerCase().trim();
+  return subjectAliases[lower] ?? "";
+}
+
 function KontaktForm() {
   const [submitted, setSubmitted] = useState(false);
   const [delivered, setDelivered] = useState(false);
   const [serverError, setServerError] = useState("");
   const [searchParams] = useSearchParams();
-  const prefillSubject = searchParams.get("amne");
+  const prefillSubject = resolveSubject(searchParams.get("amne"));
 
   const {
     register,
@@ -50,10 +75,7 @@ function KontaktForm() {
     defaultValues: {
       name: "",
       email: "",
-      subject:
-        prefillSubject && subjectOptions.includes(prefillSubject)
-          ? prefillSubject
-          : "",
+      subject: prefillSubject,
       message: "",
     },
   });
