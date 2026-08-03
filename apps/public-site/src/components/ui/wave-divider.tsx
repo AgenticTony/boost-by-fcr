@@ -2,8 +2,7 @@
  * SVG wave divider - used between full-width sections.
  * Set `layered` for a dual-wave effect and `flip` to rotate 180°.
  * `bg` sets the container's background so transparent areas of the SVG match
- * the section above/below. Defaults to matching the wave fill color itself,
- * which eliminates the visible horizontal seam at the wave's flat edge.
+ * the section below (defaults to transparent, which shows the body bg).
  */
 export function WaveDivider({
   flip = false,
@@ -22,7 +21,7 @@ export function WaveDivider({
     bg === "navy" ? "#072D59"
     : bg === "white" ? "#FFFFFF"
     : bg === "surface" ? "#FAF8F5"
-    : fill;
+    : bg;
   return (
     <div
       className={`w-full leading-[0] ${flip ? "rotate-180" : ""}`}
