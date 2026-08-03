@@ -111,11 +111,13 @@ export function useSeo({
       <meta name="twitter:title" content={fullTitle} />
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={shareImage} />
+      {/* Two sibling conditionals, NOT one conditional wrapping a fragment.
+          react-helmet-async does not walk into <>...</> children: it took the
+          <link> and silently dropped the <meta>, so og:url was missing on
+          every page while the canonical rendered fine. Keep these flat. */}
+      {canonical && <link rel="canonical" href={`${siteOrigin}${canonical}`} />}
       {canonical && (
-        <>
-          <link rel="canonical" href={`${siteOrigin}${canonical}`} />
-          <meta property="og:url" content={`${siteOrigin}${canonical}`} />
-        </>
+        <meta property="og:url" content={`${siteOrigin}${canonical}`} />
       )}
       {structuredData.map((data, i) => (
         <script

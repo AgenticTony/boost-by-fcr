@@ -232,8 +232,14 @@ export default function KontaktPage() {
           <div
             className="absolute inset-0 bg-cover bg-center opacity-30"
             style={{
+              /* The optimised 42 KB copy, not the 497 KB "-scaled" original.
+                 This sits at 30% opacity behind a 70% navy overlay, so the
+                 extra detail was never visible - it just cost 455 KB and made
+                 itself the LCP element (mobile Lighthouse 81, LCP 5.3s).
+                 index.html already preloads this file for the home hero, so on
+                 this page it now resolves from cache instead of downloading. */
               backgroundImage:
-                "url('/images/deltagare_boostbyfcr_pa_trappa-scaled.jpg')",
+                "url('/images/deltagare_boostbyfcr_pa_trappa.jpg')",
             }}
           />
           <div className="absolute inset-0 bg-brand-navy/70" />
