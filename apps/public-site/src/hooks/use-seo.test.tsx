@@ -87,6 +87,25 @@ describe("useSeo", () => {
     expect(robots?.getAttribute("content")).toBe("noindex, follow");
   });
 
+  it("renders og:url alongside the canonical", () => {
+    // Regression guard: these two used to share one conditional wrapping a
+    // fragment. react-helmet-async does not traverse fragment children, so it
+    // emitted the <link> and dropped the <meta> - og:url was missing on every
+    // page. Assert both, not just the canonical.
+    renderWithHelmet(
+      <SeoTestPage title="Test" description="Test" canonical="/kontakt" />,
+    );
+
+    expect(
+      document.querySelector('link[rel="canonical"]')?.getAttribute("href"),
+    ).toBe("https://boostbyfcr.se/kontakt");
+    expect(
+      document
+        .querySelector('meta[property="og:url"]')
+        ?.getAttribute("content"),
+    ).toBe("https://boostbyfcr.se/kontakt");
+  });
+
   it("renders JSON-LD structured data", () => {
     renderWithHelmet(<SeoTestPage title="Test" description="Test" />);
 
