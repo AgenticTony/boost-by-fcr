@@ -153,7 +153,7 @@ export default function VanligaFragorPage() {
             <div className="flex flex-wrap gap-4 justify-center">
               <Button
                 asChild
-                className="bg-brand-red-bright text-white hover:bg-brand-red-bright/90 font-display font-semibold rounded-full px-10 h-14 shadow-lg shadow-brand-red-bright/25 hover:scale-[1.02] transition-all duration-300"
+                className="bg-brand-red text-white hover:bg-brand-red/90 font-display font-semibold rounded-full px-10 h-14 shadow-lg shadow-brand-red/25 hover:scale-[1.02] transition-all duration-300"
               >
                 <Link to="/kontakt">
                   Kontakta oss <ArrowRight className="ml-2 h-4 w-4" />

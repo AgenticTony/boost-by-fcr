@@ -107,7 +107,11 @@ export default function DataskyddspolicyPage() {
                 dataskydd genom att skicka ett e-postmeddelande till oss på{" "}
                 <a
                   href="mailto:dataskydd@boostbyfcr.se"
-                  className="text-brand-navy hover:underline"
+                  /* Underlined at rest, not just on hover: this link sits inside a
+                     paragraph of muted body text, and colour alone only separates
+                     it by 2.01:1 - below the 3:1 WCAG needs when colour is the
+                     sole cue (SC 1.4.1 Use of Colour). */
+                  className="text-brand-navy font-medium underline underline-offset-2"
                 >
                   dataskydd@boostbyfcr.se
                 </a>
