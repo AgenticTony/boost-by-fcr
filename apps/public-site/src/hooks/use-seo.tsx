@@ -36,6 +36,16 @@ type SeoProps = {
   canonical?: string;
   /** Full URL to the og:image for social sharing. */
   image?: string;
+  /**
+   * Keep the page out of search results. Emits `noindex, follow` so crawlers
+   * drop the URL but still crawl onward through its links.
+   *
+   * Needed because Cloudflare Pages serves the SPA shell with HTTP 200 for
+   * every unmatched path (`/*  /index.html  200`), so an unknown URL is a
+   * soft 404 - the 404 page renders, but the status code says "this is a real
+   * page" and Google will happily index arbitrary junk URLs.
+   */
+  noindex?: boolean;
   jsonLd?: Record<string, unknown>;
 };
 
@@ -53,6 +63,7 @@ export function useSeo({
   description,
   canonical,
   image,
+  noindex,
   jsonLd,
 }: SeoProps) {
   const structuredData = jsonLd ? [ORG_JSON_LD, jsonLd] : [ORG_JSON_LD];
@@ -67,6 +78,7 @@ export function useSeo({
     <Helmet>
       <title>{fullTitle}</title>
       <meta name="description" content={description} />
+      {noindex && <meta name="robots" content="noindex, follow" />}
       <meta property="og:site_name" content="Boost by FC Rosengård" />
       <meta property="og:title" content={fullTitle} />
       <meta property="og:description" content={description} />
