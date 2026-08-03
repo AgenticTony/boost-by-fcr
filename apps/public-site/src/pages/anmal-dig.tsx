@@ -237,7 +237,7 @@ export default function AnmalDigPage() {
             </p>
           </ScrollReveal>
         </div>
-        <WaveDivider color="navy" layered />
+        <WaveDivider from="navy" to="surface" />
       </section>
 
       {/* Trust bar */}
@@ -497,7 +497,7 @@ export default function AnmalDigPage() {
 
       {/* Steps - glass on navy */}
       <section className="bg-brand-navy text-white overflow-hidden">
-        <WaveDivider color="white" flip layered />
+        <WaveDivider from="white" to="navy" mirror />
         <div className="container-page py-16 md:py-24">
           <ScrollReveal>
             <h2 className="text-3xl md:text-4xl font-display font-extrabold text-center mb-12">
@@ -520,7 +520,7 @@ export default function AnmalDigPage() {
             </div>
           </div>
         </div>
-        <WaveDivider color="navy" layered />
+        <WaveDivider from="navy" to="navy" />
       </section>
     </>
   );

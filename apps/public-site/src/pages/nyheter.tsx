@@ -41,7 +41,7 @@ export default function NyheterPage() {
             </h1>
           </ScrollReveal>
         </div>
-        <WaveDivider color="navy" layered />
+        <WaveDivider from="navy" to="white" />
       </section>
 
       {/* Category filter */}

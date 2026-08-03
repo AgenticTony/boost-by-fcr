@@ -23,11 +23,11 @@ export default function HomePage() {
       {seo}
       <HeroSection />
       <ImpactStatsSection />
-      <WaveDivider color="#072d59" flip layered />
+      <WaveDivider from="navy" to="surface" mirror />
       <PromiseSection />
       <TracksSection />
       <BridgeSection />
-      <WaveDivider color="#072d59" flip layered bg="white" />
+      <WaveDivider from="navy" to="white" mirror />
       <AboutBoostSection />
       <SelfmadeSection />
       <LatestNews />

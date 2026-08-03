@@ -31,7 +31,7 @@ export default function LedigaTjansterPage() {
             </p>
           </ScrollReveal>
         </div>
-        <WaveDivider color="navy" layered />
+        <WaveDivider from="navy" to="white" />
       </section>
 
       {/* Content */}
