@@ -29,7 +29,7 @@ function StaggeredLine({
   );
 }
 
-/** BEAT 1: Hero — Asymmetric split + parallax */
+/** BEAT 1: Hero - Asymmetric split + parallax */
 export function HeroSection() {
   const prefersReducedMotion = useReducedMotion();
 

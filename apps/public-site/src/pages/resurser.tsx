@@ -89,7 +89,7 @@ export default function ResurserPage() {
   useSeo({
     title: "Resurser",
     description:
-      "Boosts Metodbok — metodmaterial och handböcker för ett mer inkluderande arbetsliv. Området är under uppbyggnad.",
+      "Boosts Metodbok - metodmaterial och handböcker för ett mer inkluderande arbetsliv. Området är under uppbyggnad.",
     canonical: "/resurser",
   });
 

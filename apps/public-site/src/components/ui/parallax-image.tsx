@@ -14,13 +14,13 @@ type Props = {
   /** Parallax speed multiplier (default 0.3). Higher = more movement. */
   speed?: number;
   className?: string;
-  /** Intrinsic pixel dimensions — helps the browser reserve space (CLS). */
+  /** Intrinsic pixel dimensions - helps the browser reserve space (CLS). */
   width?: number;
   height?: number;
 };
 
 /**
- * ParallaxImage — applies a scroll-based vertical offset to an image,
+ * ParallaxImage - applies a scroll-based vertical offset to an image,
  * creating a parallax depth effect. Disabled on mobile and when the user
  * prefers reduced motion.
  */

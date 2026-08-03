@@ -1,5 +1,5 @@
 /**
- * TreeRootsConnector — an organic SVG illustration of tree roots/branches
+ * TreeRootsConnector - an organic SVG illustration of tree roots/branches
  * that visually connects the three track cards. Positioned absolutely on
  * the left side of the tracks section.
  */
@@ -22,7 +22,7 @@ export function TreeRootsConnector() {
         className="text-brand-navy"
       />
 
-      {/* Branch node 1 — top (between hero + card 1) */}
+      {/* Branch node 1 - top (between hero + card 1) */}
       <circle cx="30" cy="100" r="4" className="fill-brand-navy/15" />
       {/* Small branch left */}
       <path
@@ -41,7 +41,7 @@ export function TreeRootsConnector() {
         className="text-brand-navy"
       />
 
-      {/* Branch node 2 — middle (between card 1 + card 2) */}
+      {/* Branch node 2 - middle (between card 1 + card 2) */}
       <circle cx="30" cy="300" r="4" className="fill-brand-blue-light/25" />
       {/* Branch left */}
       <path
@@ -60,7 +60,7 @@ export function TreeRootsConnector() {
         className="text-brand-blue-light"
       />
 
-      {/* Branch node 3 — bottom (between card 2 + card 3) */}
+      {/* Branch node 3 - bottom (between card 2 + card 3) */}
       <circle cx="30" cy="500" r="4" className="fill-brand-red/15" />
       {/* Branch left */}
       <path

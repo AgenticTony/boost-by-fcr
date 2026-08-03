@@ -3,13 +3,13 @@ import { ScrollReveal } from "@/components/ui/scroll-reveal";
 import { AnmalDemoLayout } from "@/components/anmal-demo-layout";
 
 /**
- * Live Anmälan page (/anmal-dig2) — embeds Anna's real Google Form via an
+ * Live Anmälan page (/anmal-dig2) - embeds Anna's real Google Form via an
  * iframe. This is the ONLY approach that reliably delivers to the Google Form:
  * Google's own UI satisfies the built-in "E-post" collector and the reCAPTCHA
  * check that block programmatic POSTs (the native /anmal-dig form is rejected
  * with HTTP 400; see memory: dynamic-integrations-scope).
  *
- * Interim solution while the Supabase backend (/anmal-dig3) is wired up — all
+ * Interim solution while the Supabase backend (/anmal-dig3) is wired up - all
  * Anmälan CTAs route here. Trade-off: respondents see Google's form styling, not
  * the Boost brand. `embedded=true` strips Google's page chrome so only the form
  * renders. The surrounding page (hero, trust bar, steps) is shared via
@@ -22,7 +22,7 @@ export default function AnmalDig2Page() {
   useSeo({
     title: "Anmäl dig",
     description:
-      "Ta första steget — det tar tre minuter. Vi hör av oss inom en arbetsdag.",
+      "Ta första steget - det tar tre minuter. Vi hör av oss inom en arbetsdag.",
     canonical: "/anmal-dig2",
   });
 
@@ -36,12 +36,13 @@ export default function AnmalDig2Page() {
             </h2>
           </ScrollReveal>
           <ScrollReveal delay={0.1}>
-            <div className="rounded-2xl border border-border/60 shadow-sm overflow-hidden bg-white">
+            <div className="rounded-2xl border border-border/60 shadow-sm bg-white">
               <iframe
                 src={GOOGLE_FORM_EMBED_URL}
                 title="Anmälan till Bridge by FC Rosengård"
-                className="w-full min-h-[1150px] border-0 bg-white"
+                className="w-full min-h-[1400px] border-0 bg-white"
                 loading="lazy"
+                scrolling="yes"
               >
                 Laddar formuläret…
               </iframe>

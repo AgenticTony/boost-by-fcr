@@ -35,7 +35,7 @@ const jobSeekerLinks = [
     href: "/bridge",
     label: "Bridge by FCR",
     icon: PenLine,
-    iconColor: "text-[#D4AF37]",
+    iconColor: "text-white",
   },
 ];
 
@@ -56,7 +56,7 @@ const aboutLinks = [
     href: "/press-media",
     label: "Press & media",
     icon: Newspaper,
-    iconColor: "text-[#D4AF37]",
+    iconColor: "text-white",
   },
   {
     href: "/lediga-tjanster",
@@ -66,13 +66,13 @@ const aboutLinks = [
   },
 ];
 
-/* "Mer" dropdown — Nyheter, Kontakt */
+/* "Mer" dropdown - Nyheter, Kontakt */
 const moreLinks = [
   {
     href: "/nyheter",
     label: "Nyheter",
     icon: Newspaper,
-    iconColor: "text-[#D4AF37]",
+    iconColor: "text-white",
   },
   {
     href: "/kontakt",

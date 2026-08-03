@@ -1,6 +1,6 @@
 import { CountUp } from "@/components/ui/count-up";
 
-/** BEAT 2: Impact Stats — Count-up numbers */
+/** BEAT 2: Impact Stats - Count-up numbers */
 export function ImpactStatsSection() {
   return (
     <section className="relative bg-brand-navy text-white py-6 md:py-10">

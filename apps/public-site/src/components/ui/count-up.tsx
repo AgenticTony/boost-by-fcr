@@ -23,7 +23,7 @@ function formatSwedish(n: number): string {
 }
 
 /**
- * CountUp — animates a number from 0 to `target` when scrolled into view.
+ * CountUp - animates a number from 0 to `target` when scrolled into view.
  * Shows final value instantly for users who prefer reduced motion.
  */
 export function CountUp({ target, duration = 2, suffix, className }: Props) {

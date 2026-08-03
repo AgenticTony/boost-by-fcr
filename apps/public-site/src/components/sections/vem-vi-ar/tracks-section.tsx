@@ -25,7 +25,7 @@ const tracks = [
     href: "/halsosparet",
     icon: Heart,
     headline: "Hälsospåret",
-    body: "I hälsospåret arbetar vi för att främja din hälsa och välmående. Få hjälp att skapa goda rutiner, sätta mål och Boosta ditt självförtroende. Vi arbetar med alla sidor av hälsan — fysisk aktivitet, psykisk hälsa och kulturella aktiviteter.",
+    body: "I hälsospåret arbetar vi för att främja din hälsa och välmående. Få hjälp att skapa goda rutiner, sätta mål och Boosta ditt självförtroende. Vi arbetar med alla sidor av hälsan - fysisk aktivitet, psykisk hälsa och kulturella aktiviteter.",
     cardBg: "bg-brand-blue-light/20",
     iconBg: "bg-brand-blue-light/30",
     iconText: "text-brand-navy",

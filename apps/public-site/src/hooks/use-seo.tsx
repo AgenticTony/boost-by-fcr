@@ -42,7 +42,7 @@ type SeoProps = {
 /**
  * Renders page-specific <Helmet> meta tags and JSON-LD structured data.
  *
- * Despite the `use` prefix this is not a React hook — it returns JSX.
+ * Despite the `use` prefix this is not a React hook - it returns JSX.
  * Kept as a function for backwards compatibility with existing page imports.
  *
  * @example

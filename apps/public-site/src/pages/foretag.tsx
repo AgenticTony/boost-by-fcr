@@ -24,7 +24,7 @@ const offerings = [
   {
     icon: Users,
     title: "Workshops & utbildning",
-    body: "Interaktiva workshops med konkreta verktyg — från rekrytering utan fördomar till dialog om välmående.",
+    body: "Interaktiva workshops med konkreta verktyg - från rekrytering utan fördomar till dialog om välmående.",
   },
   {
     icon: Network,
@@ -42,12 +42,12 @@ const steps = [
   {
     icon: Megaphone,
     label: "Annonsering",
-    body: "Utifrån din kravprofil tar vi fram en skräddarsydd annons och söker aktivt bland våra deltagare. Vi känner dem — det är en stor fördel.",
+    body: "Utifrån din kravprofil tar vi fram en skräddarsydd annons och söker aktivt bland våra deltagare. Vi känner dem - det är en stor fördel.",
   },
   {
     icon: ClipboardList,
     label: "Urval",
-    body: "Vi gör en grundlig screening och presenterar ett hanterbart urval av kandidater. Du slipper sållaprocessen — vi gör den åt dig.",
+    body: "Vi gör en grundlig screening och presenterar ett hanterbart urval av kandidater. Du slipper sållaprocessen - vi gör den åt dig.",
   },
   {
     icon: Users,
@@ -57,12 +57,12 @@ const steps = [
   {
     icon: CheckCircle,
     label: "Beslut",
-    body: "När du valt ser vi till att onboardingprocessen sätts igång smidigt — inklusive eventuell kontakt med Arbetsförmedlingen.",
+    body: "När du valt ser vi till att onboardingprocessen sätts igång smidigt - inklusive eventuell kontakt med Arbetsförmedlingen.",
   },
   {
     icon: Phone,
     label: "Uppföljning",
-    body: "Vi följer upp regelbundet under de första månaderna för att säkerställa att allt fungerar — för er båda.",
+    body: "Vi följer upp regelbundet under de första månaderna för att säkerställa att allt fungerar - för er båda.",
   },
 ];
 
@@ -70,7 +70,7 @@ export default function ForetagPage() {
   useSeo({
     title: "Arbetsgivare",
     description:
-      "Samarbeta med Boost — föreläsningar, workshops och inkluderande rekrytering för arbetsgivare som vill göra skillnad.",
+      "Samarbeta med Boost - föreläsningar, workshops och inkluderande rekrytering för arbetsgivare som vill göra skillnad.",
     canonical: "/foretag",
   });
 
@@ -98,7 +98,7 @@ export default function ForetagPage() {
             <p className="text-lg text-white/75 max-w-xl leading-relaxed">
               Vill du och din organisation vara med och se till att skapa
               förutsättningar för att alla ska kunna ta sig in på
-              arbetsmarknaden? Vi vet att — precis som för våra deltagare — så
+              arbetsmarknaden? Vi vet att - precis som för våra deltagare - så
               är också arbetsgivarnas behov olika.
             </p>
           </ScrollReveal>
@@ -111,7 +111,7 @@ export default function ForetagPage() {
         <div className="container-page">
           <ScrollReveal>
             <p className="text-text-muted leading-relaxed max-w-2xl mb-8">
-              Samarbeten med Boost by FCR kan se olika ut — från att vi hjälper
+              Samarbeten med Boost by FCR kan se olika ut - från att vi hjälper
               dig i din rekrytering, till föreläsningar eller att du träffar en
               av våra deltagare.
             </p>
@@ -200,7 +200,7 @@ export default function ForetagPage() {
             </h2>
             <p className="text-white/70 max-w-md mx-auto leading-relaxed mb-8">
               Kontakta Käthe för att prata om hur vi kan hjälpa er hitta rätt
-              personer — och göra skillnad tillsammans.
+              personer - och göra skillnad tillsammans.
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <Button
@@ -219,7 +219,7 @@ export default function ForetagPage() {
               </Button>
             </div>
             <p className="text-sm text-white/60 mt-6">
-              Käthe Andersson — kathe.andersson@boostbyfcr.se — 072-164 53 45
+              Käthe Andersson - kathe.andersson@boostbyfcr.se - 072-164 53 45
             </p>
           </ScrollReveal>
         </div>

@@ -18,7 +18,7 @@ export function IntroSection() {
               <div className="rounded-2xl overflow-hidden shadow-lg">
                 <img
                   src="/images/illustration-heart-tree.jpg"
-                  alt="Hjärtträd med rötter — symbol för tillväxt, hälsa och gemenskap"
+                  alt="Hjärtträd med rötter - symbol för tillväxt, hälsa och gemenskap"
                   className="w-full h-auto rounded-xl object-contain max-h-56 mx-auto"
                   loading="lazy"
                   decoding="async"

@@ -19,7 +19,7 @@ const schema = z.object({
   email: z.string().email("Ange en giltig e-postadress"),
   subject: z.string().min(1, "Ämne är obligatoriskt"),
   message: z.string().min(1, "Meddelande är obligatoriskt"),
-  /** Honeypot — must be empty. */
+  /** Honeypot - must be empty. */
   website: z.string().max(0).optional(),
 });
 
@@ -59,7 +59,7 @@ function KontaktForm() {
   });
 
   async function onSubmit(data: FormData) {
-    // Honeypot check — bots fill this field
+    // Honeypot check - bots fill this field
     if (data.website) {
       setSubmitted(true);
       return;
@@ -91,7 +91,7 @@ function KontaktForm() {
         </div>
       ) : (
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-          {/* Honeypot — hidden from users, bots fill it out */}
+          {/* Honeypot - hidden from users, bots fill it out */}
           <div className="absolute -left-[9999px]" aria-hidden="true">
             <input
               type="text"

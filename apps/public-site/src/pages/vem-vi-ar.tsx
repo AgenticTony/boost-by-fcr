@@ -12,7 +12,7 @@ export default function VemViArPage() {
   useSeo({
     title: "Om oss",
     description:
-      "Boost by FC Rosengård — idéburen organisation med bas i Malmö sedan 2003. Vi arbetar för att öka inkluderingen i samhället.",
+      "Boost by FC Rosengård - idéburen organisation med bas i Malmö sedan 2003. Vi arbetar för att öka inkluderingen i samhället.",
     canonical: "/vem-vi-ar",
   });
 

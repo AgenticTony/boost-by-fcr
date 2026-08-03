@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Landmark, Handshake, Users } from "lucide-react";
 import { ScrollReveal } from "@/components/ui/scroll-reveal";
 
-/** BEAT 5: Bridge by FCR — Floating glass card */
+/** BEAT 5: Bridge by FCR - Floating glass card */
 export function BridgeSection() {
   const prefersReducedMotion = useReducedMotion();
 
@@ -25,7 +25,7 @@ export function BridgeSection() {
                 ESF-projekt
               </p>
               <h2 className="text-2xl md:text-4xl font-display font-extrabold mb-3 leading-tight">
-                Är du mellan 18–29 år och inskriven på Arbetsförmedlingen?
+                Är du mellan 18-29 år och inskriven på Arbetsförmedlingen?
               </h2>
               <p className="text-xl font-display font-semibold text-brand-blue-light mb-6">
                 Anmäl dig till Bridge by FC Rosengård
@@ -42,7 +42,7 @@ export function BridgeSection() {
                   Med Boostmodellen som grund kombinerar vi vägledning, stöd i
                   studier, studiebesök, motivationshöjande insatser och
                   hälsofrämjande aktiviteter. Du får hjälp med allt som rör
-                  arbetssökande — från CV och intervjuträning till att förstå
+                  arbetssökande - från CV och intervjuträning till att förstå
                   arbetsmarknaden.
                 </p>
               </div>
@@ -69,7 +69,7 @@ export function BridgeSection() {
               transition={{ duration: 0.5 }}
               className="min-w-0 space-y-6"
             >
-              {/* Fact chips — defined card panel */}
+              {/* Fact chips - defined card panel */}
               <div className="rounded-2xl bg-white/6 backdrop-blur-sm border border-white/10 overflow-hidden">
                 {/* Red accent bar */}
                 <div className="h-1 bg-linear-to-r from-brand-red via-brand-red/60 to-transparent" />
@@ -77,7 +77,7 @@ export function BridgeSection() {
                   {[
                     {
                       icon: <Users className="h-5 w-5 text-brand-red-bright" />,
-                      value: "18–29",
+                      value: "18-29",
                       sub: "år",
                     },
                     {
@@ -128,7 +128,7 @@ export function BridgeSection() {
                 </p>
               </div>
 
-              {/* Funder logos — credentials row */}
+              {/* Funder logos - credentials row */}
               <div className="rounded-2xl bg-white/8 backdrop-blur-sm border border-white/10 overflow-hidden">
                 <div className="h-1 bg-linear-to-r from-brand-red via-brand-red/60 to-transparent" />
                 <div className="p-5">

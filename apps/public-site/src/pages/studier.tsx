@@ -21,7 +21,7 @@ const features = [
   {
     icon: GraduationCap,
     title: "Individuell studieplanering",
-    body: "Tillsammans med en lärare lägger vi upp en plan som passar din situation — oavsett om du vill klara gymnasiet, läsa upp enstaka ämnen eller förbereda dig inför ett högskoleprov.",
+    body: "Tillsammans med en lärare lägger vi upp en plan som passar din situation - oavsett om du vill klara gymnasiet, läsa upp enstaka ämnen eller förbereda dig inför ett högskoleprov.",
   },
   {
     icon: MapPin,
@@ -31,7 +31,7 @@ const features = [
   {
     icon: MessageSquare,
     title: "Språkförstärkande aktiviteter",
-    body: "För dig som vill stärka din svenska erbjuder vi riktade aktiviteter som bygger på din vardag och dina mål — inte på ett generiskt kursupplägg.",
+    body: "För dig som vill stärka din svenska erbjuder vi riktade aktiviteter som bygger på din vardag och dina mål - inte på ett generiskt kursupplägg.",
   },
 ];
 
@@ -83,7 +83,7 @@ export default function StudierPage() {
           <ScrollReveal delay={0.1}>
             <p className="text-text-muted leading-relaxed">
               På Boost studerar du i din egen takt, med tätt stöd från
-              legitimerade lärare som anpassar sig efter dig — inte tvärtom. Vi
+              legitimerade lärare som anpassar sig efter dig - inte tvärtom. Vi
               erbjuder inga klasser, inga klockor och inga krav på att hänga med
               alla andra. Vi börjar med var du faktiskt befinner dig, och jobbar
               därifrån.
@@ -169,7 +169,7 @@ export default function StudierPage() {
             </h2>
             <p className="text-white/70 max-w-md mx-auto leading-relaxed mb-8">
               Från den dag du börjar hos oss, till den dag du kliver in genom
-              dörrarna på din nya skola — vi är med dig varje steg.
+              dörrarna på din nya skola - vi är med dig varje steg.
             </p>
             <Button
               asChild

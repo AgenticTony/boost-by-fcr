@@ -11,13 +11,13 @@ const steps = [
 ];
 
 /**
- * Shared chrome for Anmälan pages — the hero, trust bar, and "Vad händer sen?"
+ * Shared chrome for Anmälan pages - the hero, trust bar, and "Vad händer sen?"
  * sections that wrap the form. `children` is the form itself, so each page
  * (the live iframe embed /anmal-dig2, the Supabase demo /anmal-dig3) controls
  * its own submission mechanism while the surrounding page stays identical.
  *
  * Pass `solutionLabel` (and optionally `solutionNote`) to render a yellow
- * "Demovariant" banner — used by the comparison demo /anmal-dig3. Omit them for
+ * "Demovariant" banner - used by the comparison demo /anmal-dig3. Omit them for
  * a clean, live page (the current /anmal-dig2).
  *
  * NOTE: deliberately does NOT touch apps/public-site/src/pages/anmal-dig.tsx.
@@ -34,12 +34,12 @@ export function AnmalDemoLayout({
 }) {
   return (
     <>
-      {/* Demo banner — only on comparison variants (e.g. /anmal-dig3) */}
+      {/* Demo banner - only on comparison variants (e.g. /anmal-dig3) */}
       {solutionLabel && (
         <section className="bg-amber-50 border-b border-amber-200">
           <div className="container-page py-2.5 text-center text-sm text-amber-900">
             <span className="font-semibold">Demovariant:</span> {solutionLabel}
-            {solutionNote ? <> — {solutionNote} </> : null}{" "}
+            {solutionNote ? <> - {solutionNote} </> : null}{" "}
             <Link
               to="/anmal-dig"
               className="font-semibold underline hover:text-amber-700"
@@ -63,7 +63,7 @@ export function AnmalDemoLayout({
               Ta första steget.
             </h1>
             <p className="text-lg text-white/75 max-w-lg leading-relaxed">
-              Det tar ungefär tre minuter. Du behöver inte ha allt klart — bara
+              Det tar ungefär tre minuter. Du behöver inte ha allt klart - bara
               vara redo att börja.
             </p>
           </ScrollReveal>
@@ -98,7 +98,7 @@ export function AnmalDemoLayout({
       {/* Form variant (children) */}
       {children}
 
-      {/* Steps — glass on navy */}
+      {/* Steps - glass on navy */}
       <section className="bg-brand-navy text-white overflow-hidden">
         <WaveDivider color="white" flip layered />
         <div className="container-page py-16 md:py-24">

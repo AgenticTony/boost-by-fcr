@@ -6,7 +6,7 @@ import type { RegistrationFormData, ContactFormData } from "@/types/forms";
 // ─── Hygraph field mapping ─────────────────────────────────────────
 /**
  * These interfaces match the Hygraph schema the backend team is building.
- * Field names use camelCase — backend must match these exactly.
+ * Field names use camelCase - backend must match these exactly.
  * If field names differ, only the GraphQL queries below need updating.
  */
 interface HygraphNews {
@@ -76,7 +76,7 @@ fragment ResourceFields on Resource {
   isPublic
 }`;
 
-// Hygraph's default query stage is DRAFT — pass stage: PUBLISHED or you silently
+// Hygraph's default query stage is DRAFT - pass stage: PUBLISHED or you silently
 // fetch draft content (publishedAt null). https://github.com/hygraph/hygraph-examples/issues/266
 const FETCH_NEWS = `
 ${NEWS_FRAGMENT}
@@ -122,7 +122,7 @@ query FetchResourcesByCategory($category: String!) {
 
 /**
  * Hygraph Rich Text `raw` is a serialized JSON AST (Lexical-style), not plain
- * text. Flatten it to readable plain text — block nodes become paragraphs
+ * text. Flatten it to readable plain text - block nodes become paragraphs
  * joined by a blank line, matching the article page's "\n\n" renderer.
  *
  * Falls back to the raw string when it is not valid JSON (e.g. plain-text CMS
@@ -145,7 +145,7 @@ function collectText(node: RichTextNode): string {
 
 export function richTextToPlainText(raw: string | RichTextNode): string {
   // Hygraph returns RichText `raw` as a PARSED object (the AST), not a string.
-  // Older paths / mocks may pass a serialized JSON string — handle both so the
+  // Older paths / mocks may pass a serialized JSON string - handle both so the
   // article page's `body.split("\n\n")` renderer always gets a string.
   let ast: RichTextNode;
   if (typeof raw === "string") {

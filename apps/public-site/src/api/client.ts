@@ -1,5 +1,5 @@
 /**
- * API client — barrel re-export.
+ * API client - barrel re-export.
  *
  * All functions delegate to the active adapter.
  * Set VITE_USE_HYGRAPH=true to switch from mock to Hygraph.
@@ -76,7 +76,7 @@ export function createResilientAdapter(
 const adapter: ApiAdapter = (() => {
   if (!useHygraph) return createMockAdapter();
   if (!endpoint) {
-    console.warn("[api] VITE_HYGRAPH_ENDPOINT is empty — using mock data");
+    console.warn("[api] VITE_HYGRAPH_ENDPOINT is empty - using mock data");
     return createMockAdapter();
   }
   return createResilientAdapter(
