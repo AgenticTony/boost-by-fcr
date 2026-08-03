@@ -4,7 +4,7 @@ import { ScrollReveal } from "@/components/ui/scroll-reveal";
 import { WaveDivider } from "@/components/ui/wave-divider";
 
 export default function PressMediaPage() {
-  useSeo({
+  const seo = useSeo({
     title: "Press & media",
     description:
       "Pressinformation och kontaktpersoner för Boost by FC Rosengård.",
@@ -13,6 +13,7 @@ export default function PressMediaPage() {
 
   return (
     <>
+      {seo}
       {/* Hero */}
       <section className="relative bg-brand-navy text-white overflow-hidden">
         <div className="pointer-events-none absolute -top-32 -right-32 h-96 w-96 rounded-full bg-brand-red/10 blur-3xl" />

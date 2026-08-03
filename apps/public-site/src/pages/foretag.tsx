@@ -67,7 +67,7 @@ const steps = [
 ];
 
 export default function ForetagPage() {
-  useSeo({
+  const seo = useSeo({
     title: "Arbetsgivare",
     description:
       "Samarbeta med Boost - föreläsningar, workshops och inkluderande rekrytering för arbetsgivare som vill göra skillnad.",
@@ -76,6 +76,7 @@ export default function ForetagPage() {
 
   return (
     <>
+      {seo}
       {/* Hero */}
       <section className="relative bg-brand-navy text-white overflow-hidden">
         <div className="pointer-events-none absolute inset-0">

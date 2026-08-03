@@ -15,6 +15,22 @@ function renderPage() {
 }
 
 describe("VanligaFragorPage (FAQ)", () => {
+  it("actually renders what useSeo returns", () => {
+    // useSeo returns <Helmet> JSX rather than side-effecting. Calling it bare -
+    // the pattern this page used to follow - silently dropped every tag, so no
+    // page emitted a canonical, per-page title or JSON-LD. Guard against a
+    // regression: assert the tags reach the DOM, not just that useSeo is called.
+    renderPage();
+
+    expect(
+      document.querySelector('link[rel="canonical"]')?.getAttribute("href"),
+    ).toBe("https://boostbyfcr.se/vanliga-fragor");
+    expect(document.title).toContain("Vanliga frågor");
+    expect(
+      document.querySelectorAll('script[type="application/ld+json"]').length,
+    ).toBeGreaterThan(0);
+  });
+
   it("renders the hero heading", () => {
     renderPage();
     expect(

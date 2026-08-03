@@ -216,7 +216,7 @@ function KontaktForm() {
 }
 
 export default function KontaktPage() {
-  useSeo({
+  const seo = useSeo({
     title: "Kontakt",
     description:
       "Har du frågor eller vill veta mer? Vi svarar snabbt och gärna. Ring, mejla eller fyll i formuläret.",
@@ -225,6 +225,7 @@ export default function KontaktPage() {
 
   return (
     <>
+      {seo}
       {/* Hero */}
       <section className="relative bg-brand-navy text-white overflow-hidden">
         <div className="pointer-events-none absolute inset-0">

@@ -82,7 +82,7 @@ const faqSections = [
 ];
 
 export default function VanligaFragorPage() {
-  useSeo({
+  const seo = useSeo({
     title: "Vanliga frågor",
     description:
       "Svaren på det du undrar - och några du kanske inte visste att du hade.",
@@ -91,6 +91,7 @@ export default function VanligaFragorPage() {
 
   return (
     <>
+      {seo}
       {/* Hero */}
       <section className="relative bg-brand-navy text-white overflow-hidden">
         <div className="pointer-events-none absolute -top-32 -right-32 h-96 w-96 rounded-full bg-brand-red/10 blur-3xl" />

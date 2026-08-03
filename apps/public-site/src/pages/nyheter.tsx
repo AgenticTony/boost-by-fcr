@@ -18,7 +18,7 @@ export default function NyheterPage() {
       ? allArticles
       : allArticles.filter((a) => a.category === category);
 
-  useSeo({
+  const seo = useSeo({
     title: "Nyheter",
     description: "Nyheter och uppdateringar från Boost by FC Rosengård.",
     canonical: "/nyheter",
@@ -26,6 +26,7 @@ export default function NyheterPage() {
 
   return (
     <>
+      {seo}
       {/* Hero */}
       <section className="relative bg-brand-navy text-white overflow-hidden">
         <div className="pointer-events-none absolute -top-32 -right-32 h-96 w-96 rounded-full bg-brand-red/10 blur-3xl" />

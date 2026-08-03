@@ -61,7 +61,7 @@ function BulletList({ items }: { items: string[] }) {
 
 /* ─── Page ─── */
 export default function DataskyddspolicyPage() {
-  useSeo({
+  const seo = useSeo({
     title: "Dataskyddspolicy",
     description:
       "Hur vi hanterar och skyddar din personliga information i enlighet med GDPR.",
@@ -70,6 +70,7 @@ export default function DataskyddspolicyPage() {
 
   return (
     <>
+      {seo}
       {/* ── Hero ── */}
       <section className="relative overflow-hidden bg-brand-navy text-white">
         <div className="pointer-events-none absolute -right-32 -top-32 h-96 w-96 rounded-full bg-brand-red/10 blur-3xl" />

@@ -86,7 +86,7 @@ export default function ResurserPage() {
   } = useResources(category);
   const errorMsg = error ? "Kunde inte ladda resurser." : null;
 
-  useSeo({
+  const seo = useSeo({
     title: "Resurser",
     description:
       "Boosts Metodbok - metodmaterial och handböcker för ett mer inkluderande arbetsliv. Området är under uppbyggnad.",
@@ -95,6 +95,7 @@ export default function ResurserPage() {
 
   return (
     <>
+      {seo}
       {/* Hero */}
       <section className="relative bg-brand-navy text-white overflow-hidden">
         <div className="pointer-events-none absolute -top-32 -right-32 h-96 w-96 rounded-full bg-brand-red/10 blur-3xl" />

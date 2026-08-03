@@ -1,4 +1,24 @@
+import { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
+
+/**
+ * Drop the generic SEO tags hardcoded in index.html.
+ *
+ * Those exist only for crawlers that do not execute JavaScript (Facebook,
+ * LinkedIn, Slack, WhatsApp), which would otherwise unfurl a shared link with
+ * no card at all. Helmet appends rather than replaces them, so once React is
+ * running the head would carry two of every tag - the generic one first, which
+ * is the one Google is most likely to take. Removing them here leaves exactly
+ * one set: the page's own. Crawlers that never run JS never reach this code
+ * and still see the static fallback.
+ */
+function useStripStaticSeoFallback() {
+  useEffect(() => {
+    document
+      .querySelectorAll("head [data-static-seo]")
+      .forEach((el) => el.remove());
+  }, []);
+}
 
 const ORG_JSON_LD = {
   "@context": "https://schema.org",
@@ -55,6 +75,8 @@ export function useSeo({
   image,
   jsonLd,
 }: SeoProps) {
+  useStripStaticSeoFallback();
+
   const structuredData = jsonLd ? [ORG_JSON_LD, jsonLd] : [ORG_JSON_LD];
   const siteOrigin = "https://boostbyfcr.se";
   // 1200x630 PNG. Must be a raster format at an absolute URL - Facebook,

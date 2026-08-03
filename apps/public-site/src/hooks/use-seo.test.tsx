@@ -49,6 +49,23 @@ describe("useSeo", () => {
     );
   });
 
+  it("strips the static SEO fallback from index.html so tags are not duplicated", () => {
+    // Stand in for the hardcoded tags in index.html. Helmet appends rather than
+    // replacing them, so without this cleanup every page carries two of each -
+    // the generic one first, which is the one Google is likeliest to take.
+    const stale = document.createElement("meta");
+    stale.setAttribute("data-static-seo", "");
+    stale.setAttribute("name", "description");
+    stale.setAttribute("content", "generic fallback");
+    document.head.appendChild(stale);
+
+    renderWithHelmet(
+      <SeoTestPage title="Kontakt" description="Kontakta oss" />,
+    );
+
+    expect(document.querySelectorAll("head [data-static-seo]")).toHaveLength(0);
+  });
+
   it("renders JSON-LD structured data", () => {
     renderWithHelmet(<SeoTestPage title="Test" description="Test" />);
 

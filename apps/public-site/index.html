@@ -5,7 +5,7 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Boost by FC Rosengård</title>
-    <meta name="description" content="Sedan 2003 har vi hjälpt tusentals unga i Malmö att hitta sin plats på arbetsmarknaden." />
+    <meta data-static-seo name="description" content="Sedan 2003 har vi hjälpt tusentals unga i Malmö att hitta sin plats på arbetsmarknaden." />
     <meta name="theme-color" content="#002A5C" />
 
     <!--
@@ -20,20 +20,31 @@
       non-JS crawlers that every page canonicalises to the homepage. Helmet
       supplies the correct per-page title/description/canonical for crawlers
       that do render JS (Google, Bing).
+
+      data-static-seo is load-bearing. Helmet APPENDS its tags rather than
+      replacing these, which would leave two of every tag - the generic one
+      first - and Google picks whichever it likes. So use-seo.tsx strips every
+      [data-static-seo] element once React is running: JS crawlers then see
+      only the per-page tags, while non-JS crawlers still get these, because
+      they never execute the code that removes them.
+
+      Any tag added here that use-seo.tsx also emits needs this attribute.
+      Tags it does NOT emit (og:image:width/height/alt, theme-color) must not
+      have it, or they would be stripped and never replaced.
     -->
-    <meta property="og:site_name" content="Boost by FC Rosengård" />
-    <meta property="og:type" content="website" />
-    <meta property="og:locale" content="sv_SE" />
-    <meta property="og:title" content="Boost by FC Rosengård" />
-    <meta property="og:description" content="Sedan 2003 har vi hjälpt tusentals unga i Malmö att hitta sin plats på arbetsmarknaden." />
-    <meta property="og:image" content="https://boostbyfcr.se/images/og-image.png" />
+    <meta data-static-seo property="og:site_name" content="Boost by FC Rosengård" />
+    <meta data-static-seo property="og:type" content="website" />
+    <meta data-static-seo property="og:locale" content="sv_SE" />
+    <meta data-static-seo property="og:title" content="Boost by FC Rosengård" />
+    <meta data-static-seo property="og:description" content="Sedan 2003 har vi hjälpt tusentals unga i Malmö att hitta sin plats på arbetsmarknaden." />
+    <meta data-static-seo property="og:image" content="https://boostbyfcr.se/images/og-image.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="Boost by FC Rosengård - vi öppnar dörrar till arbete, studier och hälsa" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Boost by FC Rosengård" />
-    <meta name="twitter:description" content="Sedan 2003 har vi hjälpt tusentals unga i Malmö att hitta sin plats på arbetsmarknaden." />
-    <meta name="twitter:image" content="https://boostbyfcr.se/images/og-image.png" />
+    <meta data-static-seo name="twitter:card" content="summary_large_image" />
+    <meta data-static-seo name="twitter:title" content="Boost by FC Rosengård" />
+    <meta data-static-seo name="twitter:description" content="Sedan 2003 har vi hjälpt tusentals unga i Malmö att hitta sin plats på arbetsmarknaden." />
+    <meta data-static-seo name="twitter:image" content="https://boostbyfcr.se/images/og-image.png" />
 
     <!-- Self-hosted Montserrat: preload the two most critical weights (700 for display headings, 400 for body). -->
     <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/Montserrat-Bold.woff2" />

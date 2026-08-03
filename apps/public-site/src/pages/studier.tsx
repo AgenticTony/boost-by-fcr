@@ -36,7 +36,7 @@ const features = [
 ];
 
 export default function StudierPage() {
-  useSeo({
+  const seo = useSeo({
     title: "Studiespåret",
     description:
       "Studier i din egen takt med legitimerade lärare och individuell studieplanering. Flexibelt, personligt och utan prestationsångest.",
@@ -45,6 +45,7 @@ export default function StudierPage() {
 
   return (
     <>
+      {seo}
       {/* Hero */}
       <section className="relative bg-brand-navy text-white overflow-hidden">
         <div className="pointer-events-none absolute inset-0">
