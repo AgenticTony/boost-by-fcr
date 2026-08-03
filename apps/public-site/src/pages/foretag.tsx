@@ -144,7 +144,7 @@ export default function ForetagPage() {
           <div className="mt-10 text-center">
             <Button
               asChild
-              className="bg-brand-red-bright text-white hover:bg-brand-red-bright/90 font-display font-semibold rounded-full px-10 h-14 shadow-lg shadow-brand-red-bright/25 hover:scale-[1.02] transition-all duration-300"
+              className="bg-brand-red text-white hover:bg-brand-red/90 font-display font-semibold rounded-full px-10 h-14 shadow-lg shadow-brand-red/25 hover:scale-[1.02] transition-all duration-300"
             >
               <Link to="/kontakt?amne=foretag">
                 Berätta om ert uppdrag <ArrowRight className="ml-2 h-4 w-4" />
@@ -170,7 +170,7 @@ export default function ForetagPage() {
               <ScrollReveal key={step.label} delay={i * 0.08}>
                 <div className="relative bg-white rounded-2xl p-6 md:p-8 border border-border/60 shadow-sm hover:shadow-lg transition-all duration-300 h-full">
                   <div className="flex items-center gap-3 mb-4">
-                    <span className="flex items-center justify-center h-12 w-12 rounded-full bg-brand-red-bright text-white font-display font-extrabold text-lg shadow-md shadow-brand-red-bright/20">
+                    <span className="flex items-center justify-center h-12 w-12 rounded-full bg-brand-red text-white font-display font-extrabold text-lg shadow-md shadow-brand-red/20">
                       {i + 1}
                     </span>
                     <div className="h-11 w-11 rounded-xl bg-brand-navy text-white flex items-center justify-center">
@@ -205,7 +205,7 @@ export default function ForetagPage() {
             <div className="flex flex-wrap gap-4 justify-center">
               <Button
                 asChild
-                className="bg-brand-red-bright text-white hover:bg-brand-red-bright/90 font-display font-semibold rounded-full px-10 h-14 shadow-lg shadow-brand-red-bright/25 hover:scale-[1.02] transition-all duration-300"
+                className="bg-brand-red text-white hover:bg-brand-red/90 font-display font-semibold rounded-full px-10 h-14 shadow-lg shadow-brand-red/25 hover:scale-[1.02] transition-all duration-300"
               >
                 <a href="mailto:kathe.andersson@boostbyfcr.se">
                   Skicka ett mejl <ArrowRight className="ml-2 h-4 w-4" />

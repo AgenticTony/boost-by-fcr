@@ -32,7 +32,7 @@ export default function NyheterSlugPage() {
               name: "Boost by FC Rosengård",
               logo: {
                 "@type": "ImageObject",
-                url: "https://boostbyfcr.se/images/boost-logo.svg",
+                url: "https://boostbyfcr.se/images/boost-logo.png",
               },
             },
           },

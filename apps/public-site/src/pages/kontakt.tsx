@@ -204,7 +204,7 @@ function KontaktForm() {
           <Button
             type="submit"
             disabled={isSubmitting}
-            className="w-full bg-brand-red-bright text-white hover:bg-brand-red-bright/90 font-display font-semibold rounded-full h-12 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-brand-red-bright/20 hover:shadow-brand-red-bright/30 transition-all duration-300"
+            className="w-full bg-brand-red text-white hover:bg-brand-red/90 font-display font-semibold rounded-full h-12 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-brand-red/20 hover:shadow-brand-red/30 transition-all duration-300"
           >
             {isSubmitting ? "Skickar..." : "Skicka meddelande"}
             {!isSubmitting && <ArrowRight className="ml-2 h-4 w-4" />}

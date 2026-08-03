@@ -5,7 +5,7 @@ const ORG_JSON_LD = {
   "@type": "NGO",
   name: "Boost by FC Rosengård",
   url: "https://boostbyfcr.se",
-  logo: "https://boostbyfcr.se/images/boost-logo.svg",
+  logo: "https://boostbyfcr.se/images/boost-logo.png",
   description:
     "Idéburen organisation med bas i Malmö sedan 2003. Vi arbetar för att öka inkluderingen i samhället.",
   address: {
@@ -57,17 +57,26 @@ export function useSeo({
 }: SeoProps) {
   const structuredData = jsonLd ? [ORG_JSON_LD, jsonLd] : [ORG_JSON_LD];
   const siteOrigin = "https://boostbyfcr.se";
-  const defaultImage = `${siteOrigin}/images/boost-logo.svg`;
+  // 1200x630 PNG. Must be a raster format at an absolute URL - Facebook,
+  // LinkedIn and X all reject SVG og:images, and relative paths outright.
+  const defaultImage = `${siteOrigin}/images/og-image.png`;
+  const fullTitle = `${title} | Boost by FC Rosengård`;
+  const shareImage = image || defaultImage;
 
   return (
     <Helmet>
-      <title>{title} | Boost by FC Rosengård</title>
+      <title>{fullTitle}</title>
       <meta name="description" content={description} />
-      <meta property="og:title" content={`${title} | Boost by FC Rosengård`} />
+      <meta property="og:site_name" content="Boost by FC Rosengård" />
+      <meta property="og:title" content={fullTitle} />
       <meta property="og:description" content={description} />
       <meta property="og:type" content="website" />
       <meta property="og:locale" content="sv_SE" />
-      <meta property="og:image" content={image || defaultImage} />
+      <meta property="og:image" content={shareImage} />
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content={fullTitle} />
+      <meta name="twitter:description" content={description} />
+      <meta name="twitter:image" content={shareImage} />
       {canonical && (
         <>
           <link rel="canonical" href={`${siteOrigin}${canonical}`} />

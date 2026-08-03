@@ -108,12 +108,12 @@ export function AnmalDemoLayout({
             </h2>
           </ScrollReveal>
           <div className="relative max-w-3xl mx-auto">
-            <div className="hidden md:block absolute top-6 left-[calc(16.67%+24px)] right-[calc(16.67%+24px)] h-0.5 bg-brand-red-bright/40" />
+            <div className="hidden md:block absolute top-6 left-[calc(16.67%+24px)] right-[calc(16.67%+24px)] h-0.5 bg-brand-red/40" />
             <div className="grid md:grid-cols-3 gap-8 md:gap-6">
               {steps.map((step, i) => (
                 <ScrollReveal key={step} delay={i * 0.15}>
                   <div className="text-center">
-                    <div className="inline-flex items-center justify-center h-12 w-12 rounded-full bg-brand-red-bright text-white font-display font-extrabold text-lg mb-4 relative z-10 shadow-lg shadow-brand-red-bright/25">
+                    <div className="inline-flex items-center justify-center h-12 w-12 rounded-full bg-brand-red text-white font-display font-extrabold text-lg mb-4 relative z-10 shadow-lg shadow-brand-red/25">
                       {i + 1}
                     </div>
                     <p className="text-white/90 font-medium">{step}</p>
