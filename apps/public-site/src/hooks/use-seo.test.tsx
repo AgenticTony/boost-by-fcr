@@ -66,6 +66,27 @@ describe("useSeo", () => {
     expect(document.querySelectorAll("head [data-static-seo]")).toHaveLength(0);
   });
 
+  it("omits the robots tag by default so normal pages stay indexable", () => {
+    renderWithHelmet(
+      <SeoTestPage title="Kontakt" description="Kontakta oss" />,
+    );
+
+    expect(document.querySelector('meta[name="robots"]')).toBeNull();
+  });
+
+  it("renders noindex,follow when noindex is set", () => {
+    renderWithHelmet(
+      <SeoTestPage
+        title="Sidan hittades inte"
+        description="Finns inte"
+        noindex
+      />,
+    );
+
+    const robots = document.querySelector('meta[name="robots"]');
+    expect(robots?.getAttribute("content")).toBe("noindex, follow");
+  });
+
   it("renders JSON-LD structured data", () => {
     renderWithHelmet(<SeoTestPage title="Test" description="Test" />);
 
