@@ -130,7 +130,7 @@ export function HeroSection() {
         </div>
       </div>
 
-      <WaveDivider color="navy" layered />
+      <WaveDivider from="navy" to="navy" />
     </section>
   );
 }

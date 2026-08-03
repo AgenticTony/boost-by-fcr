@@ -22,7 +22,7 @@ export function HeroSection() {
           </p>
         </ScrollReveal>
       </div>
-      <WaveDivider color="navy" layered />
+      <WaveDivider from="navy" to="surface" />
     </section>
   );
 }
