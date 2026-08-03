@@ -1,5 +1,5 @@
 /**
- * SVG wave divider — used between full-width sections.
+ * SVG wave divider - used between full-width sections.
  * Set `layered` for a dual-wave effect and `flip` to rotate 180°.
  * `bg` sets the container's background so transparent areas of the SVG match
  * the section below (defaults to transparent, which shows the body bg).

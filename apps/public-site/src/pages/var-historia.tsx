@@ -13,7 +13,7 @@ export default function VarHistoriaPage() {
   useSeo({
     title: "Vår historia",
     description:
-      "Över 20 år av att skapa förändring — från en idé i Rosengård till en organisation som hjälper hundratals unga varje år.",
+      "Över 20 år av att skapa förändring - från en idé i Rosengård till en organisation som hjälper hundratals unga varje år.",
     canonical: "/var-historia",
   });
 
@@ -93,7 +93,7 @@ export default function VarHistoriaPage() {
               Vill du vara en del av nästa kapitel?
             </h2>
             <p className="text-white/70 max-w-md mx-auto leading-relaxed mb-8">
-              Vi letar alltid efter människor som vill bidra — som deltagare,
+              Vi letar alltid efter människor som vill bidra - som deltagare,
               samarbetspartner eller kollega.
             </p>
             <div className="flex flex-wrap gap-4 justify-center">

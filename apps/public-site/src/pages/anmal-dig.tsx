@@ -21,7 +21,7 @@ import { WaveDivider } from "@/components/ui/wave-divider";
 
 /**
  * Native, on-brand Anmälan form that posts directly into Anna's existing
- * Bridge-enrollment Google Form — responses land in the same Google Sheet.
+ * Bridge-enrollment Google Form - responses land in the same Google Sheet.
  * Entry IDs are sourced from the live form. NOTE: the meeting time slots are
  * hardcoded from the form; if Anna changes them in Google Forms, this list
  * must be refreshed to match.
@@ -38,13 +38,13 @@ const ENTRY = {
   handlerContact: "entry.128291249",
   meetingTime: "entry.788472964",
   other: "entry.1770564120",
-  /** Consent is a Google Forms checkbox — the option label is literally "Alternativ 1". */
+  /** Consent is a Google Forms checkbox - the option label is literally "Alternativ 1". */
   consent: "entry.1676789778",
 } as const;
 const CONSENT_VALUE = "Alternativ 1";
 
 /**
- * Meeting slots — fallback used if /api/slots is unavailable. Mirrors the
+ * Meeting slots - fallback used if /api/slots is unavailable. Mirrors the
  * Google Form's current options; the live list is fetched on mount.
  */
 const FALLBACK_SLOTS = [
@@ -92,7 +92,7 @@ const schema = z.object({
       (v) => v === true,
       "Du måste godkänna behandling av personuppgifter",
     ),
-  /** Honeypot — must be empty. */
+  /** Honeypot - must be empty. */
   website: z.string().max(0).optional(),
 });
 
@@ -137,7 +137,7 @@ export default function AnmalDigPage() {
   useSeo({
     title: "Anmäl dig",
     description:
-      "Ta första steget — det tar tre minuter. Vi hör av oss inom en arbetsdag.",
+      "Ta första steget - det tar tre minuter. Vi hör av oss inom en arbetsdag.",
     canonical: "/anmal-dig",
   });
   const [submitted, setSubmitted] = useState(false);
@@ -175,7 +175,7 @@ export default function AnmalDigPage() {
           setMeetingSlots(data.slots);
         } else if (import.meta.env.DEV) {
           console.info(
-            "[anmal-dig] /api/slots unavailable (expected in `vite dev`). Showing fallback slots — use `vercel dev` to exercise live sync.",
+            "[anmal-dig] /api/slots unavailable (expected in `vite dev`). Showing fallback slots - use `vercel dev` to exercise live sync.",
           );
         }
       })
@@ -185,7 +185,7 @@ export default function AnmalDigPage() {
   }, []);
 
   async function onSubmit(data: FormData) {
-    // Honeypot — bots fill this; pretend success.
+    // Honeypot - bots fill this; pretend success.
     if (data.website) {
       setSubmitted(true);
       return;
@@ -231,7 +231,7 @@ export default function AnmalDigPage() {
               Ta första steget.
             </h1>
             <p className="text-lg text-white/75 max-w-lg leading-relaxed">
-              Det tar ungefär tre minuter. Du behöver inte ha allt klart — bara
+              Det tar ungefär tre minuter. Du behöver inte ha allt klart - bara
               vara redo att börja.
             </p>
           </ScrollReveal>
@@ -274,7 +274,7 @@ export default function AnmalDigPage() {
               Mötet som du anmäler dig till är ett individuellt möte på Boost By
               FC Rosengård, Norra Grängesbergsgatan 15, med den vägledare som du
               kommer att samarbeta med. För att kunna delta i ESF-projektet
-              Bridge by FCR behöver du vara mellan 18–29 år och kunna ta dig
+              Bridge by FCR behöver du vara mellan 18-29 år och kunna ta dig
               till Malmö. Bokar du en tid som du sen inte kan komma till behöver
               du meddela det till info@boostbyfcr.se eller ring 070-992 17 66.
             </p>
@@ -284,7 +284,7 @@ export default function AnmalDigPage() {
               <div className="bg-white rounded-2xl p-8 md:p-12 border border-border/60 text-center">
                 <CheckCircle className="h-16 w-16 text-brand-navy mx-auto mb-4" />
                 <h3 className="text-2xl font-display font-extrabold text-text mb-2">
-                  Tack — din anmälan är mottagen
+                  Tack - din anmälan är mottagen
                 </h3>
                 <p className="text-text-muted leading-relaxed">
                   En vägledare kontaktar dig inom en arbetsdag. Behöver du ändra
@@ -295,7 +295,7 @@ export default function AnmalDigPage() {
             ) : (
               <div className="bg-white rounded-2xl p-6 md:p-8 border border-border/60 shadow-sm">
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-                  {/* Honeypot — hidden from users, bots fill it out */}
+                  {/* Honeypot - hidden from users, bots fill it out */}
                   <div className="absolute -left-[9999px]" aria-hidden="true">
                     <input
                       type="text"
@@ -428,7 +428,7 @@ export default function AnmalDigPage() {
                   >
                     <Textarea
                       id="other"
-                      placeholder="Valfritt — något vi bör veta?"
+                      placeholder="Valfritt - något vi bör veta?"
                       rows={4}
                       className="rounded-input"
                       {...register("other")}
@@ -463,7 +463,7 @@ export default function AnmalDigPage() {
                     för att ge information om inskrivningsmötet. Vi behöver
                     också dem till att berätta för dina myndighetskontakter om
                     din närvaro på mötet. Du har rätt att återkalla ditt
-                    samtycke när du vill — kontakta oss på info@boostbyfcr.se.
+                    samtycke när du vill - kontakta oss på info@boostbyfcr.se.
                     Läs mer i vår{" "}
                     <Link
                       to="/dataskyddspolicy"
@@ -494,7 +494,7 @@ export default function AnmalDigPage() {
         </div>
       </section>
 
-      {/* Steps — glass on navy */}
+      {/* Steps - glass on navy */}
       <section className="bg-brand-navy text-white overflow-hidden">
         <WaveDivider color="white" flip layered />
         <div className="container-page py-16 md:py-24">

@@ -7,23 +7,23 @@ import { ArrowRight } from "lucide-react";
 const agendaGoals = [
   {
     title: "Rättvis rekrytering",
-    body: "Vi arbetar aktivt med att bryta rekryteringsnormer — så att namn och adress aldrig ska avgöra vem som får en chans.",
+    body: "Vi arbetar aktivt med att bryta rekryteringsnormer - så att namn och adress aldrig ska avgöra vem som får en chans.",
   },
   {
     title: "Utbildning för alla",
-    body: "Vi stöttar unga vuxna att slutföra sin gymnasieutbildning och hitta rätt väg vidare — i sin egen takt.",
+    body: "Vi stöttar unga vuxna att slutföra sin gymnasieutbildning och hitta rätt väg vidare - i sin egen takt.",
   },
   {
     title: "Hälsa som grund",
-    body: "Vi vet att ohälsa och arbetslöshet förstärker varandra. Därför är hälsa inte ett sidospår hos oss — det är en kärninsats.",
+    body: "Vi vet att ohälsa och arbetslöshet förstärker varandra. Därför är hälsa inte ett sidospår hos oss - det är en kärninsats.",
   },
   {
     title: "Jämställdhet",
-    body: "Vi utmanar normer kring vilka jobb kvinnor och män förväntas ta — och hjälper arbetsgivare att rekrytera mer rättvist.",
+    body: "Vi utmanar normer kring vilka jobb kvinnor och män förväntas ta - och hjälper arbetsgivare att rekrytera mer rättvist.",
   },
   {
     title: "Inkludering",
-    body: "Alla är välkomna hos oss. Oavsett bakgrund, språk eller erfarenhet — vi möter varje människa med öppenhet och respekt.",
+    body: "Alla är välkomna hos oss. Oavsett bakgrund, språk eller erfarenhet - vi möter varje människa med öppenhet och respekt.",
   },
   {
     title: "Samverkan",

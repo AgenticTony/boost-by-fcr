@@ -7,7 +7,7 @@ export default function LedigaTjansterPage() {
   useSeo({
     title: "Lediga tjänster",
     description:
-      "Jobba hos oss — vi söker människor som tror på vad vi tror på.",
+      "Jobba hos oss - vi söker människor som tror på vad vi tror på.",
     canonical: "/lediga-tjanster",
   });
 
@@ -44,7 +44,7 @@ export default function LedigaTjansterPage() {
               <p>
                 Att jobba på Boost är inte ett vanligt jobb. Det är ett val. Du
                 möter människor i verkliga utmaningar och du ser verkliga
-                resultat — i form av ett nytt jobb, ett nytt betyg, eller ett
+                resultat - i form av ett nytt jobb, ett nytt betyg, eller ett
                 leende från någon som hittat sin riktning.
               </p>
               <p>

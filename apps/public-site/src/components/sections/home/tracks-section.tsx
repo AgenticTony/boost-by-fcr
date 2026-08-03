@@ -23,7 +23,7 @@ function TrackCardWork() {
           <div className="relative w-full md:w-64 lg:w-72 flex-shrink-0">
             <img
               src="/images/Arbetsspaaret.webp"
-              alt="Två personer samarbetar vid en dator — arbetsspåret"
+              alt="Två personer samarbetar vid en dator - arbetsspåret"
               width={1260}
               height={839}
               className="w-full h-48 md:h-full object-cover"
@@ -85,7 +85,7 @@ function TrackCardStudy() {
           <div className="relative w-full md:w-64 lg:w-72 shrink-0">
             <img
               src="/images/Studiespaaret.webp"
-              alt="Grupp i samarbetsmöte — studiespåret"
+              alt="Grupp i samarbetsmöte - studiespåret"
               width={1260}
               height={839}
               className="w-full h-48 md:h-full object-cover"
@@ -141,11 +141,11 @@ function TrackCardHealth() {
           03
         </span>
         <div className="flex flex-col md:flex-row">
-          {/* Photo — left side */}
+          {/* Photo - left side */}
           <div className="relative w-full md:w-64 lg:w-72 shrink-0">
             <img
               src="/images/fcr-sport.webp"
-              alt="Grupp spelar innebandy — hälsospåret"
+              alt="Grupp spelar innebandy - hälsospåret"
               width={1260}
               height={840}
               className="w-full h-48 md:h-full object-cover"
@@ -170,7 +170,7 @@ function TrackCardHealth() {
                 </h3>
                 <p className="text-text-muted leading-relaxed mb-6 text-base">
                   Främja din hälsa och välmående. Skapa goda rutiner, sätta mål
-                  och Boosta ditt självförtroende — fysisk aktivitet, psykisk
+                  och Boosta ditt självförtroende - fysisk aktivitet, psykisk
                   hälsa och kultur.
                 </p>
                 <span className="inline-flex items-center gap-2 text-sm font-semibold text-brand-red group-hover:gap-3 transition-all duration-300">
@@ -186,7 +186,7 @@ function TrackCardHealth() {
   );
 }
 
-/** BEAT 4: Three Tracks — Each card unique */
+/** BEAT 4: Three Tracks - Each card unique */
 export function TracksSection() {
   return (
     <section
@@ -205,7 +205,7 @@ export function TracksSection() {
           </h2>
           <p className="text-text-muted leading-relaxed text-lg">
             Som ett träd växer från en gemensam rot men sträcker sig åt olika
-            håll, erbjuder vi tre spår som alla utgår från samma värdegrund —
+            håll, erbjuder vi tre spår som alla utgår från samma värdegrund -
             varje individs unika potential.
           </p>
         </div>

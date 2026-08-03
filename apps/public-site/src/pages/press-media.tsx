@@ -38,14 +38,14 @@ export default function PressMediaPage() {
         <div className="container-page max-w-3xl">
           <ScrollReveal>
             <h2 className="text-3xl md:text-[2.75rem] font-display font-extrabold text-text mb-6">
-              Mediainformation — Boost by FC Rosengård
+              Mediainformation - Boost by FC Rosengård
             </h2>
             <div className="space-y-5 text-text-muted leading-relaxed mb-10">
               <p>
                 Boost by FC Rosengård är en idéburen organisation som sedan 2003
                 har hjälpt tusentals unga i Malmö att hitta sin plats på
-                arbetsmarknaden. Vi erbjuder stöd inom tre huvudsakliga spår —
-                arbete, studier och hälsa — och finansieras bland annat av EU:s
+                arbetsmarknaden. Vi erbjuder stöd inom tre huvudsakliga spår -
+                arbete, studier och hälsa - och finansieras bland annat av EU:s
                 Socialfond, Allmänna Arvsfonden och Malmö stad.
               </p>
               <p>
@@ -63,7 +63,7 @@ export default function PressMediaPage() {
                 </h3>
                 <div className="space-y-3">
                   <p className="text-text-muted text-sm">
-                    Anna Nettrup — Projektledare
+                    Anna Nettrup - Projektledare
                   </p>
                   <div className="flex items-center gap-2 text-sm text-text-muted">
                     <Mail className="h-4 w-4 text-brand-red" />
@@ -93,7 +93,7 @@ export default function PressMediaPage() {
                 </h3>
                 <div className="space-y-3">
                   <p className="text-text-muted text-sm">
-                    Käthe Andersson — Samarbetssansvarig
+                    Käthe Andersson - Samarbetssansvarig
                   </p>
                   <div className="flex items-center gap-2 text-sm text-text-muted">
                     <Mail className="h-4 w-4 text-brand-red" />

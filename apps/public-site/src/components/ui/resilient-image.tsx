@@ -6,13 +6,13 @@ type Props = {
   alt: string;
   className?: string;
   fallbackClassName?: string;
-  /** Intrinsic pixel dimensions — helps the browser reserve space (CLS). */
+  /** Intrinsic pixel dimensions - helps the browser reserve space (CLS). */
   width?: number;
   height?: number;
 };
 
 /**
- * Inner component that manages error state — re-mounted when src changes
+ * Inner component that manages error state - re-mounted when src changes
  * via the key prop, which resets the error state automatically.
  */
 function ImageWithFallback({

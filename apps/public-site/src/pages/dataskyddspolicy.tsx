@@ -253,7 +253,7 @@ export default function DataskyddspolicyPage() {
               items={[
                 "Uppgifter om ditt deltagande (närvaro, resultat) när du deltar i någon av våra verksamheter",
                 "Information om hur du använder våra digitala verktyg när du är inne på dessa",
-                "Enhetsinformation — t.ex. IP-adress, språkinställningar, webbläsarinställningar, tidszon, operativsystem, plattform och skärmupplösning när du är inne på vår hemsida",
+                "Enhetsinformation - t.ex. IP-adress, språkinställningar, webbläsarinställningar, tidszon, operativsystem, plattform och skärmupplösning när du är inne på vår hemsida",
               ]}
             />
             <p>

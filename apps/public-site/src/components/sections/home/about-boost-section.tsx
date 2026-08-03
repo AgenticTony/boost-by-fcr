@@ -4,7 +4,7 @@ import { ScrollReveal } from "@/components/ui/scroll-reveal";
 
 /** BEAT 6: Om Boost + Inclusion.
  *  Mirrors SelfmadeSection's layout (container-page + contained media card +
- *  text column) so the video + text stay grouped at every viewport — the only
+ *  text column) so the video + text stay grouped at every viewport - the only
  *  difference is the media is a <video> instead of an <img>. Previously this
  *  section was full-bleed, which split the video and text apart on wide screens. */
 export function AboutBoostSection() {
@@ -12,7 +12,7 @@ export function AboutBoostSection() {
   const [inView, setInView] = useState(false);
 
   // Lazy-load: only fetch the video sources when the section scrolls into view.
-  // Defers ~815 KiB (webm + mp4) off the initial page load — this section is well
+  // Defers ~815 KiB (webm + mp4) off the initial page load - this section is well
   // below the fold and was needlessly downloading on first paint.
   useEffect(() => {
     const el = videoRef.current;
@@ -34,7 +34,7 @@ export function AboutBoostSection() {
     <section className="relative overflow-hidden bg-white">
       <div className="container-page py-16 md:py-24">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Video card — contained like the Selfmade image */}
+          {/* Video card - contained like the Selfmade image */}
           <ScrollReveal>
             <div className="relative">
               <div
@@ -48,7 +48,7 @@ export function AboutBoostSection() {
                 loop
                 playsInline
                 preload={inView ? "auto" : "none"}
-                aria-label="Korta klipp: händer som lägger sig runt en ung planta och formar ett hjärta — en bild av omvårdnad och tillväxt."
+                aria-label="Korta klipp: händer som lägger sig runt en ung planta och formar ett hjärta - en bild av omvårdnad och tillväxt."
                 className="relative w-full h-auto rounded-3xl shadow-lg aspect-video object-cover"
                 poster="/images/illustration-hands-heart.webp"
               >
@@ -93,7 +93,7 @@ export function AboutBoostSection() {
               </h3>
               <p className="text-text-muted leading-relaxed text-lg">
                 Vi sätter individen i centrum och tror på varje människas inre
-                kapacitet och vilja. Hos oss ska det vara enkelt att kliva in —
+                kapacitet och vilja. Hos oss ska det vara enkelt att kliva in -
                 oavsett bakgrund, erfarenheter eller var man befinner sig i
                 livet.
               </p>

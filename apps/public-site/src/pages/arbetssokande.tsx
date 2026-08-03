@@ -136,7 +136,7 @@ export default function ArbetssokandePage() {
         <div className="container-page">
           <ScrollReveal>
             <p className="text-sm font-body font-medium text-brand-navy tracking-widest uppercase mb-3">
-              Tre spår — samma mål
+              Tre spår - samma mål
             </p>
             <h2 className="text-3xl md:text-[2.75rem] font-display font-extrabold text-text leading-tight mb-12">
               Välj ditt spår
@@ -199,7 +199,7 @@ export default function ArbetssokandePage() {
               Redo att ta steget?
             </h2>
             <p className="text-white/70 max-w-md mx-auto leading-relaxed mb-8">
-              Vi finns här för dig. Berätta vad du behöver — så hittar vi vägen
+              Vi finns här för dig. Berätta vad du behöver - så hittar vi vägen
               tillsammans.
             </p>
             <Button

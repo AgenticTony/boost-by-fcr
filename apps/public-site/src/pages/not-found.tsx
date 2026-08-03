@@ -20,7 +20,7 @@ export default function NotFoundPage() {
             Sidan hittades inte
           </h1>
           <p className="text-text-muted leading-relaxed mb-8">
-            Det verkar som att den här sidan inte finns — eller har flyttat. Låt
+            Det verkar som att den här sidan inte finns - eller har flyttat. Låt
             oss hjälpa dig hitta rätt.
           </p>
           <Button

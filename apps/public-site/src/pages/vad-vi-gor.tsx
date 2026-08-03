@@ -15,7 +15,7 @@ const branches = [
   {
     icon: Factory,
     title: "Fabriken",
-    body: "Beprövade lösningar till offentlig sektor — etablerade metoder som vi vet fungerar.",
+    body: "Beprövade lösningar till offentlig sektor - etablerade metoder som vi vet fungerar.",
     points: [
       "Upphandlade arbetsmarknadstjänster",
       "Samverkansformer som IOP",
@@ -25,7 +25,7 @@ const branches = [
   {
     icon: GraduationCap,
     title: "Akademin",
-    body: "Tjugo års erfarenhet delad med andra — utbildning, stöd och administration.",
+    body: "Tjugo års erfarenhet delad med andra - utbildning, stöd och administration.",
     points: [
       "Föreläsningar och workshops",
       "Projektplanering och ansökningsskrivande",
@@ -35,7 +35,7 @@ const branches = [
   {
     icon: FlaskConical,
     title: "Labbet",
-    body: "Innovation och nya metoder — morgondagens lösningar i nära samverkan.",
+    body: "Innovation och nya metoder - morgondagens lösningar i nära samverkan.",
     points: [
       "Nya metoder och samarbeten",
       "Nya målgrupper och insatser",
@@ -48,12 +48,12 @@ const steps = [
   {
     number: "01",
     title: "Lyssna",
-    body: "Vi börjar alltid med att förståbehovet — från individ, organisation eller samhälle.",
+    body: "Vi börjar alltid med att förståbehovet - från individ, organisation eller samhälle.",
   },
   {
     number: "02",
     title: "Designa",
-    body: "Vi väljer rätt gren och metod — Fabriken, Akademin eller Labbet.",
+    body: "Vi väljer rätt gren och metod - Fabriken, Akademin eller Labbet.",
   },
   {
     number: "03",
@@ -71,7 +71,7 @@ export default function VadViGorPage() {
   useSeo({
     title: "Vad vi gör",
     description:
-      "En organisation — tre sätt att skapa förändring. Fabriken, Akademin och Labbet.",
+      "En organisation - tre sätt att skapa förändring. Fabriken, Akademin och Labbet.",
     canonical: "/vad-vi-gor",
   });
 
@@ -87,7 +87,7 @@ export default function VadViGorPage() {
               En organisation, tre spår
             </h1>
             <p className="text-lg text-white/75 max-w-lg leading-relaxed">
-              Vi delar in vår verksamhet i tre grenar — alla med samma mål,
+              Vi delar in vår verksamhet i tre grenar - alla med samma mål,
               olika metoder.
             </p>
           </ScrollReveal>

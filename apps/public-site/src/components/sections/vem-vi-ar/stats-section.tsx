@@ -22,7 +22,7 @@ export function StatsSection() {
               </h2>
               <p className="text-white/75 leading-relaxed max-w-md">
                 Bakom varje siffra finns en människa som tagit ett steg framåt.
-                Sedan 2003 har tusentals unga kommit till oss — och tusentals
+                Sedan 2003 har tusentals unga kommit till oss - och tusentals
                 har gått vidare.
               </p>
             </div>

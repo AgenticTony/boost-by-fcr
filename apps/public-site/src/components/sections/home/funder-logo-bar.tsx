@@ -1,4 +1,4 @@
-/** Funder logo data — sized by optical weight */
+/** Funder logo data - sized by optical weight */
 const funders = [
   {
     alt: "EU Socialfonden",
@@ -30,7 +30,7 @@ const funders = [
   },
 ];
 
-/** Funder logo bar — bottom of homepage */
+/** Funder logo bar - bottom of homepage */
 export function FunderLogoBar() {
   return (
     <section className="bg-brand-navy/80 border-b-4 border-b-brand-red">

@@ -2,7 +2,7 @@ import type { NewsArticle, TimelineEntry, Resource } from "@/types";
 import type { RegistrationFormData, ContactFormData } from "@/types/forms";
 
 /**
- * Swappable API adapter — switch implementation without touching pages.
+ * Swappable API adapter - switch implementation without touching pages.
  * Mock adapter is active now; Hygraph adapter replaces it in Sprint 3.
  */
 export interface ApiAdapter {
