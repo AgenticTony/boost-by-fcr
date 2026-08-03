@@ -53,7 +53,7 @@ export default function CookiepolicyPage() {
   const seo = useSeo({
     title: "Cookiepolicy",
     description:
-      "Hur vi anvander cookies och liknande tekniker pa var hemsida.",
+      "Hur vi använder cookies och liknande tekniker på vår hemsida.",
     canonical: "/cookiepolicy",
   });
 
@@ -114,11 +114,10 @@ export default function CookiepolicyPage() {
               Cookies är små textfiler som placeras på din enhet när du besöker
               en hemsida. De gör det möjligt för hemsidan att komma ihåg dina
               handlingar och preferenser under en viss tid (till exempel
-              inloggningsuppgifter, språk, teckenstorlek och andra
-              preferenser), så att du inte behöver återange dem varje gång du
-              går tillbaka till hemsidan eller bläddrar från en sida till en
-              annan.
-          </p>
+              inloggningsuppgifter, språk, teckenstorlek och andra preferenser),
+              så att du inte behöver återange dem varje gång du går tillbaka
+              till hemsidan eller bläddrar från en sida till en annan.
+            </p>
           </div>
         </PolicySection>
       </ScrollReveal>
@@ -131,9 +130,7 @@ export default function CookiepolicyPage() {
           title="2. Vilka typer av cookies använder vi?"
         >
           <div className="space-y-4 text-text-muted leading-relaxed">
-            <p>
-              Vi använder följande kategorier av cookies på vår hemsida:
-            </p>
+            <p>Vi använder följande kategorier av cookies på vår hemsida:</p>
 
             <h3 className="mt-6 mb-3 font-display font-semibold text-text">
               Nödvändiga cookies
@@ -150,9 +147,9 @@ export default function CookiepolicyPage() {
               Analys- och prestandacookies
             </h3>
             <p>
-              Dessa cookies låter oss räkna besök och trafikkällor så att vi
-              kan mäta och förbättra prestandan på vår hemsida. De hjälper oss
-              att veta vilka sidor som är mest och minst populära och se hur
+              Dessa cookies låter oss räkna besök och trafikkällor så att vi kan
+              mäta och förbättra prestandan på vår hemsida. De hjälper oss att
+              veta vilka sidor som är mest och minst populära och se hur
               besökare navigerar på webbplatsen. All information som samlas in
               av dessa cookies är aggregerad och anonym.
             </p>
@@ -191,9 +188,8 @@ export default function CookiepolicyPage() {
             />
             <p>
               Dessa tjänster behandlar data i enlighet med sina egna
-              integritetspolicys. Vi har begränsat den information som delas
-              med dessa tjänster till vad som är nödvändigt för respektive
-              syfte.
+              integritetspolicys. Vi har begränsat den information som delas med
+              dessa tjänster till vad som är nödvändigt för respektive syfte.
             </p>
           </div>
         </PolicySection>
