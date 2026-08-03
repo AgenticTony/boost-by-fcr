@@ -11,7 +11,7 @@ import { SelfmadeSection } from "@/components/sections/home/selfmade-section";
 import { FunderLogoBar } from "@/components/sections/home/funder-logo-bar";
 
 export default function HomePage() {
-  useSeo({
+  const seo = useSeo({
     title: "Hem",
     description:
       "Tillsammans bygger vi förutsättningar som ger unga möjlighet att utvecklas, hitta riktning och forma sin framtid.",
@@ -20,6 +20,7 @@ export default function HomePage() {
 
   return (
     <>
+      {seo}
       <HeroSection />
       <ImpactStatsSection />
       <WaveDivider color="#072d59" flip layered />

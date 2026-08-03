@@ -49,7 +49,7 @@ const tracks = [
 ];
 
 export default function ArbetssokandePage() {
-  useSeo({
+  const seo = useSeo({
     title: "Arbetssökande",
     description:
       "På Boost hjälper vi dig att stärka dig själv och din kompetens så att du lättare kommer in på arbetsmarknaden.",
@@ -58,6 +58,7 @@ export default function ArbetssokandePage() {
 
   return (
     <>
+      {seo}
       {/* Hero */}
       <section className="relative bg-brand-navy text-white overflow-hidden">
         <div className="pointer-events-none absolute inset-0">

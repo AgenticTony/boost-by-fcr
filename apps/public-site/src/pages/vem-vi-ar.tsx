@@ -9,7 +9,7 @@ import { TeamSection } from "@/components/sections/vem-vi-ar/team-section";
 import { AgendaSection } from "@/components/sections/vem-vi-ar/agenda-section";
 
 export default function VemViArPage() {
-  useSeo({
+  const seo = useSeo({
     title: "Om oss",
     description:
       "Boost by FC Rosengård - idéburen organisation med bas i Malmö sedan 2003. Vi arbetar för att öka inkluderingen i samhället.",
@@ -18,6 +18,7 @@ export default function VemViArPage() {
 
   return (
     <>
+      {seo}
       <HeroSection />
       <PromisesSection />
       <StatsSection />

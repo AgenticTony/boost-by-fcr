@@ -29,7 +29,7 @@ const features = [
 ];
 
 export default function HalsosparetPage() {
-  useSeo({
+  const seo = useSeo({
     title: "Hälsospåret",
     description:
       "Fysisk träning, kostworkshops, sömnstöd och samtal om välmående. För att orka ta nästa steg måste du må bra.",
@@ -38,6 +38,7 @@ export default function HalsosparetPage() {
 
   return (
     <>
+      {seo}
       {/* Hero */}
       <section className="relative bg-brand-navy text-white overflow-hidden">
         <div className="pointer-events-none absolute inset-0">

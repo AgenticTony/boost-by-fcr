@@ -49,15 +49,38 @@ describe("useSeo", () => {
     );
   });
 
+  it("strips the static SEO fallback from index.html so tags are not duplicated", () => {
+    // Stand in for the hardcoded tags in index.html. Helmet appends rather than
+    // replacing them, so without this cleanup every page carries two of each -
+    // the generic one first, which is the one Google is likeliest to take.
+    const stale = document.createElement("meta");
+    stale.setAttribute("data-static-seo", "");
+    stale.setAttribute("name", "description");
+    stale.setAttribute("content", "generic fallback");
+    document.head.appendChild(stale);
+
+    renderWithHelmet(
+      <SeoTestPage title="Kontakt" description="Kontakta oss" />,
+    );
+
+    expect(document.querySelectorAll("head [data-static-seo]")).toHaveLength(0);
+  });
+
   it("omits the robots tag by default so normal pages stay indexable", () => {
-    renderWithHelmet(<SeoTestPage title="Kontakt" description="Kontakta oss" />);
+    renderWithHelmet(
+      <SeoTestPage title="Kontakt" description="Kontakta oss" />,
+    );
 
     expect(document.querySelector('meta[name="robots"]')).toBeNull();
   });
 
   it("renders noindex,follow when noindex is set", () => {
     renderWithHelmet(
-      <SeoTestPage title="Sidan hittades inte" description="Finns inte" noindex />,
+      <SeoTestPage
+        title="Sidan hittades inte"
+        description="Finns inte"
+        noindex
+      />,
     );
 
     const robots = document.querySelector('meta[name="robots"]');

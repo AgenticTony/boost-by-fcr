@@ -10,7 +10,7 @@ export default function VarHistoriaPage() {
   const { data: timeline = [], isLoading: loading, error } = useTimeline();
   const errorMsg = error ? "Kunde inte ladda tidslinjen." : null;
 
-  useSeo({
+  const seo = useSeo({
     title: "Vår historia",
     description:
       "Över 20 år av att skapa förändring - från en idé i Rosengård till en organisation som hjälper hundratals unga varje år.",
@@ -19,6 +19,7 @@ export default function VarHistoriaPage() {
 
   return (
     <>
+      {seo}
       {/* Hero */}
       <section className="relative bg-brand-navy text-white overflow-hidden">
         <div className="pointer-events-none absolute -bottom-48 -left-48 h-[500px] w-[500px] rounded-full bg-brand-red/8 blur-3xl" />

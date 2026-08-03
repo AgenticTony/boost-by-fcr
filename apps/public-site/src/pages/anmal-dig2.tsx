@@ -19,7 +19,7 @@ const GOOGLE_FORM_EMBED_URL =
   "https://docs.google.com/forms/d/e/1FAIpQLSeXgSD42m6JLWIna8yE7C03qD4h_I-6TdPC-Mr3MWpS5mZ8lQ/viewform?embedded=true";
 
 export default function AnmalDig2Page() {
-  useSeo({
+  const seo = useSeo({
     title: "Anmäl dig",
     description:
       "Ta första steget - det tar tre minuter. Vi hör av oss inom en arbetsdag.",
@@ -28,6 +28,7 @@ export default function AnmalDig2Page() {
 
   return (
     <AnmalDemoLayout>
+      {seo}
       <section className="py-16 md:py-24 bg-white">
         <div className="container-page max-w-2xl">
           <ScrollReveal>
