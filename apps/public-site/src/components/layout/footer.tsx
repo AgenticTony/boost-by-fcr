@@ -33,6 +33,7 @@ const footerSections = [
     heading: "Övrigt",
     links: [
       { href: "/kontakt", label: "Kontakt" },
+      { href: "/cookiepolicy", label: "Cookiepolicy" },
       { href: "/dataskyddspolicy", label: "Dataskyddspolicy" },
     ],
   },
