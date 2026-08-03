@@ -17,6 +17,7 @@ const AnmalDigPage = lazy(() => import("@/pages/anmal-dig"));
 const AnmalDig2Page = lazy(() => import("@/pages/anmal-dig2"));
 const ArbetssokandePage = lazy(() => import("@/pages/arbetssokande"));
 const BridgePage = lazy(() => import("@/pages/bridge"));
+const CookiepolicyPage = lazy(() => import("@/pages/cookiepolicy"));
 const DataskyddspolicyPage = lazy(() => import("@/pages/dataskyddspolicy"));
 const ForetagPage = lazy(() => import("@/pages/foretag"));
 const HalsosparetPage = lazy(() => import("@/pages/halsosparet"));
@@ -82,6 +83,10 @@ export default function App() {
               <Route path="/anmal-dig2" element={<AnmalDig2Page />} />
               <Route path="/arbetssokande" element={<ArbetssokandePage />} />
               <Route path="/bridge" element={<BridgePage />} />
+              <Route
+                path="/cookiepolicy"
+                element={<CookiepolicyPage />}
+              />
               <Route
                 path="/dataskyddspolicy"
                 element={<DataskyddspolicyPage />}
