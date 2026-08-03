@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://boostfcrosengard.se/sitemap.xml
+Sitemap: https://boostbyfcr.se/sitemap.xml
