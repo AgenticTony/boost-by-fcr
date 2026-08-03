@@ -55,18 +55,34 @@ export function WaveDivider({
   /** Mirror horizontally. Shape only - never affects which side is filled. */
   mirror?: boolean;
 }) {
-  const fill = resolve(to);
+  const above = resolve(from);
+  const below = resolve(to);
 
   return (
     <div
-      // -mb-px pulls the next section up by 1px. preserveAspectRatio="none"
-      // with h-auto gives the SVG a fractional height (1280 x 64/1440 = 56.9px),
-      // so its last row is antialiased and the container colour bleeds through
-      // as a hairline against the section below. Overlapping by a pixel hides
-      // it. The top edge needs no such trick: the container background is
-      // `from`, which already matches the section above.
-      className="w-full leading-[0] -mb-px"
-      style={{ background: resolve(from) }}
+      // `relative` is load-bearing. Section heroes place decorative
+      // `absolute ... bg-brand-navy/10 blur-3xl` circles before the divider,
+      // and absolutely positioned siblings paint over a static one - so the
+      // glow tinted the wave (white 255,255,255 -> 231,234,239) and then
+      // stopped dead at the section's overflow-hidden edge, which is exactly
+      // where the divider ends. That abrupt stop was the line running across
+      // the bottom of every navy hero. Positioning the divider puts it above
+      // the glows, so the wave keeps its own colour.
+      className="relative w-full leading-[0]"
+      // preserveAspectRatio="none" with h-auto gives the SVG a fractional
+      // height (1280 x 64/1440 = 56.9px), so its top and bottom rows are
+      // antialiased and blend with whatever is behind them. This gradient puts
+      // `from` behind the top edge and `to` behind the bottom edge, so both
+      // blends are colour-on-same-colour and no hairline can appear.
+      //
+      // Relying on the next section to cover the bleed (a negative margin) does
+      // not work: a divider at the top of a section is followed by that
+      // section's own transparent content div, which paints nothing. That is
+      // what left a pale line across the navy under the "Vill du vara en del av
+      // det har?" wave.
+      style={{
+        background: `linear-gradient(to bottom, ${above} 0 2px, ${below} 2px 100%)`,
+      }}
       aria-hidden="true"
     >
       <svg
@@ -78,8 +94,16 @@ export function WaveDivider({
         preserveAspectRatio="none"
         focusable="false"
       >
-        {layered && <path d={CREST_ECHO} fill={fill} opacity="0.22" />}
-        <path d={CREST} fill={fill} />
+        {/* Height 58, not the full 64. The crest never dips below y=55, so this
+            still covers every pixel above the wave - but it stops short of the
+            box edge. Running it to 64 put white underneath the crest's own
+            antialiased bottom row, which composited to a pale navy line one
+            pixel above the section below (measured 28,63,103 against 7,45,89).
+            Below y=58 the only things painted are the crest and the container
+            gradient, both `to`, so the edge blends into itself. */}
+        <rect width="1440" height="58" fill={above} />
+        {layered && <path d={CREST_ECHO} fill={below} opacity="0.22" />}
+        <path d={CREST} fill={below} />
       </svg>
     </div>
   );
