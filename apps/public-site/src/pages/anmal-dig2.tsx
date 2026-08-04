@@ -1,6 +1,7 @@
 import { useSeo } from "@/hooks/use-seo";
 import { ScrollReveal } from "@/components/ui/scroll-reveal";
 import { AnmalDemoLayout } from "@/components/anmal-demo-layout";
+import { EmbedConsent } from "@/components/ui/embed-consent";
 
 /**
  * Live Anmälan page (/anmal-dig2) - embeds Anna's real Google Form via an
@@ -37,8 +38,41 @@ export default function AnmalDig2Page() {
             </h2>
           </ScrollReveal>
           <ScrollReveal delay={0.1}>
-            <div className="rounded-2xl border border-border/60 shadow-sm bg-white">
+            <div className="rounded-2xl border border-border/60 shadow-sm bg-white overflow-hidden">
               {/*
+                The embed is held back until the visitor asks for it. Loading it
+                on sight contacts seven Google hosts before anyone has agreed to
+                anything, which is what the cookie policy says we do not do.
+                EmbedConsent takes a function so the iframe is never built - and
+                so never requested - before that point.
+              */}
+              <EmbedConsent
+                provider="Google"
+                storageKey="anmalan-google-form-consent"
+                description="Anmälan görs i ett formulär som Google är värd för. När du öppnar det kontaktar din webbläsare Google, som kan spara kakor och se din IP-adress."
+                fallback={
+                  <>
+                    Vill du hellre slippa Google? Ring{" "}
+                    <a
+                      href="tel:+46709921766"
+                      className="font-medium text-brand-navy underline underline-offset-2"
+                    >
+                      070-992 17 66
+                    </a>{" "}
+                    eller mejla{" "}
+                    <a
+                      href="mailto:info@boostbyfcr.se"
+                      className="font-medium text-brand-navy underline underline-offset-2"
+                    >
+                      info@boostbyfcr.se
+                    </a>{" "}
+                    så hjälper vi dig med anmälan.
+                  </>
+                }
+              >
+                {() => (
+                  <>
+                    {/*
                 Height is hardcoded per breakpoint because the embed is
                 cross-origin: Google does not postMessage its content height,
                 so the iframe cannot size itself and any single fixed height
@@ -58,14 +92,16 @@ export default function AnmalDig2Page() {
                 degrades to a scrollbar instead of silently clipping the
                 submit button. If the form is edited, re-measure.
               */}
-              <iframe
-                src={GOOGLE_FORM_EMBED_URL}
-                title="Anmälan till Bridge by FC Rosengård"
-                className="w-full h-[3500px] xs:h-[3200px] sm:h-[2700px] border-0 bg-white"
-                loading="lazy"
-              >
-                Laddar formuläret…
-              </iframe>
+                    <iframe
+                      src={GOOGLE_FORM_EMBED_URL}
+                      title="Anmälan till Bridge by FC Rosengård"
+                      className="w-full h-[3500px] xs:h-[3200px] sm:h-[2700px] border-0 bg-white"
+                    >
+                      Laddar formuläret…
+                    </iframe>
+                  </>
+                )}
+              </EmbedConsent>
             </div>
           </ScrollReveal>
         </div>
