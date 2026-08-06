@@ -31,6 +31,16 @@ export function createMockAdapter(): ApiAdapter {
       return mockResources.filter((r) => r.category === category);
     },
 
+    async fetchOpenPositions() {
+      await delay(100);
+      return [];
+    },
+
+    async fetchTeamMembers() {
+      await delay(100);
+      return [];
+    },
+
     async submitRegistration(_data) {
       await delay(800);
       // No backend yet: success keeps the happy path, delivered=false tells the

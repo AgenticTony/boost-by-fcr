@@ -1,4 +1,4 @@
-import type { NewsArticle, TimelineEntry, Resource } from "@/types";
+import type { NewsArticle, TimelineEntry, Resource, OpenPosition, TeamMember } from "@/types";
 import type { RegistrationFormData, ContactFormData } from "@/types/forms";
 
 /**
@@ -11,6 +11,8 @@ export interface ApiAdapter {
   fetchTimeline(): Promise<TimelineEntry[]>;
   fetchResources(): Promise<Resource[]>;
   fetchResourcesByCategory(category: string): Promise<Resource[]>;
+  fetchOpenPositions(): Promise<OpenPosition[]>;
+  fetchTeamMembers(): Promise<TeamMember[]>;
   // `delivered` is true only when the submission reached a real backend.
   // Until one exists, adapters return delivered=false so the UI can show an
   // honest "not actually sent" notice instead of a misleading success.

@@ -1,6 +1,6 @@
 import { GraphQLClient } from "graphql-request";
 import type { ApiAdapter } from "./adapter";
-import type { NewsArticle, TimelineEntry, Resource } from "@/types";
+import type { NewsArticle, TimelineEntry, Resource, OpenPosition, TeamMember } from "@/types";
 import type { RegistrationFormData, ContactFormData } from "@/types/forms";
 
 // ─── Hygraph field mapping ─────────────────────────────────────────
@@ -38,6 +38,23 @@ interface HygraphResource {
   file?: { url: string; fileName?: string; fileSize?: number };
   fileType?: string;
   isPublic: boolean;
+}
+
+interface HygraphOpenPosition {
+  id: string;
+  title: string;
+  slug: string;
+  preview: string;
+  content: { raw: string };
+  image?: { url: string };
+}
+
+interface HygraphTeamMember {
+  id: string;
+  name: string;
+  title: string;
+  email?: string;
+  image?: { url: string };
 }
 
 // ─── GraphQL queries ────────────────────────────────────────────────
@@ -115,6 +132,29 @@ ${RESOURCE_FRAGMENT}
 query FetchResourcesByCategory($category: String!) {
   resources(stage: PUBLISHED, where: { category: $category, isPublic: true }) {
     ...ResourceFields
+  }
+}`;
+
+const FETCH_OPEN_POSITIONS = `
+query FetchOpenPositions {
+  openPositions(stage: PUBLISHED, orderBy: publishedAt_DESC) {
+    id
+    title
+    slug
+    preview
+    content { raw }
+    image { url }
+  }
+}`;
+
+const FETCH_TEAM_MEMBERS = `
+query FetchTeamMembers {
+  teamMembers(stage: PUBLISHED) {
+    id
+    name
+    title
+    email
+    image { url }
   }
 }`;
 
@@ -211,6 +251,27 @@ export function mapResource(raw: HygraphResource): Resource {
   };
 }
 
+export function mapOpenPosition(raw: HygraphOpenPosition): OpenPosition {
+  return {
+    id: raw.id,
+    title: raw.title,
+    slug: raw.slug,
+    preview: raw.preview,
+    body: raw.content?.raw ? richTextToPlainText(raw.content.raw) : raw.preview,
+    imageUrl: raw.image?.url,
+  };
+}
+
+export function mapTeamMember(raw: HygraphTeamMember): TeamMember {
+  return {
+    id: raw.id,
+    name: raw.name,
+    title: raw.title,
+    email: raw.email,
+    imageUrl: raw.image?.url,
+  };
+}
+
 // ─── Adapter factory ────────────────────────────────────────────────
 
 /**
@@ -267,6 +328,20 @@ export function createHygraphAdapter(
         { category },
       );
       return data.resources.map(mapResource);
+    },
+
+    async fetchOpenPositions() {
+      const data = await client.request<{
+        openPositions: HygraphOpenPosition[];
+      }>(FETCH_OPEN_POSITIONS);
+      return data.openPositions.map(mapOpenPosition);
+    },
+
+    async fetchTeamMembers() {
+      const data = await client.request<{
+        teamMembers: HygraphTeamMember[];
+      }>(FETCH_TEAM_MEMBERS);
+      return data.teamMembers.map(mapTeamMember);
     },
 
     // Forms are not CMS-backed. Registration stays a no-op pending a backend;

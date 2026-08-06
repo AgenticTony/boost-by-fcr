@@ -68,6 +68,18 @@ export function createResilientAdapter(
         () => primary.fetchResourcesByCategory(category),
         () => fallback.fetchResourcesByCategory(category),
       ),
+    fetchOpenPositions: () =>
+      withFallback(
+        "fetchOpenPositions",
+        primary.fetchOpenPositions,
+        fallback.fetchOpenPositions,
+      ),
+    fetchTeamMembers: () =>
+      withFallback(
+        "fetchTeamMembers",
+        primary.fetchTeamMembers,
+        fallback.fetchTeamMembers,
+      ),
     submitRegistration: (data) => primary.submitRegistration(data),
     submitContact: (data) => primary.submitContact(data),
   };
@@ -86,7 +98,7 @@ const adapter: ApiAdapter = (() => {
 })();
 
 // ─── Types ───
-export type { NewsArticle, TimelineEntry, Resource } from "@/types";
+export type { NewsArticle, TimelineEntry, Resource, OpenPosition, TeamMember } from "@/types";
 export type { RegistrationFormData, ContactFormData } from "@/types/forms";
 
 // ─── Data functions ───
@@ -97,6 +109,8 @@ export const fetchTimeline = () => adapter.fetchTimeline();
 export const fetchResources = () => adapter.fetchResources();
 export const fetchResourcesByCategory = (category: string) =>
   adapter.fetchResourcesByCategory(category);
+export const fetchOpenPositions = () => adapter.fetchOpenPositions();
+export const fetchTeamMembers = () => adapter.fetchTeamMembers();
 export const submitRegistration = (
   data: Parameters<typeof adapter.submitRegistration>[0],
 ) => adapter.submitRegistration(data);
