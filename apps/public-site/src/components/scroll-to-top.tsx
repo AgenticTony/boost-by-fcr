@@ -7,7 +7,7 @@ import { useLocation } from "react-router-dom";
  * React Router does not restore scroll position on navigation, so without this
  * a click-through inherits the previous page's scroll offset (often the bottom).
  * If the destination URL carries a hash that matches an element id, that element
- * is scrolled into view instead — preserving intentional in-page anchor jumps.
+ * is scrolled into view instead - preserving intentional in-page anchor jumps.
  *
  * Must be rendered inside a <Router> (BrowserRouter / MemoryRouter).
  */

@@ -49,7 +49,7 @@ const tracks = [
 ];
 
 export default function ArbetssokandePage() {
-  useSeo({
+  const seo = useSeo({
     title: "Arbetssökande",
     description:
       "På Boost hjälper vi dig att stärka dig själv och din kompetens så att du lättare kommer in på arbetsmarknaden.",
@@ -58,9 +58,10 @@ export default function ArbetssokandePage() {
 
   return (
     <>
+      {seo}
       {/* Hero */}
       <section className="relative bg-brand-navy text-white overflow-hidden">
-        <div className="pointer-events-none absolute inset-0">
+        <div className="pointer-events-none absolute inset-0 [mask-image:linear-gradient(to_bottom,black_0%,black_52%,transparent_84%)] [-webkit-mask-image:linear-gradient(to_bottom,black_0%,black_52%,transparent_84%)]">
           <img
             src="/images/Arbetssoekande1.jpg"
             alt="Person som tar steget in i arbetslivet med stöd från Boost"
@@ -68,7 +69,7 @@ export default function ArbetssokandePage() {
           />
         </div>
         <div className="pointer-events-none absolute -top-32 -right-32 h-96 w-96 rounded-full bg-brand-red/10 blur-3xl" />
-        <div className="pointer-events-none absolute -bottom-32 -left-32 h-80 w-80 rounded-full bg-brand-navy/8 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-32 [mask-image:linear-gradient(to_bottom,black_0%,transparent_55%)] [-webkit-mask-image:linear-gradient(to_bottom,black_0%,transparent_55%)] -left-32 h-80 w-80 rounded-full bg-brand-navy/8 blur-3xl" />
         <div className="container-page relative py-20 md:py-28">
           <ScrollReveal>
             <p className="text-xs font-body font-medium text-brand-red-bright tracking-widest uppercase mb-4">
@@ -88,7 +89,7 @@ export default function ArbetssokandePage() {
             <Button
               asChild
               size="lg"
-              className="bg-brand-red-bright text-white hover:bg-brand-red-bright/90 font-display font-semibold rounded-full px-10 h-14 shadow-lg shadow-brand-red-bright/25 hover:shadow-brand-red-bright/40 hover:scale-[1.02] transition-all duration-300"
+              className="bg-brand-red text-white hover:bg-brand-red/90 font-display font-semibold rounded-full px-10 h-14 shadow-lg shadow-brand-red/25 hover:shadow-brand-red/40 hover:scale-[1.02] transition-all duration-300"
             >
               <Link to="/anmal-dig2">
                 Anmäl dig här <ArrowRight className="ml-2 h-4 w-4" />
@@ -96,7 +97,7 @@ export default function ArbetssokandePage() {
             </Button>
           </ScrollReveal>
         </div>
-        <WaveDivider color="navy" layered />
+        <WaveDivider from="navy" to="white" />
       </section>
 
       {/* Vårt arbetssätt */}
@@ -136,7 +137,7 @@ export default function ArbetssokandePage() {
         <div className="container-page">
           <ScrollReveal>
             <p className="text-sm font-body font-medium text-brand-navy tracking-widest uppercase mb-3">
-              Tre spår — samma mål
+              Tre spår - samma mål
             </p>
             <h2 className="text-3xl md:text-[2.75rem] font-display font-extrabold text-text leading-tight mb-12">
               Välj ditt spår
@@ -192,20 +193,20 @@ export default function ArbetssokandePage() {
 
       {/* Bottom CTA */}
       <section className="bg-brand-navy text-white overflow-hidden border-b-4 border-b-brand-red">
-        <WaveDivider color="white" flip layered />
+        <WaveDivider from="white" to="navy" mirror />
         <div className="container-page pt-4 pb-16 md:pt-6 md:pb-24 text-center">
           <ScrollReveal>
             <h2 className="text-3xl md:text-4xl font-display font-extrabold mb-4">
               Redo att ta steget?
             </h2>
             <p className="text-white/70 max-w-md mx-auto leading-relaxed mb-8">
-              Vi finns här för dig. Berätta vad du behöver — så hittar vi vägen
+              Vi finns här för dig. Berätta vad du behöver - så hittar vi vägen
               tillsammans.
             </p>
             <Button
               asChild
               size="lg"
-              className="bg-brand-red-bright text-white hover:bg-brand-red-bright/90 font-display font-semibold rounded-full px-10 h-14 shadow-lg shadow-brand-red-bright/25 hover:scale-[1.02] transition-all duration-300"
+              className="bg-brand-red text-white hover:bg-brand-red/90 font-display font-semibold rounded-full px-10 h-14 shadow-lg shadow-brand-red/25 hover:scale-[1.02] transition-all duration-300"
             >
               <Link to="/anmal-dig2">
                 Anmäl dig idag <ArrowRight className="ml-2 h-4 w-4" />

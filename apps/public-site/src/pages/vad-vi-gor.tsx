@@ -15,7 +15,7 @@ const branches = [
   {
     icon: Factory,
     title: "Fabriken",
-    body: "Beprövade lösningar till offentlig sektor — etablerade metoder som vi vet fungerar.",
+    body: "Beprövade lösningar till offentlig sektor - etablerade metoder som vi vet fungerar.",
     points: [
       "Upphandlade arbetsmarknadstjänster",
       "Samverkansformer som IOP",
@@ -25,7 +25,7 @@ const branches = [
   {
     icon: GraduationCap,
     title: "Akademin",
-    body: "Tjugo års erfarenhet delad med andra — utbildning, stöd och administration.",
+    body: "Tjugo års erfarenhet delad med andra - utbildning, stöd och administration.",
     points: [
       "Föreläsningar och workshops",
       "Projektplanering och ansökningsskrivande",
@@ -35,7 +35,7 @@ const branches = [
   {
     icon: FlaskConical,
     title: "Labbet",
-    body: "Innovation och nya metoder — morgondagens lösningar i nära samverkan.",
+    body: "Innovation och nya metoder - morgondagens lösningar i nära samverkan.",
     points: [
       "Nya metoder och samarbeten",
       "Nya målgrupper och insatser",
@@ -48,12 +48,12 @@ const steps = [
   {
     number: "01",
     title: "Lyssna",
-    body: "Vi börjar alltid med att förståbehovet — från individ, organisation eller samhälle.",
+    body: "Vi börjar alltid med att förståbehovet - från individ, organisation eller samhälle.",
   },
   {
     number: "02",
     title: "Designa",
-    body: "Vi väljer rätt gren och metod — Fabriken, Akademin eller Labbet.",
+    body: "Vi väljer rätt gren och metod - Fabriken, Akademin eller Labbet.",
   },
   {
     number: "03",
@@ -68,31 +68,32 @@ const steps = [
 ];
 
 export default function VadViGorPage() {
-  useSeo({
+  const seo = useSeo({
     title: "Vad vi gör",
     description:
-      "En organisation — tre sätt att skapa förändring. Fabriken, Akademin och Labbet.",
+      "En organisation - tre sätt att skapa förändring. Fabriken, Akademin och Labbet.",
     canonical: "/vad-vi-gor",
   });
 
   return (
     <>
+      {seo}
       {/* Hero */}
       <section className="relative bg-brand-navy text-white overflow-hidden">
         <div className="pointer-events-none absolute -top-32 -right-32 h-96 w-96 rounded-full bg-brand-red/10 blur-3xl" />
-        <div className="pointer-events-none absolute -bottom-32 -left-32 h-80 w-80 rounded-full bg-brand-navy/8 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-32 [mask-image:linear-gradient(to_bottom,black_0%,transparent_55%)] [-webkit-mask-image:linear-gradient(to_bottom,black_0%,transparent_55%)] -left-32 h-80 w-80 rounded-full bg-brand-navy/8 blur-3xl" />
         <div className="container-page relative py-20 md:py-28">
           <ScrollReveal>
             <h1 className="text-4xl md:text-5xl lg:text-[3.5rem] font-display font-extrabold leading-tight mb-4">
               En organisation, tre spår
             </h1>
             <p className="text-lg text-white/75 max-w-lg leading-relaxed">
-              Vi delar in vår verksamhet i tre grenar — alla med samma mål,
+              Vi delar in vår verksamhet i tre grenar - alla med samma mål,
               olika metoder.
             </p>
           </ScrollReveal>
         </div>
-        <WaveDivider color="navy" layered />
+        <WaveDivider from="navy" to="white" />
       </section>
 
       {/* Branch cards */}
@@ -167,7 +168,7 @@ export default function VadViGorPage() {
 
       {/* Bottom CTA */}
       <section className="bg-brand-navy text-white overflow-hidden border-b-4 border-b-brand-red">
-        <WaveDivider color="white" flip layered />
+        <WaveDivider from="surface" to="navy" mirror />
         <div className="container-page pt-4 pb-16 md:pt-6 md:pb-24 text-center">
           <ScrollReveal>
             <h2 className="text-3xl md:text-4xl font-display font-extrabold mb-4">
@@ -181,7 +182,7 @@ export default function VadViGorPage() {
               <Button
                 asChild
                 size="lg"
-                className="bg-brand-red-bright text-white hover:bg-brand-red-bright/90 font-display font-semibold rounded-full px-10 h-14 shadow-lg shadow-brand-red-bright/25 hover:scale-[1.02] transition-all duration-300"
+                className="bg-brand-red text-white hover:bg-brand-red/90 font-display font-semibold rounded-full px-10 h-14 shadow-lg shadow-brand-red/25 hover:scale-[1.02] transition-all duration-300"
               >
                 <Link to="/kontakt">
                   Kontakta oss <ArrowRight className="ml-2 h-4 w-4" />

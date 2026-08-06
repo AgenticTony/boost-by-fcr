@@ -10,18 +10,19 @@ export default function VarHistoriaPage() {
   const { data: timeline = [], isLoading: loading, error } = useTimeline();
   const errorMsg = error ? "Kunde inte ladda tidslinjen." : null;
 
-  useSeo({
+  const seo = useSeo({
     title: "Vår historia",
     description:
-      "Över 20 år av att skapa förändring — från en idé i Rosengård till en organisation som hjälper hundratals unga varje år.",
+      "Över 20 år av att skapa förändring - från en idé i Rosengård till en organisation som hjälper hundratals unga varje år.",
     canonical: "/var-historia",
   });
 
   return (
     <>
+      {seo}
       {/* Hero */}
       <section className="relative bg-brand-navy text-white overflow-hidden">
-        <div className="pointer-events-none absolute -bottom-48 -left-48 h-[500px] w-[500px] rounded-full bg-brand-red/8 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-48 [mask-image:linear-gradient(to_bottom,black_0%,transparent_55%)] [-webkit-mask-image:linear-gradient(to_bottom,black_0%,transparent_55%)] -left-48 h-[500px] w-[500px] rounded-full bg-brand-red/8 blur-3xl" />
         <div className="pointer-events-none absolute -top-32 -right-32 h-96 w-96 rounded-full bg-brand-navy/10 blur-3xl" />
         <div className="container-page relative py-20 md:py-28">
           <ScrollReveal>
@@ -37,7 +38,7 @@ export default function VarHistoriaPage() {
             </p>
           </ScrollReveal>
         </div>
-        <WaveDivider color="navy" layered />
+        <WaveDivider from="navy" to="white" />
       </section>
 
       {/* Timeline */}
@@ -86,21 +87,21 @@ export default function VarHistoriaPage() {
 
       {/* Bottom CTA */}
       <section className="bg-brand-navy text-white overflow-hidden border-b-4 border-b-brand-red">
-        <WaveDivider color="white" flip layered />
+        <WaveDivider from="white" to="navy" mirror />
         <div className="container-page pt-4 pb-16 md:pt-6 md:pb-24 text-center">
           <ScrollReveal>
             <h2 className="text-3xl md:text-4xl font-display font-extrabold mb-4">
               Vill du vara en del av nästa kapitel?
             </h2>
             <p className="text-white/70 max-w-md mx-auto leading-relaxed mb-8">
-              Vi letar alltid efter människor som vill bidra — som deltagare,
+              Vi letar alltid efter människor som vill bidra - som deltagare,
               samarbetspartner eller kollega.
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <Button
                 asChild
                 size="lg"
-                className="bg-brand-red-bright text-white hover:bg-brand-red-bright/90 font-display font-semibold rounded-full px-10 h-14 shadow-lg shadow-brand-red-bright/25 hover:scale-[1.02] transition-all duration-300"
+                className="bg-brand-red text-white hover:bg-brand-red/90 font-display font-semibold rounded-full px-10 h-14 shadow-lg shadow-brand-red/25 hover:scale-[1.02] transition-all duration-300"
               >
                 <Link to="/anmal-dig2">
                   Anmäl dig <ArrowRight className="ml-2 h-4 w-4" />

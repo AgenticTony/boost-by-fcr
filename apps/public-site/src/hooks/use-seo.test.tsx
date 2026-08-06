@@ -49,6 +49,63 @@ describe("useSeo", () => {
     );
   });
 
+  it("strips the static SEO fallback from index.html so tags are not duplicated", () => {
+    // Stand in for the hardcoded tags in index.html. Helmet appends rather than
+    // replacing them, so without this cleanup every page carries two of each -
+    // the generic one first, which is the one Google is likeliest to take.
+    const stale = document.createElement("meta");
+    stale.setAttribute("data-static-seo", "");
+    stale.setAttribute("name", "description");
+    stale.setAttribute("content", "generic fallback");
+    document.head.appendChild(stale);
+
+    renderWithHelmet(
+      <SeoTestPage title="Kontakt" description="Kontakta oss" />,
+    );
+
+    expect(document.querySelectorAll("head [data-static-seo]")).toHaveLength(0);
+  });
+
+  it("omits the robots tag by default so normal pages stay indexable", () => {
+    renderWithHelmet(
+      <SeoTestPage title="Kontakt" description="Kontakta oss" />,
+    );
+
+    expect(document.querySelector('meta[name="robots"]')).toBeNull();
+  });
+
+  it("renders noindex,follow when noindex is set", () => {
+    renderWithHelmet(
+      <SeoTestPage
+        title="Sidan hittades inte"
+        description="Finns inte"
+        noindex
+      />,
+    );
+
+    const robots = document.querySelector('meta[name="robots"]');
+    expect(robots?.getAttribute("content")).toBe("noindex, follow");
+  });
+
+  it("renders og:url alongside the canonical", () => {
+    // Regression guard: these two used to share one conditional wrapping a
+    // fragment. react-helmet-async does not traverse fragment children, so it
+    // emitted the <link> and dropped the <meta> - og:url was missing on every
+    // page. Assert both, not just the canonical.
+    renderWithHelmet(
+      <SeoTestPage title="Test" description="Test" canonical="/kontakt" />,
+    );
+
+    expect(
+      document.querySelector('link[rel="canonical"]')?.getAttribute("href"),
+    ).toBe("https://boostbyfcr.se/kontakt");
+    expect(
+      document
+        .querySelector('meta[property="og:url"]')
+        ?.getAttribute("content"),
+    ).toBe("https://boostbyfcr.se/kontakt");
+  });
+
   it("renders JSON-LD structured data", () => {
     renderWithHelmet(<SeoTestPage title="Test" description="Test" />);
 

@@ -464,7 +464,7 @@ export default function Login() {
 
             {/* Back to home */}
             <a
-              href="https://boost-by-fcr.vercel.app/"
+              href="https://boost-public-site.pages.dev/"
               className="flex items-center justify-center gap-2 text-slate-400 hover:text-white text-sm transition-colors"
             >
               <ArrowRight className="w-4 h-4 rotate-180" />

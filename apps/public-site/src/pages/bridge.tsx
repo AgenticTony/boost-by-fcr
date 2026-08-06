@@ -15,7 +15,7 @@ import {
 import { useSeo } from "@/hooks/use-seo";
 
 const eligibility = [
-  "18–29 år",
+  "18-29 år",
   "Inskriven på Arbetsförmedlingen",
   "Vill ha intensivt stöd",
 ];
@@ -29,12 +29,12 @@ const methods = [
   {
     icon: UserCheck,
     title: "Individuellt anpassat",
-    body: "Vi utgår från din situation, dina mål och din takt. Ingen standardlösning — bara det som fungerar för dig.",
+    body: "Vi utgår från din situation, dina mål och din takt. Ingen standardlösning - bara det som fungerar för dig.",
   },
   {
     icon: Target,
     title: "Holistiskt angreppssätt",
-    body: "Vi ser hela människan. Arbete, studier och hälsa hänger ihop — därför får du tillgång till alla tre spåren.",
+    body: "Vi ser hela människan. Arbete, studier och hälsa hänger ihop - därför får du tillgång till alla tre spåren.",
   },
   {
     icon: Building,
@@ -44,15 +44,16 @@ const methods = [
 ];
 
 export default function BridgePage() {
-  useSeo({
+  const seo = useSeo({
     title: "Bridge by FCR",
     description:
-      "ESF-finansierat projekt för dig som är 18–29 år och inskriven på Arbetsförmedlingen. Intensivt stöd mot arbete eller studier.",
+      "ESF-finansierat projekt för dig som är 18-29 år och inskriven på Arbetsförmedlingen. Intensivt stöd mot arbete eller studier.",
     canonical: "/bridge",
   });
 
   return (
     <>
+      {seo}
       {/* Hero */}
       <section className="relative bg-brand-navy text-white overflow-hidden">
         <div className="pointer-events-none absolute -top-32 -right-32 h-96 w-96 rounded-full bg-brand-red/10 blur-3xl" />
@@ -68,7 +69,7 @@ export default function BridgePage() {
                   Bridge by FCR
                 </h1>
                 <p className="text-lg text-white/75 max-w-xl leading-relaxed">
-                  Är du 18–29 och inskriven på Arbetsförmedlingen? Då kan du
+                  Är du 18-29 och inskriven på Arbetsförmedlingen? Då kan du
                   delta i vårt ESF-finansierade projekt som ger dig intensivt
                   stöd mot arbete eller studier.
                 </p>
@@ -76,14 +77,14 @@ export default function BridgePage() {
             </ScrollReveal>
             <ScrollReveal direction="right">
               <div className="hidden lg:flex flex-col justify-center gap-6">
-                {/* Fact chips — unified card */}
+                {/* Fact chips - unified card */}
                 <div className="rounded-2xl bg-white/[0.06] backdrop-blur-sm border border-white/10 overflow-hidden">
                   <div className="h-1 bg-linear-to-r from-brand-red via-brand-red/60 to-transparent" />
                   <div className="grid grid-cols-3 gap-0 divide-x divide-white/10">
                     {[
                       {
                         icon: <Users className="h-5 w-5 text-brand-red" />,
-                        value: "18–29",
+                        value: "18-29",
                         sub: "år",
                       },
                       {
@@ -113,7 +114,7 @@ export default function BridgePage() {
                   </div>
                 </div>
 
-                {/* Funder logos — unified card */}
+                {/* Funder logos - unified card */}
                 <div className="rounded-2xl bg-white/[0.06] backdrop-blur-sm border border-white/10 overflow-hidden">
                   <div className="h-1 bg-linear-to-r from-brand-red via-brand-red/60 to-transparent" />
                   <p className="text-xs text-white/60 text-center pt-4 pb-2 uppercase tracking-wider">
@@ -151,7 +152,7 @@ export default function BridgePage() {
             </ScrollReveal>
           </div>
         </div>
-        <WaveDivider color="navy" layered />
+        <WaveDivider from="navy" to="white" />
       </section>
 
       {/* Vad är Bridge? */}
@@ -172,8 +173,8 @@ export default function BridgePage() {
                     hand.
                   </p>
                   <p>
-                    Genom Bridge får du tillgång till alla tre spår —
-                    Arbetsspåret, Studiespåret och Hälsospåret — med en
+                    Genom Bridge får du tillgång till alla tre spår -
+                    Arbetsspåret, Studiespåret och Hälsospåret - med en
                     personlig vägledare som hjälper dig lägga en plan utifrån
                     just din situation.
                   </p>
@@ -291,7 +292,7 @@ export default function BridgePage() {
 
       {/* Bottom CTA */}
       <section className="bg-brand-navy text-white overflow-hidden border-b-4 border-b-brand-red">
-        <WaveDivider color="white" flip layered />
+        <WaveDivider from="white" to="navy" mirror />
         <div className="container-page pt-4 pb-16 md:pt-6 md:pb-24 text-center">
           <ScrollReveal>
             <h2 className="text-3xl md:text-4xl font-display font-extrabold mb-4">
@@ -304,7 +305,7 @@ export default function BridgePage() {
             <Button
               asChild
               size="lg"
-              className="bg-brand-red-bright text-white hover:bg-brand-red-bright/90 font-display font-semibold rounded-full px-10 h-14 shadow-lg shadow-brand-red-bright/25 hover:scale-[1.02] transition-all duration-300"
+              className="bg-brand-red text-white hover:bg-brand-red/90 font-display font-semibold rounded-full px-10 h-14 shadow-lg shadow-brand-red/25 hover:scale-[1.02] transition-all duration-300"
             >
               <Link to="/anmal-dig2">
                 Anmäl dig till Bridge <ArrowRight className="ml-2 h-4 w-4" />

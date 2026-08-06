@@ -12,7 +12,7 @@ const stats = [
 export function StatsSection() {
   return (
     <section className="bg-brand-navy text-white overflow-hidden">
-      <WaveDivider color="white" flip layered />
+      <WaveDivider from="surface" to="navy" mirror />
       <div className="container-page py-14 md:py-16">
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
           <ScrollReveal direction="left">
@@ -22,7 +22,7 @@ export function StatsSection() {
               </h2>
               <p className="text-white/75 leading-relaxed max-w-md">
                 Bakom varje siffra finns en människa som tagit ett steg framåt.
-                Sedan 2003 har tusentals unga kommit till oss — och tusentals
+                Sedan 2003 har tusentals unga kommit till oss - och tusentals
                 har gått vidare.
               </p>
             </div>
@@ -41,7 +41,7 @@ export function StatsSection() {
           </div>
         </div>
       </div>
-      <WaveDivider color="navy" layered />
+      <WaveDivider from="navy" to="white" />
     </section>
   );
 }

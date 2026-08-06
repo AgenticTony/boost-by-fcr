@@ -28,7 +28,7 @@ type Props = {
 };
 
 /**
- * PromiseIcons — renders the five Boost brand promise icons
+ * PromiseIcons - renders the five Boost brand promise icons
  * in a horizontal row with labels, staggered entrance animation.
  */
 export function PromiseIcons({ className }: Props) {

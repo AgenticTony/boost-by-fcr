@@ -10,7 +10,7 @@ export const mockNewsArticles: NewsArticle[] = [
     category: "samarbeten",
     excerpt:
       "Boost inleder ett nytt samarbete med Malmö stad som ger fler unga tillgång till arbetsmarknadsinsatser och vägledning.",
-    body: "Boost by FC Rosengård inleder ett nytt och omfattande samarbete med Malmö stad. Syftet är att skapa fler vägar in i arbetslivet för unga i staden. Genom samarbetet får Boost utökade resurser för att nå ut till fler deltagare och erbjuda skräddarsytt stöd.\n\n– Det här samarbetet betyder oerhört mycket för oss och för de unga vi jobbar för, säger Anna Nettrup, projektledare på Boost.\n\nSamarbetet börjar gälla från och med juni 2025 och pågår initialt i två år.",
+    body: "Boost by FC Rosengård inleder ett nytt och omfattande samarbete med Malmö stad. Syftet är att skapa fler vägar in i arbetslivet för unga i staden. Genom samarbetet får Boost utökade resurser för att nå ut till fler deltagare och erbjuda skräddarsytt stöd.\n\n- Det här samarbetet betyder oerhört mycket för oss och för de unga vi jobbar för, säger Anna Nettrup, projektledare på Boost.\n\nSamarbetet börjar gälla från och med juni 2025 och pågår initialt i två år.",
     imageUrl: "/images/Review.png",
     imageAlt: "Möte mellan Boost och Malmö stad",
     author: "Boost by FC Rosengård",
@@ -23,7 +23,7 @@ export const mockNewsArticles: NewsArticle[] = [
     category: "resultat",
     excerpt:
       "Fjärde året i rad levererar Boost starka resultat. Över 200 deltagare gick vidare till anställning under 2024.",
-    body: "Under 2024 gick över 200 deltagare vidare från Boost till en anställning. Det är det fjärde året i rad som vi passerar 200-strecket.\n\nResultaten visar att modellen fungerar — individanpassat stöd, nära samarbete med arbetsgivare och ett helhetsperspektiv på varje persons situation.\n\nUtöver de som fick jobb började cirka 100 personer studera eller påbörjade en utbildning via Boost.",
+    body: "Under 2024 gick över 200 deltagare vidare från Boost till en anställning. Det är det fjärde året i rad som vi passerar 200-strecket.\n\nResultaten visar att modellen fungerar - individanpassat stöd, nära samarbete med arbetsgivare och ett helhetsperspektiv på varje persons situation.\n\nUtöver de som fick jobb började cirka 100 personer studera eller påbörjade en utbildning via Boost.",
     imageUrl: "/images/deltagare_boostbyfcr.jpg",
     imageAlt: "Deltagare firar nya jobb",
     author: "Boost by FC Rosengård",
@@ -31,12 +31,12 @@ export const mockNewsArticles: NewsArticle[] = [
   {
     id: "3",
     slug: "bridge-by-fcr-ny-esf-satsning",
-    title: "Bridge by FCR — ny ESF-satsning för unga",
+    title: "Bridge by FCR - ny ESF-satsning för unga",
     publishedAt: "2025-02-10",
     category: "projekt",
     excerpt:
       "EU:s Socialfond finansierar nytt intensivt program för unga som är inskrivna på Arbetsförmedlingen.",
-    body: "Bridge by FCR är Boosts senaste tillskott — ett ESF-finansierat projekt för unga mellan 18 och 29 år som är inskrivna på Arbetsförmedlingen.\n\nProgrammet erbjuder intensivt och individanpassat stöd med personlig vägledare, CV- och intervjuträning samt direktkontakt med arbetsgivare.\n\n– Bridge fyller ett viktigt glapp. Vi finns här för de unga som annars faller mellan stolarna, säger Anna Nettrup.",
+    body: "Bridge by FCR är Boosts senaste tillskott - ett ESF-finansierat projekt för unga mellan 18 och 29 år som är inskrivna på Arbetsförmedlingen.\n\nProgrammet erbjuder intensivt och individanpassat stöd med personlig vägledare, CV- och intervjuträning samt direktkontakt med arbetsgivare.\n\n- Bridge fyller ett viktigt glapp. Vi finns här för de unga som annars faller mellan stolarna, säger Anna Nettrup.",
     imageUrl: "/images/Arbetssoekande2.jpg",
     imageAlt: "Workshop med deltagare i Bridge-programmet",
     author: "Boost by FC Rosengård",
@@ -140,7 +140,7 @@ export const mockResources: Resource[] = [
   },
   {
     id: "r-2",
-    title: "CV-mall — Steg för steg",
+    title: "CV-mall - Steg för steg",
     slug: "cv-mall",
     category: "arbetsmarknad",
     description:
@@ -153,7 +153,7 @@ export const mockResources: Resource[] = [
   },
   {
     id: "r-3",
-    title: "Normmedveten rekrytering — Handbok",
+    title: "Normmedveten rekrytering - Handbok",
     slug: "normmedveten-rekrytering",
     category: "normer",
     description:
@@ -166,7 +166,7 @@ export const mockResources: Resource[] = [
   },
   {
     id: "r-4",
-    title: "Hälsa och välmående — Övningshäfte",
+    title: "Hälsa och välmående - Övningshäfte",
     slug: "halsa-ovningshaefte",
     category: "halsa",
     description:
@@ -179,7 +179,7 @@ export const mockResources: Resource[] = [
   },
   {
     id: "r-5",
-    title: "Intervjuteknik — Tips och tricks",
+    title: "Intervjuteknik - Tips och tricks",
     slug: "intervjuteknik",
     category: "arbetsmarknad",
     description:

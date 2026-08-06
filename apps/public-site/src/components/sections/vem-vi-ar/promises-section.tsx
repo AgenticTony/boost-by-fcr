@@ -3,8 +3,8 @@ import { ScrollReveal } from "@/components/ui/scroll-reveal";
 const promises = [
   {
     iconSrc: "/images/promise-inkluderande.png",
-    iconAlt: "Inkludering — alla är välkomna",
-    title: "Vi är inkluderande – alla är välkomna och alla kan",
+    iconAlt: "Inkludering - alla är välkomna",
+    title: "Vi är inkluderande - alla är välkomna och alla kan",
     body: "Vi sätter individen i centrum och tror på varje människas inre kapacitet och vilja. Vi ser hela människan och ger alla en chans att utvecklas utifrån sina egna mål och drömmar.",
   },
   {
@@ -36,9 +36,9 @@ const promises = [
 const bgColors = [
   "bg-brand-navy/[0.03]",
   "bg-brand-blue-light/20",
-  "bg-brand-blue-light/15",
   "bg-brand-navy/[0.03]",
   "bg-brand-blue-light/20",
+  "bg-brand-navy/[0.03]",
 ];
 
 export function PromisesSection() {

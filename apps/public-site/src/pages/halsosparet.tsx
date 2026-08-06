@@ -9,27 +9,27 @@ const features = [
   {
     icon: Dumbbell,
     title: "Fysisk träning",
-    body: "Gymträning, klättring, thaiboxning och mer. Du provar aktiviteter du kanske aldrig testat, utmanar dig fysiskt och märker snabbt vad kroppen klarar av — och tycker om.",
+    body: "Gymträning, klättring, thaiboxning och mer. Du provar aktiviteter du kanske aldrig testat, utmanar dig fysiskt och märker snabbt vad kroppen klarar av - och tycker om.",
   },
   {
     icon: Apple,
     title: "Kost och näring",
-    body: "Vi håller workshops om vad du äter och hur det påverkar din energi, koncentration och humör. Inga dieter, inga pekpinnar — bara faktabaserad kunskap du faktiskt kan använda.",
+    body: "Vi håller workshops om vad du äter och hur det påverkar din energi, koncentration och humör. Inga dieter, inga pekpinnar - bara faktabaserad kunskap du faktiskt kan använda.",
   },
   {
     icon: Moon,
     title: "Sömn och återhämtning",
-    body: "Sömnbrist påverkar allt — från motivation till minnesfunktion. Vi pratar om varför sömn är avgörande och ger dig konkreta verktyg för att förbättra den.",
+    body: "Sömnbrist påverkar allt - från motivation till minnesfunktion. Vi pratar om varför sömn är avgörande och ger dig konkreta verktyg för att förbättra den.",
   },
   {
     icon: Brain,
     title: "Psykiskt välmående",
-    body: "I öppna samtal och workshops pratar vi om stress, självförtroende, motivation och hur träning påverkar ditt mående. Du är inte ensam om det du känner — och det ska du inte behöva vara.",
+    body: "I öppna samtal och workshops pratar vi om stress, självförtroende, motivation och hur träning påverkar ditt mående. Du är inte ensam om det du känner - och det ska du inte behöva vara.",
   },
 ];
 
 export default function HalsosparetPage() {
-  useSeo({
+  const seo = useSeo({
     title: "Hälsospåret",
     description:
       "Fysisk träning, kostworkshops, sömnstöd och samtal om välmående. För att orka ta nästa steg måste du må bra.",
@@ -38,16 +38,17 @@ export default function HalsosparetPage() {
 
   return (
     <>
+      {seo}
       {/* Hero */}
       <section className="relative bg-brand-navy text-white overflow-hidden">
-        <div className="pointer-events-none absolute inset-0">
+        <div className="pointer-events-none absolute inset-0 [mask-image:linear-gradient(to_bottom,black_0%,black_52%,transparent_84%)] [-webkit-mask-image:linear-gradient(to_bottom,black_0%,black_52%,transparent_84%)]">
           <img
             src="/images/Haelsospaaret3.jpeg"
-            alt="Hälsa och rörelse — deltagare tränar tillsammans"
+            alt="Hälsa och rörelse - deltagare tränar tillsammans"
             className="absolute inset-0 w-full h-full object-cover opacity-20"
           />
         </div>
-        <div className="pointer-events-none absolute -bottom-32 -right-32 h-96 w-96 rounded-full bg-brand-navy/10 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-32 [mask-image:linear-gradient(to_bottom,black_0%,transparent_55%)] [-webkit-mask-image:linear-gradient(to_bottom,black_0%,transparent_55%)] -right-32 h-96 w-96 rounded-full bg-brand-navy/10 blur-3xl" />
         <div className="pointer-events-none absolute -top-32 -left-32 h-80 w-80 rounded-full bg-brand-red/10 blur-3xl" />
         <div className="container-page relative py-20 md:py-28">
           <ScrollReveal>
@@ -62,12 +63,12 @@ export default function HalsosparetPage() {
             </p>
           </ScrollReveal>
         </div>
-        <WaveDivider color="navy" layered />
+        <WaveDivider from="navy" to="white" />
       </section>
 
-      {/* Intro — 2-col with image */}
+      {/* Intro - 2-col with image */}
       <section className="relative py-16 md:py-24 bg-white overflow-hidden">
-        {/* Tree of life — Anna's requested health/roots symbol, soft background motif */}
+        {/* Tree of life - Anna's requested health/roots symbol, soft background motif */}
         <img
           src="/images/illustration-tree-of-life.jpg"
           alt=""
@@ -80,11 +81,11 @@ export default function HalsosparetPage() {
           <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
             <ScrollReveal direction="left">
               <h2 className="text-3xl md:text-[2.75rem] font-display font-extrabold text-text leading-tight mb-6">
-                Hälsa är inte ett sidospår — det är grunden
+                Hälsa är inte ett sidospår - det är grunden
               </h2>
               <p className="text-text-muted leading-relaxed">
                 Forskningen är tydlig: ohälsa och arbetslöshet förstärker
-                varandra i en negativ spiral. Det vet vi på Boost — och det är
+                varandra i en negativ spiral. Det vet vi på Boost - och det är
                 varför hälsa är en lika stor del av vår verksamhet som studier
                 och jobbsökning. Hälsospåret är för dig som vill röra på
                 kroppen, äta bättre, sova bättre eller bara hitta ett sammanhang
@@ -98,7 +99,7 @@ export default function HalsosparetPage() {
                   <div className="absolute -bottom-4 -right-4 w-20 h-20 rounded-full bg-brand-blue-light/20" />
                   <img
                     src="/images/Haelsospaaret2.jpeg"
-                    alt="Deltagare i Hälsospåret — träning och gemenskap"
+                    alt="Deltagare i Hälsospåret - träning och gemenskap"
                     className="relative w-full h-auto rounded-3xl shadow-lg object-cover max-h-72"
                     loading="lazy"
                     decoding="async"
@@ -110,9 +111,9 @@ export default function HalsosparetPage() {
         </div>
       </section>
 
-      {/* Stats bar — glass chips */}
+      {/* Stats bar - glass chips */}
       <section className="bg-brand-navy text-white overflow-hidden">
-        <WaveDivider color="white" flip layered />
+        <WaveDivider from="white" to="navy" mirror />
         <div className="container-page py-12 md:py-16">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 md:gap-8 text-center">
             {[
@@ -133,7 +134,7 @@ export default function HalsosparetPage() {
             ))}
           </div>
         </div>
-        <WaveDivider color="navy" layered />
+        <WaveDivider from="navy" to="surface" />
       </section>
 
       {/* Features grid */}
@@ -166,7 +167,7 @@ export default function HalsosparetPage() {
 
       {/* Bottom CTA */}
       <section className="bg-brand-navy text-white overflow-hidden border-b-4 border-b-brand-red">
-        <WaveDivider color="white" flip layered />
+        <WaveDivider from="surface" to="navy" mirror />
         <div className="container-page pt-4 pb-16 md:pt-6 md:pb-24 text-center">
           <ScrollReveal>
             <h2 className="text-3xl md:text-4xl font-display font-extrabold mb-4">
@@ -180,7 +181,7 @@ export default function HalsosparetPage() {
             <Button
               asChild
               size="lg"
-              className="bg-brand-red-bright text-white hover:bg-brand-red-bright/90 font-display font-semibold rounded-full px-10 h-14 shadow-lg shadow-brand-red-bright/25 hover:scale-[1.02] transition-all duration-300"
+              className="bg-brand-red text-white hover:bg-brand-red/90 font-display font-semibold rounded-full px-10 h-14 shadow-lg shadow-brand-red/25 hover:scale-[1.02] transition-all duration-300"
             >
               <Link to="/anmal-dig2">
                 Börja din resa <ArrowRight className="ml-2 h-4 w-4" />

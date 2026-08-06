@@ -31,6 +31,16 @@ export function createMockAdapter(): ApiAdapter {
       return mockResources.filter((r) => r.category === category);
     },
 
+    async fetchOpenPositions() {
+      await delay(100);
+      return [];
+    },
+
+    async fetchTeamMembers() {
+      await delay(100);
+      return [];
+    },
+
     async submitRegistration(_data) {
       await delay(800);
       // No backend yet: success keeps the happy path, delivered=false tells the
@@ -39,7 +49,7 @@ export function createMockAdapter(): ApiAdapter {
     },
 
     async submitContact(data) {
-      // Real submission even in mock mode — the contact form should always send.
+      // Real submission even in mock mode - the contact form should always send.
       // (Other endpoints stay mock while Hygraph has no data.) The worker URL is
       // a public browser endpoint; the production default is baked in here and
       // VITE_CONTACT_WORKER_URL overrides it for staging/dev.

@@ -7,23 +7,23 @@ import { ArrowRight } from "lucide-react";
 const agendaGoals = [
   {
     title: "Rättvis rekrytering",
-    body: "Vi arbetar aktivt med att bryta rekryteringsnormer — så att namn och adress aldrig ska avgöra vem som får en chans.",
+    body: "Vi arbetar aktivt med att bryta rekryteringsnormer - så att namn och adress aldrig ska avgöra vem som får en chans.",
   },
   {
     title: "Utbildning för alla",
-    body: "Vi stöttar unga vuxna att slutföra sin gymnasieutbildning och hitta rätt väg vidare — i sin egen takt.",
+    body: "Vi stöttar unga vuxna att slutföra sin gymnasieutbildning och hitta rätt väg vidare - i sin egen takt.",
   },
   {
     title: "Hälsa som grund",
-    body: "Vi vet att ohälsa och arbetslöshet förstärker varandra. Därför är hälsa inte ett sidospår hos oss — det är en kärninsats.",
+    body: "Vi vet att ohälsa och arbetslöshet förstärker varandra. Därför är hälsa inte ett sidospår hos oss - det är en kärninsats.",
   },
   {
     title: "Jämställdhet",
-    body: "Vi utmanar normer kring vilka jobb kvinnor och män förväntas ta — och hjälper arbetsgivare att rekrytera mer rättvist.",
+    body: "Vi utmanar normer kring vilka jobb kvinnor och män förväntas ta - och hjälper arbetsgivare att rekrytera mer rättvist.",
   },
   {
     title: "Inkludering",
-    body: "Alla är välkomna hos oss. Oavsett bakgrund, språk eller erfarenhet — vi möter varje människa med öppenhet och respekt.",
+    body: "Alla är välkomna hos oss. Oavsett bakgrund, språk eller erfarenhet - vi möter varje människa med öppenhet och respekt.",
   },
   {
     title: "Samverkan",
@@ -67,7 +67,7 @@ export function AgendaSection() {
 
       {/* Bottom CTA */}
       <section className="bg-brand-navy text-white overflow-hidden border-b-4 border-b-brand-red">
-        <WaveDivider color="white" flip layered />
+        <WaveDivider from="white" to="navy" mirror />
         <div className="container-page pt-4 pb-16 md:pt-6 md:pb-24 text-center">
           <ScrollReveal>
             <h2 className="text-3xl md:text-4xl font-display font-extrabold mb-4">
@@ -80,7 +80,7 @@ export function AgendaSection() {
             <Button
               asChild
               size="lg"
-              className="bg-brand-red-bright text-white hover:bg-brand-red-bright/90 font-display font-semibold rounded-full px-10 h-14 shadow-lg shadow-brand-red-bright/25 hover:scale-[1.02] transition-all duration-300"
+              className="bg-brand-red text-white hover:bg-brand-red/90 font-display font-semibold rounded-full px-10 h-14 shadow-lg shadow-brand-red/25 hover:scale-[1.02] transition-all duration-300"
             >
               <Link to="/kontakt">
                 Kontakta oss <ArrowRight className="ml-2 h-4 w-4" />

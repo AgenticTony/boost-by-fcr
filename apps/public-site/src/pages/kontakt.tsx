@@ -19,7 +19,7 @@ const schema = z.object({
   email: z.string().email("Ange en giltig e-postadress"),
   subject: z.string().min(1, "Ämne är obligatoriskt"),
   message: z.string().min(1, "Meddelande är obligatoriskt"),
-  /** Honeypot — must be empty. */
+  /** Honeypot - must be empty. */
   website: z.string().max(0).optional(),
 });
 
@@ -34,12 +34,37 @@ const subjectOptions = [
   "Annat",
 ];
 
+/**
+ * Maps short URL keys (?amne=foretag) to full subject labels.
+ * Supports both short keys and exact-match full labels for flexibility.
+ */
+const subjectAliases: Record<string, string> = {
+  foretag: "Företagssamarbete",
+  forelasning: "Föreläsning / Workshop",
+  workshop: "Föreläsning / Workshop",
+  press: "Press & Media",
+  media: "Press & Media",
+  jobb: "Lediga tjänster",
+  lediga: "Lediga tjänster",
+  allmant: "Allmän fråga",
+  annat: "Annat",
+};
+
+function resolveSubject(raw: string | null): string {
+  if (!raw) return "";
+  // Try exact match first (?amne=Företagssamarbete)
+  if (subjectOptions.includes(raw)) return raw;
+  // Then try short key (?amne=foretag)
+  const lower = raw.toLowerCase().trim();
+  return subjectAliases[lower] ?? "";
+}
+
 function KontaktForm() {
   const [submitted, setSubmitted] = useState(false);
   const [delivered, setDelivered] = useState(false);
   const [serverError, setServerError] = useState("");
   const [searchParams] = useSearchParams();
-  const prefillSubject = searchParams.get("amne");
+  const prefillSubject = resolveSubject(searchParams.get("amne"));
 
   const {
     register,
@@ -50,16 +75,13 @@ function KontaktForm() {
     defaultValues: {
       name: "",
       email: "",
-      subject:
-        prefillSubject && subjectOptions.includes(prefillSubject)
-          ? prefillSubject
-          : "",
+      subject: prefillSubject,
       message: "",
     },
   });
 
   async function onSubmit(data: FormData) {
-    // Honeypot check — bots fill this field
+    // Honeypot check - bots fill this field
     if (data.website) {
       setSubmitted(true);
       return;
@@ -91,7 +113,7 @@ function KontaktForm() {
         </div>
       ) : (
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-          {/* Honeypot — hidden from users, bots fill it out */}
+          {/* Honeypot - hidden from users, bots fill it out */}
           <div className="absolute -left-[9999px]" aria-hidden="true">
             <input
               type="text"
@@ -182,7 +204,7 @@ function KontaktForm() {
           <Button
             type="submit"
             disabled={isSubmitting}
-            className="w-full bg-brand-red-bright text-white hover:bg-brand-red-bright/90 font-display font-semibold rounded-full h-12 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-brand-red-bright/20 hover:shadow-brand-red-bright/30 transition-all duration-300"
+            className="w-full bg-brand-red text-white hover:bg-brand-red/90 font-display font-semibold rounded-full h-12 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-brand-red/20 hover:shadow-brand-red/30 transition-all duration-300"
           >
             {isSubmitting ? "Skickar..." : "Skicka meddelande"}
             {!isSubmitting && <ArrowRight className="ml-2 h-4 w-4" />}
@@ -194,7 +216,7 @@ function KontaktForm() {
 }
 
 export default function KontaktPage() {
-  useSeo({
+  const seo = useSeo({
     title: "Kontakt",
     description:
       "Har du frågor eller vill veta mer? Vi svarar snabbt och gärna. Ring, mejla eller fyll i formuläret.",
@@ -203,19 +225,26 @@ export default function KontaktPage() {
 
   return (
     <>
+      {seo}
       {/* Hero */}
       <section className="relative bg-brand-navy text-white overflow-hidden">
-        <div className="pointer-events-none absolute inset-0">
+        <div className="pointer-events-none absolute inset-0 [mask-image:linear-gradient(to_bottom,black_0%,black_52%,transparent_84%)] [-webkit-mask-image:linear-gradient(to_bottom,black_0%,black_52%,transparent_84%)]">
           <div
             className="absolute inset-0 bg-cover bg-center opacity-30"
             style={{
+              /* The optimised 42 KB copy, not the 497 KB "-scaled" original.
+                 This sits at 30% opacity behind a 70% navy overlay, so the
+                 extra detail was never visible - it just cost 455 KB and made
+                 itself the LCP element (mobile Lighthouse 81, LCP 5.3s).
+                 index.html already preloads this file for the home hero, so on
+                 this page it now resolves from cache instead of downloading. */
               backgroundImage:
-                "url('/images/deltagare_boostbyfcr_pa_trappa-scaled.jpg')",
+                "url('/images/deltagare_boostbyfcr_pa_trappa.jpg')",
             }}
           />
           <div className="absolute inset-0 bg-brand-navy/70" />
         </div>
-        <div className="pointer-events-none absolute -bottom-32 -left-32 h-80 w-80 rounded-full bg-brand-navy/8 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-32 [mask-image:linear-gradient(to_bottom,black_0%,transparent_55%)] [-webkit-mask-image:linear-gradient(to_bottom,black_0%,transparent_55%)] -left-32 h-80 w-80 rounded-full bg-brand-navy/8 blur-3xl" />
         <div className="pointer-events-none absolute -top-32 -right-32 h-96 w-96 rounded-full bg-brand-red/10 blur-3xl" />
         <div className="container-page relative py-20 md:py-28">
           <ScrollReveal>
@@ -231,7 +260,7 @@ export default function KontaktPage() {
             </p>
           </ScrollReveal>
         </div>
-        <WaveDivider color="navy" layered />
+        <WaveDivider from="navy" to="white" />
       </section>
 
       {/* Contact content */}

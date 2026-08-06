@@ -8,10 +8,10 @@ const successFactors = [
   {
     title:
       "Vi möter varje deltagare med ett inkluderande och välkomnande förhållningssätt",
-    body: "Som del av civilsamhället har vi en annan ingång än myndigheter. Vi kompletterar deras arbete genom att skapa miljöer där människor kan landa, växa och pröva nytt. Hos oss ska det vara enkelt att kliva in — oavsett bakgrund, erfarenheter eller var man befinner sig i livet.",
+    body: "Som del av civilsamhället har vi en annan ingång än myndigheter. Vi kompletterar deras arbete genom att skapa miljöer där människor kan landa, växa och pröva nytt. Hos oss ska det vara enkelt att kliva in - oavsett bakgrund, erfarenheter eller var man befinner sig i livet.",
   },
   {
-    title: "Holistiskt – på riktigt",
+    title: "Holistiskt - på riktigt",
     body: "Vi möter varje människa som individ, med respekt för hela hennes livssituation. För oss betyder holistiskt på riktigt att vi börjar där personen är, inte där vi tycker att hen borde vara. Vi lyssnar, stöttar och bygger möjligheter tillsammans.",
   },
   {

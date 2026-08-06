@@ -1,12 +1,12 @@
 import { GraphQLClient } from "graphql-request";
 import type { ApiAdapter } from "./adapter";
-import type { NewsArticle, TimelineEntry, Resource } from "@/types";
+import type { NewsArticle, TimelineEntry, Resource, OpenPosition, TeamMember } from "@/types";
 import type { RegistrationFormData, ContactFormData } from "@/types/forms";
 
 // ─── Hygraph field mapping ─────────────────────────────────────────
 /**
  * These interfaces match the Hygraph schema the backend team is building.
- * Field names use camelCase — backend must match these exactly.
+ * Field names use camelCase - backend must match these exactly.
  * If field names differ, only the GraphQL queries below need updating.
  */
 interface HygraphNews {
@@ -38,6 +38,23 @@ interface HygraphResource {
   file?: { url: string; fileName?: string; fileSize?: number };
   fileType?: string;
   isPublic: boolean;
+}
+
+interface HygraphOpenPosition {
+  id: string;
+  title: string;
+  slug: string;
+  preview: string;
+  content: { raw: string };
+  image?: { url: string };
+}
+
+interface HygraphTeamMember {
+  id: string;
+  name: string;
+  title: string;
+  email?: string;
+  image?: { url: string };
 }
 
 // ─── GraphQL queries ────────────────────────────────────────────────
@@ -76,7 +93,7 @@ fragment ResourceFields on Resource {
   isPublic
 }`;
 
-// Hygraph's default query stage is DRAFT — pass stage: PUBLISHED or you silently
+// Hygraph's default query stage is DRAFT - pass stage: PUBLISHED or you silently
 // fetch draft content (publishedAt null). https://github.com/hygraph/hygraph-examples/issues/266
 const FETCH_NEWS = `
 ${NEWS_FRAGMENT}
@@ -118,11 +135,34 @@ query FetchResourcesByCategory($category: String!) {
   }
 }`;
 
+const FETCH_OPEN_POSITIONS = `
+query FetchOpenPositions {
+  openPositions(stage: PUBLISHED, orderBy: publishedAt_DESC) {
+    id
+    title
+    slug
+    preview
+    content { raw }
+    image { url }
+  }
+}`;
+
+const FETCH_TEAM_MEMBERS = `
+query FetchTeamMembers {
+  teamMembers(stage: PUBLISHED) {
+    id
+    name
+    title
+    email
+    image { url }
+  }
+}`;
+
 // ─── Mappers ────────────────────────────────────────────────────────
 
 /**
  * Hygraph Rich Text `raw` is a serialized JSON AST (Lexical-style), not plain
- * text. Flatten it to readable plain text — block nodes become paragraphs
+ * text. Flatten it to readable plain text - block nodes become paragraphs
  * joined by a blank line, matching the article page's "\n\n" renderer.
  *
  * Falls back to the raw string when it is not valid JSON (e.g. plain-text CMS
@@ -145,7 +185,7 @@ function collectText(node: RichTextNode): string {
 
 export function richTextToPlainText(raw: string | RichTextNode): string {
   // Hygraph returns RichText `raw` as a PARSED object (the AST), not a string.
-  // Older paths / mocks may pass a serialized JSON string — handle both so the
+  // Older paths / mocks may pass a serialized JSON string - handle both so the
   // article page's `body.split("\n\n")` renderer always gets a string.
   let ast: RichTextNode;
   if (typeof raw === "string") {
@@ -211,6 +251,27 @@ export function mapResource(raw: HygraphResource): Resource {
   };
 }
 
+export function mapOpenPosition(raw: HygraphOpenPosition): OpenPosition {
+  return {
+    id: raw.id,
+    title: raw.title,
+    slug: raw.slug,
+    preview: raw.preview,
+    body: raw.content?.raw ? richTextToPlainText(raw.content.raw) : raw.preview,
+    imageUrl: raw.image?.url,
+  };
+}
+
+export function mapTeamMember(raw: HygraphTeamMember): TeamMember {
+  return {
+    id: raw.id,
+    name: raw.name,
+    title: raw.title,
+    email: raw.email,
+    imageUrl: raw.image?.url,
+  };
+}
+
 // ─── Adapter factory ────────────────────────────────────────────────
 
 /**
@@ -267,6 +328,20 @@ export function createHygraphAdapter(
         { category },
       );
       return data.resources.map(mapResource);
+    },
+
+    async fetchOpenPositions() {
+      const data = await client.request<{
+        openPositions: HygraphOpenPosition[];
+      }>(FETCH_OPEN_POSITIONS);
+      return data.openPositions.map(mapOpenPosition);
+    },
+
+    async fetchTeamMembers() {
+      const data = await client.request<{
+        teamMembers: HygraphTeamMember[];
+      }>(FETCH_TEAM_MEMBERS);
+      return data.teamMembers.map(mapTeamMember);
     },
 
     // Forms are not CMS-backed. Registration stays a no-op pending a backend;

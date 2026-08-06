@@ -29,7 +29,7 @@ export function SelfmadeSection() {
                 <div className="absolute -bottom-4 -right-4 w-20 h-20 rounded-full bg-brand-blue-light/20" />
                 <img
                   src="/images/tree_selfmade.png"
-                  alt="Selfmade & Strong — gruppvägledning för personlig utveckling"
+                  alt="Selfmade & Strong - gruppvägledning för personlig utveckling"
                   className="relative w-full h-auto rounded-3xl shadow-lg"
                   loading="lazy"
                   decoding="async"
@@ -113,7 +113,7 @@ export function SelfmadeSection() {
                 faktiskt kan påverka min egen framtid."
               </p>
               <p className="text-sm text-text-muted mt-2 font-medium">
-                — Albin, deltagare
+                - Albin, deltagare
               </p>
             </div>
           </div>

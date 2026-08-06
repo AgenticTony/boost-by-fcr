@@ -61,7 +61,7 @@ function BulletList({ items }: { items: string[] }) {
 
 /* ─── Page ─── */
 export default function DataskyddspolicyPage() {
-  useSeo({
+  const seo = useSeo({
     title: "Dataskyddspolicy",
     description:
       "Hur vi hanterar och skyddar din personliga information i enlighet med GDPR.",
@@ -70,6 +70,7 @@ export default function DataskyddspolicyPage() {
 
   return (
     <>
+      {seo}
       {/* ── Hero ── */}
       <section className="relative overflow-hidden bg-brand-navy text-white">
         <div className="pointer-events-none absolute -right-32 -top-32 h-96 w-96 rounded-full bg-brand-red/10 blur-3xl" />
@@ -107,7 +108,11 @@ export default function DataskyddspolicyPage() {
                 dataskydd genom att skicka ett e-postmeddelande till oss på{" "}
                 <a
                   href="mailto:dataskydd@boostbyfcr.se"
-                  className="text-brand-navy hover:underline"
+                  /* Underlined at rest, not just on hover: this link sits inside a
+                     paragraph of muted body text, and colour alone only separates
+                     it by 2.01:1 - below the 3:1 WCAG needs when colour is the
+                     sole cue (SC 1.4.1 Use of Colour). */
+                  className="text-brand-navy font-medium underline underline-offset-2"
                 >
                   dataskydd@boostbyfcr.se
                 </a>
@@ -253,7 +258,7 @@ export default function DataskyddspolicyPage() {
               items={[
                 "Uppgifter om ditt deltagande (närvaro, resultat) när du deltar i någon av våra verksamheter",
                 "Information om hur du använder våra digitala verktyg när du är inne på dessa",
-                "Enhetsinformation — t.ex. IP-adress, språkinställningar, webbläsarinställningar, tidszon, operativsystem, plattform och skärmupplösning när du är inne på vår hemsida",
+                "Enhetsinformation - t.ex. IP-adress, språkinställningar, webbläsarinställningar, tidszon, operativsystem, plattform och skärmupplösning när du är inne på vår hemsida",
               ]}
             />
             <p>

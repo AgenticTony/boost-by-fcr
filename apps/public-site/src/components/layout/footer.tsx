@@ -33,6 +33,7 @@ const footerSections = [
     heading: "Övrigt",
     links: [
       { href: "/kontakt", label: "Kontakt" },
+      { href: "/cookiepolicy", label: "Cookiepolicy" },
       { href: "/dataskyddspolicy", label: "Dataskyddspolicy" },
     ],
   },
@@ -69,13 +70,20 @@ export function Footer() {
         <div className="grid md:grid-cols-2 gap-8 mb-12">
           <div>
             <p className="text-sm text-white/70 mb-4 max-w-md">
-              Boost by FC Rosengård — vi skapar förutsättningar för att alla ska
+              Boost by FC Rosengård - vi skapar förutsättningar för att alla ska
               kunna ta sig in på arbetsmarknaden.
             </p>
             <div className="space-y-2">
               <div className="flex items-center gap-2 text-sm text-white/70">
                 <MapPin className="h-4 w-4 text-brand-red-bright" />
-                Norra Grängesbergsgatan 15, 214 50 Malmö
+                <a
+                  href="https://www.google.com/maps/search/?api=1&query=Norra+Gr%C3%A4ngesbergsgatan+15%2C+214+50+Malm%C3%B6"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-white transition-colors"
+                >
+                  Norra Grängesbergsgatan 15, 214 50 Malmö
+                </a>
               </div>
               <div className="flex items-center gap-2 text-sm text-white/70">
                 <Phone className="h-4 w-4 text-brand-red-bright" />

@@ -21,7 +21,7 @@ const features = [
   {
     icon: GraduationCap,
     title: "Individuell studieplanering",
-    body: "Tillsammans med en lärare lägger vi upp en plan som passar din situation — oavsett om du vill klara gymnasiet, läsa upp enstaka ämnen eller förbereda dig inför ett högskoleprov.",
+    body: "Tillsammans med en lärare lägger vi upp en plan som passar din situation - oavsett om du vill klara gymnasiet, läsa upp enstaka ämnen eller förbereda dig inför ett högskoleprov.",
   },
   {
     icon: MapPin,
@@ -31,12 +31,12 @@ const features = [
   {
     icon: MessageSquare,
     title: "Språkförstärkande aktiviteter",
-    body: "För dig som vill stärka din svenska erbjuder vi riktade aktiviteter som bygger på din vardag och dina mål — inte på ett generiskt kursupplägg.",
+    body: "För dig som vill stärka din svenska erbjuder vi riktade aktiviteter som bygger på din vardag och dina mål - inte på ett generiskt kursupplägg.",
   },
 ];
 
 export default function StudierPage() {
-  useSeo({
+  const seo = useSeo({
     title: "Studiespåret",
     description:
       "Studier i din egen takt med legitimerade lärare och individuell studieplanering. Flexibelt, personligt och utan prestationsångest.",
@@ -45,16 +45,17 @@ export default function StudierPage() {
 
   return (
     <>
+      {seo}
       {/* Hero */}
       <section className="relative bg-brand-navy text-white overflow-hidden">
-        <div className="pointer-events-none absolute inset-0">
+        <div className="pointer-events-none absolute inset-0 [mask-image:linear-gradient(to_bottom,black_0%,black_52%,transparent_84%)] [-webkit-mask-image:linear-gradient(to_bottom,black_0%,black_52%,transparent_84%)]">
           <img
             src="/images/Studiespaaret.jpg"
             alt="Studiedeltagare i fokus vid Boosts studieverksamhet"
             className="absolute inset-0 w-full h-full object-cover opacity-20"
           />
         </div>
-        <div className="pointer-events-none absolute -bottom-48 -left-48 h-[500px] w-[500px] rounded-full bg-brand-navy/8 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-48 [mask-image:linear-gradient(to_bottom,black_0%,transparent_55%)] [-webkit-mask-image:linear-gradient(to_bottom,black_0%,transparent_55%)] -left-48 h-[500px] w-[500px] rounded-full bg-brand-navy/8 blur-3xl" />
         <div className="pointer-events-none absolute -top-32 -right-32 h-96 w-96 rounded-full bg-brand-red/10 blur-3xl" />
         <div className="container-page relative py-20 md:py-28">
           <ScrollReveal>
@@ -69,7 +70,7 @@ export default function StudierPage() {
             </p>
           </ScrollReveal>
         </div>
-        <WaveDivider color="navy" layered />
+        <WaveDivider from="navy" to="white" />
       </section>
 
       {/* Intro */}
@@ -83,7 +84,7 @@ export default function StudierPage() {
           <ScrollReveal delay={0.1}>
             <p className="text-text-muted leading-relaxed">
               På Boost studerar du i din egen takt, med tätt stöd från
-              legitimerade lärare som anpassar sig efter dig — inte tvärtom. Vi
+              legitimerade lärare som anpassar sig efter dig - inte tvärtom. Vi
               erbjuder inga klasser, inga klockor och inga krav på att hänga med
               alla andra. Vi börjar med var du faktiskt befinner dig, och jobbar
               därifrån.
@@ -94,7 +95,7 @@ export default function StudierPage() {
 
       {/* Stats bar */}
       <section className="bg-brand-navy text-white overflow-hidden">
-        <WaveDivider color="white" flip layered />
+        <WaveDivider from="white" to="navy" mirror />
         <div className="container-page py-12 md:py-16">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 md:gap-8 text-center">
             {[
@@ -128,7 +129,7 @@ export default function StudierPage() {
             ))}
           </div>
         </div>
-        <WaveDivider color="navy" layered />
+        <WaveDivider from="navy" to="surface" />
       </section>
 
       {/* Features grid */}
@@ -161,7 +162,7 @@ export default function StudierPage() {
 
       {/* Bottom CTA */}
       <section className="bg-brand-navy text-white overflow-hidden border-b-4 border-b-brand-red">
-        <WaveDivider color="white" flip layered />
+        <WaveDivider from="surface" to="navy" mirror />
         <div className="container-page pt-4 pb-16 md:pt-6 md:pb-24 text-center">
           <ScrollReveal>
             <h2 className="text-3xl md:text-4xl font-display font-extrabold mb-4">
@@ -169,12 +170,12 @@ export default function StudierPage() {
             </h2>
             <p className="text-white/70 max-w-md mx-auto leading-relaxed mb-8">
               Från den dag du börjar hos oss, till den dag du kliver in genom
-              dörrarna på din nya skola — vi är med dig varje steg.
+              dörrarna på din nya skola - vi är med dig varje steg.
             </p>
             <Button
               asChild
               size="lg"
-              className="bg-brand-red-bright text-white hover:bg-brand-red-bright/90 font-display font-semibold rounded-full px-10 h-14 shadow-lg shadow-brand-red-bright/25 hover:scale-[1.02] transition-all duration-300"
+              className="bg-brand-red text-white hover:bg-brand-red/90 font-display font-semibold rounded-full px-10 h-14 shadow-lg shadow-brand-red/25 hover:scale-[1.02] transition-all duration-300"
             >
               <Link to="/anmal-dig2">
                 Börja din studieresa <ArrowRight className="ml-2 h-4 w-4" />
