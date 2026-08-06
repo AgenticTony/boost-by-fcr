@@ -1,4 +1,4 @@
-﻿import { useState } from 'react'
+import { useState } from 'react'
 import { useAuth } from '../auth/AuthContext'
 import { Mail, Lock, User, ArrowRight, Eye, EyeOff, Check, X, BookOpen, UserCircle, BarChart3 } from 'lucide-react'
 import { useNavigate, Link } from 'react-router-dom'
@@ -70,12 +70,12 @@ export default function Login() {
     setVerificationUrl('')
 
     if (regPassword !== regConfirmPassword) {
-      setError('LÃ¶senorden matchar inte')
+      setError('Lösenorden matchar inte')
       return
     }
 
     if (strengthScore < 4) {
-      setError('LÃ¶senordet uppfyller inte alla krav')
+      setError('Lösenordet uppfyller inte alla krav')
       return
     }
 
@@ -84,7 +84,7 @@ export default function Login() {
     setIsLoading(false)
 
     if (result.success) {
-      setSuccess('Konto skapat! Klicka pÃ¥ lÃ¤nken nedan fÃ¶r att verifiera din e-post:')
+      setSuccess('Konto skapat! Klicka på länken nedan för att verifiera din e-post:')
       setVerificationUrl(result.verificationUrl || '')
       setRegName('')
       setRegEmail('')
@@ -98,7 +98,7 @@ export default function Login() {
 
   return (
     <div className="min-h-screen flex">
-      {/* â”€â”€ LEFT SIDE: Hero â”€â”€ */}
+      {/* ── LEFT SIDE: Hero ── */}
       <div className="hidden lg:flex lg:w-1/2 relative">
         <div 
           className="absolute inset-0 bg-cover bg-center"
@@ -109,14 +109,14 @@ export default function Login() {
         
         <div className="relative z-10 flex flex-col justify-between p-12 text-white">
           <div>
-            <img src="/images/logo_boostbyfcr_dark.png" alt="Boost by FC RosengÃ¥rd" className="h-10 mb-8" />
-            <p className="text-[#e0bd4a] text-sm font-medium mb-4 tracking-wider">âœ¦ SEDAN 2003</p>
+            <img src="/images/logo_boostbyfcr_dark.png" alt="Boost by FC Rosengård" className="h-10 mb-8" />
+            <p className="text-[#e0bd4a] text-sm font-medium mb-4 tracking-wider">✦ SEDAN 2003</p>
             <h1 className="text-4xl font-bold mb-2 leading-tight">
-              Tillsammans Ã¶ppnar<br />
-              <span className="text-[#e0bd4a]">vi vÃ¤gar framÃ¥t</span>
+              Tillsammans öppnar<br />
+              <span className="text-[#e0bd4a]">vi vägar framåt</span>
             </h1>
             <p className="text-slate-300 max-w-md mt-4 text-sm leading-relaxed">
-              Vi bygger fÃ¶rutsÃ¤ttningar som ger unga mÃ¶jlighet att utvecklas, 
+              Vi bygger förutsättningar som ger unga möjlighet att utvecklas, 
               hitta riktning och forma sin framtid.
             </p>
           </div>
@@ -127,7 +127,7 @@ export default function Login() {
                 <BookOpen className="w-5 h-5 text-[#e0bd4a]" />
               </div>
               <div>
-                <p className="font-medium text-sm">Ã–vningar & Handbok</p>
+                <p className="font-medium text-sm">Övningar & Handbok</p>
                 <p className="text-xs text-slate-400">Strukturerat metodmaterial</p>
               </div>
             </div>
@@ -137,7 +137,7 @@ export default function Login() {
               </div>
               <div>
                 <p className="font-medium text-sm">Kunskapsmaterial</p>
-                <p className="text-xs text-slate-400">FÃ¶r deltagare och handledare</p>
+                <p className="text-xs text-slate-400">För deltagare och handledare</p>
               </div>
             </div>
             <div className="flex items-center gap-3">
@@ -145,8 +145,8 @@ export default function Login() {
                 <BarChart3 className="w-5 h-5 text-[#e0bd4a]" />
               </div>
               <div>
-                <p className="font-medium text-sm">Resultat & UppfÃ¶ljning</p>
-                <p className="text-xs text-slate-400">FÃ¶lj din utveckling</p>
+                <p className="font-medium text-sm">Resultat & Uppföljning</p>
+                <p className="text-xs text-slate-400">Följ din utveckling</p>
               </div>
             </div>
           </div>
@@ -158,17 +158,17 @@ export default function Login() {
             </div>
             <div>
               <p className="text-2xl font-bold text-[#e0bd4a]">20+</p>
-              <p className="text-xs text-slate-400 tracking-wider">Ã…RS ERFARENHET</p>
+              <p className="text-xs text-slate-400 tracking-wider">ÅRS ERFARENHET</p>
             </div>
             <div>
               <p className="text-2xl font-bold text-[#e0bd4a]">98%</p>
-              <p className="text-xs text-slate-400 tracking-wider">NÃ–JDHET</p>
+              <p className="text-xs text-slate-400 tracking-wider">NÖJDHET</p>
             </div>
           </div>
         </div>
       </div>
 
-      {/* â”€â”€ RIGHT SIDE: Login/Register Card â”€â”€ */}
+      {/* ── RIGHT SIDE: Login/Register Card ── */}
       <div className="w-full lg:w-1/2 bg-[#1e3a5f] flex items-center justify-center p-6">
         <div className="w-full max-w-md">
           {/* Card */}
@@ -186,8 +186,8 @@ export default function Login() {
             </h2>
             <p className="text-slate-400 text-center text-sm mb-6">
               {activeTab === 'login' 
-                ? 'Logga in fÃ¶r att komma Ã¥t Ã¶vningar, handbok och kunskapsmaterial' 
-                : 'Fyll i dina uppgifter fÃ¶r att skapa ett konto'}
+                ? 'Logga in för att komma åt övningar, handbok och kunskapsmaterial' 
+                : 'Fyll i dina uppgifter för att skapa ett konto'}
             </p>
 
             {/* Tabs */}
@@ -260,7 +260,7 @@ export default function Login() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-1.5">LÃ¶senord</label>
+                  <label className="block text-sm font-medium text-slate-300 mb-1.5">Lösenord</label>
                   <div className="relative">
                     <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
                     <input
@@ -269,7 +269,7 @@ export default function Login() {
                       onChange={(e) => setLoginPassword(e.target.value)}
                       required
                       className="w-full pl-10 pr-10 py-2.5 bg-white rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#e0bd4a]"
-                      placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
+                      placeholder="••••••••"
                     />
                     <button
                       type="button"
@@ -286,7 +286,7 @@ export default function Login() {
                     to="/forgot-password"
                     className="text-sm text-[#e0bd4a] hover:text-[#d4ad3f] font-medium"
                   >
-                    GlÃ¶mt lÃ¶senord?
+                    Glömt lösenord?
                   </Link>
                 </div>
 
@@ -312,7 +312,7 @@ export default function Login() {
                     onClick={() => setActiveTab('register')}
                     className="text-[#e0bd4a] hover:text-[#d4ad3f] font-medium"
                   >
-                    Skapa ett hÃ¤r
+                    Skapa ett här
                   </button>
                 </p>
               </form>
@@ -352,7 +352,7 @@ export default function Login() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-1.5">LÃ¶senord</label>
+                  <label className="block text-sm font-medium text-slate-300 mb-1.5">Lösenord</label>
                   <div className="relative">
                     <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
                     <input
@@ -361,7 +361,7 @@ export default function Login() {
                       onChange={(e) => setRegPassword(e.target.value)}
                       required
                       className="w-full pl-10 pr-10 py-2.5 bg-white rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#e0bd4a]"
-                      placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
+                      placeholder="••••••••"
                     />
                     <button
                       type="button"
@@ -403,7 +403,7 @@ export default function Login() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-1.5">BekrÃ¤fta lÃ¶senord</label>
+                  <label className="block text-sm font-medium text-slate-300 mb-1.5">Bekräfta lösenord</label>
                   <div className="relative">
                     <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
                     <input
@@ -412,7 +412,7 @@ export default function Login() {
                       onChange={(e) => setRegConfirmPassword(e.target.value)}
                       required
                       className="w-full pl-10 pr-10 py-2.5 bg-white rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#e0bd4a]"
-                      placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
+                      placeholder="••••••••"
                     />
                     <button
                       type="button"
@@ -423,7 +423,7 @@ export default function Login() {
                     </button>
                   </div>
                   {regConfirmPassword && regPassword !== regConfirmPassword && (
-                    <p className="mt-1 text-xs text-red-400">LÃ¶senorden matchar inte</p>
+                    <p className="mt-1 text-xs text-red-400">Lösenorden matchar inte</p>
                   )}
                 </div>
 
@@ -458,7 +458,7 @@ export default function Login() {
             {/* Divider */}
             <div className="flex items-center gap-4 my-6">
               <div className="flex-1 h-px bg-white/10" />
-              <span className="text-[#e0bd4a] text-lg">âœ¦</span>
+              <span className="text-[#e0bd4a] text-lg">✦</span>
               <div className="flex-1 h-px bg-white/10" />
             </div>
 
@@ -473,7 +473,7 @@ export default function Login() {
           </div>
 
           <p className="text-center text-xs text-slate-500 mt-6">
-            Boost by FC RosengÃ¥rd â€” Metodmaterial fÃ¶r deltagare
+            Boost by FC Rosengård — Metodmaterial för deltagare
           </p>
         </div>
       </div>

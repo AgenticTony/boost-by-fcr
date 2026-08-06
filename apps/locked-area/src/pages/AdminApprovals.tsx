@@ -32,10 +32,9 @@ export default function AdminApprovals() {
 
   const fetchPending = async () => {
     setLoading(true)
-    // Show ALL users who are not approved (regardless of verification status)
     const { data, errors } = await hygraphFetch(
       `query GetPendingUsers {
-        members(where: { isApproved: false, isVerified: true }) {
+        members(where: { isApproved: false }) {
           id
           name
           email
@@ -46,7 +45,7 @@ export default function AdminApprovals() {
     )
     setLoading(false)
     if (errors) {
-      setError('Kunde inte hÃ¤mta användare.')
+      setError('Kunde inte hämta användare.')
       console.error(errors)
     } else {
       setPendingUsers(data?.members || [])
@@ -65,11 +64,10 @@ export default function AdminApprovals() {
       )
 
       if (response.errors) {
-        alert('âŒ Error: ' + JSON.stringify(response.errors, null, 2))
+        alert('❌ Error: ' + JSON.stringify(response.errors, null, 2))
         return
       }
 
-      // Publish
       await hygraphFetch(
         `mutation PublishMember($id: ID!) {
           publishMember(where: { id: $id }) {
@@ -80,15 +78,15 @@ export default function AdminApprovals() {
       )
 
       await fetchPending()
-      alert('âœ… E-post verifierad!')
+      alert('✅ E-post verifierad!')
     } catch (error) {
       console.error('Verify error:', error)
-      alert('Something went wrong')
+      alert('Något gick fel')
     }
   }
 
   const approveUser = async (id: string) => {
-    console.log('âœ… Approve button clicked for ID:', id)
+    console.log('✅ Approve button clicked for ID:', id)
 
     setPendingUsers((prev) => prev.filter((user) => user.id !== id))
 
@@ -102,10 +100,10 @@ export default function AdminApprovals() {
         }`
       )
 
-      console.log('ðŸ“¦ Update response:', response)
+      console.log('📦 Update response:', response)
 
       if (response.errors) {
-        alert('âŒ Error: ' + JSON.stringify(response.errors, null, 2))
+        alert('❌ Error: ' + JSON.stringify(response.errors, null, 2))
         await fetchPending()
         return
       }
@@ -121,21 +119,21 @@ export default function AdminApprovals() {
         )
 
         await fetchPending()
-        alert('âœ… User approved!')
+        alert('✅ Användare godkänd!')
       } else {
-        alert('âš ï¸ No data returned.')
+        alert('⚠️ Inget data returnerades.')
         await fetchPending()
       }
     } catch (error) {
-      console.error('ðŸ”¥ Approve error:', error)
-      alert('Something went wrong')
+      console.error('🔥 Approve error:', error)
+      alert('Något gick fel')
       await fetchPending()
     }
   }
 
   const denyUser = async (id: string) => {
-    console.log('âŒ Deny button clicked for ID:', id)
-    const confirmed = window.confirm('Ã„r du sÃ¤ker pÃ¥ att du vill neka denna användare?')
+    console.log('❌ Deny button clicked for ID:', id)
+    const confirmed = window.confirm('Är du säker på att du vill neka denna användare?')
     if (!confirmed) return
 
     setPendingUsers((prev) => prev.filter((user) => user.id !== id))
@@ -148,17 +146,17 @@ export default function AdminApprovals() {
           }
         }`
       )
-      console.log('ðŸ“¦ Deny response:', response)
+      console.log('📦 Deny response:', response)
       if (response.errors) {
-        alert('âŒ Error: ' + JSON.stringify(response.errors, null, 2))
+        alert('❌ Error: ' + JSON.stringify(response.errors, null, 2))
         await fetchPending()
       } else if (response.data?.deleteMember) {
         await fetchPending()
-        alert('âŒ User denied and deleted.')
+        alert('❌ Användare nekad och borttagen.')
       }
     } catch (error) {
-      console.error('ðŸ”¥ Deny error:', error)
-      alert('Something went wrong')
+      console.error('🔥 Deny error:', error)
+      alert('Något gick fel')
       await fetchPending()
     }
   }
@@ -168,7 +166,7 @@ export default function AdminApprovals() {
   }, [])
 
   if (!isAdmin) {
-    return <div className="p-4">Du har inte behÃ¶righet att se denna sida.</div>
+    return <div className="p-4">Du har inte behörighet att se denna sida.</div>
   }
 
   if (loading) return <div className="p-4">Laddar...</div>
@@ -176,9 +174,9 @@ export default function AdminApprovals() {
 
   return (
     <div className="p-6 max-w-4xl mx-auto">
-      <h1 className="text-2xl font-bold mb-4">GodkÃ¤nn nya användare</h1>
+      <h1 className="text-2xl font-bold mb-4">Godkänn nya användare</h1>
       {pendingUsers.length === 0 ? (
-        <p>Inga användare väntar pÃ¥ godkännande.</p>
+        <p>Inga användare väntar på godkännande.</p>
       ) : (
         <ul className="space-y-4">
           {pendingUsers.map((user) => (
@@ -188,9 +186,9 @@ export default function AdminApprovals() {
                 <p className="text-sm text-gray-600">{user.email}</p>
                 <p className="text-xs mt-1">
                   {user.isVerified ? (
-                    <span className="text-green-600">âœ… E-post verifierad</span>
+                    <span className="text-green-600">✅ E-post verifierad</span>
                   ) : (
-                    <span className="text-red-600">âŒ E-post ej verifierad</span>
+                    <span className="text-red-600">❌ E-post ej verifierad</span>
                   )}
                 </p>
               </div>
@@ -208,7 +206,7 @@ export default function AdminApprovals() {
                   className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
                   disabled={!user.isVerified}
                 >
-                  GodkÃ¤nn
+                  Godkänn
                 </button>
                 <button
                   onClick={() => denyUser(user.id)}
