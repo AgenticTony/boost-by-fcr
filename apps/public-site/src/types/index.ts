@@ -33,3 +33,20 @@ export interface Resource {
   fileType?: string;
   isPublic: boolean;
 }
+
+export interface OpenPosition {
+  id: string;
+  title: string;
+  slug: string;
+  preview: string;
+  body: string;
+  imageUrl?: string;
+}
+
+export interface TeamMember {
+  id: string;
+  name: string;
+  title: string;
+  email?: string;
+  imageUrl?: string;
+}
