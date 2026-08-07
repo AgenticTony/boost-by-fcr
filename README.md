@@ -12,12 +12,12 @@ Hygraph (headless CMS)  →  GraphQL API  →  React frontends
 
 ```
 apps/
-  public-site/    — Public React SPA (P2: Anthony)
-  locked-area/    — Locked Metodmaterial React SPA (P4: Mohand)
-packages/
-  shared-types/   — Shared TypeScript types (auto-generated from Hygraph)
+  public-site/      — Public React SPA (P2: Anthony)
+  locked-area/      — Locked Metodmaterial React SPA (P4: Mohand)
+  contact-worker/   — Cloudflare Worker for contact form emails (P4: Mohand)
 .github/
-  workflows/      — CI/CD pipelines
+  workflows/        — CI/CD pipelines
+docs/               — Project documentation (see below)
 ```
 
 ## Team
@@ -56,4 +56,16 @@ packages/
 
 ### Infrastructure
 
-- GitHub Actions CI/CD, Cloudflare DNS
+- GitHub Actions CI/CD, Cloudflare Pages, Cloudflare DNS
+
+## Documentation
+
+| Document | Audience | Description |
+|---|---|---|
+| [Content Editor Handbook](docs/HANDBOOK_CONTENT_EDITOR.md) | Anna (Swedish) | How to manage content in Hygraph |
+| [Project Overview](docs/PROJECT_OVERVIEW.md) | All (Swedish) | Plain-language overview of platforms and architecture |
+| [Tech Architecture](docs/TECH_ARCHITECTURE.md) | Developers | System architecture, data flow, known issues |
+| [Tech Environments](docs/TECH_ENVIRONMENTS.md) | Developers | Every environment variable, where to set it |
+| [Tech Deployment](docs/TECH_DEPLOYMENT.md) | Developers | How CI/CD and manual deploys work |
+| [Tech Local Setup](docs/TECH_LOCAL_SETUP.md) | Developers | 30-minute onboarding for new developers |
+| [Git Workflow](docs/TEAM_GIT_WORKFLOW.md) | All | 6-step git process for the team |
