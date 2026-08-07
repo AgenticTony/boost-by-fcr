@@ -19,8 +19,6 @@ monorepo: what it does, which app reads it, where to set it, and whether it is a
 | `VITE_HYGRAPH_ENDPOINT` | public-site | No | local `.env` / GitHub secret | The public, read-only Hygraph CDN URL the browser calls. Defaults to the production public-site project: `https://eu-west-2.cdn.hygraph.com/content/cmq1xlnd2022t07w9jmsfkk5o/master`. Override for a staging project, or set to `""` to force mock data. | No |
 | `VITE_HYGRAPH_TOKEN` | public-site | No | local `.env` | Hygraph Permanent Auth Token. Only needed to read draft/private content. The public CDN endpoint serves published content without a token, so this is usually empty. | Yes (if set) |
 | `VITE_CONTACT_WORKER_URL` | public-site | No | local `.env` | URL of the deployed contact-worker. Defaults to `https://contact-worker.boostbyfcr.workers.dev`. Override for a staging worker; leave unset for production. | No |
-| `SUPABASE_URL` | public-site | No | Vercel Runtime env (server-side) | Supabase project URL. Read **server-side only** by `api/submit.ts` at runtime (the `/anmal-dig` registration path). Deliberately **not** `VITE_`-prefixed so it is never bundled into the client. When unset, `/api/submit` runs in honest "demo mode" (validates, does not persist). | Yes |
-| `SUPABASE_SERVICE_ROLE_KEY` | public-site | No | Vercel Runtime env (server-side) | Supabase service-role key. Same handling as `SUPABASE_URL` — server-side only. Requires a `submissions` table (DDL is documented in the `api/submit.ts` header comment). | **Yes (high privilege)** |
 
 ### 1.2 Locked-area (`apps/locked-area`)
 
@@ -127,12 +125,6 @@ variables → Actions → New repository secret**:
 
 These are injected into the `build-locked-area` job as build-time env vars.
 
-### 3.4 Vercel runtime env (public-site server-side)
-
-`SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` are **server-side only** and are read by
-`api/submit.ts` at runtime. Set them as **Vercel Runtime environment variables** (not build
-env) in the Vercel project dashboard. Do **not** prefix them with `VITE_`.
-
 ---
 
 ## 4. Security Notes & Known Exposures
@@ -142,9 +134,6 @@ env) in the Vercel project dashboard. Do **not** prefix them with `VITE_`.
   deployed site can read them from the bundle. This is a known issue — see
   `TECH_ARCHITECTURE.md` §8. Treat the current locked-area token as exposed and rotate it
   when moving to a server-validated auth model.
-- **`SUPABASE_SERVICE_ROLE_KEY`** is the high-privilege Supabase key. It bypasses Row Level
-  Security. It must **never** be `VITE_`-prefixed or shipped to the browser. It is
-  correctly kept server-side only.
 - The committed `apps/locked-area/.env` contains live tokens. Prefer `.env.local` and add
   `.env` to `.gitignore` if it isn't already.
 
