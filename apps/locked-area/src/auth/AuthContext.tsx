@@ -31,11 +31,6 @@ const AuthContext = createContext<AuthContextValue | null>(null)
 const HYGRAPH_ENDPOINT = import.meta.env.VITE_HYGRAPH_URL
 const HYGRAPH_TOKEN = import.meta.env.VITE_HYGRAPH_TOKEN_LOCKED
 
-// Use environment variable for Worker URL, fallback to local Express for dev
-const WORKER_URL = import.meta.env.VITE_EMAIL_WORKER_URL;
-if (!WORKER_URL) {
-  console.error('❌ VITE_EMAIL_WORKER_URL is not set. Email sending will not work.');
-}
 // ── Provider ────────────────────────────────────────────
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
@@ -293,11 +288,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const memberId = data.createMember.id
       const verificationUrl = `${window.location.origin}/verify-email?token=${verificationToken}`
 
-      // ── Send verification email via Worker ──
+      // ── Send verification email via Pages Function ──
       try {
         console.log('📧 Sending verification email to:', email)
 
-        const res = await fetch(`${WORKER_URL}/send-verification-email`, {
+        const res = await fetch('/send-verification-email', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -311,7 +306,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           const errorText = await res.text()
           console.error('❌ Email API error:', res.status, errorText)
         } else {
-          console.log('✅ Verification email sent via Worker')
+          console.log('✅ Verification email sent via Pages Function')
         }
       } catch (err) {
         console.error('❌ Failed to send verification email:', err)
@@ -438,11 +433,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
       const resetUrl = `${window.location.origin}/reset-password?token=${token}`
 
-      // ── Send password reset email via Worker ──
+      // ── Send password reset email via Pages Function ──
       try {
         console.log('📧 Sending password reset email to:', found.email)
 
-        const res = await fetch(`${WORKER_URL}/send-email`, {
+        const res = await fetch('/send-email', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -469,7 +464,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           const errorText = await res.text()
           console.error('❌ Password reset email error:', res.status, errorText)
         } else {
-          console.log('✅ Password reset email sent via Worker')
+          console.log('✅ Password reset email sent via Pages Function')
         }
       } catch (err) {
         console.error('❌ Failed to send password reset email:', err)
