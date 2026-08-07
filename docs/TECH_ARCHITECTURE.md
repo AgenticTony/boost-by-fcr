@@ -394,7 +394,6 @@ Boost inbox  (email delivered)
 | **Test coverage gap** | `public-site` has 243 passing tests; `locked-area` has **0** tests and no test runner configured. | Locked-area regressions ship undetected. Add Vitest + Testing Library and a CI test step. |
 | **CI has no test step** | `deploy.yml` runs typecheck and lint (lint is `continue-on-error: true`) but never runs `npm test`. | The 243 public-site tests don't gate deploys. |
 | **No automated worker deploy** | The contact-worker is deployed by hand with `wrangler deploy`; there is no CI job for it. | Worker changes can be forgotten. Add a deploy step to CI. |
-| **Supabase keys in locked-area `.env`** | `apps/locked-area/.env` (committed) contains a Supabase anon key and the Hygraph locked token. | Secrets should not be committed; move to `.env.local` / CI secrets and rotate if exposed. |
 
 ---
 
