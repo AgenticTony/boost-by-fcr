@@ -116,8 +116,7 @@ toggle is:
 VITE_USE_HYGRAPH=true
 ```
 
-Leave `VITE_HYGRAPH_TOKEN`, `SUPABASE_URL`, and `SUPABASE_SERVICE_ROLE_KEY` empty for now —
-they're only needed for draft content and the server-side registration path.
+Leave `VITE_HYGRAPH_TOKEN` empty for now — it's only needed for draft content.
 
 ### 4.2 Locked-area
 
