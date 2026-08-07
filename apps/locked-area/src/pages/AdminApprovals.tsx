@@ -32,7 +32,6 @@ export default function AdminApprovals() {
 
   const fetchPending = async () => {
     setLoading(true)
-    // Show ALL users who are not approved (regardless of verification status)
     const { data, errors } = await hygraphFetch(
       `query GetPendingUsers {
         members(where: { isApproved: false }) {
@@ -69,7 +68,6 @@ export default function AdminApprovals() {
         return
       }
 
-      // Publish
       await hygraphFetch(
         `mutation PublishMember($id: ID!) {
           publishMember(where: { id: $id }) {
@@ -83,7 +81,7 @@ export default function AdminApprovals() {
       alert('✅ E-post verifierad!')
     } catch (error) {
       console.error('Verify error:', error)
-      alert('Something went wrong')
+      alert('Något gick fel')
     }
   }
 
@@ -121,14 +119,14 @@ export default function AdminApprovals() {
         )
 
         await fetchPending()
-        alert('✅ User approved!')
+        alert('✅ Användare godkänd!')
       } else {
-        alert('⚠️ No data returned.')
+        alert('⚠️ Inget data returnerades.')
         await fetchPending()
       }
     } catch (error) {
       console.error('🔥 Approve error:', error)
-      alert('Something went wrong')
+      alert('Något gick fel')
       await fetchPending()
     }
   }
@@ -154,11 +152,11 @@ export default function AdminApprovals() {
         await fetchPending()
       } else if (response.data?.deleteMember) {
         await fetchPending()
-        alert('❌ User denied and deleted.')
+        alert('❌ Användare nekad och borttagen.')
       }
     } catch (error) {
       console.error('🔥 Deny error:', error)
-      alert('Something went wrong')
+      alert('Något gick fel')
       await fetchPending()
     }
   }
